@@ -1,13 +1,12 @@
 
 import React, { Component } from 'react'
 
-class App extends Component {
+class Match extends Component {
   render() {
+    var sid = this.props.location.query.summonerId
+    console.log(sid)
     return(
-      <div>
-        hello App!!
-        {this.props.children}
-      </div>
+      <div>hello there Match!!!</div>
     )
   }
 }
@@ -17,4 +16,4 @@ class App extends Component {
 // https://na.api.pvp.net/api/lol/na/v2.4/team/by-summoner/42733402,21066307,67169698,59667857,70520692,65529523,52609925,52315500,49639860,64099838?api_key=a85d0753-6824-4725-a76f-23be84110e08
 // https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/47682701?api_key=a85d0753-6824-4725-a76f-23be84110e08
 
-export default App
+export default Match
