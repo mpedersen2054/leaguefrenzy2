@@ -21503,7 +21503,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  font-size: 12px;\n}\n.col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\nbody {\n  color: #f00;\n  letter-spacing: 1.2px;\n}\n.player {\n  border: 1px solid #ff0;\n  margin: 5px;\n  height: 360px;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.middle-sect {\n  margin: 5px;\n  height: 20px;\n  border: 1px solid #00f;\n}\n.panel-heading {\n  padding: 5px;\n}\n.panel-group .panel+.panel {\n  margin-top: 0px;\n}\n.panel-group .panel {\n  border-radius: 0px;\n  max-height: 300px;\n  overflow: hidden;\n}\n.panel-body {\n  height: 300px;\n  padding: 0;\n}\n.general-tab {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url(\"http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_0.jpg\") no-repeat;\n  background-size: cover;\n  background-position: center;\n  color: #fff;\n  font-weight: 300;\n}\n", ""]);
+	exports.push([module.id, "body {\n  font-size: 12px;\n}\nimg {\n  max-width: 100%;\n  vertical-align: top;\n}\n.col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\nbody {\n  color: #f00;\n  letter-spacing: 1.2px;\n}\n.player {\n  margin: 5px;\n  height: 360px;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.middle-sect {\n  margin: 5px;\n  height: 20px;\n  border: 1px solid #00f;\n}\n.panel-heading {\n  padding: 5px;\n}\n.panel-group .panel+.panel {\n  margin-top: 0px;\n}\n.panel-group .panel {\n  border-radius: 0px;\n  max-height: 300px;\n  overflow: hidden;\n}\n.panel-body {\n  height: 300px;\n  padding: 0;\n}\n.tab {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  background-color: #fff;\n  background-size: cover;\n  background-position: center;\n  font-weight: 300;\n}\n.general-tab .visual-data {\n  margin: 10px;\n}\n.general-tab .visual-data .champion-image {\n  width: 80px;\n  height: 80px;\n  margin-right: 10px;\n  float: left;\n}\n.general-tab .visual-data .summoner-spell {\n  width: 40px;\n  height: 40px;\n}\n.general-tab .visual-data .summoner-keystone {\n  display: block;\n  width: 40px;\n  height: 40px;\n}\n.general-tab .info-data {\n  margin: 10px;\n  clear: both;\n}\n", ""]);
 
 	// exports
 
@@ -46403,11 +46403,6 @@
 	  return Team;
 	}(_react.Component);
 
-	// https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/47682701/ranked?api_key=a85d0753-6824-4725-a76f-23be84110e08
-	// https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/unclerodgers?api_key=a85d0753-6824-4725-a76f-23be84110e08
-	// https://na.api.pvp.net/api/lol/na/v2.4/team/by-summoner/42733402,21066307,67169698,59667857,70520692,65529523,52609925,52315500,49639860,64099838?api_key=a85d0753-6824-4725-a76f-23be84110e08
-	// https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/47682701?api_key=a85d0753-6824-4725-a76f-23be84110e08
-
 	exports.default = Team;
 
 /***/ },
@@ -46427,6 +46422,18 @@
 	var _react2 = _interopRequireDefault(_react);
 
 	var _reactBootstrap = __webpack_require__(243);
+
+	var _GeneralTab = __webpack_require__(496);
+
+	var _GeneralTab2 = _interopRequireDefault(_GeneralTab);
+
+	var _MasteriesTab = __webpack_require__(497);
+
+	var _MasteriesTab2 = _interopRequireDefault(_MasteriesTab);
+
+	var _RunesTab = __webpack_require__(498);
+
+	var _RunesTab2 = _interopRequireDefault(_RunesTab);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -46455,6 +46462,11 @@
 	    value: function handleSelect(activeKey) {
 	      this.setState({ activeKey: activeKey });
 	    }
+
+	    // rune : http://ddragon.leagueoflegends.com/cdn/6.18.1/img/rune/8001.png
+	    // mastery : http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/6111.png
+	    // sum spell : http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/SummonerFlash.png
+
 	  }, {
 	    key: 'render',
 	    value: function render() {
@@ -46470,22 +46482,17 @@
 	            _react2.default.createElement(
 	              _reactBootstrap.Panel,
 	              { header: 'playerName', eventKey: '1' },
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'tab general-tab', style: { backgroundColor: '#aaa' } },
-	                _react2.default.createElement('div', { className: 'overlay' }),
-	                'hello there frieds!'
-	              )
+	              _react2.default.createElement(_GeneralTab2.default, null)
 	            ),
 	            _react2.default.createElement(
 	              _reactBootstrap.Panel,
 	              { header: 'Runes', eventKey: '2' },
-	              _react2.default.createElement('div', { className: 'tab runes-tab' })
+	              _react2.default.createElement(_RunesTab2.default, null)
 	            ),
 	            _react2.default.createElement(
 	              _reactBootstrap.Panel,
 	              { header: 'Masteries', eventKey: '3' },
-	              _react2.default.createElement('div', { className: 'tab masteries-tab' })
+	              _react2.default.createElement(_MasteriesTab2.default, null)
 	            )
 	          )
 	        )
@@ -46497,6 +46504,228 @@
 	}(_react.Component);
 
 	exports.default = Team;
+
+/***/ },
+/* 496 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactBootstrap = __webpack_require__(243);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var GeneralTab = function (_Component) {
+	  _inherits(GeneralTab, _Component);
+
+	  function GeneralTab() {
+	    _classCallCheck(this, GeneralTab);
+
+	    return _possibleConstructorReturn(this, (GeneralTab.__proto__ || Object.getPrototypeOf(GeneralTab)).apply(this, arguments));
+	  }
+
+	  _createClass(GeneralTab, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'tab general-tab', style: { backgroundColor: '#fff' } },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'visual-data' },
+	          _react2.default.createElement('img', { className: 'champion-image', src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/Aatrox.png' }),
+	          _react2.default.createElement('img', { className: 'summoner-spell spell1', src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/SummonerDot.png' }),
+	          _react2.default.createElement('img', { className: 'summoner-spell spell2', src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/SummonerFlash.png' }),
+	          _react2.default.createElement('img', { className: 'summoner-keystone', src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/6362.png' })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'info-data' },
+	          _react2.default.createElement(
+	            _reactBootstrap.Row,
+	            null,
+	            _react2.default.createElement(
+	              _reactBootstrap.Col,
+	              { xs: 6, md: 4 },
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                'W/L'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                'kills'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                'deaths'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                'assists'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                'cs'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              _reactBootstrap.Col,
+	              { xs: 6, md: 8 },
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                'W/L'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                'kills'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                'deaths'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                'assists'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                'cs'
+	              )
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return GeneralTab;
+	}(_react.Component);
+
+	exports.default = GeneralTab;
+
+/***/ },
+/* 497 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var MasteriesTab = function (_Component) {
+	  _inherits(MasteriesTab, _Component);
+
+	  function MasteriesTab() {
+	    _classCallCheck(this, MasteriesTab);
+
+	    return _possibleConstructorReturn(this, (MasteriesTab.__proto__ || Object.getPrototypeOf(MasteriesTab)).apply(this, arguments));
+	  }
+
+	  _createClass(MasteriesTab, [{
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "tab masteries-tab" },
+	        "hello masteries tab!"
+	      );
+	    }
+	  }]);
+
+	  return MasteriesTab;
+	}(_react.Component);
+
+	exports.default = MasteriesTab;
+
+/***/ },
+/* 498 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var RunesTab = function (_Component) {
+	  _inherits(RunesTab, _Component);
+
+	  function RunesTab() {
+	    _classCallCheck(this, RunesTab);
+
+	    return _possibleConstructorReturn(this, (RunesTab.__proto__ || Object.getPrototypeOf(RunesTab)).apply(this, arguments));
+	  }
+
+	  _createClass(RunesTab, [{
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "tab runes-tab" },
+	        "hello runes tab"
+	      );
+	    }
+	  }]);
+
+	  return RunesTab;
+	}(_react.Component);
+
+	exports.default = RunesTab;
 
 /***/ }
 /******/ ]);
