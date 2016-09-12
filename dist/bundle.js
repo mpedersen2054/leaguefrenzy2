@@ -21503,7 +21503,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  font-size: 14px;\n  letter-spacing: 1px;\n}\nimg {\n  max-width: 100%;\n  vertical-align: top;\n}\n.col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\n.player {\n  margin: 5px;\n  height: 360px;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.middle-sect {\n  margin: 5px;\n  height: 20px;\n  border: 1px solid #00f;\n}\n.panel-heading {\n  padding: 5px;\n}\n.panel-group .panel+.panel {\n  margin-top: 0px;\n}\n.panel-group .panel {\n  border-radius: 0px;\n  max-height: 300px;\n  overflow: hidden;\n}\n.panel-body {\n  height: 300px;\n  padding: 0;\n}\n.tab {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  background-color: #fff;\n  background-size: cover;\n  background-position: center;\n  font-weight: 600;\n}\n.general-tab .visual-data {\n  margin: 20px 10px;\n}\n.general-tab .visual-data .champion-image {\n  width: 80px;\n  height: 80px;\n  margin-right: 10px;\n  float: left;\n}\n.general-tab .visual-data .summoner-spell {\n  width: 40px;\n  height: 40px;\n}\n.general-tab .visual-data .summoner-keystone {\n  display: block;\n  width: 40px;\n  height: 40px;\n}\n.general-tab .info-data {\n  margin: 10px;\n  clear: both;\n}\n", ""]);
+	exports.push([module.id, "body {\n  font-size: 14px;\n  letter-spacing: 1px;\n}\nimg {\n  max-width: 100%;\n  vertical-align: top;\n}\n.col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\n.player {\n  margin: 5px;\n  height: 360px;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.middle-sect {\n  margin: 5px;\n  height: 20px;\n  border: 1px solid #00f;\n}\n.panel-heading {\n  padding: 5px;\n}\n.panel-group .panel+.panel {\n  margin-top: 0px;\n}\n.panel-group .panel {\n  border-radius: 0px;\n  max-height: 300px;\n  overflow: hidden;\n}\n.panel-body {\n  height: 300px;\n  padding: 0;\n}\n.tab {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  background-color: #fff;\n  background-size: cover;\n  background-position: center;\n  font-weight: 600;\n}\n.general-tab .visual-data {\n  margin: 20px 20px;\n}\n.general-tab .visual-data .champion-image {\n  width: 80px;\n  height: 80px;\n  margin-right: 10px;\n  float: left;\n}\n.general-tab .visual-data .summoner-spell {\n  width: 40px;\n  height: 40px;\n}\n.general-tab .visual-data .summoner-keystone {\n  display: block;\n  width: 40px;\n  height: 40px;\n}\n.general-tab .info-data {\n  margin: 20px;\n  clear: both;\n}\n.runes-tab .rune {\n  position: relative;\n  margin: 10px;\n}\n.runes-tab .rune div {\n  font-size: 8px;\n  font-weight: 300;\n}\n.runes-tab .rune img {\n  width: 75%;\n  height: 75%;\n}\n", ""]);
 
 	// exports
 
@@ -46682,7 +46682,7 @@
 /* 498 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -46693,6 +46693,8 @@
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _reactBootstrap = __webpack_require__(243);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -46712,12 +46714,99 @@
 	  }
 
 	  _createClass(RunesTab, [{
-	    key: "render",
+	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
-	        "div",
-	        { className: "tab runes-tab" },
-	        "hello runes tab"
+	        'div',
+	        { className: 'tab runes-tab' },
+	        _react2.default.createElement(
+	          _reactBootstrap.Row,
+	          null,
+	          _react2.default.createElement(
+	            _reactBootstrap.Col,
+	            { xs: 3, sm: 2, md: 4 },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'rune' },
+	              _react2.default.createElement('img', { src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/rune/10002.png' }),
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                '+1.5% movement speed'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            _reactBootstrap.Col,
+	            { xs: 3, sm: 2, md: 4 },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'rune' },
+	              _react2.default.createElement('img', { src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/rune/10002.png' }),
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                '+1.5% movement speed'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            _reactBootstrap.Col,
+	            { xs: 3, sm: 2, md: 4 },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'rune' },
+	              _react2.default.createElement('img', { src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/rune/10002.png' }),
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                '+1.5% movement speed'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            _reactBootstrap.Col,
+	            { xs: 3, sm: 2, md: 4 },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'rune' },
+	              _react2.default.createElement('img', { src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/rune/10002.png' }),
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                '+1.5% movement speed'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            _reactBootstrap.Col,
+	            { xs: 3, sm: 2, md: 4 },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'rune' },
+	              _react2.default.createElement('img', { src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/rune/10002.png' }),
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                '+1.5% movement speed'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            _reactBootstrap.Col,
+	            { xs: 3, sm: 2, md: 4 },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'rune' },
+	              _react2.default.createElement('img', { src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/rune/10002.png' }),
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                '+1.5% movement speed'
+	              )
+	            )
+	          )
+	        )
 	      );
 	    }
 	  }]);
