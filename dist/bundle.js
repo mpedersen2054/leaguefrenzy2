@@ -21503,7 +21503,7 @@
 
 
 	// module
-	exports.push([module.id, ".col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\nbody {\n  color: #f00;\n}\n.player {\n  border: 1px solid #ff0;\n  margin: 5px;\n  height: 330px;\n}\n.middle-sect {\n  margin: 5px;\n  height: 80px;\n  border: 1px solid #00f;\n}\n", ""]);
+	exports.push([module.id, "body {\n  font-size: 14px;\n}\n.col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\nbody {\n  color: #f00;\n}\n.player {\n  border: 1px solid #ff0;\n  margin: 5px;\n  height: 360px;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.middle-sect {\n  margin: 5px;\n  height: 20px;\n  border: 1px solid #00f;\n}\n.panel-heading {\n  padding: 5px;\n}\n.panel-group .panel+.panel {\n  margin-top: 0px;\n}\n.panel-group .panel {\n  border-radius: 0px;\n  max-height: 300px;\n  overflow: scroll;\n}\n.panel-body {\n  height: 300px;\n}\n", ""]);
 
 	// exports
 
@@ -46442,10 +46442,20 @@
 	  function Team() {
 	    _classCallCheck(this, Team);
 
-	    return _possibleConstructorReturn(this, (Team.__proto__ || Object.getPrototypeOf(Team)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (Team.__proto__ || Object.getPrototypeOf(Team)).call(this));
+
+	    _this.state = {
+	      activeKey: '1'
+	    };
+	    return _this;
 	  }
 
 	  _createClass(Team, [{
+	    key: 'handleSelect',
+	    value: function handleSelect(activeKey) {
+	      this.setState({ activeKey: activeKey });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -46454,7 +46464,25 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'player' },
-	          'hello there player!'
+	          _react2.default.createElement(
+	            _reactBootstrap.PanelGroup,
+	            { activeKey: this.state.activeKey, onSelect: this.handleSelect.bind(this), accordion: true },
+	            _react2.default.createElement(
+	              _reactBootstrap.Panel,
+	              { header: 'Panel 1', eventKey: '1' },
+	              'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non totam corporis ex ea quaerat ut voluptates, tenetur impedit itaque velit, magnam incidunt quos obcaecati? Esse saepe blanditiis consequuntur corporis a? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non totam corporis ex ea quaerat ut. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non totam corporis ex ea quaerat ut voluptates, tenetur impedit itaque velit, magnam incidunt quos obcaecati? Esse saepe blanditiis consequuntur corporis a?'
+	            ),
+	            _react2.default.createElement(
+	              _reactBootstrap.Panel,
+	              { header: 'Panel 2', eventKey: '2' },
+	              'Panel 2 content'
+	            ),
+	            _react2.default.createElement(
+	              _reactBootstrap.Panel,
+	              { header: 'Panel 3', eventKey: '3' },
+	              'Panel 3 content'
+	            )
+	          )
 	        )
 	      );
 	    }
