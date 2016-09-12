@@ -21503,7 +21503,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  font-size: 14px;\n}\n.col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\nbody {\n  color: #f00;\n}\n.player {\n  border: 1px solid #ff0;\n  margin: 5px;\n  height: 360px;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.middle-sect {\n  margin: 5px;\n  height: 20px;\n  border: 1px solid #00f;\n}\n.panel-heading {\n  padding: 5px;\n}\n.panel-group .panel+.panel {\n  margin-top: 0px;\n}\n.panel-group .panel {\n  border-radius: 0px;\n  max-height: 300px;\n  overflow: scroll;\n}\n.panel-body {\n  height: 300px;\n}\n", ""]);
+	exports.push([module.id, "body {\n  font-size: 12px;\n}\n.col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\nbody {\n  color: #f00;\n  letter-spacing: 1.2px;\n}\n.player {\n  border: 1px solid #ff0;\n  margin: 5px;\n  height: 360px;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.middle-sect {\n  margin: 5px;\n  height: 20px;\n  border: 1px solid #00f;\n}\n.panel-heading {\n  padding: 5px;\n}\n.panel-group .panel+.panel {\n  margin-top: 0px;\n}\n.panel-group .panel {\n  border-radius: 0px;\n  max-height: 300px;\n  overflow: hidden;\n}\n.panel-body {\n  height: 300px;\n  padding: 0;\n}\n.general-tab {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url(\"http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_0.jpg\") no-repeat;\n  background-size: cover;\n  background-position: center;\n  color: #fff;\n  font-weight: 300;\n}\n", ""]);
 
 	// exports
 
@@ -46469,18 +46469,23 @@
 	            { activeKey: this.state.activeKey, onSelect: this.handleSelect.bind(this), accordion: true },
 	            _react2.default.createElement(
 	              _reactBootstrap.Panel,
-	              { header: 'Panel 1', eventKey: '1' },
-	              'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non totam corporis ex ea quaerat ut voluptates, tenetur impedit itaque velit, magnam incidunt quos obcaecati? Esse saepe blanditiis consequuntur corporis a? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non totam corporis ex ea quaerat ut. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non totam corporis ex ea quaerat ut voluptates, tenetur impedit itaque velit, magnam incidunt quos obcaecati? Esse saepe blanditiis consequuntur corporis a?'
+	              { header: 'playerName', eventKey: '1' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'tab general-tab', style: { backgroundColor: '#aaa' } },
+	                _react2.default.createElement('div', { className: 'overlay' }),
+	                'hello there frieds!'
+	              )
 	            ),
 	            _react2.default.createElement(
 	              _reactBootstrap.Panel,
-	              { header: 'Panel 2', eventKey: '2' },
-	              'Panel 2 content'
+	              { header: 'Runes', eventKey: '2' },
+	              _react2.default.createElement('div', { className: 'tab runes-tab' })
 	            ),
 	            _react2.default.createElement(
 	              _reactBootstrap.Panel,
-	              { header: 'Panel 3', eventKey: '3' },
-	              'Panel 3 content'
+	              { header: 'Masteries', eventKey: '3' },
+	              _react2.default.createElement('div', { className: 'tab masteries-tab' })
 	            )
 	          )
 	        )
