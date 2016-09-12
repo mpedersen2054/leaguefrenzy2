@@ -23,11 +23,11 @@ class GeneralTab extends Component {
               <div>cs</div>
             </Col>
             <Col xs={6} md={8}>
-              <div>W/L</div>
-              <div>kills</div>
-              <div>deaths</div>
-              <div>assists</div>
-              <div>cs</div>
+              <div className="wins-loses">27 / 24 ( 54.7% )</div>
+              <div className="kills">200 ( 10.4 )</div>
+              <div className="deaths">173 ( 8 )</div>
+              <div className="assists">263 ( 14.8 )</div>
+              <div className="cs">12000 ( 232 )</div>
             </Col>
           </Row>
         </div>

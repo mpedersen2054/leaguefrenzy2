@@ -21503,7 +21503,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  font-size: 12px;\n}\nimg {\n  max-width: 100%;\n  vertical-align: top;\n}\n.col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\nbody {\n  color: #f00;\n  letter-spacing: 1.2px;\n}\n.player {\n  margin: 5px;\n  height: 360px;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.middle-sect {\n  margin: 5px;\n  height: 20px;\n  border: 1px solid #00f;\n}\n.panel-heading {\n  padding: 5px;\n}\n.panel-group .panel+.panel {\n  margin-top: 0px;\n}\n.panel-group .panel {\n  border-radius: 0px;\n  max-height: 300px;\n  overflow: hidden;\n}\n.panel-body {\n  height: 300px;\n  padding: 0;\n}\n.tab {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  background-color: #fff;\n  background-size: cover;\n  background-position: center;\n  font-weight: 300;\n}\n.general-tab .visual-data {\n  margin: 10px;\n}\n.general-tab .visual-data .champion-image {\n  width: 80px;\n  height: 80px;\n  margin-right: 10px;\n  float: left;\n}\n.general-tab .visual-data .summoner-spell {\n  width: 40px;\n  height: 40px;\n}\n.general-tab .visual-data .summoner-keystone {\n  display: block;\n  width: 40px;\n  height: 40px;\n}\n.general-tab .info-data {\n  margin: 10px;\n  clear: both;\n}\n", ""]);
+	exports.push([module.id, "body {\n  font-size: 14px;\n  letter-spacing: 1px;\n}\nimg {\n  max-width: 100%;\n  vertical-align: top;\n}\n.col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\n.player {\n  margin: 5px;\n  height: 360px;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.middle-sect {\n  margin: 5px;\n  height: 20px;\n  border: 1px solid #00f;\n}\n.panel-heading {\n  padding: 5px;\n}\n.panel-group .panel+.panel {\n  margin-top: 0px;\n}\n.panel-group .panel {\n  border-radius: 0px;\n  max-height: 300px;\n  overflow: hidden;\n}\n.panel-body {\n  height: 300px;\n  padding: 0;\n}\n.tab {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  background-color: #fff;\n  background-size: cover;\n  background-position: center;\n  font-weight: 600;\n}\n.general-tab .visual-data {\n  margin: 20px 10px;\n}\n.general-tab .visual-data .champion-image {\n  width: 80px;\n  height: 80px;\n  margin-right: 10px;\n  float: left;\n}\n.general-tab .visual-data .summoner-spell {\n  width: 40px;\n  height: 40px;\n}\n.general-tab .visual-data .summoner-keystone {\n  display: block;\n  width: 40px;\n  height: 40px;\n}\n.general-tab .info-data {\n  margin: 10px;\n  clear: both;\n}\n", ""]);
 
 	// exports
 
@@ -46594,28 +46594,28 @@
 	              { xs: 6, md: 8 },
 	              _react2.default.createElement(
 	                'div',
-	                null,
-	                'W/L'
+	                { className: 'wins-loses' },
+	                '27 / 24 ( 54.7% )'
 	              ),
 	              _react2.default.createElement(
 	                'div',
-	                null,
-	                'kills'
+	                { className: 'kills' },
+	                '200 ( 10.4 )'
 	              ),
 	              _react2.default.createElement(
 	                'div',
-	                null,
-	                'deaths'
+	                { className: 'deaths' },
+	                '173 ( 8 )'
 	              ),
 	              _react2.default.createElement(
 	                'div',
-	                null,
-	                'assists'
+	                { className: 'assists' },
+	                '263 ( 14.8 )'
 	              ),
 	              _react2.default.createElement(
 	                'div',
-	                null,
-	                'cs'
+	                { className: 'cs' },
+	                '12000 ( 232 )'
 	              )
 	            )
 	          )
