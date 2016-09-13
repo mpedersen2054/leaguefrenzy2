@@ -21503,7 +21503,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  font-size: 14px;\n  letter-spacing: 1px;\n}\nimg {\n  max-width: 100%;\n  vertical-align: top;\n}\n.col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\n.player {\n  margin: 5px;\n  height: 360px;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.middle-sect {\n  margin: 5px;\n  height: 20px;\n  border: 1px solid #00f;\n}\n.panel-heading {\n  padding: 5px;\n}\n.panel-group .panel+.panel {\n  margin-top: 0px;\n}\n.panel-group .panel {\n  border-radius: 0px;\n  max-height: 300px;\n  overflow: hidden;\n}\n.panel-body {\n  height: 260px;\n  padding: 0;\n}\n.tab {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  background-color: #fff;\n}\n.general-tab .visual-data {\n  margin: 20px 20px;\n}\n.general-tab .visual-data .champion-image {\n  width: 80px;\n  height: 80px;\n  margin-right: 10px;\n  float: left;\n}\n.general-tab .visual-data .summoner-spell {\n  width: 40px;\n  height: 40px;\n}\n.general-tab .visual-data .summoner-keystone {\n  display: block;\n  width: 40px;\n  height: 40px;\n}\n.general-tab .info-data {\n  margin: 20px;\n  clear: both;\n}\n.runes-tab .rune {\n  position: relative;\n  margin: 10px;\n}\n.runes-tab .rune div {\n  font-size: 8px;\n  font-weight: 300;\n}\n.runes-tab .rune img {\n  width: 75%;\n  height: 75%;\n}\n.masteries-tab {\n  border: 1px solid #ff0;\n}\n.masteries-tab .masteries-tree {\n  font-size: 12px;\n  width: 33%;\n  height: 100%;\n  float: left;\n  border: 1px solid #ffa500;\n}\n.masteries-tab .masteries-tree:last-child {\n  width: 34%;\n}\n.mrow {\n  content: \"\";\n  display: table;\n  clear: both;\n  display: block;\n}\n.mrow .m {\n  position: relative;\n  width: 33%;\n  min-height: 32px;\n  float: left;\n  border: 1px solid #00f;\n}\n.mrow .m img {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 0.75;\n}\n.mrow .m .number-overlay {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 1;\n  font-size: 20px;\n  font-weight: 600;\n  text-align: center;\n  color: #f00;\n}\n", ""]);
+	exports.push([module.id, "body {\n  font-size: 14px;\n  letter-spacing: 1px;\n}\nimg {\n  max-width: 100%;\n  vertical-align: top;\n}\n.col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\n.player {\n  margin: 5px;\n  height: 360px;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.middle-sect {\n  margin: 5px;\n  height: 20px;\n  border: 1px solid #00f;\n}\n.panel-heading {\n  padding: 5px;\n}\n.panel-group .panel+.panel {\n  margin-top: 0px;\n}\n.panel-group .panel {\n  border-radius: 0px;\n  max-height: 300px;\n  overflow: hidden;\n}\n.panel-body {\n  height: 260px;\n  padding: 0;\n}\n.tab {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  background-color: #fff;\n}\n.general-tab .visual-data {\n  margin: 20px 20px;\n}\n.general-tab .visual-data .champion-image {\n  width: 80px;\n  height: 80px;\n  margin-right: 10px;\n  float: left;\n}\n.general-tab .visual-data .summoner-spell {\n  width: 40px;\n  height: 40px;\n}\n.general-tab .visual-data .summoner-keystone {\n  display: block;\n  width: 40px;\n  height: 40px;\n}\n.general-tab .info-data {\n  margin: 20px;\n  clear: both;\n}\n.runes-tab .rune {\n  position: relative;\n  margin: 10px;\n}\n.runes-tab .rune div {\n  font-size: 8px;\n  font-weight: 300;\n}\n.runes-tab .rune img {\n  width: 75%;\n  height: 75%;\n}\n.masteries-tab .masteries-tree {\n  font-size: 12px;\n  width: 33%;\n  height: 100%;\n  float: left;\n}\n.masteries-tab .masteries-tree:last-child {\n  width: 34%;\n}\n.mrow {\n  content: \"\";\n  display: table;\n  clear: both;\n  display: block;\n}\n.mrow .m {\n  position: relative;\n  width: 33%;\n  min-height: 32px;\n  float: left;\n  -moz-box-shadow: inset 0 0 4px #000;\n  -webkit-box-shadow: inset 0 0 4px #000;\n  box-shadow: inset 0 0 4px #000;\n}\n.mrow .m img {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 0.75;\n}\n.mrow .m .number-overlay {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 1;\n  font-size: 20px;\n  font-weight: 300;\n  text-shadow: 2px 2px 2px #000;\n  text-align: center;\n  color: #ff0;\n  padding-top: 2px;\n}\n", ""]);
 
 	// exports
 
@@ -46647,6 +46647,10 @@
 
 	var _reactBootstrap = __webpack_require__(243);
 
+	var _MasteriesTree = __webpack_require__(499);
+
+	var _MasteriesTree2 = _interopRequireDefault(_MasteriesTree);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -46665,138 +46669,19 @@
 	  }
 
 	  _createClass(MasteriesTab, [{
-	    key: 'getDdragonUrl',
-	    value: function getDdragonUrl(mid) {
-	      return 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/62' + mid + '.png';
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
+
+	      var ferocity = [11, 14, 21, 22, 23, 31, 34, 41, 42, 51, 54, 61, 62, 64];
+	      var cunning = [11, 12, 21, 22, 23, 31, 32, 42, 43, 51, 52, 61, 62, 63];
+	      var resolve = [11, 12, 21, 23, 31, 32, 41, 42, 32, 51, 52, 61, 62, 63];
 
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'tab masteries-tab' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'masteries-tree' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'masteries-tree-title' },
-	            'Ferocity'
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'mrow row-1' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'm m-11' },
-	              _react2.default.createElement('img', { src: this.getDdragonUrl(11) }),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'number-overlay' },
-	                '5'
-	              )
-	            ),
-	            _react2.default.createElement('div', { className: 'm m-filler' }),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'm m-14' },
-	              '14'
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'mrow row-2' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'm m-21' },
-	              '21'
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'm m-22' },
-	              '22'
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'm m-23' },
-	              '23'
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'mrow row-3' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'm m-31' },
-	              '31'
-	            ),
-	            _react2.default.createElement('div', { className: 'm m-filler' }),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'm m-34' },
-	              '34'
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'mrow row-4' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'm m-41' },
-	              '41'
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'm m-42' },
-	              '42'
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'mrow row-5' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'm m-51' },
-	              '51'
-	            ),
-	            _react2.default.createElement('div', { className: 'm m-filler' }),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'm m-54' },
-	              '54'
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'mrow row-6' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'm m-61' },
-	              '61'
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'm m-62' },
-	              '62'
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'm m-64' },
-	              '64'
-	            )
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'masteries-tree' },
-	          'hello there'
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'masteries-tree' },
-	          'hello there'
-	        )
+	        _react2.default.createElement(_MasteriesTree2.default, { tree: 'ferocity', talentId: 61, talents: ferocity }),
+	        _react2.default.createElement(_MasteriesTree2.default, { tree: 'cunning', talentId: 63, talents: cunning }),
+	        _react2.default.createElement(_MasteriesTree2.default, { tree: 'resolve', talentId: 62, talents: resolve })
 	      );
 	    }
 	  }]);
@@ -46943,6 +46828,238 @@
 	}(_react.Component);
 
 	exports.default = RunesTab;
+
+/***/ },
+/* 499 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var MasteriesTree = function (_Component) {
+	  _inherits(MasteriesTree, _Component);
+
+	  function MasteriesTree() {
+	    _classCallCheck(this, MasteriesTree);
+
+	    return _possibleConstructorReturn(this, (MasteriesTree.__proto__ || Object.getPrototypeOf(MasteriesTree)).apply(this, arguments));
+	  }
+
+	  _createClass(MasteriesTree, [{
+	    key: "getDdragonUrl",
+	    value: function getDdragonUrl(tree, mid) {
+	      if (tree === 61) return "http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/61" + mid + ".png";
+	      if (tree === 63) return "http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/63" + mid + ".png";
+	      if (tree === 62) return "http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/62" + mid + ".png";
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+
+	      var tree = this.props.tree;
+	      var talentId = this.props.talentId;
+	      var talents = this.props.talents;
+
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "masteries-tree " + tree },
+	        _react2.default.createElement(
+	          "div",
+	          { className: "title" },
+	          tree
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "mrow row-1" },
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[0] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[0]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "5"
+	            )
+	          ),
+	          _react2.default.createElement("div", { className: "m m-filler" }),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[1] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[1]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "0"
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "mrow row-2" },
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[2] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[2]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "1"
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[3] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[3]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "0"
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[4] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[4]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "0"
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "mrow row-3" },
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[5] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[5]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "5"
+	            )
+	          ),
+	          _react2.default.createElement("div", { className: "m m-filler" }),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[6] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[6]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "0"
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "mrow row-4" },
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[7] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[7]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "0"
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[8] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[8]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "1"
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "mrow row-5" },
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[9] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[9]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "5"
+	            )
+	          ),
+	          _react2.default.createElement("div", { className: "m m-filler" }),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[10] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[10]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "0"
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "mrow row-6" },
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[11] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[11]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "0"
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[12] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[12]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "1"
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[13] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[13]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "0"
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return MasteriesTree;
+	}(_react.Component);
+
+	exports.default = MasteriesTree;
 
 /***/ }
 /******/ ]);
