@@ -21503,7 +21503,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  font-size: 14px;\n  letter-spacing: 1px;\n}\nimg {\n  max-width: 100%;\n  vertical-align: top;\n}\n.col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\n.player {\n  margin: 5px;\n  height: 360px;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.middle-sect {\n  margin: 5px;\n  height: 20px;\n  border: 1px solid #00f;\n}\n.panel-heading {\n  padding: 5px;\n}\n.panel-group .panel+.panel {\n  margin-top: 0px;\n}\n.panel-group .panel {\n  border-radius: 0px;\n  max-height: 300px;\n  overflow: hidden;\n}\n.panel-body {\n  height: 300px;\n  padding: 0;\n}\n.tab {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  background-color: #fff;\n  background-size: cover;\n  background-position: center;\n  font-weight: 600;\n}\n.general-tab .visual-data {\n  margin: 20px 20px;\n}\n.general-tab .visual-data .champion-image {\n  width: 80px;\n  height: 80px;\n  margin-right: 10px;\n  float: left;\n}\n.general-tab .visual-data .summoner-spell {\n  width: 40px;\n  height: 40px;\n}\n.general-tab .visual-data .summoner-keystone {\n  display: block;\n  width: 40px;\n  height: 40px;\n}\n.general-tab .info-data {\n  margin: 20px;\n  clear: both;\n}\n.runes-tab .rune {\n  position: relative;\n  margin: 10px;\n}\n.runes-tab .rune div {\n  font-size: 8px;\n  font-weight: 300;\n}\n.runes-tab .rune img {\n  width: 75%;\n  height: 75%;\n}\n", ""]);
+	exports.push([module.id, "body {\n  font-size: 14px;\n  letter-spacing: 1px;\n}\nimg {\n  max-width: 100%;\n  vertical-align: top;\n}\n.col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\n.player {\n  margin: 5px;\n  height: 360px;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.middle-sect {\n  margin: 5px;\n  height: 20px;\n  border: 1px solid #00f;\n}\n.panel-heading {\n  padding: 5px;\n}\n.panel-group .panel+.panel {\n  margin-top: 0px;\n}\n.panel-group .panel {\n  border-radius: 0px;\n  max-height: 300px;\n  overflow: hidden;\n}\n.panel-body {\n  height: 260px;\n  padding: 0;\n}\n.tab {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  background-color: #fff;\n}\n.general-tab .visual-data {\n  margin: 20px 20px;\n}\n.general-tab .visual-data .champion-image {\n  width: 80px;\n  height: 80px;\n  margin-right: 10px;\n  float: left;\n}\n.general-tab .visual-data .summoner-spell {\n  width: 40px;\n  height: 40px;\n}\n.general-tab .visual-data .summoner-keystone {\n  display: block;\n  width: 40px;\n  height: 40px;\n}\n.general-tab .info-data {\n  margin: 20px;\n  clear: both;\n}\n.runes-tab .rune {\n  position: relative;\n  margin: 10px;\n}\n.runes-tab .rune div {\n  font-size: 8px;\n  font-weight: 300;\n}\n.runes-tab .rune img {\n  width: 75%;\n  height: 75%;\n}\n.masteries-tab {\n  border: 1px solid #ff0;\n}\n.masteries-tab .masteries-tree {\n  font-size: 12px;\n  width: 33%;\n  height: 100%;\n  float: left;\n  border: 1px solid #ffa500;\n}\n.masteries-tab .masteries-tree:last-child {\n  width: 34%;\n}\n.masteries-tab .mrow {\n  content: \"\";\n  display: table;\n  clear: both;\n  display: block;\n}\n.masteries-tab .mrow .m {\n  width: 33%;\n  min-height: 38px;\n  float: left;\n  border: 1px solid #00f;\n}\n", ""]);
 
 	// exports
 
@@ -46633,7 +46633,7 @@
 /* 497 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -46644,6 +46644,8 @@
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _reactBootstrap = __webpack_require__(243);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -46663,12 +46665,127 @@
 	  }
 
 	  _createClass(MasteriesTab, [{
-	    key: "render",
+	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
-	        "div",
-	        { className: "tab masteries-tab" },
-	        "hello masteries tab!"
+	        'div',
+	        { className: 'tab masteries-tab' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'masteries-tree' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'masteries-tree-title' },
+	            'Ferocity'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'mrow row-1' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'm m-11' },
+	              '11'
+	            ),
+	            _react2.default.createElement('div', { className: 'm m-filler' }),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'm m-14' },
+	              '14'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'mrow row-2' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'm m-21' },
+	              '21'
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'm m-22' },
+	              '22'
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'm m-23' },
+	              '23'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'mrow row-3' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'm m-31' },
+	              '31'
+	            ),
+	            _react2.default.createElement('div', { className: 'm m-filler' }),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'm m-34' },
+	              '34'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'mrow row-4' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'm m-41' },
+	              '41'
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'm m-42' },
+	              '42'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'mrow row-5' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'm m-51' },
+	              '51'
+	            ),
+	            _react2.default.createElement('div', { className: 'm m-filler' }),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'm m-54' },
+	              '54'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'mrow row-6' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'm m-61' },
+	              '61'
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'm m-62' },
+	              '62'
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'm m-64' },
+	              '64'
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'masteries-tree' },
+	          'hello there'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'masteries-tree' },
+	          'hello there'
+	        )
 	      );
 	    }
 	  }]);
