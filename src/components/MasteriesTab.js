@@ -3,13 +3,24 @@ import React, { Component } from 'react'
 import { Row, Col } from 'react-bootstrap'
 
 class MasteriesTab extends Component {
+
+  getDdragonUrl(mid) {
+    return `http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/62${mid}.png`
+  }
+
   render() {
+
     return(
       <div className="tab masteries-tab">
         <div className="masteries-tree">
           <div className="masteries-tree-title">Ferocity</div>
           <div className="mrow row-1">
-            <div className="m m-11">11</div>
+            <div className="m m-11">
+              <img src={this.getDdragonUrl(11)} />
+              <div className="number-overlay">
+                5
+              </div>
+            </div>
             <div className="m m-filler"></div>
             <div className="m m-14">14</div>
           </div>

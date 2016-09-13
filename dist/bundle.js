@@ -21503,7 +21503,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  font-size: 14px;\n  letter-spacing: 1px;\n}\nimg {\n  max-width: 100%;\n  vertical-align: top;\n}\n.col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\n.player {\n  margin: 5px;\n  height: 360px;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.middle-sect {\n  margin: 5px;\n  height: 20px;\n  border: 1px solid #00f;\n}\n.panel-heading {\n  padding: 5px;\n}\n.panel-group .panel+.panel {\n  margin-top: 0px;\n}\n.panel-group .panel {\n  border-radius: 0px;\n  max-height: 300px;\n  overflow: hidden;\n}\n.panel-body {\n  height: 260px;\n  padding: 0;\n}\n.tab {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  background-color: #fff;\n}\n.general-tab .visual-data {\n  margin: 20px 20px;\n}\n.general-tab .visual-data .champion-image {\n  width: 80px;\n  height: 80px;\n  margin-right: 10px;\n  float: left;\n}\n.general-tab .visual-data .summoner-spell {\n  width: 40px;\n  height: 40px;\n}\n.general-tab .visual-data .summoner-keystone {\n  display: block;\n  width: 40px;\n  height: 40px;\n}\n.general-tab .info-data {\n  margin: 20px;\n  clear: both;\n}\n.runes-tab .rune {\n  position: relative;\n  margin: 10px;\n}\n.runes-tab .rune div {\n  font-size: 8px;\n  font-weight: 300;\n}\n.runes-tab .rune img {\n  width: 75%;\n  height: 75%;\n}\n.masteries-tab {\n  border: 1px solid #ff0;\n}\n.masteries-tab .masteries-tree {\n  font-size: 12px;\n  width: 33%;\n  height: 100%;\n  float: left;\n  border: 1px solid #ffa500;\n}\n.masteries-tab .masteries-tree:last-child {\n  width: 34%;\n}\n.masteries-tab .mrow {\n  content: \"\";\n  display: table;\n  clear: both;\n  display: block;\n}\n.masteries-tab .mrow .m {\n  width: 33%;\n  min-height: 38px;\n  float: left;\n  border: 1px solid #00f;\n}\n", ""]);
+	exports.push([module.id, "body {\n  font-size: 14px;\n  letter-spacing: 1px;\n}\nimg {\n  max-width: 100%;\n  vertical-align: top;\n}\n.col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\n.player {\n  margin: 5px;\n  height: 360px;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.middle-sect {\n  margin: 5px;\n  height: 20px;\n  border: 1px solid #00f;\n}\n.panel-heading {\n  padding: 5px;\n}\n.panel-group .panel+.panel {\n  margin-top: 0px;\n}\n.panel-group .panel {\n  border-radius: 0px;\n  max-height: 300px;\n  overflow: hidden;\n}\n.panel-body {\n  height: 260px;\n  padding: 0;\n}\n.tab {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  background-color: #fff;\n}\n.general-tab .visual-data {\n  margin: 20px 20px;\n}\n.general-tab .visual-data .champion-image {\n  width: 80px;\n  height: 80px;\n  margin-right: 10px;\n  float: left;\n}\n.general-tab .visual-data .summoner-spell {\n  width: 40px;\n  height: 40px;\n}\n.general-tab .visual-data .summoner-keystone {\n  display: block;\n  width: 40px;\n  height: 40px;\n}\n.general-tab .info-data {\n  margin: 20px;\n  clear: both;\n}\n.runes-tab .rune {\n  position: relative;\n  margin: 10px;\n}\n.runes-tab .rune div {\n  font-size: 8px;\n  font-weight: 300;\n}\n.runes-tab .rune img {\n  width: 75%;\n  height: 75%;\n}\n.masteries-tab {\n  border: 1px solid #ff0;\n}\n.masteries-tab .masteries-tree {\n  font-size: 12px;\n  width: 33%;\n  height: 100%;\n  float: left;\n  border: 1px solid #ffa500;\n}\n.masteries-tab .masteries-tree:last-child {\n  width: 34%;\n}\n.mrow {\n  content: \"\";\n  display: table;\n  clear: both;\n  display: block;\n}\n.mrow .m {\n  position: relative;\n  width: 33%;\n  min-height: 32px;\n  float: left;\n  border: 1px solid #00f;\n}\n.mrow .m img {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 0.75;\n}\n.mrow .m .number-overlay {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 1;\n  font-size: 20px;\n  font-weight: 600;\n  text-align: center;\n  color: #f00;\n}\n", ""]);
 
 	// exports
 
@@ -46665,8 +46665,14 @@
 	  }
 
 	  _createClass(MasteriesTab, [{
+	    key: 'getDdragonUrl',
+	    value: function getDdragonUrl(mid) {
+	      return 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/62' + mid + '.png';
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'tab masteries-tab' },
@@ -46684,7 +46690,12 @@
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'm m-11' },
-	              '11'
+	              _react2.default.createElement('img', { src: this.getDdragonUrl(11) }),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'number-overlay' },
+	                '5'
+	              )
 	            ),
 	            _react2.default.createElement('div', { className: 'm m-filler' }),
 	            _react2.default.createElement(
