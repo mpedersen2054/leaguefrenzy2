@@ -6,11 +6,12 @@ import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router'
 
 import App from './components/App'
 import Match from './components/Match'
-import SearchArea from './components/SearchArea'
+import SearchPage from './components/SearchPage'
 
 var routes = (
   <Router history={browserHistory}>
     <Route path="/" component={App}>
+      <IndexRoute component={SearchPage} />
       <Route path="/match" component={Match}></Route>
     </Route>
   </Router>
