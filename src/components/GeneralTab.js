@@ -13,14 +13,17 @@ class GeneralTab extends Component {
 
   render() {
     const data = this.props.fromObserver
+    const championImage = this.props.championImage
+    const summSpell1url = this.props.spell1
+    const summSpell2url = this.props.spell2
 
     return(
       <div className="tab general-tab" style={{backgroundColor: '#fff'}}>
         <div className="visual-data">
-            <img className="champion-image" src="http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/Aatrox.png" />
-            <img className="summoner-spell spell1" src="http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/SummonerDot.png" />
-            <img className="summoner-spell spell2" src="http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/SummonerFlash.png" />
-            <img className="summoner-keystone" src="http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/6362.png" />
+          <img className="champion-image" src={championImage} />
+          <img className="summoner-spell spell1" src={summSpell1url} />
+          <img className="summoner-spell spell2" src={summSpell2url} />
+          <img className="summoner-keystone" src="http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/6362.png" />
         </div>
 
         <div className="info-data">

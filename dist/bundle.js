@@ -71,11 +71,11 @@
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _Match = __webpack_require__(492);
+	var _Match = __webpack_require__(498);
 
 	var _Match2 = _interopRequireDefault(_Match);
 
-	var _SearchPage = __webpack_require__(525);
+	var _SearchPage = __webpack_require__(527);
 
 	var _SearchPage2 = _interopRequireDefault(_SearchPage);
 
@@ -27493,6 +27493,28 @@
 
 	var _reactBootstrap = __webpack_require__(241);
 
+	var _lodash = __webpack_require__(492);
+
+	var _ = _interopRequireWildcard(_lodash);
+
+	var _champions = __webpack_require__(494);
+
+	var _champions2 = _interopRequireDefault(_champions);
+
+	var _summonerSpells = __webpack_require__(495);
+
+	var _summonerSpells2 = _interopRequireDefault(_summonerSpells);
+
+	var _masteries = __webpack_require__(496);
+
+	var _masteries2 = _interopRequireDefault(_masteries);
+
+	var _runes = __webpack_require__(497);
+
+	var _runes2 = _interopRequireDefault(_runes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27515,6 +27537,16 @@
 	    value: function sendToRootWithMessage(msg) {
 	      console.log('hello there...', msg);
 	    }
+
+	    // getChampionImage(championId) {
+	    //   const champion = _.find($champions, (champ) => {
+	    //     if (champ.key == championId) {
+	    //       return champ
+	    //     }
+	    //   })
+	    //   return `http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/${champion.name.replace(' ', '')}.png`
+	    // }
+
 	  }, {
 	    key: 'render',
 	    value: function render() {
@@ -46241,2254 +46273,16766 @@
 /* 492 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
+	 * @license
+	 * lodash <https://lodash.com/>
+	 * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+	 * Released under MIT license <https://lodash.com/license>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 */
+	;(function() {
 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
+	  /** Used as a safe reference for `undefined` in pre-ES5 environments. */
+	  var undefined;
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	  /** Used as the semantic version number. */
+	  var VERSION = '4.15.0';
 
-	var _react = __webpack_require__(2);
+	  /** Used as the size to enable large array optimizations. */
+	  var LARGE_ARRAY_SIZE = 200;
 
-	var _react2 = _interopRequireDefault(_react);
+	  /** Used as the `TypeError` message for "Functions" methods. */
+	  var FUNC_ERROR_TEXT = 'Expected a function';
 
-	var _reactBootstrap = __webpack_require__(241);
+	  /** Used to stand-in for `undefined` hash values. */
+	  var HASH_UNDEFINED = '__lodash_hash_undefined__';
 
-	var _axios = __webpack_require__(493);
+	  /** Used as the internal argument placeholder. */
+	  var PLACEHOLDER = '__lodash_placeholder__';
 
-	var _axios2 = _interopRequireDefault(_axios);
+	  /** Used to compose bitmasks for function metadata. */
+	  var BIND_FLAG = 1,
+	      BIND_KEY_FLAG = 2,
+	      CURRY_BOUND_FLAG = 4,
+	      CURRY_FLAG = 8,
+	      CURRY_RIGHT_FLAG = 16,
+	      PARTIAL_FLAG = 32,
+	      PARTIAL_RIGHT_FLAG = 64,
+	      ARY_FLAG = 128,
+	      REARG_FLAG = 256,
+	      FLIP_FLAG = 512;
 
-	var _reactRouter = __webpack_require__(177);
+	  /** Used to compose bitmasks for comparison styles. */
+	  var UNORDERED_COMPARE_FLAG = 1,
+	      PARTIAL_COMPARE_FLAG = 2;
 
-	var _Team = __webpack_require__(515);
+	  /** Used as default options for `_.truncate`. */
+	  var DEFAULT_TRUNC_LENGTH = 30,
+	      DEFAULT_TRUNC_OMISSION = '...';
 
-	var _Team2 = _interopRequireDefault(_Team);
+	  /** Used to detect hot functions by number of calls within a span of milliseconds. */
+	  var HOT_COUNT = 150,
+	      HOT_SPAN = 16;
 
-	var _champions = __webpack_require__(521);
+	  /** Used to indicate the type of lazy iteratees. */
+	  var LAZY_FILTER_FLAG = 1,
+	      LAZY_MAP_FLAG = 2,
+	      LAZY_WHILE_FLAG = 3;
 
-	var _champions2 = _interopRequireDefault(_champions);
+	  /** Used as references for various `Number` constants. */
+	  var INFINITY = 1 / 0,
+	      MAX_SAFE_INTEGER = 9007199254740991,
+	      MAX_INTEGER = 1.7976931348623157e+308,
+	      NAN = 0 / 0;
 
-	var _summonerSpells = __webpack_require__(522);
+	  /** Used as references for the maximum length and index of an array. */
+	  var MAX_ARRAY_LENGTH = 4294967295,
+	      MAX_ARRAY_INDEX = MAX_ARRAY_LENGTH - 1,
+	      HALF_MAX_ARRAY_LENGTH = MAX_ARRAY_LENGTH >>> 1;
 
-	var _summonerSpells2 = _interopRequireDefault(_summonerSpells);
+	  /** Used to associate wrap methods with their bit flags. */
+	  var wrapFlags = [
+	    ['ary', ARY_FLAG],
+	    ['bind', BIND_FLAG],
+	    ['bindKey', BIND_KEY_FLAG],
+	    ['curry', CURRY_FLAG],
+	    ['curryRight', CURRY_RIGHT_FLAG],
+	    ['flip', FLIP_FLAG],
+	    ['partial', PARTIAL_FLAG],
+	    ['partialRight', PARTIAL_RIGHT_FLAG],
+	    ['rearg', REARG_FLAG]
+	  ];
 
-	var _masteries = __webpack_require__(523);
+	  /** `Object#toString` result references. */
+	  var argsTag = '[object Arguments]',
+	      arrayTag = '[object Array]',
+	      boolTag = '[object Boolean]',
+	      dateTag = '[object Date]',
+	      errorTag = '[object Error]',
+	      funcTag = '[object Function]',
+	      genTag = '[object GeneratorFunction]',
+	      mapTag = '[object Map]',
+	      numberTag = '[object Number]',
+	      objectTag = '[object Object]',
+	      promiseTag = '[object Promise]',
+	      regexpTag = '[object RegExp]',
+	      setTag = '[object Set]',
+	      stringTag = '[object String]',
+	      symbolTag = '[object Symbol]',
+	      weakMapTag = '[object WeakMap]',
+	      weakSetTag = '[object WeakSet]';
 
-	var _masteries2 = _interopRequireDefault(_masteries);
+	  var arrayBufferTag = '[object ArrayBuffer]',
+	      dataViewTag = '[object DataView]',
+	      float32Tag = '[object Float32Array]',
+	      float64Tag = '[object Float64Array]',
+	      int8Tag = '[object Int8Array]',
+	      int16Tag = '[object Int16Array]',
+	      int32Tag = '[object Int32Array]',
+	      uint8Tag = '[object Uint8Array]',
+	      uint8ClampedTag = '[object Uint8ClampedArray]',
+	      uint16Tag = '[object Uint16Array]',
+	      uint32Tag = '[object Uint32Array]';
 
-	var _runes = __webpack_require__(524);
+	  /** Used to match empty string literals in compiled template source. */
+	  var reEmptyStringLeading = /\b__p \+= '';/g,
+	      reEmptyStringMiddle = /\b(__p \+=) '' \+/g,
+	      reEmptyStringTrailing = /(__e\(.*?\)|\b__t\)) \+\n'';/g;
 
-	var _runes2 = _interopRequireDefault(_runes);
+	  /** Used to match HTML entities and HTML characters. */
+	  var reEscapedHtml = /&(?:amp|lt|gt|quot|#39|#96);/g,
+	      reUnescapedHtml = /[&<>"'`]/g,
+	      reHasEscapedHtml = RegExp(reEscapedHtml.source),
+	      reHasUnescapedHtml = RegExp(reUnescapedHtml.source);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	  /** Used to match template delimiters. */
+	  var reEscape = /<%-([\s\S]+?)%>/g,
+	      reEvaluate = /<%([\s\S]+?)%>/g,
+	      reInterpolate = /<%=([\s\S]+?)%>/g;
 
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+	  /** Used to match property names within property paths. */
+	  var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
+	      reIsPlainProp = /^\w*$/,
+	      reLeadingDot = /^\./,
+	      rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	  /**
+	   * Used to match `RegExp`
+	   * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
+	   */
+	  var reRegExpChar = /[\\^$.*+?()[\]{}|]/g,
+	      reHasRegExpChar = RegExp(reRegExpChar.source);
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	  /** Used to match leading and trailing whitespace. */
+	  var reTrim = /^\s+|\s+$/g,
+	      reTrimStart = /^\s+/,
+	      reTrimEnd = /\s+$/;
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	  /** Used to match wrap detail comments. */
+	  var reWrapComment = /\{(?:\n\/\* \[wrapped with .+\] \*\/)?\n?/,
+	      reWrapDetails = /\{\n\/\* \[wrapped with (.+)\] \*/,
+	      reSplitDetails = /,? & /;
 
-	var apiKey = 'a85d0753-6824-4725-a76f-23be84110e08';
+	  /** Used to match words composed of alphanumeric characters. */
+	  var reAsciiWord = /[^\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\x7f]+/g;
 
-	var Match = function (_Component) {
-	  _inherits(Match, _Component);
+	  /** Used to match backslashes in property paths. */
+	  var reEscapeChar = /\\(\\)?/g;
 
-	  function Match(props) {
-	    _classCallCheck(this, Match);
+	  /**
+	   * Used to match
+	   * [ES template delimiters](http://ecma-international.org/ecma-262/7.0/#sec-template-literal-lexical-components).
+	   */
+	  var reEsTemplate = /\$\{([^\\}]*(?:\\.[^\\}]*)*)\}/g;
 
-	    var _this = _possibleConstructorReturn(this, (Match.__proto__ || Object.getPrototypeOf(Match)).call(this, props));
+	  /** Used to match `RegExp` flags from their coerced string values. */
+	  var reFlags = /\w*$/;
 
-	    _this.state = {
-	      summonerName: _this.props.location.query.summonerName,
-	      players: []
-	    };
-	    return _this;
+	  /** Used to detect hexadecimal string values. */
+	  var reHasHexPrefix = /^0x/i;
+
+	  /** Used to detect bad signed hexadecimal string values. */
+	  var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+	  /** Used to detect binary string values. */
+	  var reIsBinary = /^0b[01]+$/i;
+
+	  /** Used to detect host constructors (Safari). */
+	  var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+	  /** Used to detect octal string values. */
+	  var reIsOctal = /^0o[0-7]+$/i;
+
+	  /** Used to detect unsigned integer values. */
+	  var reIsUint = /^(?:0|[1-9]\d*)$/;
+
+	  /** Used to match Latin Unicode letters (excluding mathematical operators). */
+	  var reLatin = /[\xc0-\xd6\xd8-\xf6\xf8-\xff\u0100-\u017f]/g;
+
+	  /** Used to ensure capturing order of template delimiters. */
+	  var reNoMatch = /($^)/;
+
+	  /** Used to match unescaped characters in compiled string literals. */
+	  var reUnescapedString = /['\n\r\u2028\u2029\\]/g;
+
+	  /** Used to compose unicode character classes. */
+	  var rsAstralRange = '\\ud800-\\udfff',
+	      rsComboMarksRange = '\\u0300-\\u036f\\ufe20-\\ufe23',
+	      rsComboSymbolsRange = '\\u20d0-\\u20f0',
+	      rsDingbatRange = '\\u2700-\\u27bf',
+	      rsLowerRange = 'a-z\\xdf-\\xf6\\xf8-\\xff',
+	      rsMathOpRange = '\\xac\\xb1\\xd7\\xf7',
+	      rsNonCharRange = '\\x00-\\x2f\\x3a-\\x40\\x5b-\\x60\\x7b-\\xbf',
+	      rsPunctuationRange = '\\u2000-\\u206f',
+	      rsSpaceRange = ' \\t\\x0b\\f\\xa0\\ufeff\\n\\r\\u2028\\u2029\\u1680\\u180e\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2007\\u2008\\u2009\\u200a\\u202f\\u205f\\u3000',
+	      rsUpperRange = 'A-Z\\xc0-\\xd6\\xd8-\\xde',
+	      rsVarRange = '\\ufe0e\\ufe0f',
+	      rsBreakRange = rsMathOpRange + rsNonCharRange + rsPunctuationRange + rsSpaceRange;
+
+	  /** Used to compose unicode capture groups. */
+	  var rsApos = "['\u2019]",
+	      rsAstral = '[' + rsAstralRange + ']',
+	      rsBreak = '[' + rsBreakRange + ']',
+	      rsCombo = '[' + rsComboMarksRange + rsComboSymbolsRange + ']',
+	      rsDigits = '\\d+',
+	      rsDingbat = '[' + rsDingbatRange + ']',
+	      rsLower = '[' + rsLowerRange + ']',
+	      rsMisc = '[^' + rsAstralRange + rsBreakRange + rsDigits + rsDingbatRange + rsLowerRange + rsUpperRange + ']',
+	      rsFitz = '\\ud83c[\\udffb-\\udfff]',
+	      rsModifier = '(?:' + rsCombo + '|' + rsFitz + ')',
+	      rsNonAstral = '[^' + rsAstralRange + ']',
+	      rsRegional = '(?:\\ud83c[\\udde6-\\uddff]){2}',
+	      rsSurrPair = '[\\ud800-\\udbff][\\udc00-\\udfff]',
+	      rsUpper = '[' + rsUpperRange + ']',
+	      rsZWJ = '\\u200d';
+
+	  /** Used to compose unicode regexes. */
+	  var rsLowerMisc = '(?:' + rsLower + '|' + rsMisc + ')',
+	      rsUpperMisc = '(?:' + rsUpper + '|' + rsMisc + ')',
+	      rsOptLowerContr = '(?:' + rsApos + '(?:d|ll|m|re|s|t|ve))?',
+	      rsOptUpperContr = '(?:' + rsApos + '(?:D|LL|M|RE|S|T|VE))?',
+	      reOptMod = rsModifier + '?',
+	      rsOptVar = '[' + rsVarRange + ']?',
+	      rsOptJoin = '(?:' + rsZWJ + '(?:' + [rsNonAstral, rsRegional, rsSurrPair].join('|') + ')' + rsOptVar + reOptMod + ')*',
+	      rsSeq = rsOptVar + reOptMod + rsOptJoin,
+	      rsEmoji = '(?:' + [rsDingbat, rsRegional, rsSurrPair].join('|') + ')' + rsSeq,
+	      rsSymbol = '(?:' + [rsNonAstral + rsCombo + '?', rsCombo, rsRegional, rsSurrPair, rsAstral].join('|') + ')';
+
+	  /** Used to match apostrophes. */
+	  var reApos = RegExp(rsApos, 'g');
+
+	  /**
+	   * Used to match [combining diacritical marks](https://en.wikipedia.org/wiki/Combining_Diacritical_Marks) and
+	   * [combining diacritical marks for symbols](https://en.wikipedia.org/wiki/Combining_Diacritical_Marks_for_Symbols).
+	   */
+	  var reComboMark = RegExp(rsCombo, 'g');
+
+	  /** Used to match [string symbols](https://mathiasbynens.be/notes/javascript-unicode). */
+	  var reUnicode = RegExp(rsFitz + '(?=' + rsFitz + ')|' + rsSymbol + rsSeq, 'g');
+
+	  /** Used to match complex or compound words. */
+	  var reUnicodeWord = RegExp([
+	    rsUpper + '?' + rsLower + '+' + rsOptLowerContr + '(?=' + [rsBreak, rsUpper, '$'].join('|') + ')',
+	    rsUpperMisc + '+' + rsOptUpperContr + '(?=' + [rsBreak, rsUpper + rsLowerMisc, '$'].join('|') + ')',
+	    rsUpper + '?' + rsLowerMisc + '+' + rsOptLowerContr,
+	    rsUpper + '+' + rsOptUpperContr,
+	    rsDigits,
+	    rsEmoji
+	  ].join('|'), 'g');
+
+	  /** Used to detect strings with [zero-width joiners or code points from the astral planes](http://eev.ee/blog/2015/09/12/dark-corners-of-unicode/). */
+	  var reHasUnicode = RegExp('[' + rsZWJ + rsAstralRange  + rsComboMarksRange + rsComboSymbolsRange + rsVarRange + ']');
+
+	  /** Used to detect strings that need a more robust regexp to match words. */
+	  var reHasUnicodeWord = /[a-z][A-Z]|[A-Z]{2,}[a-z]|[0-9][a-zA-Z]|[a-zA-Z][0-9]|[^a-zA-Z0-9 ]/;
+
+	  /** Used to assign default `context` object properties. */
+	  var contextProps = [
+	    'Array', 'Buffer', 'DataView', 'Date', 'Error', 'Float32Array', 'Float64Array',
+	    'Function', 'Int8Array', 'Int16Array', 'Int32Array', 'Map', 'Math', 'Object',
+	    'Promise', 'RegExp', 'Set', 'String', 'Symbol', 'TypeError', 'Uint8Array',
+	    'Uint8ClampedArray', 'Uint16Array', 'Uint32Array', 'WeakMap',
+	    '_', 'clearTimeout', 'isFinite', 'parseInt', 'setTimeout'
+	  ];
+
+	  /** Used to make template sourceURLs easier to identify. */
+	  var templateCounter = -1;
+
+	  /** Used to identify `toStringTag` values of typed arrays. */
+	  var typedArrayTags = {};
+	  typedArrayTags[float32Tag] = typedArrayTags[float64Tag] =
+	  typedArrayTags[int8Tag] = typedArrayTags[int16Tag] =
+	  typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] =
+	  typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] =
+	  typedArrayTags[uint32Tag] = true;
+	  typedArrayTags[argsTag] = typedArrayTags[arrayTag] =
+	  typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] =
+	  typedArrayTags[dataViewTag] = typedArrayTags[dateTag] =
+	  typedArrayTags[errorTag] = typedArrayTags[funcTag] =
+	  typedArrayTags[mapTag] = typedArrayTags[numberTag] =
+	  typedArrayTags[objectTag] = typedArrayTags[regexpTag] =
+	  typedArrayTags[setTag] = typedArrayTags[stringTag] =
+	  typedArrayTags[weakMapTag] = false;
+
+	  /** Used to identify `toStringTag` values supported by `_.clone`. */
+	  var cloneableTags = {};
+	  cloneableTags[argsTag] = cloneableTags[arrayTag] =
+	  cloneableTags[arrayBufferTag] = cloneableTags[dataViewTag] =
+	  cloneableTags[boolTag] = cloneableTags[dateTag] =
+	  cloneableTags[float32Tag] = cloneableTags[float64Tag] =
+	  cloneableTags[int8Tag] = cloneableTags[int16Tag] =
+	  cloneableTags[int32Tag] = cloneableTags[mapTag] =
+	  cloneableTags[numberTag] = cloneableTags[objectTag] =
+	  cloneableTags[regexpTag] = cloneableTags[setTag] =
+	  cloneableTags[stringTag] = cloneableTags[symbolTag] =
+	  cloneableTags[uint8Tag] = cloneableTags[uint8ClampedTag] =
+	  cloneableTags[uint16Tag] = cloneableTags[uint32Tag] = true;
+	  cloneableTags[errorTag] = cloneableTags[funcTag] =
+	  cloneableTags[weakMapTag] = false;
+
+	  /** Used to map Latin Unicode letters to basic Latin letters. */
+	  var deburredLetters = {
+	    // Latin-1 Supplement block.
+	    '\xc0': 'A',  '\xc1': 'A', '\xc2': 'A', '\xc3': 'A', '\xc4': 'A', '\xc5': 'A',
+	    '\xe0': 'a',  '\xe1': 'a', '\xe2': 'a', '\xe3': 'a', '\xe4': 'a', '\xe5': 'a',
+	    '\xc7': 'C',  '\xe7': 'c',
+	    '\xd0': 'D',  '\xf0': 'd',
+	    '\xc8': 'E',  '\xc9': 'E', '\xca': 'E', '\xcb': 'E',
+	    '\xe8': 'e',  '\xe9': 'e', '\xea': 'e', '\xeb': 'e',
+	    '\xcc': 'I',  '\xcd': 'I', '\xce': 'I', '\xcf': 'I',
+	    '\xec': 'i',  '\xed': 'i', '\xee': 'i', '\xef': 'i',
+	    '\xd1': 'N',  '\xf1': 'n',
+	    '\xd2': 'O',  '\xd3': 'O', '\xd4': 'O', '\xd5': 'O', '\xd6': 'O', '\xd8': 'O',
+	    '\xf2': 'o',  '\xf3': 'o', '\xf4': 'o', '\xf5': 'o', '\xf6': 'o', '\xf8': 'o',
+	    '\xd9': 'U',  '\xda': 'U', '\xdb': 'U', '\xdc': 'U',
+	    '\xf9': 'u',  '\xfa': 'u', '\xfb': 'u', '\xfc': 'u',
+	    '\xdd': 'Y',  '\xfd': 'y', '\xff': 'y',
+	    '\xc6': 'Ae', '\xe6': 'ae',
+	    '\xde': 'Th', '\xfe': 'th',
+	    '\xdf': 'ss',
+	    // Latin Extended-A block.
+	    '\u0100': 'A',  '\u0102': 'A', '\u0104': 'A',
+	    '\u0101': 'a',  '\u0103': 'a', '\u0105': 'a',
+	    '\u0106': 'C',  '\u0108': 'C', '\u010a': 'C', '\u010c': 'C',
+	    '\u0107': 'c',  '\u0109': 'c', '\u010b': 'c', '\u010d': 'c',
+	    '\u010e': 'D',  '\u0110': 'D', '\u010f': 'd', '\u0111': 'd',
+	    '\u0112': 'E',  '\u0114': 'E', '\u0116': 'E', '\u0118': 'E', '\u011a': 'E',
+	    '\u0113': 'e',  '\u0115': 'e', '\u0117': 'e', '\u0119': 'e', '\u011b': 'e',
+	    '\u011c': 'G',  '\u011e': 'G', '\u0120': 'G', '\u0122': 'G',
+	    '\u011d': 'g',  '\u011f': 'g', '\u0121': 'g', '\u0123': 'g',
+	    '\u0124': 'H',  '\u0126': 'H', '\u0125': 'h', '\u0127': 'h',
+	    '\u0128': 'I',  '\u012a': 'I', '\u012c': 'I', '\u012e': 'I', '\u0130': 'I',
+	    '\u0129': 'i',  '\u012b': 'i', '\u012d': 'i', '\u012f': 'i', '\u0131': 'i',
+	    '\u0134': 'J',  '\u0135': 'j',
+	    '\u0136': 'K',  '\u0137': 'k', '\u0138': 'k',
+	    '\u0139': 'L',  '\u013b': 'L', '\u013d': 'L', '\u013f': 'L', '\u0141': 'L',
+	    '\u013a': 'l',  '\u013c': 'l', '\u013e': 'l', '\u0140': 'l', '\u0142': 'l',
+	    '\u0143': 'N',  '\u0145': 'N', '\u0147': 'N', '\u014a': 'N',
+	    '\u0144': 'n',  '\u0146': 'n', '\u0148': 'n', '\u014b': 'n',
+	    '\u014c': 'O',  '\u014e': 'O', '\u0150': 'O',
+	    '\u014d': 'o',  '\u014f': 'o', '\u0151': 'o',
+	    '\u0154': 'R',  '\u0156': 'R', '\u0158': 'R',
+	    '\u0155': 'r',  '\u0157': 'r', '\u0159': 'r',
+	    '\u015a': 'S',  '\u015c': 'S', '\u015e': 'S', '\u0160': 'S',
+	    '\u015b': 's',  '\u015d': 's', '\u015f': 's', '\u0161': 's',
+	    '\u0162': 'T',  '\u0164': 'T', '\u0166': 'T',
+	    '\u0163': 't',  '\u0165': 't', '\u0167': 't',
+	    '\u0168': 'U',  '\u016a': 'U', '\u016c': 'U', '\u016e': 'U', '\u0170': 'U', '\u0172': 'U',
+	    '\u0169': 'u',  '\u016b': 'u', '\u016d': 'u', '\u016f': 'u', '\u0171': 'u', '\u0173': 'u',
+	    '\u0174': 'W',  '\u0175': 'w',
+	    '\u0176': 'Y',  '\u0177': 'y', '\u0178': 'Y',
+	    '\u0179': 'Z',  '\u017b': 'Z', '\u017d': 'Z',
+	    '\u017a': 'z',  '\u017c': 'z', '\u017e': 'z',
+	    '\u0132': 'IJ', '\u0133': 'ij',
+	    '\u0152': 'Oe', '\u0153': 'oe',
+	    '\u0149': "'n", '\u017f': 'ss'
+	  };
+
+	  /** Used to map characters to HTML entities. */
+	  var htmlEscapes = {
+	    '&': '&amp;',
+	    '<': '&lt;',
+	    '>': '&gt;',
+	    '"': '&quot;',
+	    "'": '&#39;',
+	    '`': '&#96;'
+	  };
+
+	  /** Used to map HTML entities to characters. */
+	  var htmlUnescapes = {
+	    '&amp;': '&',
+	    '&lt;': '<',
+	    '&gt;': '>',
+	    '&quot;': '"',
+	    '&#39;': "'",
+	    '&#96;': '`'
+	  };
+
+	  /** Used to escape characters for inclusion in compiled string literals. */
+	  var stringEscapes = {
+	    '\\': '\\',
+	    "'": "'",
+	    '\n': 'n',
+	    '\r': 'r',
+	    '\u2028': 'u2028',
+	    '\u2029': 'u2029'
+	  };
+
+	  /** Built-in method references without a dependency on `root`. */
+	  var freeParseFloat = parseFloat,
+	      freeParseInt = parseInt;
+
+	  /** Detect free variable `global` from Node.js. */
+	  var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+	  /** Detect free variable `self`. */
+	  var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+	  /** Used as a reference to the global object. */
+	  var root = freeGlobal || freeSelf || Function('return this')();
+
+	  /** Detect free variable `exports`. */
+	  var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
+
+	  /** Detect free variable `module`. */
+	  var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && module;
+
+	  /** Detect the popular CommonJS extension `module.exports`. */
+	  var moduleExports = freeModule && freeModule.exports === freeExports;
+
+	  /** Detect free variable `process` from Node.js. */
+	  var freeProcess = moduleExports && freeGlobal.process;
+
+	  /** Used to access faster Node.js helpers. */
+	  var nodeUtil = (function() {
+	    try {
+	      return freeProcess && freeProcess.binding('util');
+	    } catch (e) {}
+	  }());
+
+	  /* Node.js helper references. */
+	  var nodeIsArrayBuffer = nodeUtil && nodeUtil.isArrayBuffer,
+	      nodeIsDate = nodeUtil && nodeUtil.isDate,
+	      nodeIsMap = nodeUtil && nodeUtil.isMap,
+	      nodeIsRegExp = nodeUtil && nodeUtil.isRegExp,
+	      nodeIsSet = nodeUtil && nodeUtil.isSet,
+	      nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
+
+	  /*--------------------------------------------------------------------------*/
+
+	  /**
+	   * Adds the key-value `pair` to `map`.
+	   *
+	   * @private
+	   * @param {Object} map The map to modify.
+	   * @param {Array} pair The key-value pair to add.
+	   * @returns {Object} Returns `map`.
+	   */
+	  function addMapEntry(map, pair) {
+	    // Don't return `map.set` because it's not chainable in IE 11.
+	    map.set(pair[0], pair[1]);
+	    return map;
 	  }
 
-	  _createClass(Match, [{
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      var summonerName = this.state.summonerName;
-	      var serverRequest = this.getMatchData(summonerName);
+	  /**
+	   * Adds `value` to `set`.
+	   *
+	   * @private
+	   * @param {Object} set The set to modify.
+	   * @param {*} value The value to add.
+	   * @returns {Object} Returns `set`.
+	   */
+	  function addSetEntry(set, value) {
+	    // Don't return `set.add` because it's not chainable in IE 11.
+	    set.add(value);
+	    return set;
+	  }
+
+	  /**
+	   * A faster alternative to `Function#apply`, this function invokes `func`
+	   * with the `this` binding of `thisArg` and the arguments of `args`.
+	   *
+	   * @private
+	   * @param {Function} func The function to invoke.
+	   * @param {*} thisArg The `this` binding of `func`.
+	   * @param {Array} args The arguments to invoke `func` with.
+	   * @returns {*} Returns the result of `func`.
+	   */
+	  function apply(func, thisArg, args) {
+	    switch (args.length) {
+	      case 0: return func.call(thisArg);
+	      case 1: return func.call(thisArg, args[0]);
+	      case 2: return func.call(thisArg, args[0], args[1]);
+	      case 3: return func.call(thisArg, args[0], args[1], args[2]);
+	    }
+	    return func.apply(thisArg, args);
+	  }
+
+	  /**
+	   * A specialized version of `baseAggregator` for arrays.
+	   *
+	   * @private
+	   * @param {Array} [array] The array to iterate over.
+	   * @param {Function} setter The function to set `accumulator` values.
+	   * @param {Function} iteratee The iteratee to transform keys.
+	   * @param {Object} accumulator The initial aggregated object.
+	   * @returns {Function} Returns `accumulator`.
+	   */
+	  function arrayAggregator(array, setter, iteratee, accumulator) {
+	    var index = -1,
+	        length = array ? array.length : 0;
+
+	    while (++index < length) {
+	      var value = array[index];
+	      setter(accumulator, value, iteratee(value), array);
+	    }
+	    return accumulator;
+	  }
+
+	  /**
+	   * A specialized version of `_.forEach` for arrays without support for
+	   * iteratee shorthands.
+	   *
+	   * @private
+	   * @param {Array} [array] The array to iterate over.
+	   * @param {Function} iteratee The function invoked per iteration.
+	   * @returns {Array} Returns `array`.
+	   */
+	  function arrayEach(array, iteratee) {
+	    var index = -1,
+	        length = array ? array.length : 0;
+
+	    while (++index < length) {
+	      if (iteratee(array[index], index, array) === false) {
+	        break;
+	      }
+	    }
+	    return array;
+	  }
+
+	  /**
+	   * A specialized version of `_.forEachRight` for arrays without support for
+	   * iteratee shorthands.
+	   *
+	   * @private
+	   * @param {Array} [array] The array to iterate over.
+	   * @param {Function} iteratee The function invoked per iteration.
+	   * @returns {Array} Returns `array`.
+	   */
+	  function arrayEachRight(array, iteratee) {
+	    var length = array ? array.length : 0;
+
+	    while (length--) {
+	      if (iteratee(array[length], length, array) === false) {
+	        break;
+	      }
+	    }
+	    return array;
+	  }
+
+	  /**
+	   * A specialized version of `_.every` for arrays without support for
+	   * iteratee shorthands.
+	   *
+	   * @private
+	   * @param {Array} [array] The array to iterate over.
+	   * @param {Function} predicate The function invoked per iteration.
+	   * @returns {boolean} Returns `true` if all elements pass the predicate check,
+	   *  else `false`.
+	   */
+	  function arrayEvery(array, predicate) {
+	    var index = -1,
+	        length = array ? array.length : 0;
+
+	    while (++index < length) {
+	      if (!predicate(array[index], index, array)) {
+	        return false;
+	      }
+	    }
+	    return true;
+	  }
+
+	  /**
+	   * A specialized version of `_.filter` for arrays without support for
+	   * iteratee shorthands.
+	   *
+	   * @private
+	   * @param {Array} [array] The array to iterate over.
+	   * @param {Function} predicate The function invoked per iteration.
+	   * @returns {Array} Returns the new filtered array.
+	   */
+	  function arrayFilter(array, predicate) {
+	    var index = -1,
+	        length = array ? array.length : 0,
+	        resIndex = 0,
+	        result = [];
+
+	    while (++index < length) {
+	      var value = array[index];
+	      if (predicate(value, index, array)) {
+	        result[resIndex++] = value;
+	      }
+	    }
+	    return result;
+	  }
+
+	  /**
+	   * A specialized version of `_.includes` for arrays without support for
+	   * specifying an index to search from.
+	   *
+	   * @private
+	   * @param {Array} [array] The array to inspect.
+	   * @param {*} target The value to search for.
+	   * @returns {boolean} Returns `true` if `target` is found, else `false`.
+	   */
+	  function arrayIncludes(array, value) {
+	    var length = array ? array.length : 0;
+	    return !!length && baseIndexOf(array, value, 0) > -1;
+	  }
+
+	  /**
+	   * This function is like `arrayIncludes` except that it accepts a comparator.
+	   *
+	   * @private
+	   * @param {Array} [array] The array to inspect.
+	   * @param {*} target The value to search for.
+	   * @param {Function} comparator The comparator invoked per element.
+	   * @returns {boolean} Returns `true` if `target` is found, else `false`.
+	   */
+	  function arrayIncludesWith(array, value, comparator) {
+	    var index = -1,
+	        length = array ? array.length : 0;
+
+	    while (++index < length) {
+	      if (comparator(value, array[index])) {
+	        return true;
+	      }
+	    }
+	    return false;
+	  }
+
+	  /**
+	   * A specialized version of `_.map` for arrays without support for iteratee
+	   * shorthands.
+	   *
+	   * @private
+	   * @param {Array} [array] The array to iterate over.
+	   * @param {Function} iteratee The function invoked per iteration.
+	   * @returns {Array} Returns the new mapped array.
+	   */
+	  function arrayMap(array, iteratee) {
+	    var index = -1,
+	        length = array ? array.length : 0,
+	        result = Array(length);
+
+	    while (++index < length) {
+	      result[index] = iteratee(array[index], index, array);
+	    }
+	    return result;
+	  }
+
+	  /**
+	   * Appends the elements of `values` to `array`.
+	   *
+	   * @private
+	   * @param {Array} array The array to modify.
+	   * @param {Array} values The values to append.
+	   * @returns {Array} Returns `array`.
+	   */
+	  function arrayPush(array, values) {
+	    var index = -1,
+	        length = values.length,
+	        offset = array.length;
+
+	    while (++index < length) {
+	      array[offset + index] = values[index];
+	    }
+	    return array;
+	  }
+
+	  /**
+	   * A specialized version of `_.reduce` for arrays without support for
+	   * iteratee shorthands.
+	   *
+	   * @private
+	   * @param {Array} [array] The array to iterate over.
+	   * @param {Function} iteratee The function invoked per iteration.
+	   * @param {*} [accumulator] The initial value.
+	   * @param {boolean} [initAccum] Specify using the first element of `array` as
+	   *  the initial value.
+	   * @returns {*} Returns the accumulated value.
+	   */
+	  function arrayReduce(array, iteratee, accumulator, initAccum) {
+	    var index = -1,
+	        length = array ? array.length : 0;
+
+	    if (initAccum && length) {
+	      accumulator = array[++index];
+	    }
+	    while (++index < length) {
+	      accumulator = iteratee(accumulator, array[index], index, array);
+	    }
+	    return accumulator;
+	  }
+
+	  /**
+	   * A specialized version of `_.reduceRight` for arrays without support for
+	   * iteratee shorthands.
+	   *
+	   * @private
+	   * @param {Array} [array] The array to iterate over.
+	   * @param {Function} iteratee The function invoked per iteration.
+	   * @param {*} [accumulator] The initial value.
+	   * @param {boolean} [initAccum] Specify using the last element of `array` as
+	   *  the initial value.
+	   * @returns {*} Returns the accumulated value.
+	   */
+	  function arrayReduceRight(array, iteratee, accumulator, initAccum) {
+	    var length = array ? array.length : 0;
+	    if (initAccum && length) {
+	      accumulator = array[--length];
+	    }
+	    while (length--) {
+	      accumulator = iteratee(accumulator, array[length], length, array);
+	    }
+	    return accumulator;
+	  }
+
+	  /**
+	   * A specialized version of `_.some` for arrays without support for iteratee
+	   * shorthands.
+	   *
+	   * @private
+	   * @param {Array} [array] The array to iterate over.
+	   * @param {Function} predicate The function invoked per iteration.
+	   * @returns {boolean} Returns `true` if any element passes the predicate check,
+	   *  else `false`.
+	   */
+	  function arraySome(array, predicate) {
+	    var index = -1,
+	        length = array ? array.length : 0;
+
+	    while (++index < length) {
+	      if (predicate(array[index], index, array)) {
+	        return true;
+	      }
+	    }
+	    return false;
+	  }
+
+	  /**
+	   * Gets the size of an ASCII `string`.
+	   *
+	   * @private
+	   * @param {string} string The string inspect.
+	   * @returns {number} Returns the string size.
+	   */
+	  var asciiSize = baseProperty('length');
+
+	  /**
+	   * Converts an ASCII `string` to an array.
+	   *
+	   * @private
+	   * @param {string} string The string to convert.
+	   * @returns {Array} Returns the converted array.
+	   */
+	  function asciiToArray(string) {
+	    return string.split('');
+	  }
+
+	  /**
+	   * Splits an ASCII `string` into an array of its words.
+	   *
+	   * @private
+	   * @param {string} The string to inspect.
+	   * @returns {Array} Returns the words of `string`.
+	   */
+	  function asciiWords(string) {
+	    return string.match(reAsciiWord) || [];
+	  }
+
+	  /**
+	   * The base implementation of methods like `_.findKey` and `_.findLastKey`,
+	   * without support for iteratee shorthands, which iterates over `collection`
+	   * using `eachFunc`.
+	   *
+	   * @private
+	   * @param {Array|Object} collection The collection to inspect.
+	   * @param {Function} predicate The function invoked per iteration.
+	   * @param {Function} eachFunc The function to iterate over `collection`.
+	   * @returns {*} Returns the found element or its key, else `undefined`.
+	   */
+	  function baseFindKey(collection, predicate, eachFunc) {
+	    var result;
+	    eachFunc(collection, function(value, key, collection) {
+	      if (predicate(value, key, collection)) {
+	        result = key;
+	        return false;
+	      }
+	    });
+	    return result;
+	  }
+
+	  /**
+	   * The base implementation of `_.findIndex` and `_.findLastIndex` without
+	   * support for iteratee shorthands.
+	   *
+	   * @private
+	   * @param {Array} array The array to inspect.
+	   * @param {Function} predicate The function invoked per iteration.
+	   * @param {number} fromIndex The index to search from.
+	   * @param {boolean} [fromRight] Specify iterating from right to left.
+	   * @returns {number} Returns the index of the matched value, else `-1`.
+	   */
+	  function baseFindIndex(array, predicate, fromIndex, fromRight) {
+	    var length = array.length,
+	        index = fromIndex + (fromRight ? 1 : -1);
+
+	    while ((fromRight ? index-- : ++index < length)) {
+	      if (predicate(array[index], index, array)) {
+	        return index;
+	      }
+	    }
+	    return -1;
+	  }
+
+	  /**
+	   * The base implementation of `_.indexOf` without `fromIndex` bounds checks.
+	   *
+	   * @private
+	   * @param {Array} array The array to inspect.
+	   * @param {*} value The value to search for.
+	   * @param {number} fromIndex The index to search from.
+	   * @returns {number} Returns the index of the matched value, else `-1`.
+	   */
+	  function baseIndexOf(array, value, fromIndex) {
+	    if (value !== value) {
+	      return baseFindIndex(array, baseIsNaN, fromIndex);
+	    }
+	    var index = fromIndex - 1,
+	        length = array.length;
+
+	    while (++index < length) {
+	      if (array[index] === value) {
+	        return index;
+	      }
+	    }
+	    return -1;
+	  }
+
+	  /**
+	   * This function is like `baseIndexOf` except that it accepts a comparator.
+	   *
+	   * @private
+	   * @param {Array} array The array to inspect.
+	   * @param {*} value The value to search for.
+	   * @param {number} fromIndex The index to search from.
+	   * @param {Function} comparator The comparator invoked per element.
+	   * @returns {number} Returns the index of the matched value, else `-1`.
+	   */
+	  function baseIndexOfWith(array, value, fromIndex, comparator) {
+	    var index = fromIndex - 1,
+	        length = array.length;
+
+	    while (++index < length) {
+	      if (comparator(array[index], value)) {
+	        return index;
+	      }
+	    }
+	    return -1;
+	  }
+
+	  /**
+	   * The base implementation of `_.isNaN` without support for number objects.
+	   *
+	   * @private
+	   * @param {*} value The value to check.
+	   * @returns {boolean} Returns `true` if `value` is `NaN`, else `false`.
+	   */
+	  function baseIsNaN(value) {
+	    return value !== value;
+	  }
+
+	  /**
+	   * The base implementation of `_.mean` and `_.meanBy` without support for
+	   * iteratee shorthands.
+	   *
+	   * @private
+	   * @param {Array} array The array to iterate over.
+	   * @param {Function} iteratee The function invoked per iteration.
+	   * @returns {number} Returns the mean.
+	   */
+	  function baseMean(array, iteratee) {
+	    var length = array ? array.length : 0;
+	    return length ? (baseSum(array, iteratee) / length) : NAN;
+	  }
+
+	  /**
+	   * The base implementation of `_.property` without support for deep paths.
+	   *
+	   * @private
+	   * @param {string} key The key of the property to get.
+	   * @returns {Function} Returns the new accessor function.
+	   */
+	  function baseProperty(key) {
+	    return function(object) {
+	      return object == null ? undefined : object[key];
+	    };
+	  }
+
+	  /**
+	   * The base implementation of `_.propertyOf` without support for deep paths.
+	   *
+	   * @private
+	   * @param {Object} object The object to query.
+	   * @returns {Function} Returns the new accessor function.
+	   */
+	  function basePropertyOf(object) {
+	    return function(key) {
+	      return object == null ? undefined : object[key];
+	    };
+	  }
+
+	  /**
+	   * The base implementation of `_.reduce` and `_.reduceRight`, without support
+	   * for iteratee shorthands, which iterates over `collection` using `eachFunc`.
+	   *
+	   * @private
+	   * @param {Array|Object} collection The collection to iterate over.
+	   * @param {Function} iteratee The function invoked per iteration.
+	   * @param {*} accumulator The initial value.
+	   * @param {boolean} initAccum Specify using the first or last element of
+	   *  `collection` as the initial value.
+	   * @param {Function} eachFunc The function to iterate over `collection`.
+	   * @returns {*} Returns the accumulated value.
+	   */
+	  function baseReduce(collection, iteratee, accumulator, initAccum, eachFunc) {
+	    eachFunc(collection, function(value, index, collection) {
+	      accumulator = initAccum
+	        ? (initAccum = false, value)
+	        : iteratee(accumulator, value, index, collection);
+	    });
+	    return accumulator;
+	  }
+
+	  /**
+	   * The base implementation of `_.sortBy` which uses `comparer` to define the
+	   * sort order of `array` and replaces criteria objects with their corresponding
+	   * values.
+	   *
+	   * @private
+	   * @param {Array} array The array to sort.
+	   * @param {Function} comparer The function to define sort order.
+	   * @returns {Array} Returns `array`.
+	   */
+	  function baseSortBy(array, comparer) {
+	    var length = array.length;
+
+	    array.sort(comparer);
+	    while (length--) {
+	      array[length] = array[length].value;
+	    }
+	    return array;
+	  }
+
+	  /**
+	   * The base implementation of `_.sum` and `_.sumBy` without support for
+	   * iteratee shorthands.
+	   *
+	   * @private
+	   * @param {Array} array The array to iterate over.
+	   * @param {Function} iteratee The function invoked per iteration.
+	   * @returns {number} Returns the sum.
+	   */
+	  function baseSum(array, iteratee) {
+	    var result,
+	        index = -1,
+	        length = array.length;
+
+	    while (++index < length) {
+	      var current = iteratee(array[index]);
+	      if (current !== undefined) {
+	        result = result === undefined ? current : (result + current);
+	      }
+	    }
+	    return result;
+	  }
+
+	  /**
+	   * The base implementation of `_.times` without support for iteratee shorthands
+	   * or max array length checks.
+	   *
+	   * @private
+	   * @param {number} n The number of times to invoke `iteratee`.
+	   * @param {Function} iteratee The function invoked per iteration.
+	   * @returns {Array} Returns the array of results.
+	   */
+	  function baseTimes(n, iteratee) {
+	    var index = -1,
+	        result = Array(n);
+
+	    while (++index < n) {
+	      result[index] = iteratee(index);
+	    }
+	    return result;
+	  }
+
+	  /**
+	   * The base implementation of `_.toPairs` and `_.toPairsIn` which creates an array
+	   * of key-value pairs for `object` corresponding to the property names of `props`.
+	   *
+	   * @private
+	   * @param {Object} object The object to query.
+	   * @param {Array} props The property names to get values for.
+	   * @returns {Object} Returns the key-value pairs.
+	   */
+	  function baseToPairs(object, props) {
+	    return arrayMap(props, function(key) {
+	      return [key, object[key]];
+	    });
+	  }
+
+	  /**
+	   * The base implementation of `_.unary` without support for storing metadata.
+	   *
+	   * @private
+	   * @param {Function} func The function to cap arguments for.
+	   * @returns {Function} Returns the new capped function.
+	   */
+	  function baseUnary(func) {
+	    return function(value) {
+	      return func(value);
+	    };
+	  }
+
+	  /**
+	   * The base implementation of `_.values` and `_.valuesIn` which creates an
+	   * array of `object` property values corresponding to the property names
+	   * of `props`.
+	   *
+	   * @private
+	   * @param {Object} object The object to query.
+	   * @param {Array} props The property names to get values for.
+	   * @returns {Object} Returns the array of property values.
+	   */
+	  function baseValues(object, props) {
+	    return arrayMap(props, function(key) {
+	      return object[key];
+	    });
+	  }
+
+	  /**
+	   * Checks if a cache value for `key` exists.
+	   *
+	   * @private
+	   * @param {Object} cache The cache to query.
+	   * @param {string} key The key of the entry to check.
+	   * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+	   */
+	  function cacheHas(cache, key) {
+	    return cache.has(key);
+	  }
+
+	  /**
+	   * Used by `_.trim` and `_.trimStart` to get the index of the first string symbol
+	   * that is not found in the character symbols.
+	   *
+	   * @private
+	   * @param {Array} strSymbols The string symbols to inspect.
+	   * @param {Array} chrSymbols The character symbols to find.
+	   * @returns {number} Returns the index of the first unmatched string symbol.
+	   */
+	  function charsStartIndex(strSymbols, chrSymbols) {
+	    var index = -1,
+	        length = strSymbols.length;
+
+	    while (++index < length && baseIndexOf(chrSymbols, strSymbols[index], 0) > -1) {}
+	    return index;
+	  }
+
+	  /**
+	   * Used by `_.trim` and `_.trimEnd` to get the index of the last string symbol
+	   * that is not found in the character symbols.
+	   *
+	   * @private
+	   * @param {Array} strSymbols The string symbols to inspect.
+	   * @param {Array} chrSymbols The character symbols to find.
+	   * @returns {number} Returns the index of the last unmatched string symbol.
+	   */
+	  function charsEndIndex(strSymbols, chrSymbols) {
+	    var index = strSymbols.length;
+
+	    while (index-- && baseIndexOf(chrSymbols, strSymbols[index], 0) > -1) {}
+	    return index;
+	  }
+
+	  /**
+	   * Gets the number of `placeholder` occurrences in `array`.
+	   *
+	   * @private
+	   * @param {Array} array The array to inspect.
+	   * @param {*} placeholder The placeholder to search for.
+	   * @returns {number} Returns the placeholder count.
+	   */
+	  function countHolders(array, placeholder) {
+	    var length = array.length,
+	        result = 0;
+
+	    while (length--) {
+	      if (array[length] === placeholder) {
+	        result++;
+	      }
+	    }
+	    return result;
+	  }
+
+	  /**
+	   * Used by `_.deburr` to convert Latin-1 Supplement and Latin Extended-A
+	   * letters to basic Latin letters.
+	   *
+	   * @private
+	   * @param {string} letter The matched letter to deburr.
+	   * @returns {string} Returns the deburred letter.
+	   */
+	  var deburrLetter = basePropertyOf(deburredLetters);
+
+	  /**
+	   * Used by `_.escape` to convert characters to HTML entities.
+	   *
+	   * @private
+	   * @param {string} chr The matched character to escape.
+	   * @returns {string} Returns the escaped character.
+	   */
+	  var escapeHtmlChar = basePropertyOf(htmlEscapes);
+
+	  /**
+	   * Used by `_.template` to escape characters for inclusion in compiled string literals.
+	   *
+	   * @private
+	   * @param {string} chr The matched character to escape.
+	   * @returns {string} Returns the escaped character.
+	   */
+	  function escapeStringChar(chr) {
+	    return '\\' + stringEscapes[chr];
+	  }
+
+	  /**
+	   * Gets the value at `key` of `object`.
+	   *
+	   * @private
+	   * @param {Object} [object] The object to query.
+	   * @param {string} key The key of the property to get.
+	   * @returns {*} Returns the property value.
+	   */
+	  function getValue(object, key) {
+	    return object == null ? undefined : object[key];
+	  }
+
+	  /**
+	   * Checks if `string` contains Unicode symbols.
+	   *
+	   * @private
+	   * @param {string} string The string to inspect.
+	   * @returns {boolean} Returns `true` if a symbol is found, else `false`.
+	   */
+	  function hasUnicode(string) {
+	    return reHasUnicode.test(string);
+	  }
+
+	  /**
+	   * Checks if `string` contains a word composed of Unicode symbols.
+	   *
+	   * @private
+	   * @param {string} string The string to inspect.
+	   * @returns {boolean} Returns `true` if a word is found, else `false`.
+	   */
+	  function hasUnicodeWord(string) {
+	    return reHasUnicodeWord.test(string);
+	  }
+
+	  /**
+	   * Checks if `value` is a host object in IE < 9.
+	   *
+	   * @private
+	   * @param {*} value The value to check.
+	   * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+	   */
+	  function isHostObject(value) {
+	    // Many host objects are `Object` objects that can coerce to strings
+	    // despite having improperly defined `toString` methods.
+	    var result = false;
+	    if (value != null && typeof value.toString != 'function') {
+	      try {
+	        result = !!(value + '');
+	      } catch (e) {}
+	    }
+	    return result;
+	  }
+
+	  /**
+	   * Converts `iterator` to an array.
+	   *
+	   * @private
+	   * @param {Object} iterator The iterator to convert.
+	   * @returns {Array} Returns the converted array.
+	   */
+	  function iteratorToArray(iterator) {
+	    var data,
+	        result = [];
+
+	    while (!(data = iterator.next()).done) {
+	      result.push(data.value);
+	    }
+	    return result;
+	  }
+
+	  /**
+	   * Converts `map` to its key-value pairs.
+	   *
+	   * @private
+	   * @param {Object} map The map to convert.
+	   * @returns {Array} Returns the key-value pairs.
+	   */
+	  function mapToArray(map) {
+	    var index = -1,
+	        result = Array(map.size);
+
+	    map.forEach(function(value, key) {
+	      result[++index] = [key, value];
+	    });
+	    return result;
+	  }
+
+	  /**
+	   * Creates a unary function that invokes `func` with its argument transformed.
+	   *
+	   * @private
+	   * @param {Function} func The function to wrap.
+	   * @param {Function} transform The argument transform.
+	   * @returns {Function} Returns the new function.
+	   */
+	  function overArg(func, transform) {
+	    return function(arg) {
+	      return func(transform(arg));
+	    };
+	  }
+
+	  /**
+	   * Replaces all `placeholder` elements in `array` with an internal placeholder
+	   * and returns an array of their indexes.
+	   *
+	   * @private
+	   * @param {Array} array The array to modify.
+	   * @param {*} placeholder The placeholder to replace.
+	   * @returns {Array} Returns the new array of placeholder indexes.
+	   */
+	  function replaceHolders(array, placeholder) {
+	    var index = -1,
+	        length = array.length,
+	        resIndex = 0,
+	        result = [];
+
+	    while (++index < length) {
+	      var value = array[index];
+	      if (value === placeholder || value === PLACEHOLDER) {
+	        array[index] = PLACEHOLDER;
+	        result[resIndex++] = index;
+	      }
+	    }
+	    return result;
+	  }
+
+	  /**
+	   * Converts `set` to an array of its values.
+	   *
+	   * @private
+	   * @param {Object} set The set to convert.
+	   * @returns {Array} Returns the values.
+	   */
+	  function setToArray(set) {
+	    var index = -1,
+	        result = Array(set.size);
+
+	    set.forEach(function(value) {
+	      result[++index] = value;
+	    });
+	    return result;
+	  }
+
+	  /**
+	   * Converts `set` to its value-value pairs.
+	   *
+	   * @private
+	   * @param {Object} set The set to convert.
+	   * @returns {Array} Returns the value-value pairs.
+	   */
+	  function setToPairs(set) {
+	    var index = -1,
+	        result = Array(set.size);
+
+	    set.forEach(function(value) {
+	      result[++index] = [value, value];
+	    });
+	    return result;
+	  }
+
+	  /**
+	   * Gets the number of symbols in `string`.
+	   *
+	   * @private
+	   * @param {string} string The string to inspect.
+	   * @returns {number} Returns the string size.
+	   */
+	  function stringSize(string) {
+	    return hasUnicode(string)
+	      ? unicodeSize(string)
+	      : asciiSize(string);
+	  }
+
+	  /**
+	   * Converts `string` to an array.
+	   *
+	   * @private
+	   * @param {string} string The string to convert.
+	   * @returns {Array} Returns the converted array.
+	   */
+	  function stringToArray(string) {
+	    return hasUnicode(string)
+	      ? unicodeToArray(string)
+	      : asciiToArray(string);
+	  }
+
+	  /**
+	   * Used by `_.unescape` to convert HTML entities to characters.
+	   *
+	   * @private
+	   * @param {string} chr The matched character to unescape.
+	   * @returns {string} Returns the unescaped character.
+	   */
+	  var unescapeHtmlChar = basePropertyOf(htmlUnescapes);
+
+	  /**
+	   * Gets the size of a Unicode `string`.
+	   *
+	   * @private
+	   * @param {string} string The string inspect.
+	   * @returns {number} Returns the string size.
+	   */
+	  function unicodeSize(string) {
+	    var result = reUnicode.lastIndex = 0;
+	    while (reUnicode.test(string)) {
+	      result++;
+	    }
+	    return result;
+	  }
+
+	  /**
+	   * Converts a Unicode `string` to an array.
+	   *
+	   * @private
+	   * @param {string} string The string to convert.
+	   * @returns {Array} Returns the converted array.
+	   */
+	  function unicodeToArray(string) {
+	    return string.match(reUnicode) || [];
+	  }
+
+	  /**
+	   * Splits a Unicode `string` into an array of its words.
+	   *
+	   * @private
+	   * @param {string} The string to inspect.
+	   * @returns {Array} Returns the words of `string`.
+	   */
+	  function unicodeWords(string) {
+	    return string.match(reUnicodeWord) || [];
+	  }
+
+	  /*--------------------------------------------------------------------------*/
+
+	  /**
+	   * Create a new pristine `lodash` function using the `context` object.
+	   *
+	   * @static
+	   * @memberOf _
+	   * @since 1.1.0
+	   * @category Util
+	   * @param {Object} [context=root] The context object.
+	   * @returns {Function} Returns a new `lodash` function.
+	   * @example
+	   *
+	   * _.mixin({ 'foo': _.constant('foo') });
+	   *
+	   * var lodash = _.runInContext();
+	   * lodash.mixin({ 'bar': lodash.constant('bar') });
+	   *
+	   * _.isFunction(_.foo);
+	   * // => true
+	   * _.isFunction(_.bar);
+	   * // => false
+	   *
+	   * lodash.isFunction(lodash.foo);
+	   * // => false
+	   * lodash.isFunction(lodash.bar);
+	   * // => true
+	   *
+	   * // Use `context` to stub `Date#getTime` use in `_.now`.
+	   * var stubbed = _.runInContext({
+	   *   'Date': function() {
+	   *     return { 'getTime': stubGetTime };
+	   *   }
+	   * });
+	   *
+	   * // Create a suped-up `defer` in Node.js.
+	   * var defer = _.runInContext({ 'setTimeout': setImmediate }).defer;
+	   */
+	  function runInContext(context) {
+	    context = context ? _.defaults(root.Object(), context, _.pick(root, contextProps)) : root;
+
+	    /** Built-in constructor references. */
+	    var Array = context.Array,
+	        Date = context.Date,
+	        Error = context.Error,
+	        Function = context.Function,
+	        Math = context.Math,
+	        Object = context.Object,
+	        RegExp = context.RegExp,
+	        String = context.String,
+	        TypeError = context.TypeError;
+
+	    /** Used for built-in method references. */
+	    var arrayProto = Array.prototype,
+	        funcProto = Function.prototype,
+	        objectProto = Object.prototype;
+
+	    /** Used to detect overreaching core-js shims. */
+	    var coreJsData = context['__core-js_shared__'];
+
+	    /** Used to detect methods masquerading as native. */
+	    var maskSrcKey = (function() {
+	      var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
+	      return uid ? ('Symbol(src)_1.' + uid) : '';
+	    }());
+
+	    /** Used to resolve the decompiled source of functions. */
+	    var funcToString = funcProto.toString;
+
+	    /** Used to check objects for own properties. */
+	    var hasOwnProperty = objectProto.hasOwnProperty;
+
+	    /** Used to generate unique IDs. */
+	    var idCounter = 0;
+
+	    /** Used to infer the `Object` constructor. */
+	    var objectCtorString = funcToString.call(Object);
+
+	    /**
+	     * Used to resolve the
+	     * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+	     * of values.
+	     */
+	    var objectToString = objectProto.toString;
+
+	    /** Used to restore the original `_` reference in `_.noConflict`. */
+	    var oldDash = root._;
+
+	    /** Used to detect if a method is native. */
+	    var reIsNative = RegExp('^' +
+	      funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
+	      .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+	    );
+
+	    /** Built-in value references. */
+	    var Buffer = moduleExports ? context.Buffer : undefined,
+	        Symbol = context.Symbol,
+	        Uint8Array = context.Uint8Array,
+	        getPrototype = overArg(Object.getPrototypeOf, Object),
+	        iteratorSymbol = Symbol ? Symbol.iterator : undefined,
+	        objectCreate = Object.create,
+	        propertyIsEnumerable = objectProto.propertyIsEnumerable,
+	        splice = arrayProto.splice,
+	        spreadableSymbol = Symbol ? Symbol.isConcatSpreadable : undefined;
+
+	    /** Mocked built-ins. */
+	    var ctxClearTimeout = context.clearTimeout !== root.clearTimeout && context.clearTimeout,
+	        ctxNow = Date && Date.now !== root.Date.now && Date.now,
+	        ctxSetTimeout = context.setTimeout !== root.setTimeout && context.setTimeout;
+
+	    /* Built-in method references for those with the same name as other `lodash` methods. */
+	    var nativeCeil = Math.ceil,
+	        nativeFloor = Math.floor,
+	        nativeGetSymbols = Object.getOwnPropertySymbols,
+	        nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined,
+	        nativeIsFinite = context.isFinite,
+	        nativeJoin = arrayProto.join,
+	        nativeKeys = overArg(Object.keys, Object),
+	        nativeMax = Math.max,
+	        nativeMin = Math.min,
+	        nativeParseInt = context.parseInt,
+	        nativeRandom = Math.random,
+	        nativeReverse = arrayProto.reverse;
+
+	    /* Built-in method references that are verified to be native. */
+	    var DataView = getNative(context, 'DataView'),
+	        Map = getNative(context, 'Map'),
+	        Promise = getNative(context, 'Promise'),
+	        Set = getNative(context, 'Set'),
+	        WeakMap = getNative(context, 'WeakMap'),
+	        nativeCreate = getNative(Object, 'create');
+
+	    /* Used to set `toString` methods. */
+	    var defineProperty = (function() {
+	      var func = getNative(Object, 'defineProperty'),
+	          name = getNative.name;
+
+	      return (name && name.length > 2) ? func : undefined;
+	    }());
+
+	    /** Used to store function metadata. */
+	    var metaMap = WeakMap && new WeakMap;
+
+	    /** Detect if properties shadowing those on `Object.prototype` are non-enumerable. */
+	    var nonEnumShadows = !propertyIsEnumerable.call({ 'valueOf': 1 }, 'valueOf');
+
+	    /** Used to lookup unminified function names. */
+	    var realNames = {};
+
+	    /** Used to detect maps, sets, and weakmaps. */
+	    var dataViewCtorString = toSource(DataView),
+	        mapCtorString = toSource(Map),
+	        promiseCtorString = toSource(Promise),
+	        setCtorString = toSource(Set),
+	        weakMapCtorString = toSource(WeakMap);
+
+	    /** Used to convert symbols to primitives and strings. */
+	    var symbolProto = Symbol ? Symbol.prototype : undefined,
+	        symbolValueOf = symbolProto ? symbolProto.valueOf : undefined,
+	        symbolToString = symbolProto ? symbolProto.toString : undefined;
+
+	    /*------------------------------------------------------------------------*/
+
+	    /**
+	     * Creates a `lodash` object which wraps `value` to enable implicit method
+	     * chain sequences. Methods that operate on and return arrays, collections,
+	     * and functions can be chained together. Methods that retrieve a single value
+	     * or may return a primitive value will automatically end the chain sequence
+	     * and return the unwrapped value. Otherwise, the value must be unwrapped
+	     * with `_#value`.
+	     *
+	     * Explicit chain sequences, which must be unwrapped with `_#value`, may be
+	     * enabled using `_.chain`.
+	     *
+	     * The execution of chained methods is lazy, that is, it's deferred until
+	     * `_#value` is implicitly or explicitly called.
+	     *
+	     * Lazy evaluation allows several methods to support shortcut fusion.
+	     * Shortcut fusion is an optimization to merge iteratee calls; this avoids
+	     * the creation of intermediate arrays and can greatly reduce the number of
+	     * iteratee executions. Sections of a chain sequence qualify for shortcut
+	     * fusion if the section is applied to an array of at least `200` elements
+	     * and any iteratees accept only one argument. The heuristic for whether a
+	     * section qualifies for shortcut fusion is subject to change.
+	     *
+	     * Chaining is supported in custom builds as long as the `_#value` method is
+	     * directly or indirectly included in the build.
+	     *
+	     * In addition to lodash methods, wrappers have `Array` and `String` methods.
+	     *
+	     * The wrapper `Array` methods are:
+	     * `concat`, `join`, `pop`, `push`, `shift`, `sort`, `splice`, and `unshift`
+	     *
+	     * The wrapper `String` methods are:
+	     * `replace` and `split`
+	     *
+	     * The wrapper methods that support shortcut fusion are:
+	     * `at`, `compact`, `drop`, `dropRight`, `dropWhile`, `filter`, `find`,
+	     * `findLast`, `head`, `initial`, `last`, `map`, `reject`, `reverse`, `slice`,
+	     * `tail`, `take`, `takeRight`, `takeRightWhile`, `takeWhile`, and `toArray`
+	     *
+	     * The chainable wrapper methods are:
+	     * `after`, `ary`, `assign`, `assignIn`, `assignInWith`, `assignWith`, `at`,
+	     * `before`, `bind`, `bindAll`, `bindKey`, `castArray`, `chain`, `chunk`,
+	     * `commit`, `compact`, `concat`, `conforms`, `constant`, `countBy`, `create`,
+	     * `curry`, `debounce`, `defaults`, `defaultsDeep`, `defer`, `delay`,
+	     * `difference`, `differenceBy`, `differenceWith`, `drop`, `dropRight`,
+	     * `dropRightWhile`, `dropWhile`, `extend`, `extendWith`, `fill`, `filter`,
+	     * `flatMap`, `flatMapDeep`, `flatMapDepth`, `flatten`, `flattenDeep`,
+	     * `flattenDepth`, `flip`, `flow`, `flowRight`, `fromPairs`, `functions`,
+	     * `functionsIn`, `groupBy`, `initial`, `intersection`, `intersectionBy`,
+	     * `intersectionWith`, `invert`, `invertBy`, `invokeMap`, `iteratee`, `keyBy`,
+	     * `keys`, `keysIn`, `map`, `mapKeys`, `mapValues`, `matches`, `matchesProperty`,
+	     * `memoize`, `merge`, `mergeWith`, `method`, `methodOf`, `mixin`, `negate`,
+	     * `nthArg`, `omit`, `omitBy`, `once`, `orderBy`, `over`, `overArgs`,
+	     * `overEvery`, `overSome`, `partial`, `partialRight`, `partition`, `pick`,
+	     * `pickBy`, `plant`, `property`, `propertyOf`, `pull`, `pullAll`, `pullAllBy`,
+	     * `pullAllWith`, `pullAt`, `push`, `range`, `rangeRight`, `rearg`, `reject`,
+	     * `remove`, `rest`, `reverse`, `sampleSize`, `set`, `setWith`, `shuffle`,
+	     * `slice`, `sort`, `sortBy`, `splice`, `spread`, `tail`, `take`, `takeRight`,
+	     * `takeRightWhile`, `takeWhile`, `tap`, `throttle`, `thru`, `toArray`,
+	     * `toPairs`, `toPairsIn`, `toPath`, `toPlainObject`, `transform`, `unary`,
+	     * `union`, `unionBy`, `unionWith`, `uniq`, `uniqBy`, `uniqWith`, `unset`,
+	     * `unshift`, `unzip`, `unzipWith`, `update`, `updateWith`, `values`,
+	     * `valuesIn`, `without`, `wrap`, `xor`, `xorBy`, `xorWith`, `zip`,
+	     * `zipObject`, `zipObjectDeep`, and `zipWith`
+	     *
+	     * The wrapper methods that are **not** chainable by default are:
+	     * `add`, `attempt`, `camelCase`, `capitalize`, `ceil`, `clamp`, `clone`,
+	     * `cloneDeep`, `cloneDeepWith`, `cloneWith`, `conformsTo`, `deburr`,
+	     * `defaultTo`, `divide`, `each`, `eachRight`, `endsWith`, `eq`, `escape`,
+	     * `escapeRegExp`, `every`, `find`, `findIndex`, `findKey`, `findLast`,
+	     * `findLastIndex`, `findLastKey`, `first`, `floor`, `forEach`, `forEachRight`,
+	     * `forIn`, `forInRight`, `forOwn`, `forOwnRight`, `get`, `gt`, `gte`, `has`,
+	     * `hasIn`, `head`, `identity`, `includes`, `indexOf`, `inRange`, `invoke`,
+	     * `isArguments`, `isArray`, `isArrayBuffer`, `isArrayLike`, `isArrayLikeObject`,
+	     * `isBoolean`, `isBuffer`, `isDate`, `isElement`, `isEmpty`, `isEqual`,
+	     * `isEqualWith`, `isError`, `isFinite`, `isFunction`, `isInteger`, `isLength`,
+	     * `isMap`, `isMatch`, `isMatchWith`, `isNaN`, `isNative`, `isNil`, `isNull`,
+	     * `isNumber`, `isObject`, `isObjectLike`, `isPlainObject`, `isRegExp`,
+	     * `isSafeInteger`, `isSet`, `isString`, `isUndefined`, `isTypedArray`,
+	     * `isWeakMap`, `isWeakSet`, `join`, `kebabCase`, `last`, `lastIndexOf`,
+	     * `lowerCase`, `lowerFirst`, `lt`, `lte`, `max`, `maxBy`, `mean`, `meanBy`,
+	     * `min`, `minBy`, `multiply`, `noConflict`, `noop`, `now`, `nth`, `pad`,
+	     * `padEnd`, `padStart`, `parseInt`, `pop`, `random`, `reduce`, `reduceRight`,
+	     * `repeat`, `result`, `round`, `runInContext`, `sample`, `shift`, `size`,
+	     * `snakeCase`, `some`, `sortedIndex`, `sortedIndexBy`, `sortedLastIndex`,
+	     * `sortedLastIndexBy`, `startCase`, `startsWith`, `stubArray`, `stubFalse`,
+	     * `stubObject`, `stubString`, `stubTrue`, `subtract`, `sum`, `sumBy`,
+	     * `template`, `times`, `toFinite`, `toInteger`, `toJSON`, `toLength`,
+	     * `toLower`, `toNumber`, `toSafeInteger`, `toString`, `toUpper`, `trim`,
+	     * `trimEnd`, `trimStart`, `truncate`, `unescape`, `uniqueId`, `upperCase`,
+	     * `upperFirst`, `value`, and `words`
+	     *
+	     * @name _
+	     * @constructor
+	     * @category Seq
+	     * @param {*} value The value to wrap in a `lodash` instance.
+	     * @returns {Object} Returns the new `lodash` wrapper instance.
+	     * @example
+	     *
+	     * function square(n) {
+	     *   return n * n;
+	     * }
+	     *
+	     * var wrapped = _([1, 2, 3]);
+	     *
+	     * // Returns an unwrapped value.
+	     * wrapped.reduce(_.add);
+	     * // => 6
+	     *
+	     * // Returns a wrapped value.
+	     * var squares = wrapped.map(square);
+	     *
+	     * _.isArray(squares);
+	     * // => false
+	     *
+	     * _.isArray(squares.value());
+	     * // => true
+	     */
+	    function lodash(value) {
+	      if (isObjectLike(value) && !isArray(value) && !(value instanceof LazyWrapper)) {
+	        if (value instanceof LodashWrapper) {
+	          return value;
+	        }
+	        if (hasOwnProperty.call(value, '__wrapped__')) {
+	          return wrapperClone(value);
+	        }
+	      }
+	      return new LodashWrapper(value);
 	    }
 
-	    // https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/unclerodgers?api_key=a85d0753-6824-4725-a76f-23be84110e08
-	    // https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/39774795?api_key=a85d0753-6824-4725-a76f-23be84110e08
+	    /**
+	     * The function whose prototype chain sequence wrappers inherit from.
+	     *
+	     * @private
+	     */
+	    function baseLodash() {
+	      // No operation performed.
+	    }
 
-	  }, {
-	    key: 'getMatchData',
-	    value: function getMatchData(summonerName) {
-	      var _this2 = this;
+	    /**
+	     * The base constructor for creating `lodash` wrapper objects.
+	     *
+	     * @private
+	     * @param {*} value The value to wrap.
+	     * @param {boolean} [chainAll] Enable explicit method chain sequences.
+	     */
+	    function LodashWrapper(value, chainAll) {
+	      this.__wrapped__ = value;
+	      this.__actions__ = [];
+	      this.__chain__ = !!chainAll;
+	      this.__index__ = 0;
+	      this.__values__ = undefined;
+	    }
 
-	      // request the summonerObject which requests a string (the name)
-	      _axios2.default.get('https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/' + summonerName + '?api_key=' + apiKey).then(function (response) {
-	        // response.data = { yolomcbrolo: { ... } } so had to get the first prop
-	        var summonerKey = Object.keys(response.data)[0];
-	        var summonerObj = response.data[summonerKey];
-	        console.log('summonerName: ' + summonerObj.name + ' // summonerId: ' + summonerObj.id);
-	        // since if you search a playerName and they are not in a current game it
-	        // will throw 404, use a static.json file for the time being
-	        // axios.get(`https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/${summonerId}?api_key=${apiKey}`)
-	        _axios2.default.get('./jsonData/spectatorInformation.json').then(function (response) {
-	          var matchData = response.data;
-	          _this2.setState({
-	            players: [].concat(_toConsumableArray(matchData.participants))
-	          });
-	        }).catch(function (err) {
-	          console.log('error getting spectator info', err);
-	        });
-	      }).catch(function (err) {
-	        console.log('error!', err);
+	    /**
+	     * By default, the template delimiters used by lodash are like those in
+	     * embedded Ruby (ERB). Change the following template settings to use
+	     * alternative delimiters.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @type {Object}
+	     */
+	    lodash.templateSettings = {
+
+	      /**
+	       * Used to detect `data` property values to be HTML-escaped.
+	       *
+	       * @memberOf _.templateSettings
+	       * @type {RegExp}
+	       */
+	      'escape': reEscape,
+
+	      /**
+	       * Used to detect code to be evaluated.
+	       *
+	       * @memberOf _.templateSettings
+	       * @type {RegExp}
+	       */
+	      'evaluate': reEvaluate,
+
+	      /**
+	       * Used to detect `data` property values to inject.
+	       *
+	       * @memberOf _.templateSettings
+	       * @type {RegExp}
+	       */
+	      'interpolate': reInterpolate,
+
+	      /**
+	       * Used to reference the data object in the template text.
+	       *
+	       * @memberOf _.templateSettings
+	       * @type {string}
+	       */
+	      'variable': '',
+
+	      /**
+	       * Used to import variables into the compiled template.
+	       *
+	       * @memberOf _.templateSettings
+	       * @type {Object}
+	       */
+	      'imports': {
+
+	        /**
+	         * A reference to the `lodash` function.
+	         *
+	         * @memberOf _.templateSettings.imports
+	         * @type {Function}
+	         */
+	        '_': lodash
+	      }
+	    };
+
+	    // Ensure wrappers are instances of `baseLodash`.
+	    lodash.prototype = baseLodash.prototype;
+	    lodash.prototype.constructor = lodash;
+
+	    LodashWrapper.prototype = baseCreate(baseLodash.prototype);
+	    LodashWrapper.prototype.constructor = LodashWrapper;
+
+	    /*------------------------------------------------------------------------*/
+
+	    /**
+	     * Creates a lazy wrapper object which wraps `value` to enable lazy evaluation.
+	     *
+	     * @private
+	     * @constructor
+	     * @param {*} value The value to wrap.
+	     */
+	    function LazyWrapper(value) {
+	      this.__wrapped__ = value;
+	      this.__actions__ = [];
+	      this.__dir__ = 1;
+	      this.__filtered__ = false;
+	      this.__iteratees__ = [];
+	      this.__takeCount__ = MAX_ARRAY_LENGTH;
+	      this.__views__ = [];
+	    }
+
+	    /**
+	     * Creates a clone of the lazy wrapper object.
+	     *
+	     * @private
+	     * @name clone
+	     * @memberOf LazyWrapper
+	     * @returns {Object} Returns the cloned `LazyWrapper` object.
+	     */
+	    function lazyClone() {
+	      var result = new LazyWrapper(this.__wrapped__);
+	      result.__actions__ = copyArray(this.__actions__);
+	      result.__dir__ = this.__dir__;
+	      result.__filtered__ = this.__filtered__;
+	      result.__iteratees__ = copyArray(this.__iteratees__);
+	      result.__takeCount__ = this.__takeCount__;
+	      result.__views__ = copyArray(this.__views__);
+	      return result;
+	    }
+
+	    /**
+	     * Reverses the direction of lazy iteration.
+	     *
+	     * @private
+	     * @name reverse
+	     * @memberOf LazyWrapper
+	     * @returns {Object} Returns the new reversed `LazyWrapper` object.
+	     */
+	    function lazyReverse() {
+	      if (this.__filtered__) {
+	        var result = new LazyWrapper(this);
+	        result.__dir__ = -1;
+	        result.__filtered__ = true;
+	      } else {
+	        result = this.clone();
+	        result.__dir__ *= -1;
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * Extracts the unwrapped value from its lazy wrapper.
+	     *
+	     * @private
+	     * @name value
+	     * @memberOf LazyWrapper
+	     * @returns {*} Returns the unwrapped value.
+	     */
+	    function lazyValue() {
+	      var array = this.__wrapped__.value(),
+	          dir = this.__dir__,
+	          isArr = isArray(array),
+	          isRight = dir < 0,
+	          arrLength = isArr ? array.length : 0,
+	          view = getView(0, arrLength, this.__views__),
+	          start = view.start,
+	          end = view.end,
+	          length = end - start,
+	          index = isRight ? end : (start - 1),
+	          iteratees = this.__iteratees__,
+	          iterLength = iteratees.length,
+	          resIndex = 0,
+	          takeCount = nativeMin(length, this.__takeCount__);
+
+	      if (!isArr || arrLength < LARGE_ARRAY_SIZE ||
+	          (arrLength == length && takeCount == length)) {
+	        return baseWrapperValue(array, this.__actions__);
+	      }
+	      var result = [];
+
+	      outer:
+	      while (length-- && resIndex < takeCount) {
+	        index += dir;
+
+	        var iterIndex = -1,
+	            value = array[index];
+
+	        while (++iterIndex < iterLength) {
+	          var data = iteratees[iterIndex],
+	              iteratee = data.iteratee,
+	              type = data.type,
+	              computed = iteratee(value);
+
+	          if (type == LAZY_MAP_FLAG) {
+	            value = computed;
+	          } else if (!computed) {
+	            if (type == LAZY_FILTER_FLAG) {
+	              continue outer;
+	            } else {
+	              break outer;
+	            }
+	          }
+	        }
+	        result[resIndex++] = value;
+	      }
+	      return result;
+	    }
+
+	    // Ensure `LazyWrapper` is an instance of `baseLodash`.
+	    LazyWrapper.prototype = baseCreate(baseLodash.prototype);
+	    LazyWrapper.prototype.constructor = LazyWrapper;
+
+	    /*------------------------------------------------------------------------*/
+
+	    /**
+	     * Creates a hash object.
+	     *
+	     * @private
+	     * @constructor
+	     * @param {Array} [entries] The key-value pairs to cache.
+	     */
+	    function Hash(entries) {
+	      var index = -1,
+	          length = entries ? entries.length : 0;
+
+	      this.clear();
+	      while (++index < length) {
+	        var entry = entries[index];
+	        this.set(entry[0], entry[1]);
+	      }
+	    }
+
+	    /**
+	     * Removes all key-value entries from the hash.
+	     *
+	     * @private
+	     * @name clear
+	     * @memberOf Hash
+	     */
+	    function hashClear() {
+	      this.__data__ = nativeCreate ? nativeCreate(null) : {};
+	    }
+
+	    /**
+	     * Removes `key` and its value from the hash.
+	     *
+	     * @private
+	     * @name delete
+	     * @memberOf Hash
+	     * @param {Object} hash The hash to modify.
+	     * @param {string} key The key of the value to remove.
+	     * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+	     */
+	    function hashDelete(key) {
+	      return this.has(key) && delete this.__data__[key];
+	    }
+
+	    /**
+	     * Gets the hash value for `key`.
+	     *
+	     * @private
+	     * @name get
+	     * @memberOf Hash
+	     * @param {string} key The key of the value to get.
+	     * @returns {*} Returns the entry value.
+	     */
+	    function hashGet(key) {
+	      var data = this.__data__;
+	      if (nativeCreate) {
+	        var result = data[key];
+	        return result === HASH_UNDEFINED ? undefined : result;
+	      }
+	      return hasOwnProperty.call(data, key) ? data[key] : undefined;
+	    }
+
+	    /**
+	     * Checks if a hash value for `key` exists.
+	     *
+	     * @private
+	     * @name has
+	     * @memberOf Hash
+	     * @param {string} key The key of the entry to check.
+	     * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+	     */
+	    function hashHas(key) {
+	      var data = this.__data__;
+	      return nativeCreate ? data[key] !== undefined : hasOwnProperty.call(data, key);
+	    }
+
+	    /**
+	     * Sets the hash `key` to `value`.
+	     *
+	     * @private
+	     * @name set
+	     * @memberOf Hash
+	     * @param {string} key The key of the value to set.
+	     * @param {*} value The value to set.
+	     * @returns {Object} Returns the hash instance.
+	     */
+	    function hashSet(key, value) {
+	      var data = this.__data__;
+	      data[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
+	      return this;
+	    }
+
+	    // Add methods to `Hash`.
+	    Hash.prototype.clear = hashClear;
+	    Hash.prototype['delete'] = hashDelete;
+	    Hash.prototype.get = hashGet;
+	    Hash.prototype.has = hashHas;
+	    Hash.prototype.set = hashSet;
+
+	    /*------------------------------------------------------------------------*/
+
+	    /**
+	     * Creates an list cache object.
+	     *
+	     * @private
+	     * @constructor
+	     * @param {Array} [entries] The key-value pairs to cache.
+	     */
+	    function ListCache(entries) {
+	      var index = -1,
+	          length = entries ? entries.length : 0;
+
+	      this.clear();
+	      while (++index < length) {
+	        var entry = entries[index];
+	        this.set(entry[0], entry[1]);
+	      }
+	    }
+
+	    /**
+	     * Removes all key-value entries from the list cache.
+	     *
+	     * @private
+	     * @name clear
+	     * @memberOf ListCache
+	     */
+	    function listCacheClear() {
+	      this.__data__ = [];
+	    }
+
+	    /**
+	     * Removes `key` and its value from the list cache.
+	     *
+	     * @private
+	     * @name delete
+	     * @memberOf ListCache
+	     * @param {string} key The key of the value to remove.
+	     * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+	     */
+	    function listCacheDelete(key) {
+	      var data = this.__data__,
+	          index = assocIndexOf(data, key);
+
+	      if (index < 0) {
+	        return false;
+	      }
+	      var lastIndex = data.length - 1;
+	      if (index == lastIndex) {
+	        data.pop();
+	      } else {
+	        splice.call(data, index, 1);
+	      }
+	      return true;
+	    }
+
+	    /**
+	     * Gets the list cache value for `key`.
+	     *
+	     * @private
+	     * @name get
+	     * @memberOf ListCache
+	     * @param {string} key The key of the value to get.
+	     * @returns {*} Returns the entry value.
+	     */
+	    function listCacheGet(key) {
+	      var data = this.__data__,
+	          index = assocIndexOf(data, key);
+
+	      return index < 0 ? undefined : data[index][1];
+	    }
+
+	    /**
+	     * Checks if a list cache value for `key` exists.
+	     *
+	     * @private
+	     * @name has
+	     * @memberOf ListCache
+	     * @param {string} key The key of the entry to check.
+	     * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+	     */
+	    function listCacheHas(key) {
+	      return assocIndexOf(this.__data__, key) > -1;
+	    }
+
+	    /**
+	     * Sets the list cache `key` to `value`.
+	     *
+	     * @private
+	     * @name set
+	     * @memberOf ListCache
+	     * @param {string} key The key of the value to set.
+	     * @param {*} value The value to set.
+	     * @returns {Object} Returns the list cache instance.
+	     */
+	    function listCacheSet(key, value) {
+	      var data = this.__data__,
+	          index = assocIndexOf(data, key);
+
+	      if (index < 0) {
+	        data.push([key, value]);
+	      } else {
+	        data[index][1] = value;
+	      }
+	      return this;
+	    }
+
+	    // Add methods to `ListCache`.
+	    ListCache.prototype.clear = listCacheClear;
+	    ListCache.prototype['delete'] = listCacheDelete;
+	    ListCache.prototype.get = listCacheGet;
+	    ListCache.prototype.has = listCacheHas;
+	    ListCache.prototype.set = listCacheSet;
+
+	    /*------------------------------------------------------------------------*/
+
+	    /**
+	     * Creates a map cache object to store key-value pairs.
+	     *
+	     * @private
+	     * @constructor
+	     * @param {Array} [entries] The key-value pairs to cache.
+	     */
+	    function MapCache(entries) {
+	      var index = -1,
+	          length = entries ? entries.length : 0;
+
+	      this.clear();
+	      while (++index < length) {
+	        var entry = entries[index];
+	        this.set(entry[0], entry[1]);
+	      }
+	    }
+
+	    /**
+	     * Removes all key-value entries from the map.
+	     *
+	     * @private
+	     * @name clear
+	     * @memberOf MapCache
+	     */
+	    function mapCacheClear() {
+	      this.__data__ = {
+	        'hash': new Hash,
+	        'map': new (Map || ListCache),
+	        'string': new Hash
+	      };
+	    }
+
+	    /**
+	     * Removes `key` and its value from the map.
+	     *
+	     * @private
+	     * @name delete
+	     * @memberOf MapCache
+	     * @param {string} key The key of the value to remove.
+	     * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+	     */
+	    function mapCacheDelete(key) {
+	      return getMapData(this, key)['delete'](key);
+	    }
+
+	    /**
+	     * Gets the map value for `key`.
+	     *
+	     * @private
+	     * @name get
+	     * @memberOf MapCache
+	     * @param {string} key The key of the value to get.
+	     * @returns {*} Returns the entry value.
+	     */
+	    function mapCacheGet(key) {
+	      return getMapData(this, key).get(key);
+	    }
+
+	    /**
+	     * Checks if a map value for `key` exists.
+	     *
+	     * @private
+	     * @name has
+	     * @memberOf MapCache
+	     * @param {string} key The key of the entry to check.
+	     * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+	     */
+	    function mapCacheHas(key) {
+	      return getMapData(this, key).has(key);
+	    }
+
+	    /**
+	     * Sets the map `key` to `value`.
+	     *
+	     * @private
+	     * @name set
+	     * @memberOf MapCache
+	     * @param {string} key The key of the value to set.
+	     * @param {*} value The value to set.
+	     * @returns {Object} Returns the map cache instance.
+	     */
+	    function mapCacheSet(key, value) {
+	      getMapData(this, key).set(key, value);
+	      return this;
+	    }
+
+	    // Add methods to `MapCache`.
+	    MapCache.prototype.clear = mapCacheClear;
+	    MapCache.prototype['delete'] = mapCacheDelete;
+	    MapCache.prototype.get = mapCacheGet;
+	    MapCache.prototype.has = mapCacheHas;
+	    MapCache.prototype.set = mapCacheSet;
+
+	    /*------------------------------------------------------------------------*/
+
+	    /**
+	     *
+	     * Creates an array cache object to store unique values.
+	     *
+	     * @private
+	     * @constructor
+	     * @param {Array} [values] The values to cache.
+	     */
+	    function SetCache(values) {
+	      var index = -1,
+	          length = values ? values.length : 0;
+
+	      this.__data__ = new MapCache;
+	      while (++index < length) {
+	        this.add(values[index]);
+	      }
+	    }
+
+	    /**
+	     * Adds `value` to the array cache.
+	     *
+	     * @private
+	     * @name add
+	     * @memberOf SetCache
+	     * @alias push
+	     * @param {*} value The value to cache.
+	     * @returns {Object} Returns the cache instance.
+	     */
+	    function setCacheAdd(value) {
+	      this.__data__.set(value, HASH_UNDEFINED);
+	      return this;
+	    }
+
+	    /**
+	     * Checks if `value` is in the array cache.
+	     *
+	     * @private
+	     * @name has
+	     * @memberOf SetCache
+	     * @param {*} value The value to search for.
+	     * @returns {number} Returns `true` if `value` is found, else `false`.
+	     */
+	    function setCacheHas(value) {
+	      return this.__data__.has(value);
+	    }
+
+	    // Add methods to `SetCache`.
+	    SetCache.prototype.add = SetCache.prototype.push = setCacheAdd;
+	    SetCache.prototype.has = setCacheHas;
+
+	    /*------------------------------------------------------------------------*/
+
+	    /**
+	     * Creates a stack cache object to store key-value pairs.
+	     *
+	     * @private
+	     * @constructor
+	     * @param {Array} [entries] The key-value pairs to cache.
+	     */
+	    function Stack(entries) {
+	      this.__data__ = new ListCache(entries);
+	    }
+
+	    /**
+	     * Removes all key-value entries from the stack.
+	     *
+	     * @private
+	     * @name clear
+	     * @memberOf Stack
+	     */
+	    function stackClear() {
+	      this.__data__ = new ListCache;
+	    }
+
+	    /**
+	     * Removes `key` and its value from the stack.
+	     *
+	     * @private
+	     * @name delete
+	     * @memberOf Stack
+	     * @param {string} key The key of the value to remove.
+	     * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+	     */
+	    function stackDelete(key) {
+	      return this.__data__['delete'](key);
+	    }
+
+	    /**
+	     * Gets the stack value for `key`.
+	     *
+	     * @private
+	     * @name get
+	     * @memberOf Stack
+	     * @param {string} key The key of the value to get.
+	     * @returns {*} Returns the entry value.
+	     */
+	    function stackGet(key) {
+	      return this.__data__.get(key);
+	    }
+
+	    /**
+	     * Checks if a stack value for `key` exists.
+	     *
+	     * @private
+	     * @name has
+	     * @memberOf Stack
+	     * @param {string} key The key of the entry to check.
+	     * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+	     */
+	    function stackHas(key) {
+	      return this.__data__.has(key);
+	    }
+
+	    /**
+	     * Sets the stack `key` to `value`.
+	     *
+	     * @private
+	     * @name set
+	     * @memberOf Stack
+	     * @param {string} key The key of the value to set.
+	     * @param {*} value The value to set.
+	     * @returns {Object} Returns the stack cache instance.
+	     */
+	    function stackSet(key, value) {
+	      var cache = this.__data__;
+	      if (cache instanceof ListCache) {
+	        var pairs = cache.__data__;
+	        if (!Map || (pairs.length < LARGE_ARRAY_SIZE - 1)) {
+	          pairs.push([key, value]);
+	          return this;
+	        }
+	        cache = this.__data__ = new MapCache(pairs);
+	      }
+	      cache.set(key, value);
+	      return this;
+	    }
+
+	    // Add methods to `Stack`.
+	    Stack.prototype.clear = stackClear;
+	    Stack.prototype['delete'] = stackDelete;
+	    Stack.prototype.get = stackGet;
+	    Stack.prototype.has = stackHas;
+	    Stack.prototype.set = stackSet;
+
+	    /*------------------------------------------------------------------------*/
+
+	    /**
+	     * Creates an array of the enumerable property names of the array-like `value`.
+	     *
+	     * @private
+	     * @param {*} value The value to query.
+	     * @param {boolean} inherited Specify returning inherited property names.
+	     * @returns {Array} Returns the array of property names.
+	     */
+	    function arrayLikeKeys(value, inherited) {
+	      // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
+	      // Safari 9 makes `arguments.length` enumerable in strict mode.
+	      var result = (isArray(value) || isArguments(value))
+	        ? baseTimes(value.length, String)
+	        : [];
+
+	      var length = result.length,
+	          skipIndexes = !!length;
+
+	      for (var key in value) {
+	        if ((inherited || hasOwnProperty.call(value, key)) &&
+	            !(skipIndexes && (key == 'length' || isIndex(key, length)))) {
+	          result.push(key);
+	        }
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * Used by `_.defaults` to customize its `_.assignIn` use.
+	     *
+	     * @private
+	     * @param {*} objValue The destination value.
+	     * @param {*} srcValue The source value.
+	     * @param {string} key The key of the property to assign.
+	     * @param {Object} object The parent object of `objValue`.
+	     * @returns {*} Returns the value to assign.
+	     */
+	    function assignInDefaults(objValue, srcValue, key, object) {
+	      if (objValue === undefined ||
+	          (eq(objValue, objectProto[key]) && !hasOwnProperty.call(object, key))) {
+	        return srcValue;
+	      }
+	      return objValue;
+	    }
+
+	    /**
+	     * This function is like `assignValue` except that it doesn't assign
+	     * `undefined` values.
+	     *
+	     * @private
+	     * @param {Object} object The object to modify.
+	     * @param {string} key The key of the property to assign.
+	     * @param {*} value The value to assign.
+	     */
+	    function assignMergeValue(object, key, value) {
+	      if ((value !== undefined && !eq(object[key], value)) ||
+	          (typeof key == 'number' && value === undefined && !(key in object))) {
+	        object[key] = value;
+	      }
+	    }
+
+	    /**
+	     * Assigns `value` to `key` of `object` if the existing value is not equivalent
+	     * using [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+	     * for equality comparisons.
+	     *
+	     * @private
+	     * @param {Object} object The object to modify.
+	     * @param {string} key The key of the property to assign.
+	     * @param {*} value The value to assign.
+	     */
+	    function assignValue(object, key, value) {
+	      var objValue = object[key];
+	      if (!(hasOwnProperty.call(object, key) && eq(objValue, value)) ||
+	          (value === undefined && !(key in object))) {
+	        object[key] = value;
+	      }
+	    }
+
+	    /**
+	     * Gets the index at which the `key` is found in `array` of key-value pairs.
+	     *
+	     * @private
+	     * @param {Array} array The array to inspect.
+	     * @param {*} key The key to search for.
+	     * @returns {number} Returns the index of the matched value, else `-1`.
+	     */
+	    function assocIndexOf(array, key) {
+	      var length = array.length;
+	      while (length--) {
+	        if (eq(array[length][0], key)) {
+	          return length;
+	        }
+	      }
+	      return -1;
+	    }
+
+	    /**
+	     * Aggregates elements of `collection` on `accumulator` with keys transformed
+	     * by `iteratee` and values set by `setter`.
+	     *
+	     * @private
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function} setter The function to set `accumulator` values.
+	     * @param {Function} iteratee The iteratee to transform keys.
+	     * @param {Object} accumulator The initial aggregated object.
+	     * @returns {Function} Returns `accumulator`.
+	     */
+	    function baseAggregator(collection, setter, iteratee, accumulator) {
+	      baseEach(collection, function(value, key, collection) {
+	        setter(accumulator, value, iteratee(value), collection);
+	      });
+	      return accumulator;
+	    }
+
+	    /**
+	     * The base implementation of `_.assign` without support for multiple sources
+	     * or `customizer` functions.
+	     *
+	     * @private
+	     * @param {Object} object The destination object.
+	     * @param {Object} source The source object.
+	     * @returns {Object} Returns `object`.
+	     */
+	    function baseAssign(object, source) {
+	      return object && copyObject(source, keys(source), object);
+	    }
+
+	    /**
+	     * The base implementation of `_.at` without support for individual paths.
+	     *
+	     * @private
+	     * @param {Object} object The object to iterate over.
+	     * @param {string[]} paths The property paths of elements to pick.
+	     * @returns {Array} Returns the picked elements.
+	     */
+	    function baseAt(object, paths) {
+	      var index = -1,
+	          isNil = object == null,
+	          length = paths.length,
+	          result = Array(length);
+
+	      while (++index < length) {
+	        result[index] = isNil ? undefined : get(object, paths[index]);
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * The base implementation of `_.clamp` which doesn't coerce arguments.
+	     *
+	     * @private
+	     * @param {number} number The number to clamp.
+	     * @param {number} [lower] The lower bound.
+	     * @param {number} upper The upper bound.
+	     * @returns {number} Returns the clamped number.
+	     */
+	    function baseClamp(number, lower, upper) {
+	      if (number === number) {
+	        if (upper !== undefined) {
+	          number = number <= upper ? number : upper;
+	        }
+	        if (lower !== undefined) {
+	          number = number >= lower ? number : lower;
+	        }
+	      }
+	      return number;
+	    }
+
+	    /**
+	     * The base implementation of `_.clone` and `_.cloneDeep` which tracks
+	     * traversed objects.
+	     *
+	     * @private
+	     * @param {*} value The value to clone.
+	     * @param {boolean} [isDeep] Specify a deep clone.
+	     * @param {boolean} [isFull] Specify a clone including symbols.
+	     * @param {Function} [customizer] The function to customize cloning.
+	     * @param {string} [key] The key of `value`.
+	     * @param {Object} [object] The parent object of `value`.
+	     * @param {Object} [stack] Tracks traversed objects and their clone counterparts.
+	     * @returns {*} Returns the cloned value.
+	     */
+	    function baseClone(value, isDeep, isFull, customizer, key, object, stack) {
+	      var result;
+	      if (customizer) {
+	        result = object ? customizer(value, key, object, stack) : customizer(value);
+	      }
+	      if (result !== undefined) {
+	        return result;
+	      }
+	      if (!isObject(value)) {
+	        return value;
+	      }
+	      var isArr = isArray(value);
+	      if (isArr) {
+	        result = initCloneArray(value);
+	        if (!isDeep) {
+	          return copyArray(value, result);
+	        }
+	      } else {
+	        var tag = getTag(value),
+	            isFunc = tag == funcTag || tag == genTag;
+
+	        if (isBuffer(value)) {
+	          return cloneBuffer(value, isDeep);
+	        }
+	        if (tag == objectTag || tag == argsTag || (isFunc && !object)) {
+	          if (isHostObject(value)) {
+	            return object ? value : {};
+	          }
+	          result = initCloneObject(isFunc ? {} : value);
+	          if (!isDeep) {
+	            return copySymbols(value, baseAssign(result, value));
+	          }
+	        } else {
+	          if (!cloneableTags[tag]) {
+	            return object ? value : {};
+	          }
+	          result = initCloneByTag(value, tag, baseClone, isDeep);
+	        }
+	      }
+	      // Check for circular references and return its corresponding clone.
+	      stack || (stack = new Stack);
+	      var stacked = stack.get(value);
+	      if (stacked) {
+	        return stacked;
+	      }
+	      stack.set(value, result);
+
+	      if (!isArr) {
+	        var props = isFull ? getAllKeys(value) : keys(value);
+	      }
+	      arrayEach(props || value, function(subValue, key) {
+	        if (props) {
+	          key = subValue;
+	          subValue = value[key];
+	        }
+	        // Recursively populate clone (susceptible to call stack limits).
+	        assignValue(result, key, baseClone(subValue, isDeep, isFull, customizer, key, value, stack));
+	      });
+	      return result;
+	    }
+
+	    /**
+	     * The base implementation of `_.conforms` which doesn't clone `source`.
+	     *
+	     * @private
+	     * @param {Object} source The object of property predicates to conform to.
+	     * @returns {Function} Returns the new spec function.
+	     */
+	    function baseConforms(source) {
+	      var props = keys(source);
+	      return function(object) {
+	        return baseConformsTo(object, source, props);
+	      };
+	    }
+
+	    /**
+	     * The base implementation of `_.conformsTo` which accepts `props` to check.
+	     *
+	     * @private
+	     * @param {Object} object The object to inspect.
+	     * @param {Object} source The object of property predicates to conform to.
+	     * @returns {boolean} Returns `true` if `object` conforms, else `false`.
+	     */
+	    function baseConformsTo(object, source, props) {
+	      var length = props.length;
+	      if (object == null) {
+	        return !length;
+	      }
+	      object = Object(object);
+	      while (length--) {
+	        var key = props[length],
+	            predicate = source[key],
+	            value = object[key];
+
+	        if ((value === undefined && !(key in object)) || !predicate(value)) {
+	          return false;
+	        }
+	      }
+	      return true;
+	    }
+
+	    /**
+	     * The base implementation of `_.create` without support for assigning
+	     * properties to the created object.
+	     *
+	     * @private
+	     * @param {Object} prototype The object to inherit from.
+	     * @returns {Object} Returns the new object.
+	     */
+	    function baseCreate(proto) {
+	      return isObject(proto) ? objectCreate(proto) : {};
+	    }
+
+	    /**
+	     * The base implementation of `_.delay` and `_.defer` which accepts `args`
+	     * to provide to `func`.
+	     *
+	     * @private
+	     * @param {Function} func The function to delay.
+	     * @param {number} wait The number of milliseconds to delay invocation.
+	     * @param {Array} args The arguments to provide to `func`.
+	     * @returns {number|Object} Returns the timer id or timeout object.
+	     */
+	    function baseDelay(func, wait, args) {
+	      if (typeof func != 'function') {
+	        throw new TypeError(FUNC_ERROR_TEXT);
+	      }
+	      return setTimeout(function() { func.apply(undefined, args); }, wait);
+	    }
+
+	    /**
+	     * The base implementation of methods like `_.difference` without support
+	     * for excluding multiple arrays or iteratee shorthands.
+	     *
+	     * @private
+	     * @param {Array} array The array to inspect.
+	     * @param {Array} values The values to exclude.
+	     * @param {Function} [iteratee] The iteratee invoked per element.
+	     * @param {Function} [comparator] The comparator invoked per element.
+	     * @returns {Array} Returns the new array of filtered values.
+	     */
+	    function baseDifference(array, values, iteratee, comparator) {
+	      var index = -1,
+	          includes = arrayIncludes,
+	          isCommon = true,
+	          length = array.length,
+	          result = [],
+	          valuesLength = values.length;
+
+	      if (!length) {
+	        return result;
+	      }
+	      if (iteratee) {
+	        values = arrayMap(values, baseUnary(iteratee));
+	      }
+	      if (comparator) {
+	        includes = arrayIncludesWith;
+	        isCommon = false;
+	      }
+	      else if (values.length >= LARGE_ARRAY_SIZE) {
+	        includes = cacheHas;
+	        isCommon = false;
+	        values = new SetCache(values);
+	      }
+	      outer:
+	      while (++index < length) {
+	        var value = array[index],
+	            computed = iteratee ? iteratee(value) : value;
+
+	        value = (comparator || value !== 0) ? value : 0;
+	        if (isCommon && computed === computed) {
+	          var valuesIndex = valuesLength;
+	          while (valuesIndex--) {
+	            if (values[valuesIndex] === computed) {
+	              continue outer;
+	            }
+	          }
+	          result.push(value);
+	        }
+	        else if (!includes(values, computed, comparator)) {
+	          result.push(value);
+	        }
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * The base implementation of `_.forEach` without support for iteratee shorthands.
+	     *
+	     * @private
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function} iteratee The function invoked per iteration.
+	     * @returns {Array|Object} Returns `collection`.
+	     */
+	    var baseEach = createBaseEach(baseForOwn);
+
+	    /**
+	     * The base implementation of `_.forEachRight` without support for iteratee shorthands.
+	     *
+	     * @private
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function} iteratee The function invoked per iteration.
+	     * @returns {Array|Object} Returns `collection`.
+	     */
+	    var baseEachRight = createBaseEach(baseForOwnRight, true);
+
+	    /**
+	     * The base implementation of `_.every` without support for iteratee shorthands.
+	     *
+	     * @private
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function} predicate The function invoked per iteration.
+	     * @returns {boolean} Returns `true` if all elements pass the predicate check,
+	     *  else `false`
+	     */
+	    function baseEvery(collection, predicate) {
+	      var result = true;
+	      baseEach(collection, function(value, index, collection) {
+	        result = !!predicate(value, index, collection);
+	        return result;
+	      });
+	      return result;
+	    }
+
+	    /**
+	     * The base implementation of methods like `_.max` and `_.min` which accepts a
+	     * `comparator` to determine the extremum value.
+	     *
+	     * @private
+	     * @param {Array} array The array to iterate over.
+	     * @param {Function} iteratee The iteratee invoked per iteration.
+	     * @param {Function} comparator The comparator used to compare values.
+	     * @returns {*} Returns the extremum value.
+	     */
+	    function baseExtremum(array, iteratee, comparator) {
+	      var index = -1,
+	          length = array.length;
+
+	      while (++index < length) {
+	        var value = array[index],
+	            current = iteratee(value);
+
+	        if (current != null && (computed === undefined
+	              ? (current === current && !isSymbol(current))
+	              : comparator(current, computed)
+	            )) {
+	          var computed = current,
+	              result = value;
+	        }
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * The base implementation of `_.fill` without an iteratee call guard.
+	     *
+	     * @private
+	     * @param {Array} array The array to fill.
+	     * @param {*} value The value to fill `array` with.
+	     * @param {number} [start=0] The start position.
+	     * @param {number} [end=array.length] The end position.
+	     * @returns {Array} Returns `array`.
+	     */
+	    function baseFill(array, value, start, end) {
+	      var length = array.length;
+
+	      start = toInteger(start);
+	      if (start < 0) {
+	        start = -start > length ? 0 : (length + start);
+	      }
+	      end = (end === undefined || end > length) ? length : toInteger(end);
+	      if (end < 0) {
+	        end += length;
+	      }
+	      end = start > end ? 0 : toLength(end);
+	      while (start < end) {
+	        array[start++] = value;
+	      }
+	      return array;
+	    }
+
+	    /**
+	     * The base implementation of `_.filter` without support for iteratee shorthands.
+	     *
+	     * @private
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function} predicate The function invoked per iteration.
+	     * @returns {Array} Returns the new filtered array.
+	     */
+	    function baseFilter(collection, predicate) {
+	      var result = [];
+	      baseEach(collection, function(value, index, collection) {
+	        if (predicate(value, index, collection)) {
+	          result.push(value);
+	        }
+	      });
+	      return result;
+	    }
+
+	    /**
+	     * The base implementation of `_.flatten` with support for restricting flattening.
+	     *
+	     * @private
+	     * @param {Array} array The array to flatten.
+	     * @param {number} depth The maximum recursion depth.
+	     * @param {boolean} [predicate=isFlattenable] The function invoked per iteration.
+	     * @param {boolean} [isStrict] Restrict to values that pass `predicate` checks.
+	     * @param {Array} [result=[]] The initial result value.
+	     * @returns {Array} Returns the new flattened array.
+	     */
+	    function baseFlatten(array, depth, predicate, isStrict, result) {
+	      var index = -1,
+	          length = array.length;
+
+	      predicate || (predicate = isFlattenable);
+	      result || (result = []);
+
+	      while (++index < length) {
+	        var value = array[index];
+	        if (depth > 0 && predicate(value)) {
+	          if (depth > 1) {
+	            // Recursively flatten arrays (susceptible to call stack limits).
+	            baseFlatten(value, depth - 1, predicate, isStrict, result);
+	          } else {
+	            arrayPush(result, value);
+	          }
+	        } else if (!isStrict) {
+	          result[result.length] = value;
+	        }
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * The base implementation of `baseForOwn` which iterates over `object`
+	     * properties returned by `keysFunc` and invokes `iteratee` for each property.
+	     * Iteratee functions may exit iteration early by explicitly returning `false`.
+	     *
+	     * @private
+	     * @param {Object} object The object to iterate over.
+	     * @param {Function} iteratee The function invoked per iteration.
+	     * @param {Function} keysFunc The function to get the keys of `object`.
+	     * @returns {Object} Returns `object`.
+	     */
+	    var baseFor = createBaseFor();
+
+	    /**
+	     * This function is like `baseFor` except that it iterates over properties
+	     * in the opposite order.
+	     *
+	     * @private
+	     * @param {Object} object The object to iterate over.
+	     * @param {Function} iteratee The function invoked per iteration.
+	     * @param {Function} keysFunc The function to get the keys of `object`.
+	     * @returns {Object} Returns `object`.
+	     */
+	    var baseForRight = createBaseFor(true);
+
+	    /**
+	     * The base implementation of `_.forOwn` without support for iteratee shorthands.
+	     *
+	     * @private
+	     * @param {Object} object The object to iterate over.
+	     * @param {Function} iteratee The function invoked per iteration.
+	     * @returns {Object} Returns `object`.
+	     */
+	    function baseForOwn(object, iteratee) {
+	      return object && baseFor(object, iteratee, keys);
+	    }
+
+	    /**
+	     * The base implementation of `_.forOwnRight` without support for iteratee shorthands.
+	     *
+	     * @private
+	     * @param {Object} object The object to iterate over.
+	     * @param {Function} iteratee The function invoked per iteration.
+	     * @returns {Object} Returns `object`.
+	     */
+	    function baseForOwnRight(object, iteratee) {
+	      return object && baseForRight(object, iteratee, keys);
+	    }
+
+	    /**
+	     * The base implementation of `_.functions` which creates an array of
+	     * `object` function property names filtered from `props`.
+	     *
+	     * @private
+	     * @param {Object} object The object to inspect.
+	     * @param {Array} props The property names to filter.
+	     * @returns {Array} Returns the function names.
+	     */
+	    function baseFunctions(object, props) {
+	      return arrayFilter(props, function(key) {
+	        return isFunction(object[key]);
 	      });
 	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var players = this.state.players;
-	      var teamA = players.slice(0, 5);
-	      var teamB = players.slice(5, 10);
-	      var jsonData = {
-	        champions: _champions2.default,
-	        masteries: _masteries2.default,
-	        runes: _runes2.default,
-	        summonerSpells: _summonerSpells2.default
-	      };
 
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'container-fluid' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'top-section' },
-	          _react2.default.createElement(
-	            _reactRouter.Link,
-	            { to: '/', className: 'btn btn-link' },
-	            'Back to Search'
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'pull-right' },
-	            _react2.default.createElement(
-	              'b',
-	              null,
-	              'Current search: ',
-	              this.state.summonerName
+	    /**
+	     * The base implementation of `_.get` without support for default values.
+	     *
+	     * @private
+	     * @param {Object} object The object to query.
+	     * @param {Array|string} path The path of the property to get.
+	     * @returns {*} Returns the resolved value.
+	     */
+	    function baseGet(object, path) {
+	      path = isKey(path, object) ? [path] : castPath(path);
+
+	      var index = 0,
+	          length = path.length;
+
+	      while (object != null && index < length) {
+	        object = object[toKey(path[index++])];
+	      }
+	      return (index && index == length) ? object : undefined;
+	    }
+
+	    /**
+	     * The base implementation of `getAllKeys` and `getAllKeysIn` which uses
+	     * `keysFunc` and `symbolsFunc` to get the enumerable property names and
+	     * symbols of `object`.
+	     *
+	     * @private
+	     * @param {Object} object The object to query.
+	     * @param {Function} keysFunc The function to get the keys of `object`.
+	     * @param {Function} symbolsFunc The function to get the symbols of `object`.
+	     * @returns {Array} Returns the array of property names and symbols.
+	     */
+	    function baseGetAllKeys(object, keysFunc, symbolsFunc) {
+	      var result = keysFunc(object);
+	      return isArray(object) ? result : arrayPush(result, symbolsFunc(object));
+	    }
+
+	    /**
+	     * The base implementation of `getTag`.
+	     *
+	     * @private
+	     * @param {*} value The value to query.
+	     * @returns {string} Returns the `toStringTag`.
+	     */
+	    function baseGetTag(value) {
+	      return objectToString.call(value);
+	    }
+
+	    /**
+	     * The base implementation of `_.gt` which doesn't coerce arguments.
+	     *
+	     * @private
+	     * @param {*} value The value to compare.
+	     * @param {*} other The other value to compare.
+	     * @returns {boolean} Returns `true` if `value` is greater than `other`,
+	     *  else `false`.
+	     */
+	    function baseGt(value, other) {
+	      return value > other;
+	    }
+
+	    /**
+	     * The base implementation of `_.has` without support for deep paths.
+	     *
+	     * @private
+	     * @param {Object} [object] The object to query.
+	     * @param {Array|string} key The key to check.
+	     * @returns {boolean} Returns `true` if `key` exists, else `false`.
+	     */
+	    function baseHas(object, key) {
+	      return object != null && hasOwnProperty.call(object, key);
+	    }
+
+	    /**
+	     * The base implementation of `_.hasIn` without support for deep paths.
+	     *
+	     * @private
+	     * @param {Object} [object] The object to query.
+	     * @param {Array|string} key The key to check.
+	     * @returns {boolean} Returns `true` if `key` exists, else `false`.
+	     */
+	    function baseHasIn(object, key) {
+	      return object != null && key in Object(object);
+	    }
+
+	    /**
+	     * The base implementation of `_.inRange` which doesn't coerce arguments.
+	     *
+	     * @private
+	     * @param {number} number The number to check.
+	     * @param {number} start The start of the range.
+	     * @param {number} end The end of the range.
+	     * @returns {boolean} Returns `true` if `number` is in the range, else `false`.
+	     */
+	    function baseInRange(number, start, end) {
+	      return number >= nativeMin(start, end) && number < nativeMax(start, end);
+	    }
+
+	    /**
+	     * The base implementation of methods like `_.intersection`, without support
+	     * for iteratee shorthands, that accepts an array of arrays to inspect.
+	     *
+	     * @private
+	     * @param {Array} arrays The arrays to inspect.
+	     * @param {Function} [iteratee] The iteratee invoked per element.
+	     * @param {Function} [comparator] The comparator invoked per element.
+	     * @returns {Array} Returns the new array of shared values.
+	     */
+	    function baseIntersection(arrays, iteratee, comparator) {
+	      var includes = comparator ? arrayIncludesWith : arrayIncludes,
+	          length = arrays[0].length,
+	          othLength = arrays.length,
+	          othIndex = othLength,
+	          caches = Array(othLength),
+	          maxLength = Infinity,
+	          result = [];
+
+	      while (othIndex--) {
+	        var array = arrays[othIndex];
+	        if (othIndex && iteratee) {
+	          array = arrayMap(array, baseUnary(iteratee));
+	        }
+	        maxLength = nativeMin(array.length, maxLength);
+	        caches[othIndex] = !comparator && (iteratee || (length >= 120 && array.length >= 120))
+	          ? new SetCache(othIndex && array)
+	          : undefined;
+	      }
+	      array = arrays[0];
+
+	      var index = -1,
+	          seen = caches[0];
+
+	      outer:
+	      while (++index < length && result.length < maxLength) {
+	        var value = array[index],
+	            computed = iteratee ? iteratee(value) : value;
+
+	        value = (comparator || value !== 0) ? value : 0;
+	        if (!(seen
+	              ? cacheHas(seen, computed)
+	              : includes(result, computed, comparator)
+	            )) {
+	          othIndex = othLength;
+	          while (--othIndex) {
+	            var cache = caches[othIndex];
+	            if (!(cache
+	                  ? cacheHas(cache, computed)
+	                  : includes(arrays[othIndex], computed, comparator))
+	                ) {
+	              continue outer;
+	            }
+	          }
+	          if (seen) {
+	            seen.push(computed);
+	          }
+	          result.push(value);
+	        }
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * The base implementation of `_.invert` and `_.invertBy` which inverts
+	     * `object` with values transformed by `iteratee` and set by `setter`.
+	     *
+	     * @private
+	     * @param {Object} object The object to iterate over.
+	     * @param {Function} setter The function to set `accumulator` values.
+	     * @param {Function} iteratee The iteratee to transform values.
+	     * @param {Object} accumulator The initial inverted object.
+	     * @returns {Function} Returns `accumulator`.
+	     */
+	    function baseInverter(object, setter, iteratee, accumulator) {
+	      baseForOwn(object, function(value, key, object) {
+	        setter(accumulator, iteratee(value), key, object);
+	      });
+	      return accumulator;
+	    }
+
+	    /**
+	     * The base implementation of `_.invoke` without support for individual
+	     * method arguments.
+	     *
+	     * @private
+	     * @param {Object} object The object to query.
+	     * @param {Array|string} path The path of the method to invoke.
+	     * @param {Array} args The arguments to invoke the method with.
+	     * @returns {*} Returns the result of the invoked method.
+	     */
+	    function baseInvoke(object, path, args) {
+	      if (!isKey(path, object)) {
+	        path = castPath(path);
+	        object = parent(object, path);
+	        path = last(path);
+	      }
+	      var func = object == null ? object : object[toKey(path)];
+	      return func == null ? undefined : apply(func, object, args);
+	    }
+
+	    /**
+	     * The base implementation of `_.isArrayBuffer` without Node.js optimizations.
+	     *
+	     * @private
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is an array buffer, else `false`.
+	     */
+	    function baseIsArrayBuffer(value) {
+	      return isObjectLike(value) && objectToString.call(value) == arrayBufferTag;
+	    }
+
+	    /**
+	     * The base implementation of `_.isDate` without Node.js optimizations.
+	     *
+	     * @private
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a date object, else `false`.
+	     */
+	    function baseIsDate(value) {
+	      return isObjectLike(value) && objectToString.call(value) == dateTag;
+	    }
+
+	    /**
+	     * The base implementation of `_.isEqual` which supports partial comparisons
+	     * and tracks traversed objects.
+	     *
+	     * @private
+	     * @param {*} value The value to compare.
+	     * @param {*} other The other value to compare.
+	     * @param {Function} [customizer] The function to customize comparisons.
+	     * @param {boolean} [bitmask] The bitmask of comparison flags.
+	     *  The bitmask may be composed of the following flags:
+	     *     1 - Unordered comparison
+	     *     2 - Partial comparison
+	     * @param {Object} [stack] Tracks traversed `value` and `other` objects.
+	     * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+	     */
+	    function baseIsEqual(value, other, customizer, bitmask, stack) {
+	      if (value === other) {
+	        return true;
+	      }
+	      if (value == null || other == null || (!isObject(value) && !isObjectLike(other))) {
+	        return value !== value && other !== other;
+	      }
+	      return baseIsEqualDeep(value, other, baseIsEqual, customizer, bitmask, stack);
+	    }
+
+	    /**
+	     * A specialized version of `baseIsEqual` for arrays and objects which performs
+	     * deep comparisons and tracks traversed objects enabling objects with circular
+	     * references to be compared.
+	     *
+	     * @private
+	     * @param {Object} object The object to compare.
+	     * @param {Object} other The other object to compare.
+	     * @param {Function} equalFunc The function to determine equivalents of values.
+	     * @param {Function} [customizer] The function to customize comparisons.
+	     * @param {number} [bitmask] The bitmask of comparison flags. See `baseIsEqual`
+	     *  for more details.
+	     * @param {Object} [stack] Tracks traversed `object` and `other` objects.
+	     * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+	     */
+	    function baseIsEqualDeep(object, other, equalFunc, customizer, bitmask, stack) {
+	      var objIsArr = isArray(object),
+	          othIsArr = isArray(other),
+	          objTag = arrayTag,
+	          othTag = arrayTag;
+
+	      if (!objIsArr) {
+	        objTag = getTag(object);
+	        objTag = objTag == argsTag ? objectTag : objTag;
+	      }
+	      if (!othIsArr) {
+	        othTag = getTag(other);
+	        othTag = othTag == argsTag ? objectTag : othTag;
+	      }
+	      var objIsObj = objTag == objectTag && !isHostObject(object),
+	          othIsObj = othTag == objectTag && !isHostObject(other),
+	          isSameTag = objTag == othTag;
+
+	      if (isSameTag && !objIsObj) {
+	        stack || (stack = new Stack);
+	        return (objIsArr || isTypedArray(object))
+	          ? equalArrays(object, other, equalFunc, customizer, bitmask, stack)
+	          : equalByTag(object, other, objTag, equalFunc, customizer, bitmask, stack);
+	      }
+	      if (!(bitmask & PARTIAL_COMPARE_FLAG)) {
+	        var objIsWrapped = objIsObj && hasOwnProperty.call(object, '__wrapped__'),
+	            othIsWrapped = othIsObj && hasOwnProperty.call(other, '__wrapped__');
+
+	        if (objIsWrapped || othIsWrapped) {
+	          var objUnwrapped = objIsWrapped ? object.value() : object,
+	              othUnwrapped = othIsWrapped ? other.value() : other;
+
+	          stack || (stack = new Stack);
+	          return equalFunc(objUnwrapped, othUnwrapped, customizer, bitmask, stack);
+	        }
+	      }
+	      if (!isSameTag) {
+	        return false;
+	      }
+	      stack || (stack = new Stack);
+	      return equalObjects(object, other, equalFunc, customizer, bitmask, stack);
+	    }
+
+	    /**
+	     * The base implementation of `_.isMap` without Node.js optimizations.
+	     *
+	     * @private
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a map, else `false`.
+	     */
+	    function baseIsMap(value) {
+	      return isObjectLike(value) && getTag(value) == mapTag;
+	    }
+
+	    /**
+	     * The base implementation of `_.isMatch` without support for iteratee shorthands.
+	     *
+	     * @private
+	     * @param {Object} object The object to inspect.
+	     * @param {Object} source The object of property values to match.
+	     * @param {Array} matchData The property names, values, and compare flags to match.
+	     * @param {Function} [customizer] The function to customize comparisons.
+	     * @returns {boolean} Returns `true` if `object` is a match, else `false`.
+	     */
+	    function baseIsMatch(object, source, matchData, customizer) {
+	      var index = matchData.length,
+	          length = index,
+	          noCustomizer = !customizer;
+
+	      if (object == null) {
+	        return !length;
+	      }
+	      object = Object(object);
+	      while (index--) {
+	        var data = matchData[index];
+	        if ((noCustomizer && data[2])
+	              ? data[1] !== object[data[0]]
+	              : !(data[0] in object)
+	            ) {
+	          return false;
+	        }
+	      }
+	      while (++index < length) {
+	        data = matchData[index];
+	        var key = data[0],
+	            objValue = object[key],
+	            srcValue = data[1];
+
+	        if (noCustomizer && data[2]) {
+	          if (objValue === undefined && !(key in object)) {
+	            return false;
+	          }
+	        } else {
+	          var stack = new Stack;
+	          if (customizer) {
+	            var result = customizer(objValue, srcValue, key, object, source, stack);
+	          }
+	          if (!(result === undefined
+	                ? baseIsEqual(srcValue, objValue, customizer, UNORDERED_COMPARE_FLAG | PARTIAL_COMPARE_FLAG, stack)
+	                : result
+	              )) {
+	            return false;
+	          }
+	        }
+	      }
+	      return true;
+	    }
+
+	    /**
+	     * The base implementation of `_.isNative` without bad shim checks.
+	     *
+	     * @private
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a native function,
+	     *  else `false`.
+	     */
+	    function baseIsNative(value) {
+	      if (!isObject(value) || isMasked(value)) {
+	        return false;
+	      }
+	      var pattern = (isFunction(value) || isHostObject(value)) ? reIsNative : reIsHostCtor;
+	      return pattern.test(toSource(value));
+	    }
+
+	    /**
+	     * The base implementation of `_.isRegExp` without Node.js optimizations.
+	     *
+	     * @private
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a regexp, else `false`.
+	     */
+	    function baseIsRegExp(value) {
+	      return isObject(value) && objectToString.call(value) == regexpTag;
+	    }
+
+	    /**
+	     * The base implementation of `_.isSet` without Node.js optimizations.
+	     *
+	     * @private
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a set, else `false`.
+	     */
+	    function baseIsSet(value) {
+	      return isObjectLike(value) && getTag(value) == setTag;
+	    }
+
+	    /**
+	     * The base implementation of `_.isTypedArray` without Node.js optimizations.
+	     *
+	     * @private
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.
+	     */
+	    function baseIsTypedArray(value) {
+	      return isObjectLike(value) &&
+	        isLength(value.length) && !!typedArrayTags[objectToString.call(value)];
+	    }
+
+	    /**
+	     * The base implementation of `_.iteratee`.
+	     *
+	     * @private
+	     * @param {*} [value=_.identity] The value to convert to an iteratee.
+	     * @returns {Function} Returns the iteratee.
+	     */
+	    function baseIteratee(value) {
+	      // Don't store the `typeof` result in a variable to avoid a JIT bug in Safari 9.
+	      // See https://bugs.webkit.org/show_bug.cgi?id=156034 for more details.
+	      if (typeof value == 'function') {
+	        return value;
+	      }
+	      if (value == null) {
+	        return identity;
+	      }
+	      if (typeof value == 'object') {
+	        return isArray(value)
+	          ? baseMatchesProperty(value[0], value[1])
+	          : baseMatches(value);
+	      }
+	      return property(value);
+	    }
+
+	    /**
+	     * The base implementation of `_.keys` which doesn't treat sparse arrays as dense.
+	     *
+	     * @private
+	     * @param {Object} object The object to query.
+	     * @returns {Array} Returns the array of property names.
+	     */
+	    function baseKeys(object) {
+	      if (!isPrototype(object)) {
+	        return nativeKeys(object);
+	      }
+	      var result = [];
+	      for (var key in Object(object)) {
+	        if (hasOwnProperty.call(object, key) && key != 'constructor') {
+	          result.push(key);
+	        }
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * The base implementation of `_.keysIn` which doesn't treat sparse arrays as dense.
+	     *
+	     * @private
+	     * @param {Object} object The object to query.
+	     * @returns {Array} Returns the array of property names.
+	     */
+	    function baseKeysIn(object) {
+	      if (!isObject(object)) {
+	        return nativeKeysIn(object);
+	      }
+	      var isProto = isPrototype(object),
+	          result = [];
+
+	      for (var key in object) {
+	        if (!(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
+	          result.push(key);
+	        }
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * The base implementation of `_.lt` which doesn't coerce arguments.
+	     *
+	     * @private
+	     * @param {*} value The value to compare.
+	     * @param {*} other The other value to compare.
+	     * @returns {boolean} Returns `true` if `value` is less than `other`,
+	     *  else `false`.
+	     */
+	    function baseLt(value, other) {
+	      return value < other;
+	    }
+
+	    /**
+	     * The base implementation of `_.map` without support for iteratee shorthands.
+	     *
+	     * @private
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function} iteratee The function invoked per iteration.
+	     * @returns {Array} Returns the new mapped array.
+	     */
+	    function baseMap(collection, iteratee) {
+	      var index = -1,
+	          result = isArrayLike(collection) ? Array(collection.length) : [];
+
+	      baseEach(collection, function(value, key, collection) {
+	        result[++index] = iteratee(value, key, collection);
+	      });
+	      return result;
+	    }
+
+	    /**
+	     * The base implementation of `_.matches` which doesn't clone `source`.
+	     *
+	     * @private
+	     * @param {Object} source The object of property values to match.
+	     * @returns {Function} Returns the new spec function.
+	     */
+	    function baseMatches(source) {
+	      var matchData = getMatchData(source);
+	      if (matchData.length == 1 && matchData[0][2]) {
+	        return matchesStrictComparable(matchData[0][0], matchData[0][1]);
+	      }
+	      return function(object) {
+	        return object === source || baseIsMatch(object, source, matchData);
+	      };
+	    }
+
+	    /**
+	     * The base implementation of `_.matchesProperty` which doesn't clone `srcValue`.
+	     *
+	     * @private
+	     * @param {string} path The path of the property to get.
+	     * @param {*} srcValue The value to match.
+	     * @returns {Function} Returns the new spec function.
+	     */
+	    function baseMatchesProperty(path, srcValue) {
+	      if (isKey(path) && isStrictComparable(srcValue)) {
+	        return matchesStrictComparable(toKey(path), srcValue);
+	      }
+	      return function(object) {
+	        var objValue = get(object, path);
+	        return (objValue === undefined && objValue === srcValue)
+	          ? hasIn(object, path)
+	          : baseIsEqual(srcValue, objValue, undefined, UNORDERED_COMPARE_FLAG | PARTIAL_COMPARE_FLAG);
+	      };
+	    }
+
+	    /**
+	     * The base implementation of `_.merge` without support for multiple sources.
+	     *
+	     * @private
+	     * @param {Object} object The destination object.
+	     * @param {Object} source The source object.
+	     * @param {number} srcIndex The index of `source`.
+	     * @param {Function} [customizer] The function to customize merged values.
+	     * @param {Object} [stack] Tracks traversed source values and their merged
+	     *  counterparts.
+	     */
+	    function baseMerge(object, source, srcIndex, customizer, stack) {
+	      if (object === source) {
+	        return;
+	      }
+	      if (!(isArray(source) || isTypedArray(source))) {
+	        var props = baseKeysIn(source);
+	      }
+	      arrayEach(props || source, function(srcValue, key) {
+	        if (props) {
+	          key = srcValue;
+	          srcValue = source[key];
+	        }
+	        if (isObject(srcValue)) {
+	          stack || (stack = new Stack);
+	          baseMergeDeep(object, source, key, srcIndex, baseMerge, customizer, stack);
+	        }
+	        else {
+	          var newValue = customizer
+	            ? customizer(object[key], srcValue, (key + ''), object, source, stack)
+	            : undefined;
+
+	          if (newValue === undefined) {
+	            newValue = srcValue;
+	          }
+	          assignMergeValue(object, key, newValue);
+	        }
+	      });
+	    }
+
+	    /**
+	     * A specialized version of `baseMerge` for arrays and objects which performs
+	     * deep merges and tracks traversed objects enabling objects with circular
+	     * references to be merged.
+	     *
+	     * @private
+	     * @param {Object} object The destination object.
+	     * @param {Object} source The source object.
+	     * @param {string} key The key of the value to merge.
+	     * @param {number} srcIndex The index of `source`.
+	     * @param {Function} mergeFunc The function to merge values.
+	     * @param {Function} [customizer] The function to customize assigned values.
+	     * @param {Object} [stack] Tracks traversed source values and their merged
+	     *  counterparts.
+	     */
+	    function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, stack) {
+	      var objValue = object[key],
+	          srcValue = source[key],
+	          stacked = stack.get(srcValue);
+
+	      if (stacked) {
+	        assignMergeValue(object, key, stacked);
+	        return;
+	      }
+	      var newValue = customizer
+	        ? customizer(objValue, srcValue, (key + ''), object, source, stack)
+	        : undefined;
+
+	      var isCommon = newValue === undefined;
+
+	      if (isCommon) {
+	        newValue = srcValue;
+	        if (isArray(srcValue) || isTypedArray(srcValue)) {
+	          if (isArray(objValue)) {
+	            newValue = objValue;
+	          }
+	          else if (isArrayLikeObject(objValue)) {
+	            newValue = copyArray(objValue);
+	          }
+	          else {
+	            isCommon = false;
+	            newValue = baseClone(srcValue, true);
+	          }
+	        }
+	        else if (isPlainObject(srcValue) || isArguments(srcValue)) {
+	          if (isArguments(objValue)) {
+	            newValue = toPlainObject(objValue);
+	          }
+	          else if (!isObject(objValue) || (srcIndex && isFunction(objValue))) {
+	            isCommon = false;
+	            newValue = baseClone(srcValue, true);
+	          }
+	          else {
+	            newValue = objValue;
+	          }
+	        }
+	        else {
+	          isCommon = false;
+	        }
+	      }
+	      if (isCommon) {
+	        // Recursively merge objects and arrays (susceptible to call stack limits).
+	        stack.set(srcValue, newValue);
+	        mergeFunc(newValue, srcValue, srcIndex, customizer, stack);
+	        stack['delete'](srcValue);
+	      }
+	      assignMergeValue(object, key, newValue);
+	    }
+
+	    /**
+	     * The base implementation of `_.nth` which doesn't coerce arguments.
+	     *
+	     * @private
+	     * @param {Array} array The array to query.
+	     * @param {number} n The index of the element to return.
+	     * @returns {*} Returns the nth element of `array`.
+	     */
+	    function baseNth(array, n) {
+	      var length = array.length;
+	      if (!length) {
+	        return;
+	      }
+	      n += n < 0 ? length : 0;
+	      return isIndex(n, length) ? array[n] : undefined;
+	    }
+
+	    /**
+	     * The base implementation of `_.orderBy` without param guards.
+	     *
+	     * @private
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function[]|Object[]|string[]} iteratees The iteratees to sort by.
+	     * @param {string[]} orders The sort orders of `iteratees`.
+	     * @returns {Array} Returns the new sorted array.
+	     */
+	    function baseOrderBy(collection, iteratees, orders) {
+	      var index = -1;
+	      iteratees = arrayMap(iteratees.length ? iteratees : [identity], baseUnary(getIteratee()));
+
+	      var result = baseMap(collection, function(value, key, collection) {
+	        var criteria = arrayMap(iteratees, function(iteratee) {
+	          return iteratee(value);
+	        });
+	        return { 'criteria': criteria, 'index': ++index, 'value': value };
+	      });
+
+	      return baseSortBy(result, function(object, other) {
+	        return compareMultiple(object, other, orders);
+	      });
+	    }
+
+	    /**
+	     * The base implementation of `_.pick` without support for individual
+	     * property identifiers.
+	     *
+	     * @private
+	     * @param {Object} object The source object.
+	     * @param {string[]} props The property identifiers to pick.
+	     * @returns {Object} Returns the new object.
+	     */
+	    function basePick(object, props) {
+	      object = Object(object);
+	      return basePickBy(object, props, function(value, key) {
+	        return key in object;
+	      });
+	    }
+
+	    /**
+	     * The base implementation of  `_.pickBy` without support for iteratee shorthands.
+	     *
+	     * @private
+	     * @param {Object} object The source object.
+	     * @param {string[]} props The property identifiers to pick from.
+	     * @param {Function} predicate The function invoked per property.
+	     * @returns {Object} Returns the new object.
+	     */
+	    function basePickBy(object, props, predicate) {
+	      var index = -1,
+	          length = props.length,
+	          result = {};
+
+	      while (++index < length) {
+	        var key = props[index],
+	            value = object[key];
+
+	        if (predicate(value, key)) {
+	          result[key] = value;
+	        }
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * A specialized version of `baseProperty` which supports deep paths.
+	     *
+	     * @private
+	     * @param {Array|string} path The path of the property to get.
+	     * @returns {Function} Returns the new accessor function.
+	     */
+	    function basePropertyDeep(path) {
+	      return function(object) {
+	        return baseGet(object, path);
+	      };
+	    }
+
+	    /**
+	     * The base implementation of `_.pullAllBy` without support for iteratee
+	     * shorthands.
+	     *
+	     * @private
+	     * @param {Array} array The array to modify.
+	     * @param {Array} values The values to remove.
+	     * @param {Function} [iteratee] The iteratee invoked per element.
+	     * @param {Function} [comparator] The comparator invoked per element.
+	     * @returns {Array} Returns `array`.
+	     */
+	    function basePullAll(array, values, iteratee, comparator) {
+	      var indexOf = comparator ? baseIndexOfWith : baseIndexOf,
+	          index = -1,
+	          length = values.length,
+	          seen = array;
+
+	      if (array === values) {
+	        values = copyArray(values);
+	      }
+	      if (iteratee) {
+	        seen = arrayMap(array, baseUnary(iteratee));
+	      }
+	      while (++index < length) {
+	        var fromIndex = 0,
+	            value = values[index],
+	            computed = iteratee ? iteratee(value) : value;
+
+	        while ((fromIndex = indexOf(seen, computed, fromIndex, comparator)) > -1) {
+	          if (seen !== array) {
+	            splice.call(seen, fromIndex, 1);
+	          }
+	          splice.call(array, fromIndex, 1);
+	        }
+	      }
+	      return array;
+	    }
+
+	    /**
+	     * The base implementation of `_.pullAt` without support for individual
+	     * indexes or capturing the removed elements.
+	     *
+	     * @private
+	     * @param {Array} array The array to modify.
+	     * @param {number[]} indexes The indexes of elements to remove.
+	     * @returns {Array} Returns `array`.
+	     */
+	    function basePullAt(array, indexes) {
+	      var length = array ? indexes.length : 0,
+	          lastIndex = length - 1;
+
+	      while (length--) {
+	        var index = indexes[length];
+	        if (length == lastIndex || index !== previous) {
+	          var previous = index;
+	          if (isIndex(index)) {
+	            splice.call(array, index, 1);
+	          }
+	          else if (!isKey(index, array)) {
+	            var path = castPath(index),
+	                object = parent(array, path);
+
+	            if (object != null) {
+	              delete object[toKey(last(path))];
+	            }
+	          }
+	          else {
+	            delete array[toKey(index)];
+	          }
+	        }
+	      }
+	      return array;
+	    }
+
+	    /**
+	     * The base implementation of `_.random` without support for returning
+	     * floating-point numbers.
+	     *
+	     * @private
+	     * @param {number} lower The lower bound.
+	     * @param {number} upper The upper bound.
+	     * @returns {number} Returns the random number.
+	     */
+	    function baseRandom(lower, upper) {
+	      return lower + nativeFloor(nativeRandom() * (upper - lower + 1));
+	    }
+
+	    /**
+	     * The base implementation of `_.range` and `_.rangeRight` which doesn't
+	     * coerce arguments.
+	     *
+	     * @private
+	     * @param {number} start The start of the range.
+	     * @param {number} end The end of the range.
+	     * @param {number} step The value to increment or decrement by.
+	     * @param {boolean} [fromRight] Specify iterating from right to left.
+	     * @returns {Array} Returns the range of numbers.
+	     */
+	    function baseRange(start, end, step, fromRight) {
+	      var index = -1,
+	          length = nativeMax(nativeCeil((end - start) / (step || 1)), 0),
+	          result = Array(length);
+
+	      while (length--) {
+	        result[fromRight ? length : ++index] = start;
+	        start += step;
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * The base implementation of `_.repeat` which doesn't coerce arguments.
+	     *
+	     * @private
+	     * @param {string} string The string to repeat.
+	     * @param {number} n The number of times to repeat the string.
+	     * @returns {string} Returns the repeated string.
+	     */
+	    function baseRepeat(string, n) {
+	      var result = '';
+	      if (!string || n < 1 || n > MAX_SAFE_INTEGER) {
+	        return result;
+	      }
+	      // Leverage the exponentiation by squaring algorithm for a faster repeat.
+	      // See https://en.wikipedia.org/wiki/Exponentiation_by_squaring for more details.
+	      do {
+	        if (n % 2) {
+	          result += string;
+	        }
+	        n = nativeFloor(n / 2);
+	        if (n) {
+	          string += string;
+	        }
+	      } while (n);
+
+	      return result;
+	    }
+
+	    /**
+	     * The base implementation of `_.rest` which doesn't validate or coerce arguments.
+	     *
+	     * @private
+	     * @param {Function} func The function to apply a rest parameter to.
+	     * @param {number} [start=func.length-1] The start position of the rest parameter.
+	     * @returns {Function} Returns the new function.
+	     */
+	    function baseRest(func, start) {
+	      start = nativeMax(start === undefined ? (func.length - 1) : start, 0);
+	      return function() {
+	        var args = arguments,
+	            index = -1,
+	            length = nativeMax(args.length - start, 0),
+	            array = Array(length);
+
+	        while (++index < length) {
+	          array[index] = args[start + index];
+	        }
+	        index = -1;
+	        var otherArgs = Array(start + 1);
+	        while (++index < start) {
+	          otherArgs[index] = args[index];
+	        }
+	        otherArgs[start] = array;
+	        return apply(func, this, otherArgs);
+	      };
+	    }
+
+	    /**
+	     * The base implementation of `_.set`.
+	     *
+	     * @private
+	     * @param {Object} object The object to modify.
+	     * @param {Array|string} path The path of the property to set.
+	     * @param {*} value The value to set.
+	     * @param {Function} [customizer] The function to customize path creation.
+	     * @returns {Object} Returns `object`.
+	     */
+	    function baseSet(object, path, value, customizer) {
+	      if (!isObject(object)) {
+	        return object;
+	      }
+	      path = isKey(path, object) ? [path] : castPath(path);
+
+	      var index = -1,
+	          length = path.length,
+	          lastIndex = length - 1,
+	          nested = object;
+
+	      while (nested != null && ++index < length) {
+	        var key = toKey(path[index]),
+	            newValue = value;
+
+	        if (index != lastIndex) {
+	          var objValue = nested[key];
+	          newValue = customizer ? customizer(objValue, key, nested) : undefined;
+	          if (newValue === undefined) {
+	            newValue = isObject(objValue)
+	              ? objValue
+	              : (isIndex(path[index + 1]) ? [] : {});
+	          }
+	        }
+	        assignValue(nested, key, newValue);
+	        nested = nested[key];
+	      }
+	      return object;
+	    }
+
+	    /**
+	     * The base implementation of `setData` without support for hot loop detection.
+	     *
+	     * @private
+	     * @param {Function} func The function to associate metadata with.
+	     * @param {*} data The metadata.
+	     * @returns {Function} Returns `func`.
+	     */
+	    var baseSetData = !metaMap ? identity : function(func, data) {
+	      metaMap.set(func, data);
+	      return func;
+	    };
+
+	    /**
+	     * The base implementation of `_.slice` without an iteratee call guard.
+	     *
+	     * @private
+	     * @param {Array} array The array to slice.
+	     * @param {number} [start=0] The start position.
+	     * @param {number} [end=array.length] The end position.
+	     * @returns {Array} Returns the slice of `array`.
+	     */
+	    function baseSlice(array, start, end) {
+	      var index = -1,
+	          length = array.length;
+
+	      if (start < 0) {
+	        start = -start > length ? 0 : (length + start);
+	      }
+	      end = end > length ? length : end;
+	      if (end < 0) {
+	        end += length;
+	      }
+	      length = start > end ? 0 : ((end - start) >>> 0);
+	      start >>>= 0;
+
+	      var result = Array(length);
+	      while (++index < length) {
+	        result[index] = array[index + start];
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * The base implementation of `_.some` without support for iteratee shorthands.
+	     *
+	     * @private
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function} predicate The function invoked per iteration.
+	     * @returns {boolean} Returns `true` if any element passes the predicate check,
+	     *  else `false`.
+	     */
+	    function baseSome(collection, predicate) {
+	      var result;
+
+	      baseEach(collection, function(value, index, collection) {
+	        result = predicate(value, index, collection);
+	        return !result;
+	      });
+	      return !!result;
+	    }
+
+	    /**
+	     * The base implementation of `_.sortedIndex` and `_.sortedLastIndex` which
+	     * performs a binary search of `array` to determine the index at which `value`
+	     * should be inserted into `array` in order to maintain its sort order.
+	     *
+	     * @private
+	     * @param {Array} array The sorted array to inspect.
+	     * @param {*} value The value to evaluate.
+	     * @param {boolean} [retHighest] Specify returning the highest qualified index.
+	     * @returns {number} Returns the index at which `value` should be inserted
+	     *  into `array`.
+	     */
+	    function baseSortedIndex(array, value, retHighest) {
+	      var low = 0,
+	          high = array ? array.length : low;
+
+	      if (typeof value == 'number' && value === value && high <= HALF_MAX_ARRAY_LENGTH) {
+	        while (low < high) {
+	          var mid = (low + high) >>> 1,
+	              computed = array[mid];
+
+	          if (computed !== null && !isSymbol(computed) &&
+	              (retHighest ? (computed <= value) : (computed < value))) {
+	            low = mid + 1;
+	          } else {
+	            high = mid;
+	          }
+	        }
+	        return high;
+	      }
+	      return baseSortedIndexBy(array, value, identity, retHighest);
+	    }
+
+	    /**
+	     * The base implementation of `_.sortedIndexBy` and `_.sortedLastIndexBy`
+	     * which invokes `iteratee` for `value` and each element of `array` to compute
+	     * their sort ranking. The iteratee is invoked with one argument; (value).
+	     *
+	     * @private
+	     * @param {Array} array The sorted array to inspect.
+	     * @param {*} value The value to evaluate.
+	     * @param {Function} iteratee The iteratee invoked per element.
+	     * @param {boolean} [retHighest] Specify returning the highest qualified index.
+	     * @returns {number} Returns the index at which `value` should be inserted
+	     *  into `array`.
+	     */
+	    function baseSortedIndexBy(array, value, iteratee, retHighest) {
+	      value = iteratee(value);
+
+	      var low = 0,
+	          high = array ? array.length : 0,
+	          valIsNaN = value !== value,
+	          valIsNull = value === null,
+	          valIsSymbol = isSymbol(value),
+	          valIsUndefined = value === undefined;
+
+	      while (low < high) {
+	        var mid = nativeFloor((low + high) / 2),
+	            computed = iteratee(array[mid]),
+	            othIsDefined = computed !== undefined,
+	            othIsNull = computed === null,
+	            othIsReflexive = computed === computed,
+	            othIsSymbol = isSymbol(computed);
+
+	        if (valIsNaN) {
+	          var setLow = retHighest || othIsReflexive;
+	        } else if (valIsUndefined) {
+	          setLow = othIsReflexive && (retHighest || othIsDefined);
+	        } else if (valIsNull) {
+	          setLow = othIsReflexive && othIsDefined && (retHighest || !othIsNull);
+	        } else if (valIsSymbol) {
+	          setLow = othIsReflexive && othIsDefined && !othIsNull && (retHighest || !othIsSymbol);
+	        } else if (othIsNull || othIsSymbol) {
+	          setLow = false;
+	        } else {
+	          setLow = retHighest ? (computed <= value) : (computed < value);
+	        }
+	        if (setLow) {
+	          low = mid + 1;
+	        } else {
+	          high = mid;
+	        }
+	      }
+	      return nativeMin(high, MAX_ARRAY_INDEX);
+	    }
+
+	    /**
+	     * The base implementation of `_.sortedUniq` and `_.sortedUniqBy` without
+	     * support for iteratee shorthands.
+	     *
+	     * @private
+	     * @param {Array} array The array to inspect.
+	     * @param {Function} [iteratee] The iteratee invoked per element.
+	     * @returns {Array} Returns the new duplicate free array.
+	     */
+	    function baseSortedUniq(array, iteratee) {
+	      var index = -1,
+	          length = array.length,
+	          resIndex = 0,
+	          result = [];
+
+	      while (++index < length) {
+	        var value = array[index],
+	            computed = iteratee ? iteratee(value) : value;
+
+	        if (!index || !eq(computed, seen)) {
+	          var seen = computed;
+	          result[resIndex++] = value === 0 ? 0 : value;
+	        }
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * The base implementation of `_.toNumber` which doesn't ensure correct
+	     * conversions of binary, hexadecimal, or octal string values.
+	     *
+	     * @private
+	     * @param {*} value The value to process.
+	     * @returns {number} Returns the number.
+	     */
+	    function baseToNumber(value) {
+	      if (typeof value == 'number') {
+	        return value;
+	      }
+	      if (isSymbol(value)) {
+	        return NAN;
+	      }
+	      return +value;
+	    }
+
+	    /**
+	     * The base implementation of `_.toString` which doesn't convert nullish
+	     * values to empty strings.
+	     *
+	     * @private
+	     * @param {*} value The value to process.
+	     * @returns {string} Returns the string.
+	     */
+	    function baseToString(value) {
+	      // Exit early for strings to avoid a performance hit in some environments.
+	      if (typeof value == 'string') {
+	        return value;
+	      }
+	      if (isSymbol(value)) {
+	        return symbolToString ? symbolToString.call(value) : '';
+	      }
+	      var result = (value + '');
+	      return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
+	    }
+
+	    /**
+	     * The base implementation of `_.uniqBy` without support for iteratee shorthands.
+	     *
+	     * @private
+	     * @param {Array} array The array to inspect.
+	     * @param {Function} [iteratee] The iteratee invoked per element.
+	     * @param {Function} [comparator] The comparator invoked per element.
+	     * @returns {Array} Returns the new duplicate free array.
+	     */
+	    function baseUniq(array, iteratee, comparator) {
+	      var index = -1,
+	          includes = arrayIncludes,
+	          length = array.length,
+	          isCommon = true,
+	          result = [],
+	          seen = result;
+
+	      if (comparator) {
+	        isCommon = false;
+	        includes = arrayIncludesWith;
+	      }
+	      else if (length >= LARGE_ARRAY_SIZE) {
+	        var set = iteratee ? null : createSet(array);
+	        if (set) {
+	          return setToArray(set);
+	        }
+	        isCommon = false;
+	        includes = cacheHas;
+	        seen = new SetCache;
+	      }
+	      else {
+	        seen = iteratee ? [] : result;
+	      }
+	      outer:
+	      while (++index < length) {
+	        var value = array[index],
+	            computed = iteratee ? iteratee(value) : value;
+
+	        value = (comparator || value !== 0) ? value : 0;
+	        if (isCommon && computed === computed) {
+	          var seenIndex = seen.length;
+	          while (seenIndex--) {
+	            if (seen[seenIndex] === computed) {
+	              continue outer;
+	            }
+	          }
+	          if (iteratee) {
+	            seen.push(computed);
+	          }
+	          result.push(value);
+	        }
+	        else if (!includes(seen, computed, comparator)) {
+	          if (seen !== result) {
+	            seen.push(computed);
+	          }
+	          result.push(value);
+	        }
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * The base implementation of `_.unset`.
+	     *
+	     * @private
+	     * @param {Object} object The object to modify.
+	     * @param {Array|string} path The path of the property to unset.
+	     * @returns {boolean} Returns `true` if the property is deleted, else `false`.
+	     */
+	    function baseUnset(object, path) {
+	      path = isKey(path, object) ? [path] : castPath(path);
+	      object = parent(object, path);
+
+	      var key = toKey(last(path));
+	      return !(object != null && hasOwnProperty.call(object, key)) || delete object[key];
+	    }
+
+	    /**
+	     * The base implementation of `_.update`.
+	     *
+	     * @private
+	     * @param {Object} object The object to modify.
+	     * @param {Array|string} path The path of the property to update.
+	     * @param {Function} updater The function to produce the updated value.
+	     * @param {Function} [customizer] The function to customize path creation.
+	     * @returns {Object} Returns `object`.
+	     */
+	    function baseUpdate(object, path, updater, customizer) {
+	      return baseSet(object, path, updater(baseGet(object, path)), customizer);
+	    }
+
+	    /**
+	     * The base implementation of methods like `_.dropWhile` and `_.takeWhile`
+	     * without support for iteratee shorthands.
+	     *
+	     * @private
+	     * @param {Array} array The array to query.
+	     * @param {Function} predicate The function invoked per iteration.
+	     * @param {boolean} [isDrop] Specify dropping elements instead of taking them.
+	     * @param {boolean} [fromRight] Specify iterating from right to left.
+	     * @returns {Array} Returns the slice of `array`.
+	     */
+	    function baseWhile(array, predicate, isDrop, fromRight) {
+	      var length = array.length,
+	          index = fromRight ? length : -1;
+
+	      while ((fromRight ? index-- : ++index < length) &&
+	        predicate(array[index], index, array)) {}
+
+	      return isDrop
+	        ? baseSlice(array, (fromRight ? 0 : index), (fromRight ? index + 1 : length))
+	        : baseSlice(array, (fromRight ? index + 1 : 0), (fromRight ? length : index));
+	    }
+
+	    /**
+	     * The base implementation of `wrapperValue` which returns the result of
+	     * performing a sequence of actions on the unwrapped `value`, where each
+	     * successive action is supplied the return value of the previous.
+	     *
+	     * @private
+	     * @param {*} value The unwrapped value.
+	     * @param {Array} actions Actions to perform to resolve the unwrapped value.
+	     * @returns {*} Returns the resolved value.
+	     */
+	    function baseWrapperValue(value, actions) {
+	      var result = value;
+	      if (result instanceof LazyWrapper) {
+	        result = result.value();
+	      }
+	      return arrayReduce(actions, function(result, action) {
+	        return action.func.apply(action.thisArg, arrayPush([result], action.args));
+	      }, result);
+	    }
+
+	    /**
+	     * The base implementation of methods like `_.xor`, without support for
+	     * iteratee shorthands, that accepts an array of arrays to inspect.
+	     *
+	     * @private
+	     * @param {Array} arrays The arrays to inspect.
+	     * @param {Function} [iteratee] The iteratee invoked per element.
+	     * @param {Function} [comparator] The comparator invoked per element.
+	     * @returns {Array} Returns the new array of values.
+	     */
+	    function baseXor(arrays, iteratee, comparator) {
+	      var index = -1,
+	          length = arrays.length;
+
+	      while (++index < length) {
+	        var result = result
+	          ? arrayPush(
+	              baseDifference(result, arrays[index], iteratee, comparator),
+	              baseDifference(arrays[index], result, iteratee, comparator)
 	            )
-	          )
-	        ),
-	        _react2.default.createElement(_Team2.default, { members: teamA, jsonData: jsonData }),
-	        _react2.default.createElement(_Team2.default, { members: teamB, jsonData: jsonData })
+	          : arrays[index];
+	      }
+	      return (result && result.length) ? baseUniq(result, iteratee, comparator) : [];
+	    }
+
+	    /**
+	     * This base implementation of `_.zipObject` which assigns values using `assignFunc`.
+	     *
+	     * @private
+	     * @param {Array} props The property identifiers.
+	     * @param {Array} values The property values.
+	     * @param {Function} assignFunc The function to assign values.
+	     * @returns {Object} Returns the new object.
+	     */
+	    function baseZipObject(props, values, assignFunc) {
+	      var index = -1,
+	          length = props.length,
+	          valsLength = values.length,
+	          result = {};
+
+	      while (++index < length) {
+	        var value = index < valsLength ? values[index] : undefined;
+	        assignFunc(result, props[index], value);
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * Casts `value` to an empty array if it's not an array like object.
+	     *
+	     * @private
+	     * @param {*} value The value to inspect.
+	     * @returns {Array|Object} Returns the cast array-like object.
+	     */
+	    function castArrayLikeObject(value) {
+	      return isArrayLikeObject(value) ? value : [];
+	    }
+
+	    /**
+	     * Casts `value` to `identity` if it's not a function.
+	     *
+	     * @private
+	     * @param {*} value The value to inspect.
+	     * @returns {Function} Returns cast function.
+	     */
+	    function castFunction(value) {
+	      return typeof value == 'function' ? value : identity;
+	    }
+
+	    /**
+	     * Casts `value` to a path array if it's not one.
+	     *
+	     * @private
+	     * @param {*} value The value to inspect.
+	     * @returns {Array} Returns the cast property path array.
+	     */
+	    function castPath(value) {
+	      return isArray(value) ? value : stringToPath(value);
+	    }
+
+	    /**
+	     * Casts `array` to a slice if it's needed.
+	     *
+	     * @private
+	     * @param {Array} array The array to inspect.
+	     * @param {number} start The start position.
+	     * @param {number} [end=array.length] The end position.
+	     * @returns {Array} Returns the cast slice.
+	     */
+	    function castSlice(array, start, end) {
+	      var length = array.length;
+	      end = end === undefined ? length : end;
+	      return (!start && end >= length) ? array : baseSlice(array, start, end);
+	    }
+
+	    /**
+	     * A simple wrapper around the global [`clearTimeout`](https://mdn.io/clearTimeout).
+	     *
+	     * @private
+	     * @param {number|Object} id The timer id or timeout object of the timer to clear.
+	     */
+	    var clearTimeout = ctxClearTimeout || function(id) {
+	      return root.clearTimeout(id);
+	    };
+
+	    /**
+	     * Creates a clone of  `buffer`.
+	     *
+	     * @private
+	     * @param {Buffer} buffer The buffer to clone.
+	     * @param {boolean} [isDeep] Specify a deep clone.
+	     * @returns {Buffer} Returns the cloned buffer.
+	     */
+	    function cloneBuffer(buffer, isDeep) {
+	      if (isDeep) {
+	        return buffer.slice();
+	      }
+	      var result = new buffer.constructor(buffer.length);
+	      buffer.copy(result);
+	      return result;
+	    }
+
+	    /**
+	     * Creates a clone of `arrayBuffer`.
+	     *
+	     * @private
+	     * @param {ArrayBuffer} arrayBuffer The array buffer to clone.
+	     * @returns {ArrayBuffer} Returns the cloned array buffer.
+	     */
+	    function cloneArrayBuffer(arrayBuffer) {
+	      var result = new arrayBuffer.constructor(arrayBuffer.byteLength);
+	      new Uint8Array(result).set(new Uint8Array(arrayBuffer));
+	      return result;
+	    }
+
+	    /**
+	     * Creates a clone of `dataView`.
+	     *
+	     * @private
+	     * @param {Object} dataView The data view to clone.
+	     * @param {boolean} [isDeep] Specify a deep clone.
+	     * @returns {Object} Returns the cloned data view.
+	     */
+	    function cloneDataView(dataView, isDeep) {
+	      var buffer = isDeep ? cloneArrayBuffer(dataView.buffer) : dataView.buffer;
+	      return new dataView.constructor(buffer, dataView.byteOffset, dataView.byteLength);
+	    }
+
+	    /**
+	     * Creates a clone of `map`.
+	     *
+	     * @private
+	     * @param {Object} map The map to clone.
+	     * @param {Function} cloneFunc The function to clone values.
+	     * @param {boolean} [isDeep] Specify a deep clone.
+	     * @returns {Object} Returns the cloned map.
+	     */
+	    function cloneMap(map, isDeep, cloneFunc) {
+	      var array = isDeep ? cloneFunc(mapToArray(map), true) : mapToArray(map);
+	      return arrayReduce(array, addMapEntry, new map.constructor);
+	    }
+
+	    /**
+	     * Creates a clone of `regexp`.
+	     *
+	     * @private
+	     * @param {Object} regexp The regexp to clone.
+	     * @returns {Object} Returns the cloned regexp.
+	     */
+	    function cloneRegExp(regexp) {
+	      var result = new regexp.constructor(regexp.source, reFlags.exec(regexp));
+	      result.lastIndex = regexp.lastIndex;
+	      return result;
+	    }
+
+	    /**
+	     * Creates a clone of `set`.
+	     *
+	     * @private
+	     * @param {Object} set The set to clone.
+	     * @param {Function} cloneFunc The function to clone values.
+	     * @param {boolean} [isDeep] Specify a deep clone.
+	     * @returns {Object} Returns the cloned set.
+	     */
+	    function cloneSet(set, isDeep, cloneFunc) {
+	      var array = isDeep ? cloneFunc(setToArray(set), true) : setToArray(set);
+	      return arrayReduce(array, addSetEntry, new set.constructor);
+	    }
+
+	    /**
+	     * Creates a clone of the `symbol` object.
+	     *
+	     * @private
+	     * @param {Object} symbol The symbol object to clone.
+	     * @returns {Object} Returns the cloned symbol object.
+	     */
+	    function cloneSymbol(symbol) {
+	      return symbolValueOf ? Object(symbolValueOf.call(symbol)) : {};
+	    }
+
+	    /**
+	     * Creates a clone of `typedArray`.
+	     *
+	     * @private
+	     * @param {Object} typedArray The typed array to clone.
+	     * @param {boolean} [isDeep] Specify a deep clone.
+	     * @returns {Object} Returns the cloned typed array.
+	     */
+	    function cloneTypedArray(typedArray, isDeep) {
+	      var buffer = isDeep ? cloneArrayBuffer(typedArray.buffer) : typedArray.buffer;
+	      return new typedArray.constructor(buffer, typedArray.byteOffset, typedArray.length);
+	    }
+
+	    /**
+	     * Compares values to sort them in ascending order.
+	     *
+	     * @private
+	     * @param {*} value The value to compare.
+	     * @param {*} other The other value to compare.
+	     * @returns {number} Returns the sort order indicator for `value`.
+	     */
+	    function compareAscending(value, other) {
+	      if (value !== other) {
+	        var valIsDefined = value !== undefined,
+	            valIsNull = value === null,
+	            valIsReflexive = value === value,
+	            valIsSymbol = isSymbol(value);
+
+	        var othIsDefined = other !== undefined,
+	            othIsNull = other === null,
+	            othIsReflexive = other === other,
+	            othIsSymbol = isSymbol(other);
+
+	        if ((!othIsNull && !othIsSymbol && !valIsSymbol && value > other) ||
+	            (valIsSymbol && othIsDefined && othIsReflexive && !othIsNull && !othIsSymbol) ||
+	            (valIsNull && othIsDefined && othIsReflexive) ||
+	            (!valIsDefined && othIsReflexive) ||
+	            !valIsReflexive) {
+	          return 1;
+	        }
+	        if ((!valIsNull && !valIsSymbol && !othIsSymbol && value < other) ||
+	            (othIsSymbol && valIsDefined && valIsReflexive && !valIsNull && !valIsSymbol) ||
+	            (othIsNull && valIsDefined && valIsReflexive) ||
+	            (!othIsDefined && valIsReflexive) ||
+	            !othIsReflexive) {
+	          return -1;
+	        }
+	      }
+	      return 0;
+	    }
+
+	    /**
+	     * Used by `_.orderBy` to compare multiple properties of a value to another
+	     * and stable sort them.
+	     *
+	     * If `orders` is unspecified, all values are sorted in ascending order. Otherwise,
+	     * specify an order of "desc" for descending or "asc" for ascending sort order
+	     * of corresponding values.
+	     *
+	     * @private
+	     * @param {Object} object The object to compare.
+	     * @param {Object} other The other object to compare.
+	     * @param {boolean[]|string[]} orders The order to sort by for each property.
+	     * @returns {number} Returns the sort order indicator for `object`.
+	     */
+	    function compareMultiple(object, other, orders) {
+	      var index = -1,
+	          objCriteria = object.criteria,
+	          othCriteria = other.criteria,
+	          length = objCriteria.length,
+	          ordersLength = orders.length;
+
+	      while (++index < length) {
+	        var result = compareAscending(objCriteria[index], othCriteria[index]);
+	        if (result) {
+	          if (index >= ordersLength) {
+	            return result;
+	          }
+	          var order = orders[index];
+	          return result * (order == 'desc' ? -1 : 1);
+	        }
+	      }
+	      // Fixes an `Array#sort` bug in the JS engine embedded in Adobe applications
+	      // that causes it, under certain circumstances, to provide the same value for
+	      // `object` and `other`. See https://github.com/jashkenas/underscore/pull/1247
+	      // for more details.
+	      //
+	      // This also ensures a stable sort in V8 and other engines.
+	      // See https://bugs.chromium.org/p/v8/issues/detail?id=90 for more details.
+	      return object.index - other.index;
+	    }
+
+	    /**
+	     * Creates an array that is the composition of partially applied arguments,
+	     * placeholders, and provided arguments into a single array of arguments.
+	     *
+	     * @private
+	     * @param {Array} args The provided arguments.
+	     * @param {Array} partials The arguments to prepend to those provided.
+	     * @param {Array} holders The `partials` placeholder indexes.
+	     * @params {boolean} [isCurried] Specify composing for a curried function.
+	     * @returns {Array} Returns the new array of composed arguments.
+	     */
+	    function composeArgs(args, partials, holders, isCurried) {
+	      var argsIndex = -1,
+	          argsLength = args.length,
+	          holdersLength = holders.length,
+	          leftIndex = -1,
+	          leftLength = partials.length,
+	          rangeLength = nativeMax(argsLength - holdersLength, 0),
+	          result = Array(leftLength + rangeLength),
+	          isUncurried = !isCurried;
+
+	      while (++leftIndex < leftLength) {
+	        result[leftIndex] = partials[leftIndex];
+	      }
+	      while (++argsIndex < holdersLength) {
+	        if (isUncurried || argsIndex < argsLength) {
+	          result[holders[argsIndex]] = args[argsIndex];
+	        }
+	      }
+	      while (rangeLength--) {
+	        result[leftIndex++] = args[argsIndex++];
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * This function is like `composeArgs` except that the arguments composition
+	     * is tailored for `_.partialRight`.
+	     *
+	     * @private
+	     * @param {Array} args The provided arguments.
+	     * @param {Array} partials The arguments to append to those provided.
+	     * @param {Array} holders The `partials` placeholder indexes.
+	     * @params {boolean} [isCurried] Specify composing for a curried function.
+	     * @returns {Array} Returns the new array of composed arguments.
+	     */
+	    function composeArgsRight(args, partials, holders, isCurried) {
+	      var argsIndex = -1,
+	          argsLength = args.length,
+	          holdersIndex = -1,
+	          holdersLength = holders.length,
+	          rightIndex = -1,
+	          rightLength = partials.length,
+	          rangeLength = nativeMax(argsLength - holdersLength, 0),
+	          result = Array(rangeLength + rightLength),
+	          isUncurried = !isCurried;
+
+	      while (++argsIndex < rangeLength) {
+	        result[argsIndex] = args[argsIndex];
+	      }
+	      var offset = argsIndex;
+	      while (++rightIndex < rightLength) {
+	        result[offset + rightIndex] = partials[rightIndex];
+	      }
+	      while (++holdersIndex < holdersLength) {
+	        if (isUncurried || argsIndex < argsLength) {
+	          result[offset + holders[holdersIndex]] = args[argsIndex++];
+	        }
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * Copies the values of `source` to `array`.
+	     *
+	     * @private
+	     * @param {Array} source The array to copy values from.
+	     * @param {Array} [array=[]] The array to copy values to.
+	     * @returns {Array} Returns `array`.
+	     */
+	    function copyArray(source, array) {
+	      var index = -1,
+	          length = source.length;
+
+	      array || (array = Array(length));
+	      while (++index < length) {
+	        array[index] = source[index];
+	      }
+	      return array;
+	    }
+
+	    /**
+	     * Copies properties of `source` to `object`.
+	     *
+	     * @private
+	     * @param {Object} source The object to copy properties from.
+	     * @param {Array} props The property identifiers to copy.
+	     * @param {Object} [object={}] The object to copy properties to.
+	     * @param {Function} [customizer] The function to customize copied values.
+	     * @returns {Object} Returns `object`.
+	     */
+	    function copyObject(source, props, object, customizer) {
+	      object || (object = {});
+
+	      var index = -1,
+	          length = props.length;
+
+	      while (++index < length) {
+	        var key = props[index];
+
+	        var newValue = customizer
+	          ? customizer(object[key], source[key], key, object, source)
+	          : undefined;
+
+	        assignValue(object, key, newValue === undefined ? source[key] : newValue);
+	      }
+	      return object;
+	    }
+
+	    /**
+	     * Copies own symbol properties of `source` to `object`.
+	     *
+	     * @private
+	     * @param {Object} source The object to copy symbols from.
+	     * @param {Object} [object={}] The object to copy symbols to.
+	     * @returns {Object} Returns `object`.
+	     */
+	    function copySymbols(source, object) {
+	      return copyObject(source, getSymbols(source), object);
+	    }
+
+	    /**
+	     * Creates a function like `_.groupBy`.
+	     *
+	     * @private
+	     * @param {Function} setter The function to set accumulator values.
+	     * @param {Function} [initializer] The accumulator object initializer.
+	     * @returns {Function} Returns the new aggregator function.
+	     */
+	    function createAggregator(setter, initializer) {
+	      return function(collection, iteratee) {
+	        var func = isArray(collection) ? arrayAggregator : baseAggregator,
+	            accumulator = initializer ? initializer() : {};
+
+	        return func(collection, setter, getIteratee(iteratee, 2), accumulator);
+	      };
+	    }
+
+	    /**
+	     * Creates a function like `_.assign`.
+	     *
+	     * @private
+	     * @param {Function} assigner The function to assign values.
+	     * @returns {Function} Returns the new assigner function.
+	     */
+	    function createAssigner(assigner) {
+	      return baseRest(function(object, sources) {
+	        var index = -1,
+	            length = sources.length,
+	            customizer = length > 1 ? sources[length - 1] : undefined,
+	            guard = length > 2 ? sources[2] : undefined;
+
+	        customizer = (assigner.length > 3 && typeof customizer == 'function')
+	          ? (length--, customizer)
+	          : undefined;
+
+	        if (guard && isIterateeCall(sources[0], sources[1], guard)) {
+	          customizer = length < 3 ? undefined : customizer;
+	          length = 1;
+	        }
+	        object = Object(object);
+	        while (++index < length) {
+	          var source = sources[index];
+	          if (source) {
+	            assigner(object, source, index, customizer);
+	          }
+	        }
+	        return object;
+	      });
+	    }
+
+	    /**
+	     * Creates a `baseEach` or `baseEachRight` function.
+	     *
+	     * @private
+	     * @param {Function} eachFunc The function to iterate over a collection.
+	     * @param {boolean} [fromRight] Specify iterating from right to left.
+	     * @returns {Function} Returns the new base function.
+	     */
+	    function createBaseEach(eachFunc, fromRight) {
+	      return function(collection, iteratee) {
+	        if (collection == null) {
+	          return collection;
+	        }
+	        if (!isArrayLike(collection)) {
+	          return eachFunc(collection, iteratee);
+	        }
+	        var length = collection.length,
+	            index = fromRight ? length : -1,
+	            iterable = Object(collection);
+
+	        while ((fromRight ? index-- : ++index < length)) {
+	          if (iteratee(iterable[index], index, iterable) === false) {
+	            break;
+	          }
+	        }
+	        return collection;
+	      };
+	    }
+
+	    /**
+	     * Creates a base function for methods like `_.forIn` and `_.forOwn`.
+	     *
+	     * @private
+	     * @param {boolean} [fromRight] Specify iterating from right to left.
+	     * @returns {Function} Returns the new base function.
+	     */
+	    function createBaseFor(fromRight) {
+	      return function(object, iteratee, keysFunc) {
+	        var index = -1,
+	            iterable = Object(object),
+	            props = keysFunc(object),
+	            length = props.length;
+
+	        while (length--) {
+	          var key = props[fromRight ? length : ++index];
+	          if (iteratee(iterable[key], key, iterable) === false) {
+	            break;
+	          }
+	        }
+	        return object;
+	      };
+	    }
+
+	    /**
+	     * Creates a function that wraps `func` to invoke it with the optional `this`
+	     * binding of `thisArg`.
+	     *
+	     * @private
+	     * @param {Function} func The function to wrap.
+	     * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
+	     * @param {*} [thisArg] The `this` binding of `func`.
+	     * @returns {Function} Returns the new wrapped function.
+	     */
+	    function createBind(func, bitmask, thisArg) {
+	      var isBind = bitmask & BIND_FLAG,
+	          Ctor = createCtor(func);
+
+	      function wrapper() {
+	        var fn = (this && this !== root && this instanceof wrapper) ? Ctor : func;
+	        return fn.apply(isBind ? thisArg : this, arguments);
+	      }
+	      return wrapper;
+	    }
+
+	    /**
+	     * Creates a function like `_.lowerFirst`.
+	     *
+	     * @private
+	     * @param {string} methodName The name of the `String` case method to use.
+	     * @returns {Function} Returns the new case function.
+	     */
+	    function createCaseFirst(methodName) {
+	      return function(string) {
+	        string = toString(string);
+
+	        var strSymbols = hasUnicode(string)
+	          ? stringToArray(string)
+	          : undefined;
+
+	        var chr = strSymbols
+	          ? strSymbols[0]
+	          : string.charAt(0);
+
+	        var trailing = strSymbols
+	          ? castSlice(strSymbols, 1).join('')
+	          : string.slice(1);
+
+	        return chr[methodName]() + trailing;
+	      };
+	    }
+
+	    /**
+	     * Creates a function like `_.camelCase`.
+	     *
+	     * @private
+	     * @param {Function} callback The function to combine each word.
+	     * @returns {Function} Returns the new compounder function.
+	     */
+	    function createCompounder(callback) {
+	      return function(string) {
+	        return arrayReduce(words(deburr(string).replace(reApos, '')), callback, '');
+	      };
+	    }
+
+	    /**
+	     * Creates a function that produces an instance of `Ctor` regardless of
+	     * whether it was invoked as part of a `new` expression or by `call` or `apply`.
+	     *
+	     * @private
+	     * @param {Function} Ctor The constructor to wrap.
+	     * @returns {Function} Returns the new wrapped function.
+	     */
+	    function createCtor(Ctor) {
+	      return function() {
+	        // Use a `switch` statement to work with class constructors. See
+	        // http://ecma-international.org/ecma-262/7.0/#sec-ecmascript-function-objects-call-thisargument-argumentslist
+	        // for more details.
+	        var args = arguments;
+	        switch (args.length) {
+	          case 0: return new Ctor;
+	          case 1: return new Ctor(args[0]);
+	          case 2: return new Ctor(args[0], args[1]);
+	          case 3: return new Ctor(args[0], args[1], args[2]);
+	          case 4: return new Ctor(args[0], args[1], args[2], args[3]);
+	          case 5: return new Ctor(args[0], args[1], args[2], args[3], args[4]);
+	          case 6: return new Ctor(args[0], args[1], args[2], args[3], args[4], args[5]);
+	          case 7: return new Ctor(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
+	        }
+	        var thisBinding = baseCreate(Ctor.prototype),
+	            result = Ctor.apply(thisBinding, args);
+
+	        // Mimic the constructor's `return` behavior.
+	        // See https://es5.github.io/#x13.2.2 for more details.
+	        return isObject(result) ? result : thisBinding;
+	      };
+	    }
+
+	    /**
+	     * Creates a function that wraps `func` to enable currying.
+	     *
+	     * @private
+	     * @param {Function} func The function to wrap.
+	     * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
+	     * @param {number} arity The arity of `func`.
+	     * @returns {Function} Returns the new wrapped function.
+	     */
+	    function createCurry(func, bitmask, arity) {
+	      var Ctor = createCtor(func);
+
+	      function wrapper() {
+	        var length = arguments.length,
+	            args = Array(length),
+	            index = length,
+	            placeholder = getHolder(wrapper);
+
+	        while (index--) {
+	          args[index] = arguments[index];
+	        }
+	        var holders = (length < 3 && args[0] !== placeholder && args[length - 1] !== placeholder)
+	          ? []
+	          : replaceHolders(args, placeholder);
+
+	        length -= holders.length;
+	        if (length < arity) {
+	          return createRecurry(
+	            func, bitmask, createHybrid, wrapper.placeholder, undefined,
+	            args, holders, undefined, undefined, arity - length);
+	        }
+	        var fn = (this && this !== root && this instanceof wrapper) ? Ctor : func;
+	        return apply(fn, this, args);
+	      }
+	      return wrapper;
+	    }
+
+	    /**
+	     * Creates a `_.find` or `_.findLast` function.
+	     *
+	     * @private
+	     * @param {Function} findIndexFunc The function to find the collection index.
+	     * @returns {Function} Returns the new find function.
+	     */
+	    function createFind(findIndexFunc) {
+	      return function(collection, predicate, fromIndex) {
+	        var iterable = Object(collection);
+	        if (!isArrayLike(collection)) {
+	          var iteratee = getIteratee(predicate, 3);
+	          collection = keys(collection);
+	          predicate = function(key) { return iteratee(iterable[key], key, iterable); };
+	        }
+	        var index = findIndexFunc(collection, predicate, fromIndex);
+	        return index > -1 ? iterable[iteratee ? collection[index] : index] : undefined;
+	      };
+	    }
+
+	    /**
+	     * Creates a `_.flow` or `_.flowRight` function.
+	     *
+	     * @private
+	     * @param {boolean} [fromRight] Specify iterating from right to left.
+	     * @returns {Function} Returns the new flow function.
+	     */
+	    function createFlow(fromRight) {
+	      return baseRest(function(funcs) {
+	        funcs = baseFlatten(funcs, 1);
+
+	        var length = funcs.length,
+	            index = length,
+	            prereq = LodashWrapper.prototype.thru;
+
+	        if (fromRight) {
+	          funcs.reverse();
+	        }
+	        while (index--) {
+	          var func = funcs[index];
+	          if (typeof func != 'function') {
+	            throw new TypeError(FUNC_ERROR_TEXT);
+	          }
+	          if (prereq && !wrapper && getFuncName(func) == 'wrapper') {
+	            var wrapper = new LodashWrapper([], true);
+	          }
+	        }
+	        index = wrapper ? index : length;
+	        while (++index < length) {
+	          func = funcs[index];
+
+	          var funcName = getFuncName(func),
+	              data = funcName == 'wrapper' ? getData(func) : undefined;
+
+	          if (data && isLaziable(data[0]) &&
+	                data[1] == (ARY_FLAG | CURRY_FLAG | PARTIAL_FLAG | REARG_FLAG) &&
+	                !data[4].length && data[9] == 1
+	              ) {
+	            wrapper = wrapper[getFuncName(data[0])].apply(wrapper, data[3]);
+	          } else {
+	            wrapper = (func.length == 1 && isLaziable(func))
+	              ? wrapper[funcName]()
+	              : wrapper.thru(func);
+	          }
+	        }
+	        return function() {
+	          var args = arguments,
+	              value = args[0];
+
+	          if (wrapper && args.length == 1 &&
+	              isArray(value) && value.length >= LARGE_ARRAY_SIZE) {
+	            return wrapper.plant(value).value();
+	          }
+	          var index = 0,
+	              result = length ? funcs[index].apply(this, args) : value;
+
+	          while (++index < length) {
+	            result = funcs[index].call(this, result);
+	          }
+	          return result;
+	        };
+	      });
+	    }
+
+	    /**
+	     * Creates a function that wraps `func` to invoke it with optional `this`
+	     * binding of `thisArg`, partial application, and currying.
+	     *
+	     * @private
+	     * @param {Function|string} func The function or method name to wrap.
+	     * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
+	     * @param {*} [thisArg] The `this` binding of `func`.
+	     * @param {Array} [partials] The arguments to prepend to those provided to
+	     *  the new function.
+	     * @param {Array} [holders] The `partials` placeholder indexes.
+	     * @param {Array} [partialsRight] The arguments to append to those provided
+	     *  to the new function.
+	     * @param {Array} [holdersRight] The `partialsRight` placeholder indexes.
+	     * @param {Array} [argPos] The argument positions of the new function.
+	     * @param {number} [ary] The arity cap of `func`.
+	     * @param {number} [arity] The arity of `func`.
+	     * @returns {Function} Returns the new wrapped function.
+	     */
+	    function createHybrid(func, bitmask, thisArg, partials, holders, partialsRight, holdersRight, argPos, ary, arity) {
+	      var isAry = bitmask & ARY_FLAG,
+	          isBind = bitmask & BIND_FLAG,
+	          isBindKey = bitmask & BIND_KEY_FLAG,
+	          isCurried = bitmask & (CURRY_FLAG | CURRY_RIGHT_FLAG),
+	          isFlip = bitmask & FLIP_FLAG,
+	          Ctor = isBindKey ? undefined : createCtor(func);
+
+	      function wrapper() {
+	        var length = arguments.length,
+	            args = Array(length),
+	            index = length;
+
+	        while (index--) {
+	          args[index] = arguments[index];
+	        }
+	        if (isCurried) {
+	          var placeholder = getHolder(wrapper),
+	              holdersCount = countHolders(args, placeholder);
+	        }
+	        if (partials) {
+	          args = composeArgs(args, partials, holders, isCurried);
+	        }
+	        if (partialsRight) {
+	          args = composeArgsRight(args, partialsRight, holdersRight, isCurried);
+	        }
+	        length -= holdersCount;
+	        if (isCurried && length < arity) {
+	          var newHolders = replaceHolders(args, placeholder);
+	          return createRecurry(
+	            func, bitmask, createHybrid, wrapper.placeholder, thisArg,
+	            args, newHolders, argPos, ary, arity - length
+	          );
+	        }
+	        var thisBinding = isBind ? thisArg : this,
+	            fn = isBindKey ? thisBinding[func] : func;
+
+	        length = args.length;
+	        if (argPos) {
+	          args = reorder(args, argPos);
+	        } else if (isFlip && length > 1) {
+	          args.reverse();
+	        }
+	        if (isAry && ary < length) {
+	          args.length = ary;
+	        }
+	        if (this && this !== root && this instanceof wrapper) {
+	          fn = Ctor || createCtor(fn);
+	        }
+	        return fn.apply(thisBinding, args);
+	      }
+	      return wrapper;
+	    }
+
+	    /**
+	     * Creates a function like `_.invertBy`.
+	     *
+	     * @private
+	     * @param {Function} setter The function to set accumulator values.
+	     * @param {Function} toIteratee The function to resolve iteratees.
+	     * @returns {Function} Returns the new inverter function.
+	     */
+	    function createInverter(setter, toIteratee) {
+	      return function(object, iteratee) {
+	        return baseInverter(object, setter, toIteratee(iteratee), {});
+	      };
+	    }
+
+	    /**
+	     * Creates a function that performs a mathematical operation on two values.
+	     *
+	     * @private
+	     * @param {Function} operator The function to perform the operation.
+	     * @param {number} [defaultValue] The value used for `undefined` arguments.
+	     * @returns {Function} Returns the new mathematical operation function.
+	     */
+	    function createMathOperation(operator, defaultValue) {
+	      return function(value, other) {
+	        var result;
+	        if (value === undefined && other === undefined) {
+	          return defaultValue;
+	        }
+	        if (value !== undefined) {
+	          result = value;
+	        }
+	        if (other !== undefined) {
+	          if (result === undefined) {
+	            return other;
+	          }
+	          if (typeof value == 'string' || typeof other == 'string') {
+	            value = baseToString(value);
+	            other = baseToString(other);
+	          } else {
+	            value = baseToNumber(value);
+	            other = baseToNumber(other);
+	          }
+	          result = operator(value, other);
+	        }
+	        return result;
+	      };
+	    }
+
+	    /**
+	     * Creates a function like `_.over`.
+	     *
+	     * @private
+	     * @param {Function} arrayFunc The function to iterate over iteratees.
+	     * @returns {Function} Returns the new over function.
+	     */
+	    function createOver(arrayFunc) {
+	      return baseRest(function(iteratees) {
+	        iteratees = (iteratees.length == 1 && isArray(iteratees[0]))
+	          ? arrayMap(iteratees[0], baseUnary(getIteratee()))
+	          : arrayMap(baseFlatten(iteratees, 1), baseUnary(getIteratee()));
+
+	        return baseRest(function(args) {
+	          var thisArg = this;
+	          return arrayFunc(iteratees, function(iteratee) {
+	            return apply(iteratee, thisArg, args);
+	          });
+	        });
+	      });
+	    }
+
+	    /**
+	     * Creates the padding for `string` based on `length`. The `chars` string
+	     * is truncated if the number of characters exceeds `length`.
+	     *
+	     * @private
+	     * @param {number} length The padding length.
+	     * @param {string} [chars=' '] The string used as padding.
+	     * @returns {string} Returns the padding for `string`.
+	     */
+	    function createPadding(length, chars) {
+	      chars = chars === undefined ? ' ' : baseToString(chars);
+
+	      var charsLength = chars.length;
+	      if (charsLength < 2) {
+	        return charsLength ? baseRepeat(chars, length) : chars;
+	      }
+	      var result = baseRepeat(chars, nativeCeil(length / stringSize(chars)));
+	      return hasUnicode(chars)
+	        ? castSlice(stringToArray(result), 0, length).join('')
+	        : result.slice(0, length);
+	    }
+
+	    /**
+	     * Creates a function that wraps `func` to invoke it with the `this` binding
+	     * of `thisArg` and `partials` prepended to the arguments it receives.
+	     *
+	     * @private
+	     * @param {Function} func The function to wrap.
+	     * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
+	     * @param {*} thisArg The `this` binding of `func`.
+	     * @param {Array} partials The arguments to prepend to those provided to
+	     *  the new function.
+	     * @returns {Function} Returns the new wrapped function.
+	     */
+	    function createPartial(func, bitmask, thisArg, partials) {
+	      var isBind = bitmask & BIND_FLAG,
+	          Ctor = createCtor(func);
+
+	      function wrapper() {
+	        var argsIndex = -1,
+	            argsLength = arguments.length,
+	            leftIndex = -1,
+	            leftLength = partials.length,
+	            args = Array(leftLength + argsLength),
+	            fn = (this && this !== root && this instanceof wrapper) ? Ctor : func;
+
+	        while (++leftIndex < leftLength) {
+	          args[leftIndex] = partials[leftIndex];
+	        }
+	        while (argsLength--) {
+	          args[leftIndex++] = arguments[++argsIndex];
+	        }
+	        return apply(fn, isBind ? thisArg : this, args);
+	      }
+	      return wrapper;
+	    }
+
+	    /**
+	     * Creates a `_.range` or `_.rangeRight` function.
+	     *
+	     * @private
+	     * @param {boolean} [fromRight] Specify iterating from right to left.
+	     * @returns {Function} Returns the new range function.
+	     */
+	    function createRange(fromRight) {
+	      return function(start, end, step) {
+	        if (step && typeof step != 'number' && isIterateeCall(start, end, step)) {
+	          end = step = undefined;
+	        }
+	        // Ensure the sign of `-0` is preserved.
+	        start = toFinite(start);
+	        if (end === undefined) {
+	          end = start;
+	          start = 0;
+	        } else {
+	          end = toFinite(end);
+	        }
+	        step = step === undefined ? (start < end ? 1 : -1) : toFinite(step);
+	        return baseRange(start, end, step, fromRight);
+	      };
+	    }
+
+	    /**
+	     * Creates a function that performs a relational operation on two values.
+	     *
+	     * @private
+	     * @param {Function} operator The function to perform the operation.
+	     * @returns {Function} Returns the new relational operation function.
+	     */
+	    function createRelationalOperation(operator) {
+	      return function(value, other) {
+	        if (!(typeof value == 'string' && typeof other == 'string')) {
+	          value = toNumber(value);
+	          other = toNumber(other);
+	        }
+	        return operator(value, other);
+	      };
+	    }
+
+	    /**
+	     * Creates a function that wraps `func` to continue currying.
+	     *
+	     * @private
+	     * @param {Function} func The function to wrap.
+	     * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
+	     * @param {Function} wrapFunc The function to create the `func` wrapper.
+	     * @param {*} placeholder The placeholder value.
+	     * @param {*} [thisArg] The `this` binding of `func`.
+	     * @param {Array} [partials] The arguments to prepend to those provided to
+	     *  the new function.
+	     * @param {Array} [holders] The `partials` placeholder indexes.
+	     * @param {Array} [argPos] The argument positions of the new function.
+	     * @param {number} [ary] The arity cap of `func`.
+	     * @param {number} [arity] The arity of `func`.
+	     * @returns {Function} Returns the new wrapped function.
+	     */
+	    function createRecurry(func, bitmask, wrapFunc, placeholder, thisArg, partials, holders, argPos, ary, arity) {
+	      var isCurry = bitmask & CURRY_FLAG,
+	          newHolders = isCurry ? holders : undefined,
+	          newHoldersRight = isCurry ? undefined : holders,
+	          newPartials = isCurry ? partials : undefined,
+	          newPartialsRight = isCurry ? undefined : partials;
+
+	      bitmask |= (isCurry ? PARTIAL_FLAG : PARTIAL_RIGHT_FLAG);
+	      bitmask &= ~(isCurry ? PARTIAL_RIGHT_FLAG : PARTIAL_FLAG);
+
+	      if (!(bitmask & CURRY_BOUND_FLAG)) {
+	        bitmask &= ~(BIND_FLAG | BIND_KEY_FLAG);
+	      }
+	      var newData = [
+	        func, bitmask, thisArg, newPartials, newHolders, newPartialsRight,
+	        newHoldersRight, argPos, ary, arity
+	      ];
+
+	      var result = wrapFunc.apply(undefined, newData);
+	      if (isLaziable(func)) {
+	        setData(result, newData);
+	      }
+	      result.placeholder = placeholder;
+	      return setWrapToString(result, func, bitmask);
+	    }
+
+	    /**
+	     * Creates a function like `_.round`.
+	     *
+	     * @private
+	     * @param {string} methodName The name of the `Math` method to use when rounding.
+	     * @returns {Function} Returns the new round function.
+	     */
+	    function createRound(methodName) {
+	      var func = Math[methodName];
+	      return function(number, precision) {
+	        number = toNumber(number);
+	        precision = nativeMin(toInteger(precision), 292);
+	        if (precision) {
+	          // Shift with exponential notation to avoid floating-point issues.
+	          // See [MDN](https://mdn.io/round#Examples) for more details.
+	          var pair = (toString(number) + 'e').split('e'),
+	              value = func(pair[0] + 'e' + (+pair[1] + precision));
+
+	          pair = (toString(value) + 'e').split('e');
+	          return +(pair[0] + 'e' + (+pair[1] - precision));
+	        }
+	        return func(number);
+	      };
+	    }
+
+	    /**
+	     * Creates a set object of `values`.
+	     *
+	     * @private
+	     * @param {Array} values The values to add to the set.
+	     * @returns {Object} Returns the new set.
+	     */
+	    var createSet = !(Set && (1 / setToArray(new Set([,-0]))[1]) == INFINITY) ? noop : function(values) {
+	      return new Set(values);
+	    };
+
+	    /**
+	     * Creates a `_.toPairs` or `_.toPairsIn` function.
+	     *
+	     * @private
+	     * @param {Function} keysFunc The function to get the keys of a given object.
+	     * @returns {Function} Returns the new pairs function.
+	     */
+	    function createToPairs(keysFunc) {
+	      return function(object) {
+	        var tag = getTag(object);
+	        if (tag == mapTag) {
+	          return mapToArray(object);
+	        }
+	        if (tag == setTag) {
+	          return setToPairs(object);
+	        }
+	        return baseToPairs(object, keysFunc(object));
+	      };
+	    }
+
+	    /**
+	     * Creates a function that either curries or invokes `func` with optional
+	     * `this` binding and partially applied arguments.
+	     *
+	     * @private
+	     * @param {Function|string} func The function or method name to wrap.
+	     * @param {number} bitmask The bitmask flags.
+	     *  The bitmask may be composed of the following flags:
+	     *     1 - `_.bind`
+	     *     2 - `_.bindKey`
+	     *     4 - `_.curry` or `_.curryRight` of a bound function
+	     *     8 - `_.curry`
+	     *    16 - `_.curryRight`
+	     *    32 - `_.partial`
+	     *    64 - `_.partialRight`
+	     *   128 - `_.rearg`
+	     *   256 - `_.ary`
+	     *   512 - `_.flip`
+	     * @param {*} [thisArg] The `this` binding of `func`.
+	     * @param {Array} [partials] The arguments to be partially applied.
+	     * @param {Array} [holders] The `partials` placeholder indexes.
+	     * @param {Array} [argPos] The argument positions of the new function.
+	     * @param {number} [ary] The arity cap of `func`.
+	     * @param {number} [arity] The arity of `func`.
+	     * @returns {Function} Returns the new wrapped function.
+	     */
+	    function createWrap(func, bitmask, thisArg, partials, holders, argPos, ary, arity) {
+	      var isBindKey = bitmask & BIND_KEY_FLAG;
+	      if (!isBindKey && typeof func != 'function') {
+	        throw new TypeError(FUNC_ERROR_TEXT);
+	      }
+	      var length = partials ? partials.length : 0;
+	      if (!length) {
+	        bitmask &= ~(PARTIAL_FLAG | PARTIAL_RIGHT_FLAG);
+	        partials = holders = undefined;
+	      }
+	      ary = ary === undefined ? ary : nativeMax(toInteger(ary), 0);
+	      arity = arity === undefined ? arity : toInteger(arity);
+	      length -= holders ? holders.length : 0;
+
+	      if (bitmask & PARTIAL_RIGHT_FLAG) {
+	        var partialsRight = partials,
+	            holdersRight = holders;
+
+	        partials = holders = undefined;
+	      }
+	      var data = isBindKey ? undefined : getData(func);
+
+	      var newData = [
+	        func, bitmask, thisArg, partials, holders, partialsRight, holdersRight,
+	        argPos, ary, arity
+	      ];
+
+	      if (data) {
+	        mergeData(newData, data);
+	      }
+	      func = newData[0];
+	      bitmask = newData[1];
+	      thisArg = newData[2];
+	      partials = newData[3];
+	      holders = newData[4];
+	      arity = newData[9] = newData[9] == null
+	        ? (isBindKey ? 0 : func.length)
+	        : nativeMax(newData[9] - length, 0);
+
+	      if (!arity && bitmask & (CURRY_FLAG | CURRY_RIGHT_FLAG)) {
+	        bitmask &= ~(CURRY_FLAG | CURRY_RIGHT_FLAG);
+	      }
+	      if (!bitmask || bitmask == BIND_FLAG) {
+	        var result = createBind(func, bitmask, thisArg);
+	      } else if (bitmask == CURRY_FLAG || bitmask == CURRY_RIGHT_FLAG) {
+	        result = createCurry(func, bitmask, arity);
+	      } else if ((bitmask == PARTIAL_FLAG || bitmask == (BIND_FLAG | PARTIAL_FLAG)) && !holders.length) {
+	        result = createPartial(func, bitmask, thisArg, partials);
+	      } else {
+	        result = createHybrid.apply(undefined, newData);
+	      }
+	      var setter = data ? baseSetData : setData;
+	      return setWrapToString(setter(result, newData), func, bitmask);
+	    }
+
+	    /**
+	     * A specialized version of `baseIsEqualDeep` for arrays with support for
+	     * partial deep comparisons.
+	     *
+	     * @private
+	     * @param {Array} array The array to compare.
+	     * @param {Array} other The other array to compare.
+	     * @param {Function} equalFunc The function to determine equivalents of values.
+	     * @param {Function} customizer The function to customize comparisons.
+	     * @param {number} bitmask The bitmask of comparison flags. See `baseIsEqual`
+	     *  for more details.
+	     * @param {Object} stack Tracks traversed `array` and `other` objects.
+	     * @returns {boolean} Returns `true` if the arrays are equivalent, else `false`.
+	     */
+	    function equalArrays(array, other, equalFunc, customizer, bitmask, stack) {
+	      var isPartial = bitmask & PARTIAL_COMPARE_FLAG,
+	          arrLength = array.length,
+	          othLength = other.length;
+
+	      if (arrLength != othLength && !(isPartial && othLength > arrLength)) {
+	        return false;
+	      }
+	      // Assume cyclic values are equal.
+	      var stacked = stack.get(array);
+	      if (stacked && stack.get(other)) {
+	        return stacked == other;
+	      }
+	      var index = -1,
+	          result = true,
+	          seen = (bitmask & UNORDERED_COMPARE_FLAG) ? new SetCache : undefined;
+
+	      stack.set(array, other);
+	      stack.set(other, array);
+
+	      // Ignore non-index properties.
+	      while (++index < arrLength) {
+	        var arrValue = array[index],
+	            othValue = other[index];
+
+	        if (customizer) {
+	          var compared = isPartial
+	            ? customizer(othValue, arrValue, index, other, array, stack)
+	            : customizer(arrValue, othValue, index, array, other, stack);
+	        }
+	        if (compared !== undefined) {
+	          if (compared) {
+	            continue;
+	          }
+	          result = false;
+	          break;
+	        }
+	        // Recursively compare arrays (susceptible to call stack limits).
+	        if (seen) {
+	          if (!arraySome(other, function(othValue, othIndex) {
+	                if (!seen.has(othIndex) &&
+	                    (arrValue === othValue || equalFunc(arrValue, othValue, customizer, bitmask, stack))) {
+	                  return seen.add(othIndex);
+	                }
+	              })) {
+	            result = false;
+	            break;
+	          }
+	        } else if (!(
+	              arrValue === othValue ||
+	                equalFunc(arrValue, othValue, customizer, bitmask, stack)
+	            )) {
+	          result = false;
+	          break;
+	        }
+	      }
+	      stack['delete'](array);
+	      stack['delete'](other);
+	      return result;
+	    }
+
+	    /**
+	     * A specialized version of `baseIsEqualDeep` for comparing objects of
+	     * the same `toStringTag`.
+	     *
+	     * **Note:** This function only supports comparing values with tags of
+	     * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
+	     *
+	     * @private
+	     * @param {Object} object The object to compare.
+	     * @param {Object} other The other object to compare.
+	     * @param {string} tag The `toStringTag` of the objects to compare.
+	     * @param {Function} equalFunc The function to determine equivalents of values.
+	     * @param {Function} customizer The function to customize comparisons.
+	     * @param {number} bitmask The bitmask of comparison flags. See `baseIsEqual`
+	     *  for more details.
+	     * @param {Object} stack Tracks traversed `object` and `other` objects.
+	     * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+	     */
+	    function equalByTag(object, other, tag, equalFunc, customizer, bitmask, stack) {
+	      switch (tag) {
+	        case dataViewTag:
+	          if ((object.byteLength != other.byteLength) ||
+	              (object.byteOffset != other.byteOffset)) {
+	            return false;
+	          }
+	          object = object.buffer;
+	          other = other.buffer;
+
+	        case arrayBufferTag:
+	          if ((object.byteLength != other.byteLength) ||
+	              !equalFunc(new Uint8Array(object), new Uint8Array(other))) {
+	            return false;
+	          }
+	          return true;
+
+	        case boolTag:
+	        case dateTag:
+	        case numberTag:
+	          // Coerce booleans to `1` or `0` and dates to milliseconds.
+	          // Invalid dates are coerced to `NaN`.
+	          return eq(+object, +other);
+
+	        case errorTag:
+	          return object.name == other.name && object.message == other.message;
+
+	        case regexpTag:
+	        case stringTag:
+	          // Coerce regexes to strings and treat strings, primitives and objects,
+	          // as equal. See http://www.ecma-international.org/ecma-262/7.0/#sec-regexp.prototype.tostring
+	          // for more details.
+	          return object == (other + '');
+
+	        case mapTag:
+	          var convert = mapToArray;
+
+	        case setTag:
+	          var isPartial = bitmask & PARTIAL_COMPARE_FLAG;
+	          convert || (convert = setToArray);
+
+	          if (object.size != other.size && !isPartial) {
+	            return false;
+	          }
+	          // Assume cyclic values are equal.
+	          var stacked = stack.get(object);
+	          if (stacked) {
+	            return stacked == other;
+	          }
+	          bitmask |= UNORDERED_COMPARE_FLAG;
+
+	          // Recursively compare objects (susceptible to call stack limits).
+	          stack.set(object, other);
+	          var result = equalArrays(convert(object), convert(other), equalFunc, customizer, bitmask, stack);
+	          stack['delete'](object);
+	          return result;
+
+	        case symbolTag:
+	          if (symbolValueOf) {
+	            return symbolValueOf.call(object) == symbolValueOf.call(other);
+	          }
+	      }
+	      return false;
+	    }
+
+	    /**
+	     * A specialized version of `baseIsEqualDeep` for objects with support for
+	     * partial deep comparisons.
+	     *
+	     * @private
+	     * @param {Object} object The object to compare.
+	     * @param {Object} other The other object to compare.
+	     * @param {Function} equalFunc The function to determine equivalents of values.
+	     * @param {Function} customizer The function to customize comparisons.
+	     * @param {number} bitmask The bitmask of comparison flags. See `baseIsEqual`
+	     *  for more details.
+	     * @param {Object} stack Tracks traversed `object` and `other` objects.
+	     * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+	     */
+	    function equalObjects(object, other, equalFunc, customizer, bitmask, stack) {
+	      var isPartial = bitmask & PARTIAL_COMPARE_FLAG,
+	          objProps = keys(object),
+	          objLength = objProps.length,
+	          othProps = keys(other),
+	          othLength = othProps.length;
+
+	      if (objLength != othLength && !isPartial) {
+	        return false;
+	      }
+	      var index = objLength;
+	      while (index--) {
+	        var key = objProps[index];
+	        if (!(isPartial ? key in other : hasOwnProperty.call(other, key))) {
+	          return false;
+	        }
+	      }
+	      // Assume cyclic values are equal.
+	      var stacked = stack.get(object);
+	      if (stacked && stack.get(other)) {
+	        return stacked == other;
+	      }
+	      var result = true;
+	      stack.set(object, other);
+	      stack.set(other, object);
+
+	      var skipCtor = isPartial;
+	      while (++index < objLength) {
+	        key = objProps[index];
+	        var objValue = object[key],
+	            othValue = other[key];
+
+	        if (customizer) {
+	          var compared = isPartial
+	            ? customizer(othValue, objValue, key, other, object, stack)
+	            : customizer(objValue, othValue, key, object, other, stack);
+	        }
+	        // Recursively compare objects (susceptible to call stack limits).
+	        if (!(compared === undefined
+	              ? (objValue === othValue || equalFunc(objValue, othValue, customizer, bitmask, stack))
+	              : compared
+	            )) {
+	          result = false;
+	          break;
+	        }
+	        skipCtor || (skipCtor = key == 'constructor');
+	      }
+	      if (result && !skipCtor) {
+	        var objCtor = object.constructor,
+	            othCtor = other.constructor;
+
+	        // Non `Object` object instances with different constructors are not equal.
+	        if (objCtor != othCtor &&
+	            ('constructor' in object && 'constructor' in other) &&
+	            !(typeof objCtor == 'function' && objCtor instanceof objCtor &&
+	              typeof othCtor == 'function' && othCtor instanceof othCtor)) {
+	          result = false;
+	        }
+	      }
+	      stack['delete'](object);
+	      stack['delete'](other);
+	      return result;
+	    }
+
+	    /**
+	     * Creates an array of own enumerable property names and symbols of `object`.
+	     *
+	     * @private
+	     * @param {Object} object The object to query.
+	     * @returns {Array} Returns the array of property names and symbols.
+	     */
+	    function getAllKeys(object) {
+	      return baseGetAllKeys(object, keys, getSymbols);
+	    }
+
+	    /**
+	     * Creates an array of own and inherited enumerable property names and
+	     * symbols of `object`.
+	     *
+	     * @private
+	     * @param {Object} object The object to query.
+	     * @returns {Array} Returns the array of property names and symbols.
+	     */
+	    function getAllKeysIn(object) {
+	      return baseGetAllKeys(object, keysIn, getSymbolsIn);
+	    }
+
+	    /**
+	     * Gets metadata for `func`.
+	     *
+	     * @private
+	     * @param {Function} func The function to query.
+	     * @returns {*} Returns the metadata for `func`.
+	     */
+	    var getData = !metaMap ? noop : function(func) {
+	      return metaMap.get(func);
+	    };
+
+	    /**
+	     * Gets the name of `func`.
+	     *
+	     * @private
+	     * @param {Function} func The function to query.
+	     * @returns {string} Returns the function name.
+	     */
+	    function getFuncName(func) {
+	      var result = (func.name + ''),
+	          array = realNames[result],
+	          length = hasOwnProperty.call(realNames, result) ? array.length : 0;
+
+	      while (length--) {
+	        var data = array[length],
+	            otherFunc = data.func;
+	        if (otherFunc == null || otherFunc == func) {
+	          return data.name;
+	        }
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * Gets the argument placeholder value for `func`.
+	     *
+	     * @private
+	     * @param {Function} func The function to inspect.
+	     * @returns {*} Returns the placeholder value.
+	     */
+	    function getHolder(func) {
+	      var object = hasOwnProperty.call(lodash, 'placeholder') ? lodash : func;
+	      return object.placeholder;
+	    }
+
+	    /**
+	     * Gets the appropriate "iteratee" function. If `_.iteratee` is customized,
+	     * this function returns the custom method, otherwise it returns `baseIteratee`.
+	     * If arguments are provided, the chosen function is invoked with them and
+	     * its result is returned.
+	     *
+	     * @private
+	     * @param {*} [value] The value to convert to an iteratee.
+	     * @param {number} [arity] The arity of the created iteratee.
+	     * @returns {Function} Returns the chosen function or its result.
+	     */
+	    function getIteratee() {
+	      var result = lodash.iteratee || iteratee;
+	      result = result === iteratee ? baseIteratee : result;
+	      return arguments.length ? result(arguments[0], arguments[1]) : result;
+	    }
+
+	    /**
+	     * Gets the data for `map`.
+	     *
+	     * @private
+	     * @param {Object} map The map to query.
+	     * @param {string} key The reference key.
+	     * @returns {*} Returns the map data.
+	     */
+	    function getMapData(map, key) {
+	      var data = map.__data__;
+	      return isKeyable(key)
+	        ? data[typeof key == 'string' ? 'string' : 'hash']
+	        : data.map;
+	    }
+
+	    /**
+	     * Gets the property names, values, and compare flags of `object`.
+	     *
+	     * @private
+	     * @param {Object} object The object to query.
+	     * @returns {Array} Returns the match data of `object`.
+	     */
+	    function getMatchData(object) {
+	      var result = keys(object),
+	          length = result.length;
+
+	      while (length--) {
+	        var key = result[length],
+	            value = object[key];
+
+	        result[length] = [key, value, isStrictComparable(value)];
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * Gets the native function at `key` of `object`.
+	     *
+	     * @private
+	     * @param {Object} object The object to query.
+	     * @param {string} key The key of the method to get.
+	     * @returns {*} Returns the function if it's native, else `undefined`.
+	     */
+	    function getNative(object, key) {
+	      var value = getValue(object, key);
+	      return baseIsNative(value) ? value : undefined;
+	    }
+
+	    /**
+	     * Creates an array of the own enumerable symbol properties of `object`.
+	     *
+	     * @private
+	     * @param {Object} object The object to query.
+	     * @returns {Array} Returns the array of symbols.
+	     */
+	    var getSymbols = nativeGetSymbols ? overArg(nativeGetSymbols, Object) : stubArray;
+
+	    /**
+	     * Creates an array of the own and inherited enumerable symbol properties
+	     * of `object`.
+	     *
+	     * @private
+	     * @param {Object} object The object to query.
+	     * @returns {Array} Returns the array of symbols.
+	     */
+	    var getSymbolsIn = !nativeGetSymbols ? stubArray : function(object) {
+	      var result = [];
+	      while (object) {
+	        arrayPush(result, getSymbols(object));
+	        object = getPrototype(object);
+	      }
+	      return result;
+	    };
+
+	    /**
+	     * Gets the `toStringTag` of `value`.
+	     *
+	     * @private
+	     * @param {*} value The value to query.
+	     * @returns {string} Returns the `toStringTag`.
+	     */
+	    var getTag = baseGetTag;
+
+	    // Fallback for data views, maps, sets, and weak maps in IE 11,
+	    // for data views in Edge < 14, and promises in Node.js.
+	    if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
+	        (Map && getTag(new Map) != mapTag) ||
+	        (Promise && getTag(Promise.resolve()) != promiseTag) ||
+	        (Set && getTag(new Set) != setTag) ||
+	        (WeakMap && getTag(new WeakMap) != weakMapTag)) {
+	      getTag = function(value) {
+	        var result = objectToString.call(value),
+	            Ctor = result == objectTag ? value.constructor : undefined,
+	            ctorString = Ctor ? toSource(Ctor) : undefined;
+
+	        if (ctorString) {
+	          switch (ctorString) {
+	            case dataViewCtorString: return dataViewTag;
+	            case mapCtorString: return mapTag;
+	            case promiseCtorString: return promiseTag;
+	            case setCtorString: return setTag;
+	            case weakMapCtorString: return weakMapTag;
+	          }
+	        }
+	        return result;
+	      };
+	    }
+
+	    /**
+	     * Gets the view, applying any `transforms` to the `start` and `end` positions.
+	     *
+	     * @private
+	     * @param {number} start The start of the view.
+	     * @param {number} end The end of the view.
+	     * @param {Array} transforms The transformations to apply to the view.
+	     * @returns {Object} Returns an object containing the `start` and `end`
+	     *  positions of the view.
+	     */
+	    function getView(start, end, transforms) {
+	      var index = -1,
+	          length = transforms.length;
+
+	      while (++index < length) {
+	        var data = transforms[index],
+	            size = data.size;
+
+	        switch (data.type) {
+	          case 'drop':      start += size; break;
+	          case 'dropRight': end -= size; break;
+	          case 'take':      end = nativeMin(end, start + size); break;
+	          case 'takeRight': start = nativeMax(start, end - size); break;
+	        }
+	      }
+	      return { 'start': start, 'end': end };
+	    }
+
+	    /**
+	     * Extracts wrapper details from the `source` body comment.
+	     *
+	     * @private
+	     * @param {string} source The source to inspect.
+	     * @returns {Array} Returns the wrapper details.
+	     */
+	    function getWrapDetails(source) {
+	      var match = source.match(reWrapDetails);
+	      return match ? match[1].split(reSplitDetails) : [];
+	    }
+
+	    /**
+	     * Checks if `path` exists on `object`.
+	     *
+	     * @private
+	     * @param {Object} object The object to query.
+	     * @param {Array|string} path The path to check.
+	     * @param {Function} hasFunc The function to check properties.
+	     * @returns {boolean} Returns `true` if `path` exists, else `false`.
+	     */
+	    function hasPath(object, path, hasFunc) {
+	      path = isKey(path, object) ? [path] : castPath(path);
+
+	      var result,
+	          index = -1,
+	          length = path.length;
+
+	      while (++index < length) {
+	        var key = toKey(path[index]);
+	        if (!(result = object != null && hasFunc(object, key))) {
+	          break;
+	        }
+	        object = object[key];
+	      }
+	      if (result) {
+	        return result;
+	      }
+	      var length = object ? object.length : 0;
+	      return !!length && isLength(length) && isIndex(key, length) &&
+	        (isArray(object) || isArguments(object));
+	    }
+
+	    /**
+	     * Initializes an array clone.
+	     *
+	     * @private
+	     * @param {Array} array The array to clone.
+	     * @returns {Array} Returns the initialized clone.
+	     */
+	    function initCloneArray(array) {
+	      var length = array.length,
+	          result = array.constructor(length);
+
+	      // Add properties assigned by `RegExp#exec`.
+	      if (length && typeof array[0] == 'string' && hasOwnProperty.call(array, 'index')) {
+	        result.index = array.index;
+	        result.input = array.input;
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * Initializes an object clone.
+	     *
+	     * @private
+	     * @param {Object} object The object to clone.
+	     * @returns {Object} Returns the initialized clone.
+	     */
+	    function initCloneObject(object) {
+	      return (typeof object.constructor == 'function' && !isPrototype(object))
+	        ? baseCreate(getPrototype(object))
+	        : {};
+	    }
+
+	    /**
+	     * Initializes an object clone based on its `toStringTag`.
+	     *
+	     * **Note:** This function only supports cloning values with tags of
+	     * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
+	     *
+	     * @private
+	     * @param {Object} object The object to clone.
+	     * @param {string} tag The `toStringTag` of the object to clone.
+	     * @param {Function} cloneFunc The function to clone values.
+	     * @param {boolean} [isDeep] Specify a deep clone.
+	     * @returns {Object} Returns the initialized clone.
+	     */
+	    function initCloneByTag(object, tag, cloneFunc, isDeep) {
+	      var Ctor = object.constructor;
+	      switch (tag) {
+	        case arrayBufferTag:
+	          return cloneArrayBuffer(object);
+
+	        case boolTag:
+	        case dateTag:
+	          return new Ctor(+object);
+
+	        case dataViewTag:
+	          return cloneDataView(object, isDeep);
+
+	        case float32Tag: case float64Tag:
+	        case int8Tag: case int16Tag: case int32Tag:
+	        case uint8Tag: case uint8ClampedTag: case uint16Tag: case uint32Tag:
+	          return cloneTypedArray(object, isDeep);
+
+	        case mapTag:
+	          return cloneMap(object, isDeep, cloneFunc);
+
+	        case numberTag:
+	        case stringTag:
+	          return new Ctor(object);
+
+	        case regexpTag:
+	          return cloneRegExp(object);
+
+	        case setTag:
+	          return cloneSet(object, isDeep, cloneFunc);
+
+	        case symbolTag:
+	          return cloneSymbol(object);
+	      }
+	    }
+
+	    /**
+	     * Inserts wrapper `details` in a comment at the top of the `source` body.
+	     *
+	     * @private
+	     * @param {string} source The source to modify.
+	     * @returns {Array} details The details to insert.
+	     * @returns {string} Returns the modified source.
+	     */
+	    function insertWrapDetails(source, details) {
+	      var length = details.length,
+	          lastIndex = length - 1;
+
+	      details[lastIndex] = (length > 1 ? '& ' : '') + details[lastIndex];
+	      details = details.join(length > 2 ? ', ' : ' ');
+	      return source.replace(reWrapComment, '{\n/* [wrapped with ' + details + '] */\n');
+	    }
+
+	    /**
+	     * Checks if `value` is a flattenable `arguments` object or array.
+	     *
+	     * @private
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is flattenable, else `false`.
+	     */
+	    function isFlattenable(value) {
+	      return isArray(value) || isArguments(value) ||
+	        !!(spreadableSymbol && value && value[spreadableSymbol]);
+	    }
+
+	    /**
+	     * Checks if `value` is a valid array-like index.
+	     *
+	     * @private
+	     * @param {*} value The value to check.
+	     * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+	     * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+	     */
+	    function isIndex(value, length) {
+	      length = length == null ? MAX_SAFE_INTEGER : length;
+	      return !!length &&
+	        (typeof value == 'number' || reIsUint.test(value)) &&
+	        (value > -1 && value % 1 == 0 && value < length);
+	    }
+
+	    /**
+	     * Checks if the given arguments are from an iteratee call.
+	     *
+	     * @private
+	     * @param {*} value The potential iteratee value argument.
+	     * @param {*} index The potential iteratee index or key argument.
+	     * @param {*} object The potential iteratee object argument.
+	     * @returns {boolean} Returns `true` if the arguments are from an iteratee call,
+	     *  else `false`.
+	     */
+	    function isIterateeCall(value, index, object) {
+	      if (!isObject(object)) {
+	        return false;
+	      }
+	      var type = typeof index;
+	      if (type == 'number'
+	            ? (isArrayLike(object) && isIndex(index, object.length))
+	            : (type == 'string' && index in object)
+	          ) {
+	        return eq(object[index], value);
+	      }
+	      return false;
+	    }
+
+	    /**
+	     * Checks if `value` is a property name and not a property path.
+	     *
+	     * @private
+	     * @param {*} value The value to check.
+	     * @param {Object} [object] The object to query keys on.
+	     * @returns {boolean} Returns `true` if `value` is a property name, else `false`.
+	     */
+	    function isKey(value, object) {
+	      if (isArray(value)) {
+	        return false;
+	      }
+	      var type = typeof value;
+	      if (type == 'number' || type == 'symbol' || type == 'boolean' ||
+	          value == null || isSymbol(value)) {
+	        return true;
+	      }
+	      return reIsPlainProp.test(value) || !reIsDeepProp.test(value) ||
+	        (object != null && value in Object(object));
+	    }
+
+	    /**
+	     * Checks if `value` is suitable for use as unique object key.
+	     *
+	     * @private
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is suitable, else `false`.
+	     */
+	    function isKeyable(value) {
+	      var type = typeof value;
+	      return (type == 'string' || type == 'number' || type == 'symbol' || type == 'boolean')
+	        ? (value !== '__proto__')
+	        : (value === null);
+	    }
+
+	    /**
+	     * Checks if `func` has a lazy counterpart.
+	     *
+	     * @private
+	     * @param {Function} func The function to check.
+	     * @returns {boolean} Returns `true` if `func` has a lazy counterpart,
+	     *  else `false`.
+	     */
+	    function isLaziable(func) {
+	      var funcName = getFuncName(func),
+	          other = lodash[funcName];
+
+	      if (typeof other != 'function' || !(funcName in LazyWrapper.prototype)) {
+	        return false;
+	      }
+	      if (func === other) {
+	        return true;
+	      }
+	      var data = getData(other);
+	      return !!data && func === data[0];
+	    }
+
+	    /**
+	     * Checks if `func` has its source masked.
+	     *
+	     * @private
+	     * @param {Function} func The function to check.
+	     * @returns {boolean} Returns `true` if `func` is masked, else `false`.
+	     */
+	    function isMasked(func) {
+	      return !!maskSrcKey && (maskSrcKey in func);
+	    }
+
+	    /**
+	     * Checks if `func` is capable of being masked.
+	     *
+	     * @private
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `func` is maskable, else `false`.
+	     */
+	    var isMaskable = coreJsData ? isFunction : stubFalse;
+
+	    /**
+	     * Checks if `value` is likely a prototype object.
+	     *
+	     * @private
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
+	     */
+	    function isPrototype(value) {
+	      var Ctor = value && value.constructor,
+	          proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto;
+
+	      return value === proto;
+	    }
+
+	    /**
+	     * Checks if `value` is suitable for strict equality comparisons, i.e. `===`.
+	     *
+	     * @private
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` if suitable for strict
+	     *  equality comparisons, else `false`.
+	     */
+	    function isStrictComparable(value) {
+	      return value === value && !isObject(value);
+	    }
+
+	    /**
+	     * A specialized version of `matchesProperty` for source values suitable
+	     * for strict equality comparisons, i.e. `===`.
+	     *
+	     * @private
+	     * @param {string} key The key of the property to get.
+	     * @param {*} srcValue The value to match.
+	     * @returns {Function} Returns the new spec function.
+	     */
+	    function matchesStrictComparable(key, srcValue) {
+	      return function(object) {
+	        if (object == null) {
+	          return false;
+	        }
+	        return object[key] === srcValue &&
+	          (srcValue !== undefined || (key in Object(object)));
+	      };
+	    }
+
+	    /**
+	     * Merges the function metadata of `source` into `data`.
+	     *
+	     * Merging metadata reduces the number of wrappers used to invoke a function.
+	     * This is possible because methods like `_.bind`, `_.curry`, and `_.partial`
+	     * may be applied regardless of execution order. Methods like `_.ary` and
+	     * `_.rearg` modify function arguments, making the order in which they are
+	     * executed important, preventing the merging of metadata. However, we make
+	     * an exception for a safe combined case where curried functions have `_.ary`
+	     * and or `_.rearg` applied.
+	     *
+	     * @private
+	     * @param {Array} data The destination metadata.
+	     * @param {Array} source The source metadata.
+	     * @returns {Array} Returns `data`.
+	     */
+	    function mergeData(data, source) {
+	      var bitmask = data[1],
+	          srcBitmask = source[1],
+	          newBitmask = bitmask | srcBitmask,
+	          isCommon = newBitmask < (BIND_FLAG | BIND_KEY_FLAG | ARY_FLAG);
+
+	      var isCombo =
+	        ((srcBitmask == ARY_FLAG) && (bitmask == CURRY_FLAG)) ||
+	        ((srcBitmask == ARY_FLAG) && (bitmask == REARG_FLAG) && (data[7].length <= source[8])) ||
+	        ((srcBitmask == (ARY_FLAG | REARG_FLAG)) && (source[7].length <= source[8]) && (bitmask == CURRY_FLAG));
+
+	      // Exit early if metadata can't be merged.
+	      if (!(isCommon || isCombo)) {
+	        return data;
+	      }
+	      // Use source `thisArg` if available.
+	      if (srcBitmask & BIND_FLAG) {
+	        data[2] = source[2];
+	        // Set when currying a bound function.
+	        newBitmask |= bitmask & BIND_FLAG ? 0 : CURRY_BOUND_FLAG;
+	      }
+	      // Compose partial arguments.
+	      var value = source[3];
+	      if (value) {
+	        var partials = data[3];
+	        data[3] = partials ? composeArgs(partials, value, source[4]) : value;
+	        data[4] = partials ? replaceHolders(data[3], PLACEHOLDER) : source[4];
+	      }
+	      // Compose partial right arguments.
+	      value = source[5];
+	      if (value) {
+	        partials = data[5];
+	        data[5] = partials ? composeArgsRight(partials, value, source[6]) : value;
+	        data[6] = partials ? replaceHolders(data[5], PLACEHOLDER) : source[6];
+	      }
+	      // Use source `argPos` if available.
+	      value = source[7];
+	      if (value) {
+	        data[7] = value;
+	      }
+	      // Use source `ary` if it's smaller.
+	      if (srcBitmask & ARY_FLAG) {
+	        data[8] = data[8] == null ? source[8] : nativeMin(data[8], source[8]);
+	      }
+	      // Use source `arity` if one is not provided.
+	      if (data[9] == null) {
+	        data[9] = source[9];
+	      }
+	      // Use source `func` and merge bitmasks.
+	      data[0] = source[0];
+	      data[1] = newBitmask;
+
+	      return data;
+	    }
+
+	    /**
+	     * Used by `_.defaultsDeep` to customize its `_.merge` use.
+	     *
+	     * @private
+	     * @param {*} objValue The destination value.
+	     * @param {*} srcValue The source value.
+	     * @param {string} key The key of the property to merge.
+	     * @param {Object} object The parent object of `objValue`.
+	     * @param {Object} source The parent object of `srcValue`.
+	     * @param {Object} [stack] Tracks traversed source values and their merged
+	     *  counterparts.
+	     * @returns {*} Returns the value to assign.
+	     */
+	    function mergeDefaults(objValue, srcValue, key, object, source, stack) {
+	      if (isObject(objValue) && isObject(srcValue)) {
+	        // Recursively merge objects and arrays (susceptible to call stack limits).
+	        stack.set(srcValue, objValue);
+	        baseMerge(objValue, srcValue, undefined, mergeDefaults, stack);
+	        stack['delete'](srcValue);
+	      }
+	      return objValue;
+	    }
+
+	    /**
+	     * This function is like
+	     * [`Object.keys`](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
+	     * except that it includes inherited enumerable properties.
+	     *
+	     * @private
+	     * @param {Object} object The object to query.
+	     * @returns {Array} Returns the array of property names.
+	     */
+	    function nativeKeysIn(object) {
+	      var result = [];
+	      if (object != null) {
+	        for (var key in Object(object)) {
+	          result.push(key);
+	        }
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * Gets the parent value at `path` of `object`.
+	     *
+	     * @private
+	     * @param {Object} object The object to query.
+	     * @param {Array} path The path to get the parent value of.
+	     * @returns {*} Returns the parent value.
+	     */
+	    function parent(object, path) {
+	      return path.length == 1 ? object : baseGet(object, baseSlice(path, 0, -1));
+	    }
+
+	    /**
+	     * Reorder `array` according to the specified indexes where the element at
+	     * the first index is assigned as the first element, the element at
+	     * the second index is assigned as the second element, and so on.
+	     *
+	     * @private
+	     * @param {Array} array The array to reorder.
+	     * @param {Array} indexes The arranged array indexes.
+	     * @returns {Array} Returns `array`.
+	     */
+	    function reorder(array, indexes) {
+	      var arrLength = array.length,
+	          length = nativeMin(indexes.length, arrLength),
+	          oldArray = copyArray(array);
+
+	      while (length--) {
+	        var index = indexes[length];
+	        array[length] = isIndex(index, arrLength) ? oldArray[index] : undefined;
+	      }
+	      return array;
+	    }
+
+	    /**
+	     * Sets metadata for `func`.
+	     *
+	     * **Note:** If this function becomes hot, i.e. is invoked a lot in a short
+	     * period of time, it will trip its breaker and transition to an identity
+	     * function to avoid garbage collection pauses in V8. See
+	     * [V8 issue 2070](https://bugs.chromium.org/p/v8/issues/detail?id=2070)
+	     * for more details.
+	     *
+	     * @private
+	     * @param {Function} func The function to associate metadata with.
+	     * @param {*} data The metadata.
+	     * @returns {Function} Returns `func`.
+	     */
+	    var setData = (function() {
+	      var count = 0,
+	          lastCalled = 0;
+
+	      return function(key, value) {
+	        var stamp = now(),
+	            remaining = HOT_SPAN - (stamp - lastCalled);
+
+	        lastCalled = stamp;
+	        if (remaining > 0) {
+	          if (++count >= HOT_COUNT) {
+	            return key;
+	          }
+	        } else {
+	          count = 0;
+	        }
+	        return baseSetData(key, value);
+	      };
+	    }());
+
+	    /**
+	     * A simple wrapper around the global [`setTimeout`](https://mdn.io/setTimeout).
+	     *
+	     * @private
+	     * @param {Function} func The function to delay.
+	     * @param {number} wait The number of milliseconds to delay invocation.
+	     * @returns {number|Object} Returns the timer id or timeout object.
+	     */
+	    var setTimeout = ctxSetTimeout || function(func, wait) {
+	      return root.setTimeout(func, wait);
+	    };
+
+	    /**
+	     * Sets the `toString` method of `wrapper` to mimic the source of `reference`
+	     * with wrapper details in a comment at the top of the source body.
+	     *
+	     * @private
+	     * @param {Function} wrapper The function to modify.
+	     * @param {Function} reference The reference function.
+	     * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
+	     * @returns {Function} Returns `wrapper`.
+	     */
+	    var setWrapToString = !defineProperty ? identity : function(wrapper, reference, bitmask) {
+	      var source = (reference + '');
+	      return defineProperty(wrapper, 'toString', {
+	        'configurable': true,
+	        'enumerable': false,
+	        'value': constant(insertWrapDetails(source, updateWrapDetails(getWrapDetails(source), bitmask)))
+	      });
+	    };
+
+	    /**
+	     * Converts `string` to a property path array.
+	     *
+	     * @private
+	     * @param {string} string The string to convert.
+	     * @returns {Array} Returns the property path array.
+	     */
+	    var stringToPath = memoize(function(string) {
+	      string = toString(string);
+
+	      var result = [];
+	      if (reLeadingDot.test(string)) {
+	        result.push('');
+	      }
+	      string.replace(rePropName, function(match, number, quote, string) {
+	        result.push(quote ? string.replace(reEscapeChar, '$1') : (number || match));
+	      });
+	      return result;
+	    });
+
+	    /**
+	     * Converts `value` to a string key if it's not a string or symbol.
+	     *
+	     * @private
+	     * @param {*} value The value to inspect.
+	     * @returns {string|symbol} Returns the key.
+	     */
+	    function toKey(value) {
+	      if (typeof value == 'string' || isSymbol(value)) {
+	        return value;
+	      }
+	      var result = (value + '');
+	      return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
+	    }
+
+	    /**
+	     * Converts `func` to its source code.
+	     *
+	     * @private
+	     * @param {Function} func The function to process.
+	     * @returns {string} Returns the source code.
+	     */
+	    function toSource(func) {
+	      if (func != null) {
+	        try {
+	          return funcToString.call(func);
+	        } catch (e) {}
+	        try {
+	          return (func + '');
+	        } catch (e) {}
+	      }
+	      return '';
+	    }
+
+	    /**
+	     * Updates wrapper `details` based on `bitmask` flags.
+	     *
+	     * @private
+	     * @returns {Array} details The details to modify.
+	     * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
+	     * @returns {Array} Returns `details`.
+	     */
+	    function updateWrapDetails(details, bitmask) {
+	      arrayEach(wrapFlags, function(pair) {
+	        var value = '_.' + pair[0];
+	        if ((bitmask & pair[1]) && !arrayIncludes(details, value)) {
+	          details.push(value);
+	        }
+	      });
+	      return details.sort();
+	    }
+
+	    /**
+	     * Creates a clone of `wrapper`.
+	     *
+	     * @private
+	     * @param {Object} wrapper The wrapper to clone.
+	     * @returns {Object} Returns the cloned wrapper.
+	     */
+	    function wrapperClone(wrapper) {
+	      if (wrapper instanceof LazyWrapper) {
+	        return wrapper.clone();
+	      }
+	      var result = new LodashWrapper(wrapper.__wrapped__, wrapper.__chain__);
+	      result.__actions__ = copyArray(wrapper.__actions__);
+	      result.__index__  = wrapper.__index__;
+	      result.__values__ = wrapper.__values__;
+	      return result;
+	    }
+
+	    /*------------------------------------------------------------------------*/
+
+	    /**
+	     * Creates an array of elements split into groups the length of `size`.
+	     * If `array` can't be split evenly, the final chunk will be the remaining
+	     * elements.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Array
+	     * @param {Array} array The array to process.
+	     * @param {number} [size=1] The length of each chunk
+	     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+	     * @returns {Array} Returns the new array of chunks.
+	     * @example
+	     *
+	     * _.chunk(['a', 'b', 'c', 'd'], 2);
+	     * // => [['a', 'b'], ['c', 'd']]
+	     *
+	     * _.chunk(['a', 'b', 'c', 'd'], 3);
+	     * // => [['a', 'b', 'c'], ['d']]
+	     */
+	    function chunk(array, size, guard) {
+	      if ((guard ? isIterateeCall(array, size, guard) : size === undefined)) {
+	        size = 1;
+	      } else {
+	        size = nativeMax(toInteger(size), 0);
+	      }
+	      var length = array ? array.length : 0;
+	      if (!length || size < 1) {
+	        return [];
+	      }
+	      var index = 0,
+	          resIndex = 0,
+	          result = Array(nativeCeil(length / size));
+
+	      while (index < length) {
+	        result[resIndex++] = baseSlice(array, index, (index += size));
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * Creates an array with all falsey values removed. The values `false`, `null`,
+	     * `0`, `""`, `undefined`, and `NaN` are falsey.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Array
+	     * @param {Array} array The array to compact.
+	     * @returns {Array} Returns the new array of filtered values.
+	     * @example
+	     *
+	     * _.compact([0, 1, false, 2, '', 3]);
+	     * // => [1, 2, 3]
+	     */
+	    function compact(array) {
+	      var index = -1,
+	          length = array ? array.length : 0,
+	          resIndex = 0,
+	          result = [];
+
+	      while (++index < length) {
+	        var value = array[index];
+	        if (value) {
+	          result[resIndex++] = value;
+	        }
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * Creates a new array concatenating `array` with any additional arrays
+	     * and/or values.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Array
+	     * @param {Array} array The array to concatenate.
+	     * @param {...*} [values] The values to concatenate.
+	     * @returns {Array} Returns the new concatenated array.
+	     * @example
+	     *
+	     * var array = [1];
+	     * var other = _.concat(array, 2, [3], [[4]]);
+	     *
+	     * console.log(other);
+	     * // => [1, 2, 3, [4]]
+	     *
+	     * console.log(array);
+	     * // => [1]
+	     */
+	    function concat() {
+	      var length = arguments.length,
+	          args = Array(length ? length - 1 : 0),
+	          array = arguments[0],
+	          index = length;
+
+	      while (index--) {
+	        args[index - 1] = arguments[index];
+	      }
+	      return length
+	        ? arrayPush(isArray(array) ? copyArray(array) : [array], baseFlatten(args, 1))
+	        : [];
+	    }
+
+	    /**
+	     * Creates an array of `array` values not included in the other given arrays
+	     * using [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+	     * for equality comparisons. The order of result values is determined by the
+	     * order they occur in the first array.
+	     *
+	     * **Note:** Unlike `_.pullAll`, this method returns a new array.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Array
+	     * @param {Array} array The array to inspect.
+	     * @param {...Array} [values] The values to exclude.
+	     * @returns {Array} Returns the new array of filtered values.
+	     * @see _.without, _.xor
+	     * @example
+	     *
+	     * _.difference([2, 1], [2, 3]);
+	     * // => [1]
+	     */
+	    var difference = baseRest(function(array, values) {
+	      return isArrayLikeObject(array)
+	        ? baseDifference(array, baseFlatten(values, 1, isArrayLikeObject, true))
+	        : [];
+	    });
+
+	    /**
+	     * This method is like `_.difference` except that it accepts `iteratee` which
+	     * is invoked for each element of `array` and `values` to generate the criterion
+	     * by which they're compared. Result values are chosen from the first array.
+	     * The iteratee is invoked with one argument: (value).
+	     *
+	     * **Note:** Unlike `_.pullAllBy`, this method returns a new array.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Array
+	     * @param {Array} array The array to inspect.
+	     * @param {...Array} [values] The values to exclude.
+	     * @param {Function} [iteratee=_.identity] The iteratee invoked per element.
+	     * @returns {Array} Returns the new array of filtered values.
+	     * @example
+	     *
+	     * _.differenceBy([2.1, 1.2], [2.3, 3.4], Math.floor);
+	     * // => [1.2]
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.differenceBy([{ 'x': 2 }, { 'x': 1 }], [{ 'x': 1 }], 'x');
+	     * // => [{ 'x': 2 }]
+	     */
+	    var differenceBy = baseRest(function(array, values) {
+	      var iteratee = last(values);
+	      if (isArrayLikeObject(iteratee)) {
+	        iteratee = undefined;
+	      }
+	      return isArrayLikeObject(array)
+	        ? baseDifference(array, baseFlatten(values, 1, isArrayLikeObject, true), getIteratee(iteratee, 2))
+	        : [];
+	    });
+
+	    /**
+	     * This method is like `_.difference` except that it accepts `comparator`
+	     * which is invoked to compare elements of `array` to `values`. Result values
+	     * are chosen from the first array. The comparator is invoked with two arguments:
+	     * (arrVal, othVal).
+	     *
+	     * **Note:** Unlike `_.pullAllWith`, this method returns a new array.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Array
+	     * @param {Array} array The array to inspect.
+	     * @param {...Array} [values] The values to exclude.
+	     * @param {Function} [comparator] The comparator invoked per element.
+	     * @returns {Array} Returns the new array of filtered values.
+	     * @example
+	     *
+	     * var objects = [{ 'x': 1, 'y': 2 }, { 'x': 2, 'y': 1 }];
+	     *
+	     * _.differenceWith(objects, [{ 'x': 1, 'y': 2 }], _.isEqual);
+	     * // => [{ 'x': 2, 'y': 1 }]
+	     */
+	    var differenceWith = baseRest(function(array, values) {
+	      var comparator = last(values);
+	      if (isArrayLikeObject(comparator)) {
+	        comparator = undefined;
+	      }
+	      return isArrayLikeObject(array)
+	        ? baseDifference(array, baseFlatten(values, 1, isArrayLikeObject, true), undefined, comparator)
+	        : [];
+	    });
+
+	    /**
+	     * Creates a slice of `array` with `n` elements dropped from the beginning.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.5.0
+	     * @category Array
+	     * @param {Array} array The array to query.
+	     * @param {number} [n=1] The number of elements to drop.
+	     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+	     * @returns {Array} Returns the slice of `array`.
+	     * @example
+	     *
+	     * _.drop([1, 2, 3]);
+	     * // => [2, 3]
+	     *
+	     * _.drop([1, 2, 3], 2);
+	     * // => [3]
+	     *
+	     * _.drop([1, 2, 3], 5);
+	     * // => []
+	     *
+	     * _.drop([1, 2, 3], 0);
+	     * // => [1, 2, 3]
+	     */
+	    function drop(array, n, guard) {
+	      var length = array ? array.length : 0;
+	      if (!length) {
+	        return [];
+	      }
+	      n = (guard || n === undefined) ? 1 : toInteger(n);
+	      return baseSlice(array, n < 0 ? 0 : n, length);
+	    }
+
+	    /**
+	     * Creates a slice of `array` with `n` elements dropped from the end.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Array
+	     * @param {Array} array The array to query.
+	     * @param {number} [n=1] The number of elements to drop.
+	     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+	     * @returns {Array} Returns the slice of `array`.
+	     * @example
+	     *
+	     * _.dropRight([1, 2, 3]);
+	     * // => [1, 2]
+	     *
+	     * _.dropRight([1, 2, 3], 2);
+	     * // => [1]
+	     *
+	     * _.dropRight([1, 2, 3], 5);
+	     * // => []
+	     *
+	     * _.dropRight([1, 2, 3], 0);
+	     * // => [1, 2, 3]
+	     */
+	    function dropRight(array, n, guard) {
+	      var length = array ? array.length : 0;
+	      if (!length) {
+	        return [];
+	      }
+	      n = (guard || n === undefined) ? 1 : toInteger(n);
+	      n = length - n;
+	      return baseSlice(array, 0, n < 0 ? 0 : n);
+	    }
+
+	    /**
+	     * Creates a slice of `array` excluding elements dropped from the end.
+	     * Elements are dropped until `predicate` returns falsey. The predicate is
+	     * invoked with three arguments: (value, index, array).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Array
+	     * @param {Array} array The array to query.
+	     * @param {Function} [predicate=_.identity] The function invoked per iteration.
+	     * @returns {Array} Returns the slice of `array`.
+	     * @example
+	     *
+	     * var users = [
+	     *   { 'user': 'barney',  'active': true },
+	     *   { 'user': 'fred',    'active': false },
+	     *   { 'user': 'pebbles', 'active': false }
+	     * ];
+	     *
+	     * _.dropRightWhile(users, function(o) { return !o.active; });
+	     * // => objects for ['barney']
+	     *
+	     * // The `_.matches` iteratee shorthand.
+	     * _.dropRightWhile(users, { 'user': 'pebbles', 'active': false });
+	     * // => objects for ['barney', 'fred']
+	     *
+	     * // The `_.matchesProperty` iteratee shorthand.
+	     * _.dropRightWhile(users, ['active', false]);
+	     * // => objects for ['barney']
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.dropRightWhile(users, 'active');
+	     * // => objects for ['barney', 'fred', 'pebbles']
+	     */
+	    function dropRightWhile(array, predicate) {
+	      return (array && array.length)
+	        ? baseWhile(array, getIteratee(predicate, 3), true, true)
+	        : [];
+	    }
+
+	    /**
+	     * Creates a slice of `array` excluding elements dropped from the beginning.
+	     * Elements are dropped until `predicate` returns falsey. The predicate is
+	     * invoked with three arguments: (value, index, array).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Array
+	     * @param {Array} array The array to query.
+	     * @param {Function} [predicate=_.identity]
+	     *  The function invoked per iteration.
+	     * @returns {Array} Returns the slice of `array`.
+	     * @example
+	     *
+	     * var users = [
+	     *   { 'user': 'barney',  'active': false },
+	     *   { 'user': 'fred',    'active': false },
+	     *   { 'user': 'pebbles', 'active': true }
+	     * ];
+	     *
+	     * _.dropWhile(users, function(o) { return !o.active; });
+	     * // => objects for ['pebbles']
+	     *
+	     * // The `_.matches` iteratee shorthand.
+	     * _.dropWhile(users, { 'user': 'barney', 'active': false });
+	     * // => objects for ['fred', 'pebbles']
+	     *
+	     * // The `_.matchesProperty` iteratee shorthand.
+	     * _.dropWhile(users, ['active', false]);
+	     * // => objects for ['pebbles']
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.dropWhile(users, 'active');
+	     * // => objects for ['barney', 'fred', 'pebbles']
+	     */
+	    function dropWhile(array, predicate) {
+	      return (array && array.length)
+	        ? baseWhile(array, getIteratee(predicate, 3), true)
+	        : [];
+	    }
+
+	    /**
+	     * Fills elements of `array` with `value` from `start` up to, but not
+	     * including, `end`.
+	     *
+	     * **Note:** This method mutates `array`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.2.0
+	     * @category Array
+	     * @param {Array} array The array to fill.
+	     * @param {*} value The value to fill `array` with.
+	     * @param {number} [start=0] The start position.
+	     * @param {number} [end=array.length] The end position.
+	     * @returns {Array} Returns `array`.
+	     * @example
+	     *
+	     * var array = [1, 2, 3];
+	     *
+	     * _.fill(array, 'a');
+	     * console.log(array);
+	     * // => ['a', 'a', 'a']
+	     *
+	     * _.fill(Array(3), 2);
+	     * // => [2, 2, 2]
+	     *
+	     * _.fill([4, 6, 8, 10], '*', 1, 3);
+	     * // => [4, '*', '*', 10]
+	     */
+	    function fill(array, value, start, end) {
+	      var length = array ? array.length : 0;
+	      if (!length) {
+	        return [];
+	      }
+	      if (start && typeof start != 'number' && isIterateeCall(array, value, start)) {
+	        start = 0;
+	        end = length;
+	      }
+	      return baseFill(array, value, start, end);
+	    }
+
+	    /**
+	     * This method is like `_.find` except that it returns the index of the first
+	     * element `predicate` returns truthy for instead of the element itself.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 1.1.0
+	     * @category Array
+	     * @param {Array} array The array to inspect.
+	     * @param {Function} [predicate=_.identity]
+	     *  The function invoked per iteration.
+	     * @param {number} [fromIndex=0] The index to search from.
+	     * @returns {number} Returns the index of the found element, else `-1`.
+	     * @example
+	     *
+	     * var users = [
+	     *   { 'user': 'barney',  'active': false },
+	     *   { 'user': 'fred',    'active': false },
+	     *   { 'user': 'pebbles', 'active': true }
+	     * ];
+	     *
+	     * _.findIndex(users, function(o) { return o.user == 'barney'; });
+	     * // => 0
+	     *
+	     * // The `_.matches` iteratee shorthand.
+	     * _.findIndex(users, { 'user': 'fred', 'active': false });
+	     * // => 1
+	     *
+	     * // The `_.matchesProperty` iteratee shorthand.
+	     * _.findIndex(users, ['active', false]);
+	     * // => 0
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.findIndex(users, 'active');
+	     * // => 2
+	     */
+	    function findIndex(array, predicate, fromIndex) {
+	      var length = array ? array.length : 0;
+	      if (!length) {
+	        return -1;
+	      }
+	      var index = fromIndex == null ? 0 : toInteger(fromIndex);
+	      if (index < 0) {
+	        index = nativeMax(length + index, 0);
+	      }
+	      return baseFindIndex(array, getIteratee(predicate, 3), index);
+	    }
+
+	    /**
+	     * This method is like `_.findIndex` except that it iterates over elements
+	     * of `collection` from right to left.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 2.0.0
+	     * @category Array
+	     * @param {Array} array The array to inspect.
+	     * @param {Function} [predicate=_.identity]
+	     *  The function invoked per iteration.
+	     * @param {number} [fromIndex=array.length-1] The index to search from.
+	     * @returns {number} Returns the index of the found element, else `-1`.
+	     * @example
+	     *
+	     * var users = [
+	     *   { 'user': 'barney',  'active': true },
+	     *   { 'user': 'fred',    'active': false },
+	     *   { 'user': 'pebbles', 'active': false }
+	     * ];
+	     *
+	     * _.findLastIndex(users, function(o) { return o.user == 'pebbles'; });
+	     * // => 2
+	     *
+	     * // The `_.matches` iteratee shorthand.
+	     * _.findLastIndex(users, { 'user': 'barney', 'active': true });
+	     * // => 0
+	     *
+	     * // The `_.matchesProperty` iteratee shorthand.
+	     * _.findLastIndex(users, ['active', false]);
+	     * // => 2
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.findLastIndex(users, 'active');
+	     * // => 0
+	     */
+	    function findLastIndex(array, predicate, fromIndex) {
+	      var length = array ? array.length : 0;
+	      if (!length) {
+	        return -1;
+	      }
+	      var index = length - 1;
+	      if (fromIndex !== undefined) {
+	        index = toInteger(fromIndex);
+	        index = fromIndex < 0
+	          ? nativeMax(length + index, 0)
+	          : nativeMin(index, length - 1);
+	      }
+	      return baseFindIndex(array, getIteratee(predicate, 3), index, true);
+	    }
+
+	    /**
+	     * Flattens `array` a single level deep.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Array
+	     * @param {Array} array The array to flatten.
+	     * @returns {Array} Returns the new flattened array.
+	     * @example
+	     *
+	     * _.flatten([1, [2, [3, [4]], 5]]);
+	     * // => [1, 2, [3, [4]], 5]
+	     */
+	    function flatten(array) {
+	      var length = array ? array.length : 0;
+	      return length ? baseFlatten(array, 1) : [];
+	    }
+
+	    /**
+	     * Recursively flattens `array`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Array
+	     * @param {Array} array The array to flatten.
+	     * @returns {Array} Returns the new flattened array.
+	     * @example
+	     *
+	     * _.flattenDeep([1, [2, [3, [4]], 5]]);
+	     * // => [1, 2, 3, 4, 5]
+	     */
+	    function flattenDeep(array) {
+	      var length = array ? array.length : 0;
+	      return length ? baseFlatten(array, INFINITY) : [];
+	    }
+
+	    /**
+	     * Recursively flatten `array` up to `depth` times.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.4.0
+	     * @category Array
+	     * @param {Array} array The array to flatten.
+	     * @param {number} [depth=1] The maximum recursion depth.
+	     * @returns {Array} Returns the new flattened array.
+	     * @example
+	     *
+	     * var array = [1, [2, [3, [4]], 5]];
+	     *
+	     * _.flattenDepth(array, 1);
+	     * // => [1, 2, [3, [4]], 5]
+	     *
+	     * _.flattenDepth(array, 2);
+	     * // => [1, 2, 3, [4], 5]
+	     */
+	    function flattenDepth(array, depth) {
+	      var length = array ? array.length : 0;
+	      if (!length) {
+	        return [];
+	      }
+	      depth = depth === undefined ? 1 : toInteger(depth);
+	      return baseFlatten(array, depth);
+	    }
+
+	    /**
+	     * The inverse of `_.toPairs`; this method returns an object composed
+	     * from key-value `pairs`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Array
+	     * @param {Array} pairs The key-value pairs.
+	     * @returns {Object} Returns the new object.
+	     * @example
+	     *
+	     * _.fromPairs([['a', 1], ['b', 2]]);
+	     * // => { 'a': 1, 'b': 2 }
+	     */
+	    function fromPairs(pairs) {
+	      var index = -1,
+	          length = pairs ? pairs.length : 0,
+	          result = {};
+
+	      while (++index < length) {
+	        var pair = pairs[index];
+	        result[pair[0]] = pair[1];
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * Gets the first element of `array`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @alias first
+	     * @category Array
+	     * @param {Array} array The array to query.
+	     * @returns {*} Returns the first element of `array`.
+	     * @example
+	     *
+	     * _.head([1, 2, 3]);
+	     * // => 1
+	     *
+	     * _.head([]);
+	     * // => undefined
+	     */
+	    function head(array) {
+	      return (array && array.length) ? array[0] : undefined;
+	    }
+
+	    /**
+	     * Gets the index at which the first occurrence of `value` is found in `array`
+	     * using [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+	     * for equality comparisons. If `fromIndex` is negative, it's used as the
+	     * offset from the end of `array`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Array
+	     * @param {Array} array The array to inspect.
+	     * @param {*} value The value to search for.
+	     * @param {number} [fromIndex=0] The index to search from.
+	     * @returns {number} Returns the index of the matched value, else `-1`.
+	     * @example
+	     *
+	     * _.indexOf([1, 2, 1, 2], 2);
+	     * // => 1
+	     *
+	     * // Search from the `fromIndex`.
+	     * _.indexOf([1, 2, 1, 2], 2, 2);
+	     * // => 3
+	     */
+	    function indexOf(array, value, fromIndex) {
+	      var length = array ? array.length : 0;
+	      if (!length) {
+	        return -1;
+	      }
+	      var index = fromIndex == null ? 0 : toInteger(fromIndex);
+	      if (index < 0) {
+	        index = nativeMax(length + index, 0);
+	      }
+	      return baseIndexOf(array, value, index);
+	    }
+
+	    /**
+	     * Gets all but the last element of `array`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Array
+	     * @param {Array} array The array to query.
+	     * @returns {Array} Returns the slice of `array`.
+	     * @example
+	     *
+	     * _.initial([1, 2, 3]);
+	     * // => [1, 2]
+	     */
+	    function initial(array) {
+	      var length = array ? array.length : 0;
+	      return length ? baseSlice(array, 0, -1) : [];
+	    }
+
+	    /**
+	     * Creates an array of unique values that are included in all given arrays
+	     * using [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+	     * for equality comparisons. The order of result values is determined by the
+	     * order they occur in the first array.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Array
+	     * @param {...Array} [arrays] The arrays to inspect.
+	     * @returns {Array} Returns the new array of intersecting values.
+	     * @example
+	     *
+	     * _.intersection([2, 1], [2, 3]);
+	     * // => [2]
+	     */
+	    var intersection = baseRest(function(arrays) {
+	      var mapped = arrayMap(arrays, castArrayLikeObject);
+	      return (mapped.length && mapped[0] === arrays[0])
+	        ? baseIntersection(mapped)
+	        : [];
+	    });
+
+	    /**
+	     * This method is like `_.intersection` except that it accepts `iteratee`
+	     * which is invoked for each element of each `arrays` to generate the criterion
+	     * by which they're compared. Result values are chosen from the first array.
+	     * The iteratee is invoked with one argument: (value).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Array
+	     * @param {...Array} [arrays] The arrays to inspect.
+	     * @param {Function} [iteratee=_.identity] The iteratee invoked per element.
+	     * @returns {Array} Returns the new array of intersecting values.
+	     * @example
+	     *
+	     * _.intersectionBy([2.1, 1.2], [2.3, 3.4], Math.floor);
+	     * // => [2.1]
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.intersectionBy([{ 'x': 1 }], [{ 'x': 2 }, { 'x': 1 }], 'x');
+	     * // => [{ 'x': 1 }]
+	     */
+	    var intersectionBy = baseRest(function(arrays) {
+	      var iteratee = last(arrays),
+	          mapped = arrayMap(arrays, castArrayLikeObject);
+
+	      if (iteratee === last(mapped)) {
+	        iteratee = undefined;
+	      } else {
+	        mapped.pop();
+	      }
+	      return (mapped.length && mapped[0] === arrays[0])
+	        ? baseIntersection(mapped, getIteratee(iteratee, 2))
+	        : [];
+	    });
+
+	    /**
+	     * This method is like `_.intersection` except that it accepts `comparator`
+	     * which is invoked to compare elements of `arrays`. Result values are chosen
+	     * from the first array. The comparator is invoked with two arguments:
+	     * (arrVal, othVal).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Array
+	     * @param {...Array} [arrays] The arrays to inspect.
+	     * @param {Function} [comparator] The comparator invoked per element.
+	     * @returns {Array} Returns the new array of intersecting values.
+	     * @example
+	     *
+	     * var objects = [{ 'x': 1, 'y': 2 }, { 'x': 2, 'y': 1 }];
+	     * var others = [{ 'x': 1, 'y': 1 }, { 'x': 1, 'y': 2 }];
+	     *
+	     * _.intersectionWith(objects, others, _.isEqual);
+	     * // => [{ 'x': 1, 'y': 2 }]
+	     */
+	    var intersectionWith = baseRest(function(arrays) {
+	      var comparator = last(arrays),
+	          mapped = arrayMap(arrays, castArrayLikeObject);
+
+	      if (comparator === last(mapped)) {
+	        comparator = undefined;
+	      } else {
+	        mapped.pop();
+	      }
+	      return (mapped.length && mapped[0] === arrays[0])
+	        ? baseIntersection(mapped, undefined, comparator)
+	        : [];
+	    });
+
+	    /**
+	     * Converts all elements in `array` into a string separated by `separator`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Array
+	     * @param {Array} array The array to convert.
+	     * @param {string} [separator=','] The element separator.
+	     * @returns {string} Returns the joined string.
+	     * @example
+	     *
+	     * _.join(['a', 'b', 'c'], '~');
+	     * // => 'a~b~c'
+	     */
+	    function join(array, separator) {
+	      return array ? nativeJoin.call(array, separator) : '';
+	    }
+
+	    /**
+	     * Gets the last element of `array`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Array
+	     * @param {Array} array The array to query.
+	     * @returns {*} Returns the last element of `array`.
+	     * @example
+	     *
+	     * _.last([1, 2, 3]);
+	     * // => 3
+	     */
+	    function last(array) {
+	      var length = array ? array.length : 0;
+	      return length ? array[length - 1] : undefined;
+	    }
+
+	    /**
+	     * This method is like `_.indexOf` except that it iterates over elements of
+	     * `array` from right to left.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Array
+	     * @param {Array} array The array to inspect.
+	     * @param {*} value The value to search for.
+	     * @param {number} [fromIndex=array.length-1] The index to search from.
+	     * @returns {number} Returns the index of the matched value, else `-1`.
+	     * @example
+	     *
+	     * _.lastIndexOf([1, 2, 1, 2], 2);
+	     * // => 3
+	     *
+	     * // Search from the `fromIndex`.
+	     * _.lastIndexOf([1, 2, 1, 2], 2, 2);
+	     * // => 1
+	     */
+	    function lastIndexOf(array, value, fromIndex) {
+	      var length = array ? array.length : 0;
+	      if (!length) {
+	        return -1;
+	      }
+	      var index = length;
+	      if (fromIndex !== undefined) {
+	        index = toInteger(fromIndex);
+	        index = (
+	          index < 0
+	            ? nativeMax(length + index, 0)
+	            : nativeMin(index, length - 1)
+	        ) + 1;
+	      }
+	      if (value !== value) {
+	        return baseFindIndex(array, baseIsNaN, index - 1, true);
+	      }
+	      while (index--) {
+	        if (array[index] === value) {
+	          return index;
+	        }
+	      }
+	      return -1;
+	    }
+
+	    /**
+	     * Gets the element at index `n` of `array`. If `n` is negative, the nth
+	     * element from the end is returned.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.11.0
+	     * @category Array
+	     * @param {Array} array The array to query.
+	     * @param {number} [n=0] The index of the element to return.
+	     * @returns {*} Returns the nth element of `array`.
+	     * @example
+	     *
+	     * var array = ['a', 'b', 'c', 'd'];
+	     *
+	     * _.nth(array, 1);
+	     * // => 'b'
+	     *
+	     * _.nth(array, -2);
+	     * // => 'c';
+	     */
+	    function nth(array, n) {
+	      return (array && array.length) ? baseNth(array, toInteger(n)) : undefined;
+	    }
+
+	    /**
+	     * Removes all given values from `array` using
+	     * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+	     * for equality comparisons.
+	     *
+	     * **Note:** Unlike `_.without`, this method mutates `array`. Use `_.remove`
+	     * to remove elements from an array by predicate.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 2.0.0
+	     * @category Array
+	     * @param {Array} array The array to modify.
+	     * @param {...*} [values] The values to remove.
+	     * @returns {Array} Returns `array`.
+	     * @example
+	     *
+	     * var array = ['a', 'b', 'c', 'a', 'b', 'c'];
+	     *
+	     * _.pull(array, 'a', 'c');
+	     * console.log(array);
+	     * // => ['b', 'b']
+	     */
+	    var pull = baseRest(pullAll);
+
+	    /**
+	     * This method is like `_.pull` except that it accepts an array of values to remove.
+	     *
+	     * **Note:** Unlike `_.difference`, this method mutates `array`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Array
+	     * @param {Array} array The array to modify.
+	     * @param {Array} values The values to remove.
+	     * @returns {Array} Returns `array`.
+	     * @example
+	     *
+	     * var array = ['a', 'b', 'c', 'a', 'b', 'c'];
+	     *
+	     * _.pullAll(array, ['a', 'c']);
+	     * console.log(array);
+	     * // => ['b', 'b']
+	     */
+	    function pullAll(array, values) {
+	      return (array && array.length && values && values.length)
+	        ? basePullAll(array, values)
+	        : array;
+	    }
+
+	    /**
+	     * This method is like `_.pullAll` except that it accepts `iteratee` which is
+	     * invoked for each element of `array` and `values` to generate the criterion
+	     * by which they're compared. The iteratee is invoked with one argument: (value).
+	     *
+	     * **Note:** Unlike `_.differenceBy`, this method mutates `array`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Array
+	     * @param {Array} array The array to modify.
+	     * @param {Array} values The values to remove.
+	     * @param {Function} [iteratee=_.identity]
+	     *  The iteratee invoked per element.
+	     * @returns {Array} Returns `array`.
+	     * @example
+	     *
+	     * var array = [{ 'x': 1 }, { 'x': 2 }, { 'x': 3 }, { 'x': 1 }];
+	     *
+	     * _.pullAllBy(array, [{ 'x': 1 }, { 'x': 3 }], 'x');
+	     * console.log(array);
+	     * // => [{ 'x': 2 }]
+	     */
+	    function pullAllBy(array, values, iteratee) {
+	      return (array && array.length && values && values.length)
+	        ? basePullAll(array, values, getIteratee(iteratee, 2))
+	        : array;
+	    }
+
+	    /**
+	     * This method is like `_.pullAll` except that it accepts `comparator` which
+	     * is invoked to compare elements of `array` to `values`. The comparator is
+	     * invoked with two arguments: (arrVal, othVal).
+	     *
+	     * **Note:** Unlike `_.differenceWith`, this method mutates `array`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.6.0
+	     * @category Array
+	     * @param {Array} array The array to modify.
+	     * @param {Array} values The values to remove.
+	     * @param {Function} [comparator] The comparator invoked per element.
+	     * @returns {Array} Returns `array`.
+	     * @example
+	     *
+	     * var array = [{ 'x': 1, 'y': 2 }, { 'x': 3, 'y': 4 }, { 'x': 5, 'y': 6 }];
+	     *
+	     * _.pullAllWith(array, [{ 'x': 3, 'y': 4 }], _.isEqual);
+	     * console.log(array);
+	     * // => [{ 'x': 1, 'y': 2 }, { 'x': 5, 'y': 6 }]
+	     */
+	    function pullAllWith(array, values, comparator) {
+	      return (array && array.length && values && values.length)
+	        ? basePullAll(array, values, undefined, comparator)
+	        : array;
+	    }
+
+	    /**
+	     * Removes elements from `array` corresponding to `indexes` and returns an
+	     * array of removed elements.
+	     *
+	     * **Note:** Unlike `_.at`, this method mutates `array`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Array
+	     * @param {Array} array The array to modify.
+	     * @param {...(number|number[])} [indexes] The indexes of elements to remove.
+	     * @returns {Array} Returns the new array of removed elements.
+	     * @example
+	     *
+	     * var array = ['a', 'b', 'c', 'd'];
+	     * var pulled = _.pullAt(array, [1, 3]);
+	     *
+	     * console.log(array);
+	     * // => ['a', 'c']
+	     *
+	     * console.log(pulled);
+	     * // => ['b', 'd']
+	     */
+	    var pullAt = baseRest(function(array, indexes) {
+	      indexes = baseFlatten(indexes, 1);
+
+	      var length = array ? array.length : 0,
+	          result = baseAt(array, indexes);
+
+	      basePullAt(array, arrayMap(indexes, function(index) {
+	        return isIndex(index, length) ? +index : index;
+	      }).sort(compareAscending));
+
+	      return result;
+	    });
+
+	    /**
+	     * Removes all elements from `array` that `predicate` returns truthy for
+	     * and returns an array of the removed elements. The predicate is invoked
+	     * with three arguments: (value, index, array).
+	     *
+	     * **Note:** Unlike `_.filter`, this method mutates `array`. Use `_.pull`
+	     * to pull elements from an array by value.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 2.0.0
+	     * @category Array
+	     * @param {Array} array The array to modify.
+	     * @param {Function} [predicate=_.identity]
+	     *  The function invoked per iteration.
+	     * @returns {Array} Returns the new array of removed elements.
+	     * @example
+	     *
+	     * var array = [1, 2, 3, 4];
+	     * var evens = _.remove(array, function(n) {
+	     *   return n % 2 == 0;
+	     * });
+	     *
+	     * console.log(array);
+	     * // => [1, 3]
+	     *
+	     * console.log(evens);
+	     * // => [2, 4]
+	     */
+	    function remove(array, predicate) {
+	      var result = [];
+	      if (!(array && array.length)) {
+	        return result;
+	      }
+	      var index = -1,
+	          indexes = [],
+	          length = array.length;
+
+	      predicate = getIteratee(predicate, 3);
+	      while (++index < length) {
+	        var value = array[index];
+	        if (predicate(value, index, array)) {
+	          result.push(value);
+	          indexes.push(index);
+	        }
+	      }
+	      basePullAt(array, indexes);
+	      return result;
+	    }
+
+	    /**
+	     * Reverses `array` so that the first element becomes the last, the second
+	     * element becomes the second to last, and so on.
+	     *
+	     * **Note:** This method mutates `array` and is based on
+	     * [`Array#reverse`](https://mdn.io/Array/reverse).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Array
+	     * @param {Array} array The array to modify.
+	     * @returns {Array} Returns `array`.
+	     * @example
+	     *
+	     * var array = [1, 2, 3];
+	     *
+	     * _.reverse(array);
+	     * // => [3, 2, 1]
+	     *
+	     * console.log(array);
+	     * // => [3, 2, 1]
+	     */
+	    function reverse(array) {
+	      return array ? nativeReverse.call(array) : array;
+	    }
+
+	    /**
+	     * Creates a slice of `array` from `start` up to, but not including, `end`.
+	     *
+	     * **Note:** This method is used instead of
+	     * [`Array#slice`](https://mdn.io/Array/slice) to ensure dense arrays are
+	     * returned.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Array
+	     * @param {Array} array The array to slice.
+	     * @param {number} [start=0] The start position.
+	     * @param {number} [end=array.length] The end position.
+	     * @returns {Array} Returns the slice of `array`.
+	     */
+	    function slice(array, start, end) {
+	      var length = array ? array.length : 0;
+	      if (!length) {
+	        return [];
+	      }
+	      if (end && typeof end != 'number' && isIterateeCall(array, start, end)) {
+	        start = 0;
+	        end = length;
+	      }
+	      else {
+	        start = start == null ? 0 : toInteger(start);
+	        end = end === undefined ? length : toInteger(end);
+	      }
+	      return baseSlice(array, start, end);
+	    }
+
+	    /**
+	     * Uses a binary search to determine the lowest index at which `value`
+	     * should be inserted into `array` in order to maintain its sort order.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Array
+	     * @param {Array} array The sorted array to inspect.
+	     * @param {*} value The value to evaluate.
+	     * @returns {number} Returns the index at which `value` should be inserted
+	     *  into `array`.
+	     * @example
+	     *
+	     * _.sortedIndex([30, 50], 40);
+	     * // => 1
+	     */
+	    function sortedIndex(array, value) {
+	      return baseSortedIndex(array, value);
+	    }
+
+	    /**
+	     * This method is like `_.sortedIndex` except that it accepts `iteratee`
+	     * which is invoked for `value` and each element of `array` to compute their
+	     * sort ranking. The iteratee is invoked with one argument: (value).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Array
+	     * @param {Array} array The sorted array to inspect.
+	     * @param {*} value The value to evaluate.
+	     * @param {Function} [iteratee=_.identity]
+	     *  The iteratee invoked per element.
+	     * @returns {number} Returns the index at which `value` should be inserted
+	     *  into `array`.
+	     * @example
+	     *
+	     * var objects = [{ 'x': 4 }, { 'x': 5 }];
+	     *
+	     * _.sortedIndexBy(objects, { 'x': 4 }, function(o) { return o.x; });
+	     * // => 0
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.sortedIndexBy(objects, { 'x': 4 }, 'x');
+	     * // => 0
+	     */
+	    function sortedIndexBy(array, value, iteratee) {
+	      return baseSortedIndexBy(array, value, getIteratee(iteratee, 2));
+	    }
+
+	    /**
+	     * This method is like `_.indexOf` except that it performs a binary
+	     * search on a sorted `array`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Array
+	     * @param {Array} array The array to inspect.
+	     * @param {*} value The value to search for.
+	     * @returns {number} Returns the index of the matched value, else `-1`.
+	     * @example
+	     *
+	     * _.sortedIndexOf([4, 5, 5, 5, 6], 5);
+	     * // => 1
+	     */
+	    function sortedIndexOf(array, value) {
+	      var length = array ? array.length : 0;
+	      if (length) {
+	        var index = baseSortedIndex(array, value);
+	        if (index < length && eq(array[index], value)) {
+	          return index;
+	        }
+	      }
+	      return -1;
+	    }
+
+	    /**
+	     * This method is like `_.sortedIndex` except that it returns the highest
+	     * index at which `value` should be inserted into `array` in order to
+	     * maintain its sort order.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Array
+	     * @param {Array} array The sorted array to inspect.
+	     * @param {*} value The value to evaluate.
+	     * @returns {number} Returns the index at which `value` should be inserted
+	     *  into `array`.
+	     * @example
+	     *
+	     * _.sortedLastIndex([4, 5, 5, 5, 6], 5);
+	     * // => 4
+	     */
+	    function sortedLastIndex(array, value) {
+	      return baseSortedIndex(array, value, true);
+	    }
+
+	    /**
+	     * This method is like `_.sortedLastIndex` except that it accepts `iteratee`
+	     * which is invoked for `value` and each element of `array` to compute their
+	     * sort ranking. The iteratee is invoked with one argument: (value).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Array
+	     * @param {Array} array The sorted array to inspect.
+	     * @param {*} value The value to evaluate.
+	     * @param {Function} [iteratee=_.identity]
+	     *  The iteratee invoked per element.
+	     * @returns {number} Returns the index at which `value` should be inserted
+	     *  into `array`.
+	     * @example
+	     *
+	     * var objects = [{ 'x': 4 }, { 'x': 5 }];
+	     *
+	     * _.sortedLastIndexBy(objects, { 'x': 4 }, function(o) { return o.x; });
+	     * // => 1
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.sortedLastIndexBy(objects, { 'x': 4 }, 'x');
+	     * // => 1
+	     */
+	    function sortedLastIndexBy(array, value, iteratee) {
+	      return baseSortedIndexBy(array, value, getIteratee(iteratee, 2), true);
+	    }
+
+	    /**
+	     * This method is like `_.lastIndexOf` except that it performs a binary
+	     * search on a sorted `array`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Array
+	     * @param {Array} array The array to inspect.
+	     * @param {*} value The value to search for.
+	     * @returns {number} Returns the index of the matched value, else `-1`.
+	     * @example
+	     *
+	     * _.sortedLastIndexOf([4, 5, 5, 5, 6], 5);
+	     * // => 3
+	     */
+	    function sortedLastIndexOf(array, value) {
+	      var length = array ? array.length : 0;
+	      if (length) {
+	        var index = baseSortedIndex(array, value, true) - 1;
+	        if (eq(array[index], value)) {
+	          return index;
+	        }
+	      }
+	      return -1;
+	    }
+
+	    /**
+	     * This method is like `_.uniq` except that it's designed and optimized
+	     * for sorted arrays.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Array
+	     * @param {Array} array The array to inspect.
+	     * @returns {Array} Returns the new duplicate free array.
+	     * @example
+	     *
+	     * _.sortedUniq([1, 1, 2]);
+	     * // => [1, 2]
+	     */
+	    function sortedUniq(array) {
+	      return (array && array.length)
+	        ? baseSortedUniq(array)
+	        : [];
+	    }
+
+	    /**
+	     * This method is like `_.uniqBy` except that it's designed and optimized
+	     * for sorted arrays.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Array
+	     * @param {Array} array The array to inspect.
+	     * @param {Function} [iteratee] The iteratee invoked per element.
+	     * @returns {Array} Returns the new duplicate free array.
+	     * @example
+	     *
+	     * _.sortedUniqBy([1.1, 1.2, 2.3, 2.4], Math.floor);
+	     * // => [1.1, 2.3]
+	     */
+	    function sortedUniqBy(array, iteratee) {
+	      return (array && array.length)
+	        ? baseSortedUniq(array, getIteratee(iteratee, 2))
+	        : [];
+	    }
+
+	    /**
+	     * Gets all but the first element of `array`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Array
+	     * @param {Array} array The array to query.
+	     * @returns {Array} Returns the slice of `array`.
+	     * @example
+	     *
+	     * _.tail([1, 2, 3]);
+	     * // => [2, 3]
+	     */
+	    function tail(array) {
+	      var length = array ? array.length : 0;
+	      return length ? baseSlice(array, 1, length) : [];
+	    }
+
+	    /**
+	     * Creates a slice of `array` with `n` elements taken from the beginning.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Array
+	     * @param {Array} array The array to query.
+	     * @param {number} [n=1] The number of elements to take.
+	     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+	     * @returns {Array} Returns the slice of `array`.
+	     * @example
+	     *
+	     * _.take([1, 2, 3]);
+	     * // => [1]
+	     *
+	     * _.take([1, 2, 3], 2);
+	     * // => [1, 2]
+	     *
+	     * _.take([1, 2, 3], 5);
+	     * // => [1, 2, 3]
+	     *
+	     * _.take([1, 2, 3], 0);
+	     * // => []
+	     */
+	    function take(array, n, guard) {
+	      if (!(array && array.length)) {
+	        return [];
+	      }
+	      n = (guard || n === undefined) ? 1 : toInteger(n);
+	      return baseSlice(array, 0, n < 0 ? 0 : n);
+	    }
+
+	    /**
+	     * Creates a slice of `array` with `n` elements taken from the end.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Array
+	     * @param {Array} array The array to query.
+	     * @param {number} [n=1] The number of elements to take.
+	     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+	     * @returns {Array} Returns the slice of `array`.
+	     * @example
+	     *
+	     * _.takeRight([1, 2, 3]);
+	     * // => [3]
+	     *
+	     * _.takeRight([1, 2, 3], 2);
+	     * // => [2, 3]
+	     *
+	     * _.takeRight([1, 2, 3], 5);
+	     * // => [1, 2, 3]
+	     *
+	     * _.takeRight([1, 2, 3], 0);
+	     * // => []
+	     */
+	    function takeRight(array, n, guard) {
+	      var length = array ? array.length : 0;
+	      if (!length) {
+	        return [];
+	      }
+	      n = (guard || n === undefined) ? 1 : toInteger(n);
+	      n = length - n;
+	      return baseSlice(array, n < 0 ? 0 : n, length);
+	    }
+
+	    /**
+	     * Creates a slice of `array` with elements taken from the end. Elements are
+	     * taken until `predicate` returns falsey. The predicate is invoked with
+	     * three arguments: (value, index, array).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Array
+	     * @param {Array} array The array to query.
+	     * @param {Function} [predicate=_.identity]
+	     *  The function invoked per iteration.
+	     * @returns {Array} Returns the slice of `array`.
+	     * @example
+	     *
+	     * var users = [
+	     *   { 'user': 'barney',  'active': true },
+	     *   { 'user': 'fred',    'active': false },
+	     *   { 'user': 'pebbles', 'active': false }
+	     * ];
+	     *
+	     * _.takeRightWhile(users, function(o) { return !o.active; });
+	     * // => objects for ['fred', 'pebbles']
+	     *
+	     * // The `_.matches` iteratee shorthand.
+	     * _.takeRightWhile(users, { 'user': 'pebbles', 'active': false });
+	     * // => objects for ['pebbles']
+	     *
+	     * // The `_.matchesProperty` iteratee shorthand.
+	     * _.takeRightWhile(users, ['active', false]);
+	     * // => objects for ['fred', 'pebbles']
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.takeRightWhile(users, 'active');
+	     * // => []
+	     */
+	    function takeRightWhile(array, predicate) {
+	      return (array && array.length)
+	        ? baseWhile(array, getIteratee(predicate, 3), false, true)
+	        : [];
+	    }
+
+	    /**
+	     * Creates a slice of `array` with elements taken from the beginning. Elements
+	     * are taken until `predicate` returns falsey. The predicate is invoked with
+	     * three arguments: (value, index, array).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Array
+	     * @param {Array} array The array to query.
+	     * @param {Function} [predicate=_.identity]
+	     *  The function invoked per iteration.
+	     * @returns {Array} Returns the slice of `array`.
+	     * @example
+	     *
+	     * var users = [
+	     *   { 'user': 'barney',  'active': false },
+	     *   { 'user': 'fred',    'active': false},
+	     *   { 'user': 'pebbles', 'active': true }
+	     * ];
+	     *
+	     * _.takeWhile(users, function(o) { return !o.active; });
+	     * // => objects for ['barney', 'fred']
+	     *
+	     * // The `_.matches` iteratee shorthand.
+	     * _.takeWhile(users, { 'user': 'barney', 'active': false });
+	     * // => objects for ['barney']
+	     *
+	     * // The `_.matchesProperty` iteratee shorthand.
+	     * _.takeWhile(users, ['active', false]);
+	     * // => objects for ['barney', 'fred']
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.takeWhile(users, 'active');
+	     * // => []
+	     */
+	    function takeWhile(array, predicate) {
+	      return (array && array.length)
+	        ? baseWhile(array, getIteratee(predicate, 3))
+	        : [];
+	    }
+
+	    /**
+	     * Creates an array of unique values, in order, from all given arrays using
+	     * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+	     * for equality comparisons.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Array
+	     * @param {...Array} [arrays] The arrays to inspect.
+	     * @returns {Array} Returns the new array of combined values.
+	     * @example
+	     *
+	     * _.union([2], [1, 2]);
+	     * // => [2, 1]
+	     */
+	    var union = baseRest(function(arrays) {
+	      return baseUniq(baseFlatten(arrays, 1, isArrayLikeObject, true));
+	    });
+
+	    /**
+	     * This method is like `_.union` except that it accepts `iteratee` which is
+	     * invoked for each element of each `arrays` to generate the criterion by
+	     * which uniqueness is computed. Result values are chosen from the first
+	     * array in which the value occurs. The iteratee is invoked with one argument:
+	     * (value).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Array
+	     * @param {...Array} [arrays] The arrays to inspect.
+	     * @param {Function} [iteratee=_.identity]
+	     *  The iteratee invoked per element.
+	     * @returns {Array} Returns the new array of combined values.
+	     * @example
+	     *
+	     * _.unionBy([2.1], [1.2, 2.3], Math.floor);
+	     * // => [2.1, 1.2]
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.unionBy([{ 'x': 1 }], [{ 'x': 2 }, { 'x': 1 }], 'x');
+	     * // => [{ 'x': 1 }, { 'x': 2 }]
+	     */
+	    var unionBy = baseRest(function(arrays) {
+	      var iteratee = last(arrays);
+	      if (isArrayLikeObject(iteratee)) {
+	        iteratee = undefined;
+	      }
+	      return baseUniq(baseFlatten(arrays, 1, isArrayLikeObject, true), getIteratee(iteratee, 2));
+	    });
+
+	    /**
+	     * This method is like `_.union` except that it accepts `comparator` which
+	     * is invoked to compare elements of `arrays`. Result values are chosen from
+	     * the first array in which the value occurs. The comparator is invoked
+	     * with two arguments: (arrVal, othVal).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Array
+	     * @param {...Array} [arrays] The arrays to inspect.
+	     * @param {Function} [comparator] The comparator invoked per element.
+	     * @returns {Array} Returns the new array of combined values.
+	     * @example
+	     *
+	     * var objects = [{ 'x': 1, 'y': 2 }, { 'x': 2, 'y': 1 }];
+	     * var others = [{ 'x': 1, 'y': 1 }, { 'x': 1, 'y': 2 }];
+	     *
+	     * _.unionWith(objects, others, _.isEqual);
+	     * // => [{ 'x': 1, 'y': 2 }, { 'x': 2, 'y': 1 }, { 'x': 1, 'y': 1 }]
+	     */
+	    var unionWith = baseRest(function(arrays) {
+	      var comparator = last(arrays);
+	      if (isArrayLikeObject(comparator)) {
+	        comparator = undefined;
+	      }
+	      return baseUniq(baseFlatten(arrays, 1, isArrayLikeObject, true), undefined, comparator);
+	    });
+
+	    /**
+	     * Creates a duplicate-free version of an array, using
+	     * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+	     * for equality comparisons, in which only the first occurrence of each
+	     * element is kept.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Array
+	     * @param {Array} array The array to inspect.
+	     * @returns {Array} Returns the new duplicate free array.
+	     * @example
+	     *
+	     * _.uniq([2, 1, 2]);
+	     * // => [2, 1]
+	     */
+	    function uniq(array) {
+	      return (array && array.length)
+	        ? baseUniq(array)
+	        : [];
+	    }
+
+	    /**
+	     * This method is like `_.uniq` except that it accepts `iteratee` which is
+	     * invoked for each element in `array` to generate the criterion by which
+	     * uniqueness is computed. The iteratee is invoked with one argument: (value).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Array
+	     * @param {Array} array The array to inspect.
+	     * @param {Function} [iteratee=_.identity]
+	     *  The iteratee invoked per element.
+	     * @returns {Array} Returns the new duplicate free array.
+	     * @example
+	     *
+	     * _.uniqBy([2.1, 1.2, 2.3], Math.floor);
+	     * // => [2.1, 1.2]
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.uniqBy([{ 'x': 1 }, { 'x': 2 }, { 'x': 1 }], 'x');
+	     * // => [{ 'x': 1 }, { 'x': 2 }]
+	     */
+	    function uniqBy(array, iteratee) {
+	      return (array && array.length)
+	        ? baseUniq(array, getIteratee(iteratee, 2))
+	        : [];
+	    }
+
+	    /**
+	     * This method is like `_.uniq` except that it accepts `comparator` which
+	     * is invoked to compare elements of `array`. The comparator is invoked with
+	     * two arguments: (arrVal, othVal).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Array
+	     * @param {Array} array The array to inspect.
+	     * @param {Function} [comparator] The comparator invoked per element.
+	     * @returns {Array} Returns the new duplicate free array.
+	     * @example
+	     *
+	     * var objects = [{ 'x': 1, 'y': 2 }, { 'x': 2, 'y': 1 }, { 'x': 1, 'y': 2 }];
+	     *
+	     * _.uniqWith(objects, _.isEqual);
+	     * // => [{ 'x': 1, 'y': 2 }, { 'x': 2, 'y': 1 }]
+	     */
+	    function uniqWith(array, comparator) {
+	      return (array && array.length)
+	        ? baseUniq(array, undefined, comparator)
+	        : [];
+	    }
+
+	    /**
+	     * This method is like `_.zip` except that it accepts an array of grouped
+	     * elements and creates an array regrouping the elements to their pre-zip
+	     * configuration.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 1.2.0
+	     * @category Array
+	     * @param {Array} array The array of grouped elements to process.
+	     * @returns {Array} Returns the new array of regrouped elements.
+	     * @example
+	     *
+	     * var zipped = _.zip(['a', 'b'], [1, 2], [true, false]);
+	     * // => [['a', 1, true], ['b', 2, false]]
+	     *
+	     * _.unzip(zipped);
+	     * // => [['a', 'b'], [1, 2], [true, false]]
+	     */
+	    function unzip(array) {
+	      if (!(array && array.length)) {
+	        return [];
+	      }
+	      var length = 0;
+	      array = arrayFilter(array, function(group) {
+	        if (isArrayLikeObject(group)) {
+	          length = nativeMax(group.length, length);
+	          return true;
+	        }
+	      });
+	      return baseTimes(length, function(index) {
+	        return arrayMap(array, baseProperty(index));
+	      });
+	    }
+
+	    /**
+	     * This method is like `_.unzip` except that it accepts `iteratee` to specify
+	     * how regrouped values should be combined. The iteratee is invoked with the
+	     * elements of each group: (...group).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.8.0
+	     * @category Array
+	     * @param {Array} array The array of grouped elements to process.
+	     * @param {Function} [iteratee=_.identity] The function to combine
+	     *  regrouped values.
+	     * @returns {Array} Returns the new array of regrouped elements.
+	     * @example
+	     *
+	     * var zipped = _.zip([1, 2], [10, 20], [100, 200]);
+	     * // => [[1, 10, 100], [2, 20, 200]]
+	     *
+	     * _.unzipWith(zipped, _.add);
+	     * // => [3, 30, 300]
+	     */
+	    function unzipWith(array, iteratee) {
+	      if (!(array && array.length)) {
+	        return [];
+	      }
+	      var result = unzip(array);
+	      if (iteratee == null) {
+	        return result;
+	      }
+	      return arrayMap(result, function(group) {
+	        return apply(iteratee, undefined, group);
+	      });
+	    }
+
+	    /**
+	     * Creates an array excluding all given values using
+	     * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+	     * for equality comparisons.
+	     *
+	     * **Note:** Unlike `_.pull`, this method returns a new array.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Array
+	     * @param {Array} array The array to inspect.
+	     * @param {...*} [values] The values to exclude.
+	     * @returns {Array} Returns the new array of filtered values.
+	     * @see _.difference, _.xor
+	     * @example
+	     *
+	     * _.without([2, 1, 2, 3], 1, 2);
+	     * // => [3]
+	     */
+	    var without = baseRest(function(array, values) {
+	      return isArrayLikeObject(array)
+	        ? baseDifference(array, values)
+	        : [];
+	    });
+
+	    /**
+	     * Creates an array of unique values that is the
+	     * [symmetric difference](https://en.wikipedia.org/wiki/Symmetric_difference)
+	     * of the given arrays. The order of result values is determined by the order
+	     * they occur in the arrays.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 2.4.0
+	     * @category Array
+	     * @param {...Array} [arrays] The arrays to inspect.
+	     * @returns {Array} Returns the new array of filtered values.
+	     * @see _.difference, _.without
+	     * @example
+	     *
+	     * _.xor([2, 1], [2, 3]);
+	     * // => [1, 3]
+	     */
+	    var xor = baseRest(function(arrays) {
+	      return baseXor(arrayFilter(arrays, isArrayLikeObject));
+	    });
+
+	    /**
+	     * This method is like `_.xor` except that it accepts `iteratee` which is
+	     * invoked for each element of each `arrays` to generate the criterion by
+	     * which by which they're compared. The iteratee is invoked with one argument:
+	     * (value).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Array
+	     * @param {...Array} [arrays] The arrays to inspect.
+	     * @param {Function} [iteratee=_.identity]
+	     *  The iteratee invoked per element.
+	     * @returns {Array} Returns the new array of filtered values.
+	     * @example
+	     *
+	     * _.xorBy([2.1, 1.2], [2.3, 3.4], Math.floor);
+	     * // => [1.2, 3.4]
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.xorBy([{ 'x': 1 }], [{ 'x': 2 }, { 'x': 1 }], 'x');
+	     * // => [{ 'x': 2 }]
+	     */
+	    var xorBy = baseRest(function(arrays) {
+	      var iteratee = last(arrays);
+	      if (isArrayLikeObject(iteratee)) {
+	        iteratee = undefined;
+	      }
+	      return baseXor(arrayFilter(arrays, isArrayLikeObject), getIteratee(iteratee, 2));
+	    });
+
+	    /**
+	     * This method is like `_.xor` except that it accepts `comparator` which is
+	     * invoked to compare elements of `arrays`. The comparator is invoked with
+	     * two arguments: (arrVal, othVal).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Array
+	     * @param {...Array} [arrays] The arrays to inspect.
+	     * @param {Function} [comparator] The comparator invoked per element.
+	     * @returns {Array} Returns the new array of filtered values.
+	     * @example
+	     *
+	     * var objects = [{ 'x': 1, 'y': 2 }, { 'x': 2, 'y': 1 }];
+	     * var others = [{ 'x': 1, 'y': 1 }, { 'x': 1, 'y': 2 }];
+	     *
+	     * _.xorWith(objects, others, _.isEqual);
+	     * // => [{ 'x': 2, 'y': 1 }, { 'x': 1, 'y': 1 }]
+	     */
+	    var xorWith = baseRest(function(arrays) {
+	      var comparator = last(arrays);
+	      if (isArrayLikeObject(comparator)) {
+	        comparator = undefined;
+	      }
+	      return baseXor(arrayFilter(arrays, isArrayLikeObject), undefined, comparator);
+	    });
+
+	    /**
+	     * Creates an array of grouped elements, the first of which contains the
+	     * first elements of the given arrays, the second of which contains the
+	     * second elements of the given arrays, and so on.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Array
+	     * @param {...Array} [arrays] The arrays to process.
+	     * @returns {Array} Returns the new array of grouped elements.
+	     * @example
+	     *
+	     * _.zip(['a', 'b'], [1, 2], [true, false]);
+	     * // => [['a', 1, true], ['b', 2, false]]
+	     */
+	    var zip = baseRest(unzip);
+
+	    /**
+	     * This method is like `_.fromPairs` except that it accepts two arrays,
+	     * one of property identifiers and one of corresponding values.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.4.0
+	     * @category Array
+	     * @param {Array} [props=[]] The property identifiers.
+	     * @param {Array} [values=[]] The property values.
+	     * @returns {Object} Returns the new object.
+	     * @example
+	     *
+	     * _.zipObject(['a', 'b'], [1, 2]);
+	     * // => { 'a': 1, 'b': 2 }
+	     */
+	    function zipObject(props, values) {
+	      return baseZipObject(props || [], values || [], assignValue);
+	    }
+
+	    /**
+	     * This method is like `_.zipObject` except that it supports property paths.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.1.0
+	     * @category Array
+	     * @param {Array} [props=[]] The property identifiers.
+	     * @param {Array} [values=[]] The property values.
+	     * @returns {Object} Returns the new object.
+	     * @example
+	     *
+	     * _.zipObjectDeep(['a.b[0].c', 'a.b[1].d'], [1, 2]);
+	     * // => { 'a': { 'b': [{ 'c': 1 }, { 'd': 2 }] } }
+	     */
+	    function zipObjectDeep(props, values) {
+	      return baseZipObject(props || [], values || [], baseSet);
+	    }
+
+	    /**
+	     * This method is like `_.zip` except that it accepts `iteratee` to specify
+	     * how grouped values should be combined. The iteratee is invoked with the
+	     * elements of each group: (...group).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.8.0
+	     * @category Array
+	     * @param {...Array} [arrays] The arrays to process.
+	     * @param {Function} [iteratee=_.identity] The function to combine grouped values.
+	     * @returns {Array} Returns the new array of grouped elements.
+	     * @example
+	     *
+	     * _.zipWith([1, 2], [10, 20], [100, 200], function(a, b, c) {
+	     *   return a + b + c;
+	     * });
+	     * // => [111, 222]
+	     */
+	    var zipWith = baseRest(function(arrays) {
+	      var length = arrays.length,
+	          iteratee = length > 1 ? arrays[length - 1] : undefined;
+
+	      iteratee = typeof iteratee == 'function' ? (arrays.pop(), iteratee) : undefined;
+	      return unzipWith(arrays, iteratee);
+	    });
+
+	    /*------------------------------------------------------------------------*/
+
+	    /**
+	     * Creates a `lodash` wrapper instance that wraps `value` with explicit method
+	     * chain sequences enabled. The result of such sequences must be unwrapped
+	     * with `_#value`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 1.3.0
+	     * @category Seq
+	     * @param {*} value The value to wrap.
+	     * @returns {Object} Returns the new `lodash` wrapper instance.
+	     * @example
+	     *
+	     * var users = [
+	     *   { 'user': 'barney',  'age': 36 },
+	     *   { 'user': 'fred',    'age': 40 },
+	     *   { 'user': 'pebbles', 'age': 1 }
+	     * ];
+	     *
+	     * var youngest = _
+	     *   .chain(users)
+	     *   .sortBy('age')
+	     *   .map(function(o) {
+	     *     return o.user + ' is ' + o.age;
+	     *   })
+	     *   .head()
+	     *   .value();
+	     * // => 'pebbles is 1'
+	     */
+	    function chain(value) {
+	      var result = lodash(value);
+	      result.__chain__ = true;
+	      return result;
+	    }
+
+	    /**
+	     * This method invokes `interceptor` and returns `value`. The interceptor
+	     * is invoked with one argument; (value). The purpose of this method is to
+	     * "tap into" a method chain sequence in order to modify intermediate results.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Seq
+	     * @param {*} value The value to provide to `interceptor`.
+	     * @param {Function} interceptor The function to invoke.
+	     * @returns {*} Returns `value`.
+	     * @example
+	     *
+	     * _([1, 2, 3])
+	     *  .tap(function(array) {
+	     *    // Mutate input array.
+	     *    array.pop();
+	     *  })
+	     *  .reverse()
+	     *  .value();
+	     * // => [2, 1]
+	     */
+	    function tap(value, interceptor) {
+	      interceptor(value);
+	      return value;
+	    }
+
+	    /**
+	     * This method is like `_.tap` except that it returns the result of `interceptor`.
+	     * The purpose of this method is to "pass thru" values replacing intermediate
+	     * results in a method chain sequence.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Seq
+	     * @param {*} value The value to provide to `interceptor`.
+	     * @param {Function} interceptor The function to invoke.
+	     * @returns {*} Returns the result of `interceptor`.
+	     * @example
+	     *
+	     * _('  abc  ')
+	     *  .chain()
+	     *  .trim()
+	     *  .thru(function(value) {
+	     *    return [value];
+	     *  })
+	     *  .value();
+	     * // => ['abc']
+	     */
+	    function thru(value, interceptor) {
+	      return interceptor(value);
+	    }
+
+	    /**
+	     * This method is the wrapper version of `_.at`.
+	     *
+	     * @name at
+	     * @memberOf _
+	     * @since 1.0.0
+	     * @category Seq
+	     * @param {...(string|string[])} [paths] The property paths of elements to pick.
+	     * @returns {Object} Returns the new `lodash` wrapper instance.
+	     * @example
+	     *
+	     * var object = { 'a': [{ 'b': { 'c': 3 } }, 4] };
+	     *
+	     * _(object).at(['a[0].b.c', 'a[1]']).value();
+	     * // => [3, 4]
+	     */
+	    var wrapperAt = baseRest(function(paths) {
+	      paths = baseFlatten(paths, 1);
+	      var length = paths.length,
+	          start = length ? paths[0] : 0,
+	          value = this.__wrapped__,
+	          interceptor = function(object) { return baseAt(object, paths); };
+
+	      if (length > 1 || this.__actions__.length ||
+	          !(value instanceof LazyWrapper) || !isIndex(start)) {
+	        return this.thru(interceptor);
+	      }
+	      value = value.slice(start, +start + (length ? 1 : 0));
+	      value.__actions__.push({
+	        'func': thru,
+	        'args': [interceptor],
+	        'thisArg': undefined
+	      });
+	      return new LodashWrapper(value, this.__chain__).thru(function(array) {
+	        if (length && !array.length) {
+	          array.push(undefined);
+	        }
+	        return array;
+	      });
+	    });
+
+	    /**
+	     * Creates a `lodash` wrapper instance with explicit method chain sequences enabled.
+	     *
+	     * @name chain
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Seq
+	     * @returns {Object} Returns the new `lodash` wrapper instance.
+	     * @example
+	     *
+	     * var users = [
+	     *   { 'user': 'barney', 'age': 36 },
+	     *   { 'user': 'fred',   'age': 40 }
+	     * ];
+	     *
+	     * // A sequence without explicit chaining.
+	     * _(users).head();
+	     * // => { 'user': 'barney', 'age': 36 }
+	     *
+	     * // A sequence with explicit chaining.
+	     * _(users)
+	     *   .chain()
+	     *   .head()
+	     *   .pick('user')
+	     *   .value();
+	     * // => { 'user': 'barney' }
+	     */
+	    function wrapperChain() {
+	      return chain(this);
+	    }
+
+	    /**
+	     * Executes the chain sequence and returns the wrapped result.
+	     *
+	     * @name commit
+	     * @memberOf _
+	     * @since 3.2.0
+	     * @category Seq
+	     * @returns {Object} Returns the new `lodash` wrapper instance.
+	     * @example
+	     *
+	     * var array = [1, 2];
+	     * var wrapped = _(array).push(3);
+	     *
+	     * console.log(array);
+	     * // => [1, 2]
+	     *
+	     * wrapped = wrapped.commit();
+	     * console.log(array);
+	     * // => [1, 2, 3]
+	     *
+	     * wrapped.last();
+	     * // => 3
+	     *
+	     * console.log(array);
+	     * // => [1, 2, 3]
+	     */
+	    function wrapperCommit() {
+	      return new LodashWrapper(this.value(), this.__chain__);
+	    }
+
+	    /**
+	     * Gets the next value on a wrapped object following the
+	     * [iterator protocol](https://mdn.io/iteration_protocols#iterator).
+	     *
+	     * @name next
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Seq
+	     * @returns {Object} Returns the next iterator value.
+	     * @example
+	     *
+	     * var wrapped = _([1, 2]);
+	     *
+	     * wrapped.next();
+	     * // => { 'done': false, 'value': 1 }
+	     *
+	     * wrapped.next();
+	     * // => { 'done': false, 'value': 2 }
+	     *
+	     * wrapped.next();
+	     * // => { 'done': true, 'value': undefined }
+	     */
+	    function wrapperNext() {
+	      if (this.__values__ === undefined) {
+	        this.__values__ = toArray(this.value());
+	      }
+	      var done = this.__index__ >= this.__values__.length,
+	          value = done ? undefined : this.__values__[this.__index__++];
+
+	      return { 'done': done, 'value': value };
+	    }
+
+	    /**
+	     * Enables the wrapper to be iterable.
+	     *
+	     * @name Symbol.iterator
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Seq
+	     * @returns {Object} Returns the wrapper object.
+	     * @example
+	     *
+	     * var wrapped = _([1, 2]);
+	     *
+	     * wrapped[Symbol.iterator]() === wrapped;
+	     * // => true
+	     *
+	     * Array.from(wrapped);
+	     * // => [1, 2]
+	     */
+	    function wrapperToIterator() {
+	      return this;
+	    }
+
+	    /**
+	     * Creates a clone of the chain sequence planting `value` as the wrapped value.
+	     *
+	     * @name plant
+	     * @memberOf _
+	     * @since 3.2.0
+	     * @category Seq
+	     * @param {*} value The value to plant.
+	     * @returns {Object} Returns the new `lodash` wrapper instance.
+	     * @example
+	     *
+	     * function square(n) {
+	     *   return n * n;
+	     * }
+	     *
+	     * var wrapped = _([1, 2]).map(square);
+	     * var other = wrapped.plant([3, 4]);
+	     *
+	     * other.value();
+	     * // => [9, 16]
+	     *
+	     * wrapped.value();
+	     * // => [1, 4]
+	     */
+	    function wrapperPlant(value) {
+	      var result,
+	          parent = this;
+
+	      while (parent instanceof baseLodash) {
+	        var clone = wrapperClone(parent);
+	        clone.__index__ = 0;
+	        clone.__values__ = undefined;
+	        if (result) {
+	          previous.__wrapped__ = clone;
+	        } else {
+	          result = clone;
+	        }
+	        var previous = clone;
+	        parent = parent.__wrapped__;
+	      }
+	      previous.__wrapped__ = value;
+	      return result;
+	    }
+
+	    /**
+	     * This method is the wrapper version of `_.reverse`.
+	     *
+	     * **Note:** This method mutates the wrapped array.
+	     *
+	     * @name reverse
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Seq
+	     * @returns {Object} Returns the new `lodash` wrapper instance.
+	     * @example
+	     *
+	     * var array = [1, 2, 3];
+	     *
+	     * _(array).reverse().value()
+	     * // => [3, 2, 1]
+	     *
+	     * console.log(array);
+	     * // => [3, 2, 1]
+	     */
+	    function wrapperReverse() {
+	      var value = this.__wrapped__;
+	      if (value instanceof LazyWrapper) {
+	        var wrapped = value;
+	        if (this.__actions__.length) {
+	          wrapped = new LazyWrapper(this);
+	        }
+	        wrapped = wrapped.reverse();
+	        wrapped.__actions__.push({
+	          'func': thru,
+	          'args': [reverse],
+	          'thisArg': undefined
+	        });
+	        return new LodashWrapper(wrapped, this.__chain__);
+	      }
+	      return this.thru(reverse);
+	    }
+
+	    /**
+	     * Executes the chain sequence to resolve the unwrapped value.
+	     *
+	     * @name value
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @alias toJSON, valueOf
+	     * @category Seq
+	     * @returns {*} Returns the resolved unwrapped value.
+	     * @example
+	     *
+	     * _([1, 2, 3]).value();
+	     * // => [1, 2, 3]
+	     */
+	    function wrapperValue() {
+	      return baseWrapperValue(this.__wrapped__, this.__actions__);
+	    }
+
+	    /*------------------------------------------------------------------------*/
+
+	    /**
+	     * Creates an object composed of keys generated from the results of running
+	     * each element of `collection` thru `iteratee`. The corresponding value of
+	     * each key is the number of times the key was returned by `iteratee`. The
+	     * iteratee is invoked with one argument: (value).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.5.0
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function} [iteratee=_.identity]
+	     *  The iteratee to transform keys.
+	     * @returns {Object} Returns the composed aggregate object.
+	     * @example
+	     *
+	     * _.countBy([6.1, 4.2, 6.3], Math.floor);
+	     * // => { '4': 1, '6': 2 }
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.countBy(['one', 'two', 'three'], 'length');
+	     * // => { '3': 2, '5': 1 }
+	     */
+	    var countBy = createAggregator(function(result, value, key) {
+	      hasOwnProperty.call(result, key) ? ++result[key] : (result[key] = 1);
+	    });
+
+	    /**
+	     * Checks if `predicate` returns truthy for **all** elements of `collection`.
+	     * Iteration is stopped once `predicate` returns falsey. The predicate is
+	     * invoked with three arguments: (value, index|key, collection).
+	     *
+	     * **Note:** This method returns `true` for
+	     * [empty collections](https://en.wikipedia.org/wiki/Empty_set) because
+	     * [everything is true](https://en.wikipedia.org/wiki/Vacuous_truth) of
+	     * elements of empty collections.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function} [predicate=_.identity]
+	     *  The function invoked per iteration.
+	     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+	     * @returns {boolean} Returns `true` if all elements pass the predicate check,
+	     *  else `false`.
+	     * @example
+	     *
+	     * _.every([true, 1, null, 'yes'], Boolean);
+	     * // => false
+	     *
+	     * var users = [
+	     *   { 'user': 'barney', 'age': 36, 'active': false },
+	     *   { 'user': 'fred',   'age': 40, 'active': false }
+	     * ];
+	     *
+	     * // The `_.matches` iteratee shorthand.
+	     * _.every(users, { 'user': 'barney', 'active': false });
+	     * // => false
+	     *
+	     * // The `_.matchesProperty` iteratee shorthand.
+	     * _.every(users, ['active', false]);
+	     * // => true
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.every(users, 'active');
+	     * // => false
+	     */
+	    function every(collection, predicate, guard) {
+	      var func = isArray(collection) ? arrayEvery : baseEvery;
+	      if (guard && isIterateeCall(collection, predicate, guard)) {
+	        predicate = undefined;
+	      }
+	      return func(collection, getIteratee(predicate, 3));
+	    }
+
+	    /**
+	     * Iterates over elements of `collection`, returning an array of all elements
+	     * `predicate` returns truthy for. The predicate is invoked with three
+	     * arguments: (value, index|key, collection).
+	     *
+	     * **Note:** Unlike `_.remove`, this method returns a new array.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function} [predicate=_.identity]
+	     *  The function invoked per iteration.
+	     * @returns {Array} Returns the new filtered array.
+	     * @see _.reject
+	     * @example
+	     *
+	     * var users = [
+	     *   { 'user': 'barney', 'age': 36, 'active': true },
+	     *   { 'user': 'fred',   'age': 40, 'active': false }
+	     * ];
+	     *
+	     * _.filter(users, function(o) { return !o.active; });
+	     * // => objects for ['fred']
+	     *
+	     * // The `_.matches` iteratee shorthand.
+	     * _.filter(users, { 'age': 36, 'active': true });
+	     * // => objects for ['barney']
+	     *
+	     * // The `_.matchesProperty` iteratee shorthand.
+	     * _.filter(users, ['active', false]);
+	     * // => objects for ['fred']
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.filter(users, 'active');
+	     * // => objects for ['barney']
+	     */
+	    function filter(collection, predicate) {
+	      var func = isArray(collection) ? arrayFilter : baseFilter;
+	      return func(collection, getIteratee(predicate, 3));
+	    }
+
+	    /**
+	     * Iterates over elements of `collection`, returning the first element
+	     * `predicate` returns truthy for. The predicate is invoked with three
+	     * arguments: (value, index|key, collection).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to inspect.
+	     * @param {Function} [predicate=_.identity]
+	     *  The function invoked per iteration.
+	     * @param {number} [fromIndex=0] The index to search from.
+	     * @returns {*} Returns the matched element, else `undefined`.
+	     * @example
+	     *
+	     * var users = [
+	     *   { 'user': 'barney',  'age': 36, 'active': true },
+	     *   { 'user': 'fred',    'age': 40, 'active': false },
+	     *   { 'user': 'pebbles', 'age': 1,  'active': true }
+	     * ];
+	     *
+	     * _.find(users, function(o) { return o.age < 40; });
+	     * // => object for 'barney'
+	     *
+	     * // The `_.matches` iteratee shorthand.
+	     * _.find(users, { 'age': 1, 'active': true });
+	     * // => object for 'pebbles'
+	     *
+	     * // The `_.matchesProperty` iteratee shorthand.
+	     * _.find(users, ['active', false]);
+	     * // => object for 'fred'
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.find(users, 'active');
+	     * // => object for 'barney'
+	     */
+	    var find = createFind(findIndex);
+
+	    /**
+	     * This method is like `_.find` except that it iterates over elements of
+	     * `collection` from right to left.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 2.0.0
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to inspect.
+	     * @param {Function} [predicate=_.identity]
+	     *  The function invoked per iteration.
+	     * @param {number} [fromIndex=collection.length-1] The index to search from.
+	     * @returns {*} Returns the matched element, else `undefined`.
+	     * @example
+	     *
+	     * _.findLast([1, 2, 3, 4], function(n) {
+	     *   return n % 2 == 1;
+	     * });
+	     * // => 3
+	     */
+	    var findLast = createFind(findLastIndex);
+
+	    /**
+	     * Creates a flattened array of values by running each element in `collection`
+	     * thru `iteratee` and flattening the mapped results. The iteratee is invoked
+	     * with three arguments: (value, index|key, collection).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function} [iteratee=_.identity]
+	     *  The function invoked per iteration.
+	     * @returns {Array} Returns the new flattened array.
+	     * @example
+	     *
+	     * function duplicate(n) {
+	     *   return [n, n];
+	     * }
+	     *
+	     * _.flatMap([1, 2], duplicate);
+	     * // => [1, 1, 2, 2]
+	     */
+	    function flatMap(collection, iteratee) {
+	      return baseFlatten(map(collection, iteratee), 1);
+	    }
+
+	    /**
+	     * This method is like `_.flatMap` except that it recursively flattens the
+	     * mapped results.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.7.0
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function} [iteratee=_.identity]
+	     *  The function invoked per iteration.
+	     * @returns {Array} Returns the new flattened array.
+	     * @example
+	     *
+	     * function duplicate(n) {
+	     *   return [[[n, n]]];
+	     * }
+	     *
+	     * _.flatMapDeep([1, 2], duplicate);
+	     * // => [1, 1, 2, 2]
+	     */
+	    function flatMapDeep(collection, iteratee) {
+	      return baseFlatten(map(collection, iteratee), INFINITY);
+	    }
+
+	    /**
+	     * This method is like `_.flatMap` except that it recursively flattens the
+	     * mapped results up to `depth` times.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.7.0
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function} [iteratee=_.identity]
+	     *  The function invoked per iteration.
+	     * @param {number} [depth=1] The maximum recursion depth.
+	     * @returns {Array} Returns the new flattened array.
+	     * @example
+	     *
+	     * function duplicate(n) {
+	     *   return [[[n, n]]];
+	     * }
+	     *
+	     * _.flatMapDepth([1, 2], duplicate, 2);
+	     * // => [[1, 1], [2, 2]]
+	     */
+	    function flatMapDepth(collection, iteratee, depth) {
+	      depth = depth === undefined ? 1 : toInteger(depth);
+	      return baseFlatten(map(collection, iteratee), depth);
+	    }
+
+	    /**
+	     * Iterates over elements of `collection` and invokes `iteratee` for each element.
+	     * The iteratee is invoked with three arguments: (value, index|key, collection).
+	     * Iteratee functions may exit iteration early by explicitly returning `false`.
+	     *
+	     * **Note:** As with other "Collections" methods, objects with a "length"
+	     * property are iterated like arrays. To avoid this behavior use `_.forIn`
+	     * or `_.forOwn` for object iteration.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @alias each
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+	     * @returns {Array|Object} Returns `collection`.
+	     * @see _.forEachRight
+	     * @example
+	     *
+	     * _([1, 2]).forEach(function(value) {
+	     *   console.log(value);
+	     * });
+	     * // => Logs `1` then `2`.
+	     *
+	     * _.forEach({ 'a': 1, 'b': 2 }, function(value, key) {
+	     *   console.log(key);
+	     * });
+	     * // => Logs 'a' then 'b' (iteration order is not guaranteed).
+	     */
+	    function forEach(collection, iteratee) {
+	      var func = isArray(collection) ? arrayEach : baseEach;
+	      return func(collection, getIteratee(iteratee, 3));
+	    }
+
+	    /**
+	     * This method is like `_.forEach` except that it iterates over elements of
+	     * `collection` from right to left.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 2.0.0
+	     * @alias eachRight
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+	     * @returns {Array|Object} Returns `collection`.
+	     * @see _.forEach
+	     * @example
+	     *
+	     * _.forEachRight([1, 2], function(value) {
+	     *   console.log(value);
+	     * });
+	     * // => Logs `2` then `1`.
+	     */
+	    function forEachRight(collection, iteratee) {
+	      var func = isArray(collection) ? arrayEachRight : baseEachRight;
+	      return func(collection, getIteratee(iteratee, 3));
+	    }
+
+	    /**
+	     * Creates an object composed of keys generated from the results of running
+	     * each element of `collection` thru `iteratee`. The order of grouped values
+	     * is determined by the order they occur in `collection`. The corresponding
+	     * value of each key is an array of elements responsible for generating the
+	     * key. The iteratee is invoked with one argument: (value).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function} [iteratee=_.identity]
+	     *  The iteratee to transform keys.
+	     * @returns {Object} Returns the composed aggregate object.
+	     * @example
+	     *
+	     * _.groupBy([6.1, 4.2, 6.3], Math.floor);
+	     * // => { '4': [4.2], '6': [6.1, 6.3] }
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.groupBy(['one', 'two', 'three'], 'length');
+	     * // => { '3': ['one', 'two'], '5': ['three'] }
+	     */
+	    var groupBy = createAggregator(function(result, value, key) {
+	      if (hasOwnProperty.call(result, key)) {
+	        result[key].push(value);
+	      } else {
+	        result[key] = [value];
+	      }
+	    });
+
+	    /**
+	     * Checks if `value` is in `collection`. If `collection` is a string, it's
+	     * checked for a substring of `value`, otherwise
+	     * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+	     * is used for equality comparisons. If `fromIndex` is negative, it's used as
+	     * the offset from the end of `collection`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Collection
+	     * @param {Array|Object|string} collection The collection to inspect.
+	     * @param {*} value The value to search for.
+	     * @param {number} [fromIndex=0] The index to search from.
+	     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.reduce`.
+	     * @returns {boolean} Returns `true` if `value` is found, else `false`.
+	     * @example
+	     *
+	     * _.includes([1, 2, 3], 1);
+	     * // => true
+	     *
+	     * _.includes([1, 2, 3], 1, 2);
+	     * // => false
+	     *
+	     * _.includes({ 'a': 1, 'b': 2 }, 1);
+	     * // => true
+	     *
+	     * _.includes('abcd', 'bc');
+	     * // => true
+	     */
+	    function includes(collection, value, fromIndex, guard) {
+	      collection = isArrayLike(collection) ? collection : values(collection);
+	      fromIndex = (fromIndex && !guard) ? toInteger(fromIndex) : 0;
+
+	      var length = collection.length;
+	      if (fromIndex < 0) {
+	        fromIndex = nativeMax(length + fromIndex, 0);
+	      }
+	      return isString(collection)
+	        ? (fromIndex <= length && collection.indexOf(value, fromIndex) > -1)
+	        : (!!length && baseIndexOf(collection, value, fromIndex) > -1);
+	    }
+
+	    /**
+	     * Invokes the method at `path` of each element in `collection`, returning
+	     * an array of the results of each invoked method. Any additional arguments
+	     * are provided to each invoked method. If `path` is a function, it's invoked
+	     * for, and `this` bound to, each element in `collection`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Array|Function|string} path The path of the method to invoke or
+	     *  the function invoked per iteration.
+	     * @param {...*} [args] The arguments to invoke each method with.
+	     * @returns {Array} Returns the array of results.
+	     * @example
+	     *
+	     * _.invokeMap([[5, 1, 7], [3, 2, 1]], 'sort');
+	     * // => [[1, 5, 7], [1, 2, 3]]
+	     *
+	     * _.invokeMap([123, 456], String.prototype.split, '');
+	     * // => [['1', '2', '3'], ['4', '5', '6']]
+	     */
+	    var invokeMap = baseRest(function(collection, path, args) {
+	      var index = -1,
+	          isFunc = typeof path == 'function',
+	          isProp = isKey(path),
+	          result = isArrayLike(collection) ? Array(collection.length) : [];
+
+	      baseEach(collection, function(value) {
+	        var func = isFunc ? path : ((isProp && value != null) ? value[path] : undefined);
+	        result[++index] = func ? apply(func, value, args) : baseInvoke(value, path, args);
+	      });
+	      return result;
+	    });
+
+	    /**
+	     * Creates an object composed of keys generated from the results of running
+	     * each element of `collection` thru `iteratee`. The corresponding value of
+	     * each key is the last element responsible for generating the key. The
+	     * iteratee is invoked with one argument: (value).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function} [iteratee=_.identity]
+	     *  The iteratee to transform keys.
+	     * @returns {Object} Returns the composed aggregate object.
+	     * @example
+	     *
+	     * var array = [
+	     *   { 'dir': 'left', 'code': 97 },
+	     *   { 'dir': 'right', 'code': 100 }
+	     * ];
+	     *
+	     * _.keyBy(array, function(o) {
+	     *   return String.fromCharCode(o.code);
+	     * });
+	     * // => { 'a': { 'dir': 'left', 'code': 97 }, 'd': { 'dir': 'right', 'code': 100 } }
+	     *
+	     * _.keyBy(array, 'dir');
+	     * // => { 'left': { 'dir': 'left', 'code': 97 }, 'right': { 'dir': 'right', 'code': 100 } }
+	     */
+	    var keyBy = createAggregator(function(result, value, key) {
+	      result[key] = value;
+	    });
+
+	    /**
+	     * Creates an array of values by running each element in `collection` thru
+	     * `iteratee`. The iteratee is invoked with three arguments:
+	     * (value, index|key, collection).
+	     *
+	     * Many lodash methods are guarded to work as iteratees for methods like
+	     * `_.every`, `_.filter`, `_.map`, `_.mapValues`, `_.reject`, and `_.some`.
+	     *
+	     * The guarded methods are:
+	     * `ary`, `chunk`, `curry`, `curryRight`, `drop`, `dropRight`, `every`,
+	     * `fill`, `invert`, `parseInt`, `random`, `range`, `rangeRight`, `repeat`,
+	     * `sampleSize`, `slice`, `some`, `sortBy`, `split`, `take`, `takeRight`,
+	     * `template`, `trim`, `trimEnd`, `trimStart`, and `words`
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+	     * @returns {Array} Returns the new mapped array.
+	     * @example
+	     *
+	     * function square(n) {
+	     *   return n * n;
+	     * }
+	     *
+	     * _.map([4, 8], square);
+	     * // => [16, 64]
+	     *
+	     * _.map({ 'a': 4, 'b': 8 }, square);
+	     * // => [16, 64] (iteration order is not guaranteed)
+	     *
+	     * var users = [
+	     *   { 'user': 'barney' },
+	     *   { 'user': 'fred' }
+	     * ];
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.map(users, 'user');
+	     * // => ['barney', 'fred']
+	     */
+	    function map(collection, iteratee) {
+	      var func = isArray(collection) ? arrayMap : baseMap;
+	      return func(collection, getIteratee(iteratee, 3));
+	    }
+
+	    /**
+	     * This method is like `_.sortBy` except that it allows specifying the sort
+	     * orders of the iteratees to sort by. If `orders` is unspecified, all values
+	     * are sorted in ascending order. Otherwise, specify an order of "desc" for
+	     * descending or "asc" for ascending sort order of corresponding values.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Array[]|Function[]|Object[]|string[]} [iteratees=[_.identity]]
+	     *  The iteratees to sort by.
+	     * @param {string[]} [orders] The sort orders of `iteratees`.
+	     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.reduce`.
+	     * @returns {Array} Returns the new sorted array.
+	     * @example
+	     *
+	     * var users = [
+	     *   { 'user': 'fred',   'age': 48 },
+	     *   { 'user': 'barney', 'age': 34 },
+	     *   { 'user': 'fred',   'age': 40 },
+	     *   { 'user': 'barney', 'age': 36 }
+	     * ];
+	     *
+	     * // Sort by `user` in ascending order and by `age` in descending order.
+	     * _.orderBy(users, ['user', 'age'], ['asc', 'desc']);
+	     * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 40]]
+	     */
+	    function orderBy(collection, iteratees, orders, guard) {
+	      if (collection == null) {
+	        return [];
+	      }
+	      if (!isArray(iteratees)) {
+	        iteratees = iteratees == null ? [] : [iteratees];
+	      }
+	      orders = guard ? undefined : orders;
+	      if (!isArray(orders)) {
+	        orders = orders == null ? [] : [orders];
+	      }
+	      return baseOrderBy(collection, iteratees, orders);
+	    }
+
+	    /**
+	     * Creates an array of elements split into two groups, the first of which
+	     * contains elements `predicate` returns truthy for, the second of which
+	     * contains elements `predicate` returns falsey for. The predicate is
+	     * invoked with one argument: (value).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function} [predicate=_.identity] The function invoked per iteration.
+	     * @returns {Array} Returns the array of grouped elements.
+	     * @example
+	     *
+	     * var users = [
+	     *   { 'user': 'barney',  'age': 36, 'active': false },
+	     *   { 'user': 'fred',    'age': 40, 'active': true },
+	     *   { 'user': 'pebbles', 'age': 1,  'active': false }
+	     * ];
+	     *
+	     * _.partition(users, function(o) { return o.active; });
+	     * // => objects for [['fred'], ['barney', 'pebbles']]
+	     *
+	     * // The `_.matches` iteratee shorthand.
+	     * _.partition(users, { 'age': 1, 'active': false });
+	     * // => objects for [['pebbles'], ['barney', 'fred']]
+	     *
+	     * // The `_.matchesProperty` iteratee shorthand.
+	     * _.partition(users, ['active', false]);
+	     * // => objects for [['barney', 'pebbles'], ['fred']]
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.partition(users, 'active');
+	     * // => objects for [['fred'], ['barney', 'pebbles']]
+	     */
+	    var partition = createAggregator(function(result, value, key) {
+	      result[key ? 0 : 1].push(value);
+	    }, function() { return [[], []]; });
+
+	    /**
+	     * Reduces `collection` to a value which is the accumulated result of running
+	     * each element in `collection` thru `iteratee`, where each successive
+	     * invocation is supplied the return value of the previous. If `accumulator`
+	     * is not given, the first element of `collection` is used as the initial
+	     * value. The iteratee is invoked with four arguments:
+	     * (accumulator, value, index|key, collection).
+	     *
+	     * Many lodash methods are guarded to work as iteratees for methods like
+	     * `_.reduce`, `_.reduceRight`, and `_.transform`.
+	     *
+	     * The guarded methods are:
+	     * `assign`, `defaults`, `defaultsDeep`, `includes`, `merge`, `orderBy`,
+	     * and `sortBy`
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+	     * @param {*} [accumulator] The initial value.
+	     * @returns {*} Returns the accumulated value.
+	     * @see _.reduceRight
+	     * @example
+	     *
+	     * _.reduce([1, 2], function(sum, n) {
+	     *   return sum + n;
+	     * }, 0);
+	     * // => 3
+	     *
+	     * _.reduce({ 'a': 1, 'b': 2, 'c': 1 }, function(result, value, key) {
+	     *   (result[value] || (result[value] = [])).push(key);
+	     *   return result;
+	     * }, {});
+	     * // => { '1': ['a', 'c'], '2': ['b'] } (iteration order is not guaranteed)
+	     */
+	    function reduce(collection, iteratee, accumulator) {
+	      var func = isArray(collection) ? arrayReduce : baseReduce,
+	          initAccum = arguments.length < 3;
+
+	      return func(collection, getIteratee(iteratee, 4), accumulator, initAccum, baseEach);
+	    }
+
+	    /**
+	     * This method is like `_.reduce` except that it iterates over elements of
+	     * `collection` from right to left.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+	     * @param {*} [accumulator] The initial value.
+	     * @returns {*} Returns the accumulated value.
+	     * @see _.reduce
+	     * @example
+	     *
+	     * var array = [[0, 1], [2, 3], [4, 5]];
+	     *
+	     * _.reduceRight(array, function(flattened, other) {
+	     *   return flattened.concat(other);
+	     * }, []);
+	     * // => [4, 5, 2, 3, 0, 1]
+	     */
+	    function reduceRight(collection, iteratee, accumulator) {
+	      var func = isArray(collection) ? arrayReduceRight : baseReduce,
+	          initAccum = arguments.length < 3;
+
+	      return func(collection, getIteratee(iteratee, 4), accumulator, initAccum, baseEachRight);
+	    }
+
+	    /**
+	     * The opposite of `_.filter`; this method returns the elements of `collection`
+	     * that `predicate` does **not** return truthy for.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function} [predicate=_.identity] The function invoked per iteration.
+	     * @returns {Array} Returns the new filtered array.
+	     * @see _.filter
+	     * @example
+	     *
+	     * var users = [
+	     *   { 'user': 'barney', 'age': 36, 'active': false },
+	     *   { 'user': 'fred',   'age': 40, 'active': true }
+	     * ];
+	     *
+	     * _.reject(users, function(o) { return !o.active; });
+	     * // => objects for ['fred']
+	     *
+	     * // The `_.matches` iteratee shorthand.
+	     * _.reject(users, { 'age': 40, 'active': true });
+	     * // => objects for ['barney']
+	     *
+	     * // The `_.matchesProperty` iteratee shorthand.
+	     * _.reject(users, ['active', false]);
+	     * // => objects for ['fred']
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.reject(users, 'active');
+	     * // => objects for ['barney']
+	     */
+	    function reject(collection, predicate) {
+	      var func = isArray(collection) ? arrayFilter : baseFilter;
+	      return func(collection, negate(getIteratee(predicate, 3)));
+	    }
+
+	    /**
+	     * Gets a random element from `collection`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 2.0.0
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to sample.
+	     * @returns {*} Returns the random element.
+	     * @example
+	     *
+	     * _.sample([1, 2, 3, 4]);
+	     * // => 2
+	     */
+	    function sample(collection) {
+	      var array = isArrayLike(collection) ? collection : values(collection),
+	          length = array.length;
+
+	      return length > 0 ? array[baseRandom(0, length - 1)] : undefined;
+	    }
+
+	    /**
+	     * Gets `n` random elements at unique keys from `collection` up to the
+	     * size of `collection`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to sample.
+	     * @param {number} [n=1] The number of elements to sample.
+	     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+	     * @returns {Array} Returns the random elements.
+	     * @example
+	     *
+	     * _.sampleSize([1, 2, 3], 2);
+	     * // => [3, 1]
+	     *
+	     * _.sampleSize([1, 2, 3], 4);
+	     * // => [2, 3, 1]
+	     */
+	    function sampleSize(collection, n, guard) {
+	      var index = -1,
+	          result = toArray(collection),
+	          length = result.length,
+	          lastIndex = length - 1;
+
+	      if ((guard ? isIterateeCall(collection, n, guard) : n === undefined)) {
+	        n = 1;
+	      } else {
+	        n = baseClamp(toInteger(n), 0, length);
+	      }
+	      while (++index < n) {
+	        var rand = baseRandom(index, lastIndex),
+	            value = result[rand];
+
+	        result[rand] = result[index];
+	        result[index] = value;
+	      }
+	      result.length = n;
+	      return result;
+	    }
+
+	    /**
+	     * Creates an array of shuffled values, using a version of the
+	     * [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher-Yates_shuffle).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to shuffle.
+	     * @returns {Array} Returns the new shuffled array.
+	     * @example
+	     *
+	     * _.shuffle([1, 2, 3, 4]);
+	     * // => [4, 1, 3, 2]
+	     */
+	    function shuffle(collection) {
+	      return sampleSize(collection, MAX_ARRAY_LENGTH);
+	    }
+
+	    /**
+	     * Gets the size of `collection` by returning its length for array-like
+	     * values or the number of own enumerable string keyed properties for objects.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Collection
+	     * @param {Array|Object|string} collection The collection to inspect.
+	     * @returns {number} Returns the collection size.
+	     * @example
+	     *
+	     * _.size([1, 2, 3]);
+	     * // => 3
+	     *
+	     * _.size({ 'a': 1, 'b': 2 });
+	     * // => 2
+	     *
+	     * _.size('pebbles');
+	     * // => 7
+	     */
+	    function size(collection) {
+	      if (collection == null) {
+	        return 0;
+	      }
+	      if (isArrayLike(collection)) {
+	        return isString(collection) ? stringSize(collection) : collection.length;
+	      }
+	      var tag = getTag(collection);
+	      if (tag == mapTag || tag == setTag) {
+	        return collection.size;
+	      }
+	      return baseKeys(collection).length;
+	    }
+
+	    /**
+	     * Checks if `predicate` returns truthy for **any** element of `collection`.
+	     * Iteration is stopped once `predicate` returns truthy. The predicate is
+	     * invoked with three arguments: (value, index|key, collection).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {Function} [predicate=_.identity] The function invoked per iteration.
+	     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+	     * @returns {boolean} Returns `true` if any element passes the predicate check,
+	     *  else `false`.
+	     * @example
+	     *
+	     * _.some([null, 0, 'yes', false], Boolean);
+	     * // => true
+	     *
+	     * var users = [
+	     *   { 'user': 'barney', 'active': true },
+	     *   { 'user': 'fred',   'active': false }
+	     * ];
+	     *
+	     * // The `_.matches` iteratee shorthand.
+	     * _.some(users, { 'user': 'barney', 'active': false });
+	     * // => false
+	     *
+	     * // The `_.matchesProperty` iteratee shorthand.
+	     * _.some(users, ['active', false]);
+	     * // => true
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.some(users, 'active');
+	     * // => true
+	     */
+	    function some(collection, predicate, guard) {
+	      var func = isArray(collection) ? arraySome : baseSome;
+	      if (guard && isIterateeCall(collection, predicate, guard)) {
+	        predicate = undefined;
+	      }
+	      return func(collection, getIteratee(predicate, 3));
+	    }
+
+	    /**
+	     * Creates an array of elements, sorted in ascending order by the results of
+	     * running each element in a collection thru each iteratee. This method
+	     * performs a stable sort, that is, it preserves the original sort order of
+	     * equal elements. The iteratees are invoked with one argument: (value).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Collection
+	     * @param {Array|Object} collection The collection to iterate over.
+	     * @param {...(Function|Function[])} [iteratees=[_.identity]]
+	     *  The iteratees to sort by.
+	     * @returns {Array} Returns the new sorted array.
+	     * @example
+	     *
+	     * var users = [
+	     *   { 'user': 'fred',   'age': 48 },
+	     *   { 'user': 'barney', 'age': 36 },
+	     *   { 'user': 'fred',   'age': 40 },
+	     *   { 'user': 'barney', 'age': 34 }
+	     * ];
+	     *
+	     * _.sortBy(users, function(o) { return o.user; });
+	     * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 40]]
+	     *
+	     * _.sortBy(users, ['user', 'age']);
+	     * // => objects for [['barney', 34], ['barney', 36], ['fred', 40], ['fred', 48]]
+	     *
+	     * _.sortBy(users, 'user', function(o) {
+	     *   return Math.floor(o.age / 10);
+	     * });
+	     * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 40]]
+	     */
+	    var sortBy = baseRest(function(collection, iteratees) {
+	      if (collection == null) {
+	        return [];
+	      }
+	      var length = iteratees.length;
+	      if (length > 1 && isIterateeCall(collection, iteratees[0], iteratees[1])) {
+	        iteratees = [];
+	      } else if (length > 2 && isIterateeCall(iteratees[0], iteratees[1], iteratees[2])) {
+	        iteratees = [iteratees[0]];
+	      }
+	      return baseOrderBy(collection, baseFlatten(iteratees, 1), []);
+	    });
+
+	    /*------------------------------------------------------------------------*/
+
+	    /**
+	     * Gets the timestamp of the number of milliseconds that have elapsed since
+	     * the Unix epoch (1 January 1970 00:00:00 UTC).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 2.4.0
+	     * @category Date
+	     * @returns {number} Returns the timestamp.
+	     * @example
+	     *
+	     * _.defer(function(stamp) {
+	     *   console.log(_.now() - stamp);
+	     * }, _.now());
+	     * // => Logs the number of milliseconds it took for the deferred invocation.
+	     */
+	    var now = ctxNow || function() {
+	      return root.Date.now();
+	    };
+
+	    /*------------------------------------------------------------------------*/
+
+	    /**
+	     * The opposite of `_.before`; this method creates a function that invokes
+	     * `func` once it's called `n` or more times.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Function
+	     * @param {number} n The number of calls before `func` is invoked.
+	     * @param {Function} func The function to restrict.
+	     * @returns {Function} Returns the new restricted function.
+	     * @example
+	     *
+	     * var saves = ['profile', 'settings'];
+	     *
+	     * var done = _.after(saves.length, function() {
+	     *   console.log('done saving!');
+	     * });
+	     *
+	     * _.forEach(saves, function(type) {
+	     *   asyncSave({ 'type': type, 'complete': done });
+	     * });
+	     * // => Logs 'done saving!' after the two async saves have completed.
+	     */
+	    function after(n, func) {
+	      if (typeof func != 'function') {
+	        throw new TypeError(FUNC_ERROR_TEXT);
+	      }
+	      n = toInteger(n);
+	      return function() {
+	        if (--n < 1) {
+	          return func.apply(this, arguments);
+	        }
+	      };
+	    }
+
+	    /**
+	     * Creates a function that invokes `func`, with up to `n` arguments,
+	     * ignoring any additional arguments.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Function
+	     * @param {Function} func The function to cap arguments for.
+	     * @param {number} [n=func.length] The arity cap.
+	     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+	     * @returns {Function} Returns the new capped function.
+	     * @example
+	     *
+	     * _.map(['6', '8', '10'], _.ary(parseInt, 1));
+	     * // => [6, 8, 10]
+	     */
+	    function ary(func, n, guard) {
+	      n = guard ? undefined : n;
+	      n = (func && n == null) ? func.length : n;
+	      return createWrap(func, ARY_FLAG, undefined, undefined, undefined, undefined, n);
+	    }
+
+	    /**
+	     * Creates a function that invokes `func`, with the `this` binding and arguments
+	     * of the created function, while it's called less than `n` times. Subsequent
+	     * calls to the created function return the result of the last `func` invocation.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Function
+	     * @param {number} n The number of calls at which `func` is no longer invoked.
+	     * @param {Function} func The function to restrict.
+	     * @returns {Function} Returns the new restricted function.
+	     * @example
+	     *
+	     * jQuery(element).on('click', _.before(5, addContactToList));
+	     * // => Allows adding up to 4 contacts to the list.
+	     */
+	    function before(n, func) {
+	      var result;
+	      if (typeof func != 'function') {
+	        throw new TypeError(FUNC_ERROR_TEXT);
+	      }
+	      n = toInteger(n);
+	      return function() {
+	        if (--n > 0) {
+	          result = func.apply(this, arguments);
+	        }
+	        if (n <= 1) {
+	          func = undefined;
+	        }
+	        return result;
+	      };
+	    }
+
+	    /**
+	     * Creates a function that invokes `func` with the `this` binding of `thisArg`
+	     * and `partials` prepended to the arguments it receives.
+	     *
+	     * The `_.bind.placeholder` value, which defaults to `_` in monolithic builds,
+	     * may be used as a placeholder for partially applied arguments.
+	     *
+	     * **Note:** Unlike native `Function#bind`, this method doesn't set the "length"
+	     * property of bound functions.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Function
+	     * @param {Function} func The function to bind.
+	     * @param {*} thisArg The `this` binding of `func`.
+	     * @param {...*} [partials] The arguments to be partially applied.
+	     * @returns {Function} Returns the new bound function.
+	     * @example
+	     *
+	     * function greet(greeting, punctuation) {
+	     *   return greeting + ' ' + this.user + punctuation;
+	     * }
+	     *
+	     * var object = { 'user': 'fred' };
+	     *
+	     * var bound = _.bind(greet, object, 'hi');
+	     * bound('!');
+	     * // => 'hi fred!'
+	     *
+	     * // Bound with placeholders.
+	     * var bound = _.bind(greet, object, _, '!');
+	     * bound('hi');
+	     * // => 'hi fred!'
+	     */
+	    var bind = baseRest(function(func, thisArg, partials) {
+	      var bitmask = BIND_FLAG;
+	      if (partials.length) {
+	        var holders = replaceHolders(partials, getHolder(bind));
+	        bitmask |= PARTIAL_FLAG;
+	      }
+	      return createWrap(func, bitmask, thisArg, partials, holders);
+	    });
+
+	    /**
+	     * Creates a function that invokes the method at `object[key]` with `partials`
+	     * prepended to the arguments it receives.
+	     *
+	     * This method differs from `_.bind` by allowing bound functions to reference
+	     * methods that may be redefined or don't yet exist. See
+	     * [Peter Michaux's article](http://peter.michaux.ca/articles/lazy-function-definition-pattern)
+	     * for more details.
+	     *
+	     * The `_.bindKey.placeholder` value, which defaults to `_` in monolithic
+	     * builds, may be used as a placeholder for partially applied arguments.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.10.0
+	     * @category Function
+	     * @param {Object} object The object to invoke the method on.
+	     * @param {string} key The key of the method.
+	     * @param {...*} [partials] The arguments to be partially applied.
+	     * @returns {Function} Returns the new bound function.
+	     * @example
+	     *
+	     * var object = {
+	     *   'user': 'fred',
+	     *   'greet': function(greeting, punctuation) {
+	     *     return greeting + ' ' + this.user + punctuation;
+	     *   }
+	     * };
+	     *
+	     * var bound = _.bindKey(object, 'greet', 'hi');
+	     * bound('!');
+	     * // => 'hi fred!'
+	     *
+	     * object.greet = function(greeting, punctuation) {
+	     *   return greeting + 'ya ' + this.user + punctuation;
+	     * };
+	     *
+	     * bound('!');
+	     * // => 'hiya fred!'
+	     *
+	     * // Bound with placeholders.
+	     * var bound = _.bindKey(object, 'greet', _, '!');
+	     * bound('hi');
+	     * // => 'hiya fred!'
+	     */
+	    var bindKey = baseRest(function(object, key, partials) {
+	      var bitmask = BIND_FLAG | BIND_KEY_FLAG;
+	      if (partials.length) {
+	        var holders = replaceHolders(partials, getHolder(bindKey));
+	        bitmask |= PARTIAL_FLAG;
+	      }
+	      return createWrap(key, bitmask, object, partials, holders);
+	    });
+
+	    /**
+	     * Creates a function that accepts arguments of `func` and either invokes
+	     * `func` returning its result, if at least `arity` number of arguments have
+	     * been provided, or returns a function that accepts the remaining `func`
+	     * arguments, and so on. The arity of `func` may be specified if `func.length`
+	     * is not sufficient.
+	     *
+	     * The `_.curry.placeholder` value, which defaults to `_` in monolithic builds,
+	     * may be used as a placeholder for provided arguments.
+	     *
+	     * **Note:** This method doesn't set the "length" property of curried functions.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 2.0.0
+	     * @category Function
+	     * @param {Function} func The function to curry.
+	     * @param {number} [arity=func.length] The arity of `func`.
+	     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+	     * @returns {Function} Returns the new curried function.
+	     * @example
+	     *
+	     * var abc = function(a, b, c) {
+	     *   return [a, b, c];
+	     * };
+	     *
+	     * var curried = _.curry(abc);
+	     *
+	     * curried(1)(2)(3);
+	     * // => [1, 2, 3]
+	     *
+	     * curried(1, 2)(3);
+	     * // => [1, 2, 3]
+	     *
+	     * curried(1, 2, 3);
+	     * // => [1, 2, 3]
+	     *
+	     * // Curried with placeholders.
+	     * curried(1)(_, 3)(2);
+	     * // => [1, 2, 3]
+	     */
+	    function curry(func, arity, guard) {
+	      arity = guard ? undefined : arity;
+	      var result = createWrap(func, CURRY_FLAG, undefined, undefined, undefined, undefined, undefined, arity);
+	      result.placeholder = curry.placeholder;
+	      return result;
+	    }
+
+	    /**
+	     * This method is like `_.curry` except that arguments are applied to `func`
+	     * in the manner of `_.partialRight` instead of `_.partial`.
+	     *
+	     * The `_.curryRight.placeholder` value, which defaults to `_` in monolithic
+	     * builds, may be used as a placeholder for provided arguments.
+	     *
+	     * **Note:** This method doesn't set the "length" property of curried functions.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Function
+	     * @param {Function} func The function to curry.
+	     * @param {number} [arity=func.length] The arity of `func`.
+	     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+	     * @returns {Function} Returns the new curried function.
+	     * @example
+	     *
+	     * var abc = function(a, b, c) {
+	     *   return [a, b, c];
+	     * };
+	     *
+	     * var curried = _.curryRight(abc);
+	     *
+	     * curried(3)(2)(1);
+	     * // => [1, 2, 3]
+	     *
+	     * curried(2, 3)(1);
+	     * // => [1, 2, 3]
+	     *
+	     * curried(1, 2, 3);
+	     * // => [1, 2, 3]
+	     *
+	     * // Curried with placeholders.
+	     * curried(3)(1, _)(2);
+	     * // => [1, 2, 3]
+	     */
+	    function curryRight(func, arity, guard) {
+	      arity = guard ? undefined : arity;
+	      var result = createWrap(func, CURRY_RIGHT_FLAG, undefined, undefined, undefined, undefined, undefined, arity);
+	      result.placeholder = curryRight.placeholder;
+	      return result;
+	    }
+
+	    /**
+	     * Creates a debounced function that delays invoking `func` until after `wait`
+	     * milliseconds have elapsed since the last time the debounced function was
+	     * invoked. The debounced function comes with a `cancel` method to cancel
+	     * delayed `func` invocations and a `flush` method to immediately invoke them.
+	     * Provide `options` to indicate whether `func` should be invoked on the
+	     * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+	     * with the last arguments provided to the debounced function. Subsequent
+	     * calls to the debounced function return the result of the last `func`
+	     * invocation.
+	     *
+	     * **Note:** If `leading` and `trailing` options are `true`, `func` is
+	     * invoked on the trailing edge of the timeout only if the debounced function
+	     * is invoked more than once during the `wait` timeout.
+	     *
+	     * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+	     * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+	     *
+	     * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+	     * for details over the differences between `_.debounce` and `_.throttle`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Function
+	     * @param {Function} func The function to debounce.
+	     * @param {number} [wait=0] The number of milliseconds to delay.
+	     * @param {Object} [options={}] The options object.
+	     * @param {boolean} [options.leading=false]
+	     *  Specify invoking on the leading edge of the timeout.
+	     * @param {number} [options.maxWait]
+	     *  The maximum time `func` is allowed to be delayed before it's invoked.
+	     * @param {boolean} [options.trailing=true]
+	     *  Specify invoking on the trailing edge of the timeout.
+	     * @returns {Function} Returns the new debounced function.
+	     * @example
+	     *
+	     * // Avoid costly calculations while the window size is in flux.
+	     * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+	     *
+	     * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+	     * jQuery(element).on('click', _.debounce(sendMail, 300, {
+	     *   'leading': true,
+	     *   'trailing': false
+	     * }));
+	     *
+	     * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+	     * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+	     * var source = new EventSource('/stream');
+	     * jQuery(source).on('message', debounced);
+	     *
+	     * // Cancel the trailing debounced invocation.
+	     * jQuery(window).on('popstate', debounced.cancel);
+	     */
+	    function debounce(func, wait, options) {
+	      var lastArgs,
+	          lastThis,
+	          maxWait,
+	          result,
+	          timerId,
+	          lastCallTime,
+	          lastInvokeTime = 0,
+	          leading = false,
+	          maxing = false,
+	          trailing = true;
+
+	      if (typeof func != 'function') {
+	        throw new TypeError(FUNC_ERROR_TEXT);
+	      }
+	      wait = toNumber(wait) || 0;
+	      if (isObject(options)) {
+	        leading = !!options.leading;
+	        maxing = 'maxWait' in options;
+	        maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+	        trailing = 'trailing' in options ? !!options.trailing : trailing;
+	      }
+
+	      function invokeFunc(time) {
+	        var args = lastArgs,
+	            thisArg = lastThis;
+
+	        lastArgs = lastThis = undefined;
+	        lastInvokeTime = time;
+	        result = func.apply(thisArg, args);
+	        return result;
+	      }
+
+	      function leadingEdge(time) {
+	        // Reset any `maxWait` timer.
+	        lastInvokeTime = time;
+	        // Start the timer for the trailing edge.
+	        timerId = setTimeout(timerExpired, wait);
+	        // Invoke the leading edge.
+	        return leading ? invokeFunc(time) : result;
+	      }
+
+	      function remainingWait(time) {
+	        var timeSinceLastCall = time - lastCallTime,
+	            timeSinceLastInvoke = time - lastInvokeTime,
+	            result = wait - timeSinceLastCall;
+
+	        return maxing ? nativeMin(result, maxWait - timeSinceLastInvoke) : result;
+	      }
+
+	      function shouldInvoke(time) {
+	        var timeSinceLastCall = time - lastCallTime,
+	            timeSinceLastInvoke = time - lastInvokeTime;
+
+	        // Either this is the first call, activity has stopped and we're at the
+	        // trailing edge, the system time has gone backwards and we're treating
+	        // it as the trailing edge, or we've hit the `maxWait` limit.
+	        return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+	          (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+	      }
+
+	      function timerExpired() {
+	        var time = now();
+	        if (shouldInvoke(time)) {
+	          return trailingEdge(time);
+	        }
+	        // Restart the timer.
+	        timerId = setTimeout(timerExpired, remainingWait(time));
+	      }
+
+	      function trailingEdge(time) {
+	        timerId = undefined;
+
+	        // Only invoke if we have `lastArgs` which means `func` has been
+	        // debounced at least once.
+	        if (trailing && lastArgs) {
+	          return invokeFunc(time);
+	        }
+	        lastArgs = lastThis = undefined;
+	        return result;
+	      }
+
+	      function cancel() {
+	        if (timerId !== undefined) {
+	          clearTimeout(timerId);
+	        }
+	        lastInvokeTime = 0;
+	        lastArgs = lastCallTime = lastThis = timerId = undefined;
+	      }
+
+	      function flush() {
+	        return timerId === undefined ? result : trailingEdge(now());
+	      }
+
+	      function debounced() {
+	        var time = now(),
+	            isInvoking = shouldInvoke(time);
+
+	        lastArgs = arguments;
+	        lastThis = this;
+	        lastCallTime = time;
+
+	        if (isInvoking) {
+	          if (timerId === undefined) {
+	            return leadingEdge(lastCallTime);
+	          }
+	          if (maxing) {
+	            // Handle invocations in a tight loop.
+	            timerId = setTimeout(timerExpired, wait);
+	            return invokeFunc(lastCallTime);
+	          }
+	        }
+	        if (timerId === undefined) {
+	          timerId = setTimeout(timerExpired, wait);
+	        }
+	        return result;
+	      }
+	      debounced.cancel = cancel;
+	      debounced.flush = flush;
+	      return debounced;
+	    }
+
+	    /**
+	     * Defers invoking the `func` until the current call stack has cleared. Any
+	     * additional arguments are provided to `func` when it's invoked.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Function
+	     * @param {Function} func The function to defer.
+	     * @param {...*} [args] The arguments to invoke `func` with.
+	     * @returns {number} Returns the timer id.
+	     * @example
+	     *
+	     * _.defer(function(text) {
+	     *   console.log(text);
+	     * }, 'deferred');
+	     * // => Logs 'deferred' after one or more milliseconds.
+	     */
+	    var defer = baseRest(function(func, args) {
+	      return baseDelay(func, 1, args);
+	    });
+
+	    /**
+	     * Invokes `func` after `wait` milliseconds. Any additional arguments are
+	     * provided to `func` when it's invoked.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Function
+	     * @param {Function} func The function to delay.
+	     * @param {number} wait The number of milliseconds to delay invocation.
+	     * @param {...*} [args] The arguments to invoke `func` with.
+	     * @returns {number} Returns the timer id.
+	     * @example
+	     *
+	     * _.delay(function(text) {
+	     *   console.log(text);
+	     * }, 1000, 'later');
+	     * // => Logs 'later' after one second.
+	     */
+	    var delay = baseRest(function(func, wait, args) {
+	      return baseDelay(func, toNumber(wait) || 0, args);
+	    });
+
+	    /**
+	     * Creates a function that invokes `func` with arguments reversed.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Function
+	     * @param {Function} func The function to flip arguments for.
+	     * @returns {Function} Returns the new flipped function.
+	     * @example
+	     *
+	     * var flipped = _.flip(function() {
+	     *   return _.toArray(arguments);
+	     * });
+	     *
+	     * flipped('a', 'b', 'c', 'd');
+	     * // => ['d', 'c', 'b', 'a']
+	     */
+	    function flip(func) {
+	      return createWrap(func, FLIP_FLAG);
+	    }
+
+	    /**
+	     * Creates a function that memoizes the result of `func`. If `resolver` is
+	     * provided, it determines the cache key for storing the result based on the
+	     * arguments provided to the memoized function. By default, the first argument
+	     * provided to the memoized function is used as the map cache key. The `func`
+	     * is invoked with the `this` binding of the memoized function.
+	     *
+	     * **Note:** The cache is exposed as the `cache` property on the memoized
+	     * function. Its creation may be customized by replacing the `_.memoize.Cache`
+	     * constructor with one whose instances implement the
+	     * [`Map`](http://ecma-international.org/ecma-262/7.0/#sec-properties-of-the-map-prototype-object)
+	     * method interface of `delete`, `get`, `has`, and `set`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Function
+	     * @param {Function} func The function to have its output memoized.
+	     * @param {Function} [resolver] The function to resolve the cache key.
+	     * @returns {Function} Returns the new memoized function.
+	     * @example
+	     *
+	     * var object = { 'a': 1, 'b': 2 };
+	     * var other = { 'c': 3, 'd': 4 };
+	     *
+	     * var values = _.memoize(_.values);
+	     * values(object);
+	     * // => [1, 2]
+	     *
+	     * values(other);
+	     * // => [3, 4]
+	     *
+	     * object.a = 2;
+	     * values(object);
+	     * // => [1, 2]
+	     *
+	     * // Modify the result cache.
+	     * values.cache.set(object, ['a', 'b']);
+	     * values(object);
+	     * // => ['a', 'b']
+	     *
+	     * // Replace `_.memoize.Cache`.
+	     * _.memoize.Cache = WeakMap;
+	     */
+	    function memoize(func, resolver) {
+	      if (typeof func != 'function' || (resolver && typeof resolver != 'function')) {
+	        throw new TypeError(FUNC_ERROR_TEXT);
+	      }
+	      var memoized = function() {
+	        var args = arguments,
+	            key = resolver ? resolver.apply(this, args) : args[0],
+	            cache = memoized.cache;
+
+	        if (cache.has(key)) {
+	          return cache.get(key);
+	        }
+	        var result = func.apply(this, args);
+	        memoized.cache = cache.set(key, result);
+	        return result;
+	      };
+	      memoized.cache = new (memoize.Cache || MapCache);
+	      return memoized;
+	    }
+
+	    // Assign cache to `_.memoize`.
+	    memoize.Cache = MapCache;
+
+	    /**
+	     * Creates a function that negates the result of the predicate `func`. The
+	     * `func` predicate is invoked with the `this` binding and arguments of the
+	     * created function.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Function
+	     * @param {Function} predicate The predicate to negate.
+	     * @returns {Function} Returns the new negated function.
+	     * @example
+	     *
+	     * function isEven(n) {
+	     *   return n % 2 == 0;
+	     * }
+	     *
+	     * _.filter([1, 2, 3, 4, 5, 6], _.negate(isEven));
+	     * // => [1, 3, 5]
+	     */
+	    function negate(predicate) {
+	      if (typeof predicate != 'function') {
+	        throw new TypeError(FUNC_ERROR_TEXT);
+	      }
+	      return function() {
+	        var args = arguments;
+	        switch (args.length) {
+	          case 0: return !predicate.call(this);
+	          case 1: return !predicate.call(this, args[0]);
+	          case 2: return !predicate.call(this, args[0], args[1]);
+	          case 3: return !predicate.call(this, args[0], args[1], args[2]);
+	        }
+	        return !predicate.apply(this, args);
+	      };
+	    }
+
+	    /**
+	     * Creates a function that is restricted to invoking `func` once. Repeat calls
+	     * to the function return the value of the first invocation. The `func` is
+	     * invoked with the `this` binding and arguments of the created function.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Function
+	     * @param {Function} func The function to restrict.
+	     * @returns {Function} Returns the new restricted function.
+	     * @example
+	     *
+	     * var initialize = _.once(createApplication);
+	     * initialize();
+	     * initialize();
+	     * // => `createApplication` is invoked once
+	     */
+	    function once(func) {
+	      return before(2, func);
+	    }
+
+	    /**
+	     * Creates a function that invokes `func` with its arguments transformed.
+	     *
+	     * @static
+	     * @since 4.0.0
+	     * @memberOf _
+	     * @category Function
+	     * @param {Function} func The function to wrap.
+	     * @param {...(Function|Function[])} [transforms=[_.identity]]
+	     *  The argument transforms.
+	     * @returns {Function} Returns the new function.
+	     * @example
+	     *
+	     * function doubled(n) {
+	     *   return n * 2;
+	     * }
+	     *
+	     * function square(n) {
+	     *   return n * n;
+	     * }
+	     *
+	     * var func = _.overArgs(function(x, y) {
+	     *   return [x, y];
+	     * }, [square, doubled]);
+	     *
+	     * func(9, 3);
+	     * // => [81, 6]
+	     *
+	     * func(10, 5);
+	     * // => [100, 10]
+	     */
+	    var overArgs = baseRest(function(func, transforms) {
+	      transforms = (transforms.length == 1 && isArray(transforms[0]))
+	        ? arrayMap(transforms[0], baseUnary(getIteratee()))
+	        : arrayMap(baseFlatten(transforms, 1), baseUnary(getIteratee()));
+
+	      var funcsLength = transforms.length;
+	      return baseRest(function(args) {
+	        var index = -1,
+	            length = nativeMin(args.length, funcsLength);
+
+	        while (++index < length) {
+	          args[index] = transforms[index].call(this, args[index]);
+	        }
+	        return apply(func, this, args);
+	      });
+	    });
+
+	    /**
+	     * Creates a function that invokes `func` with `partials` prepended to the
+	     * arguments it receives. This method is like `_.bind` except it does **not**
+	     * alter the `this` binding.
+	     *
+	     * The `_.partial.placeholder` value, which defaults to `_` in monolithic
+	     * builds, may be used as a placeholder for partially applied arguments.
+	     *
+	     * **Note:** This method doesn't set the "length" property of partially
+	     * applied functions.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.2.0
+	     * @category Function
+	     * @param {Function} func The function to partially apply arguments to.
+	     * @param {...*} [partials] The arguments to be partially applied.
+	     * @returns {Function} Returns the new partially applied function.
+	     * @example
+	     *
+	     * function greet(greeting, name) {
+	     *   return greeting + ' ' + name;
+	     * }
+	     *
+	     * var sayHelloTo = _.partial(greet, 'hello');
+	     * sayHelloTo('fred');
+	     * // => 'hello fred'
+	     *
+	     * // Partially applied with placeholders.
+	     * var greetFred = _.partial(greet, _, 'fred');
+	     * greetFred('hi');
+	     * // => 'hi fred'
+	     */
+	    var partial = baseRest(function(func, partials) {
+	      var holders = replaceHolders(partials, getHolder(partial));
+	      return createWrap(func, PARTIAL_FLAG, undefined, partials, holders);
+	    });
+
+	    /**
+	     * This method is like `_.partial` except that partially applied arguments
+	     * are appended to the arguments it receives.
+	     *
+	     * The `_.partialRight.placeholder` value, which defaults to `_` in monolithic
+	     * builds, may be used as a placeholder for partially applied arguments.
+	     *
+	     * **Note:** This method doesn't set the "length" property of partially
+	     * applied functions.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 1.0.0
+	     * @category Function
+	     * @param {Function} func The function to partially apply arguments to.
+	     * @param {...*} [partials] The arguments to be partially applied.
+	     * @returns {Function} Returns the new partially applied function.
+	     * @example
+	     *
+	     * function greet(greeting, name) {
+	     *   return greeting + ' ' + name;
+	     * }
+	     *
+	     * var greetFred = _.partialRight(greet, 'fred');
+	     * greetFred('hi');
+	     * // => 'hi fred'
+	     *
+	     * // Partially applied with placeholders.
+	     * var sayHelloTo = _.partialRight(greet, 'hello', _);
+	     * sayHelloTo('fred');
+	     * // => 'hello fred'
+	     */
+	    var partialRight = baseRest(function(func, partials) {
+	      var holders = replaceHolders(partials, getHolder(partialRight));
+	      return createWrap(func, PARTIAL_RIGHT_FLAG, undefined, partials, holders);
+	    });
+
+	    /**
+	     * Creates a function that invokes `func` with arguments arranged according
+	     * to the specified `indexes` where the argument value at the first index is
+	     * provided as the first argument, the argument value at the second index is
+	     * provided as the second argument, and so on.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Function
+	     * @param {Function} func The function to rearrange arguments for.
+	     * @param {...(number|number[])} indexes The arranged argument indexes.
+	     * @returns {Function} Returns the new function.
+	     * @example
+	     *
+	     * var rearged = _.rearg(function(a, b, c) {
+	     *   return [a, b, c];
+	     * }, [2, 0, 1]);
+	     *
+	     * rearged('b', 'c', 'a')
+	     * // => ['a', 'b', 'c']
+	     */
+	    var rearg = baseRest(function(func, indexes) {
+	      return createWrap(func, REARG_FLAG, undefined, undefined, undefined, baseFlatten(indexes, 1));
+	    });
+
+	    /**
+	     * Creates a function that invokes `func` with the `this` binding of the
+	     * created function and arguments from `start` and beyond provided as
+	     * an array.
+	     *
+	     * **Note:** This method is based on the
+	     * [rest parameter](https://mdn.io/rest_parameters).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Function
+	     * @param {Function} func The function to apply a rest parameter to.
+	     * @param {number} [start=func.length-1] The start position of the rest parameter.
+	     * @returns {Function} Returns the new function.
+	     * @example
+	     *
+	     * var say = _.rest(function(what, names) {
+	     *   return what + ' ' + _.initial(names).join(', ') +
+	     *     (_.size(names) > 1 ? ', & ' : '') + _.last(names);
+	     * });
+	     *
+	     * say('hello', 'fred', 'barney', 'pebbles');
+	     * // => 'hello fred, barney, & pebbles'
+	     */
+	    function rest(func, start) {
+	      if (typeof func != 'function') {
+	        throw new TypeError(FUNC_ERROR_TEXT);
+	      }
+	      start = start === undefined ? start : toInteger(start);
+	      return baseRest(func, start);
+	    }
+
+	    /**
+	     * Creates a function that invokes `func` with the `this` binding of the
+	     * create function and an array of arguments much like
+	     * [`Function#apply`](http://www.ecma-international.org/ecma-262/7.0/#sec-function.prototype.apply).
+	     *
+	     * **Note:** This method is based on the
+	     * [spread operator](https://mdn.io/spread_operator).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.2.0
+	     * @category Function
+	     * @param {Function} func The function to spread arguments over.
+	     * @param {number} [start=0] The start position of the spread.
+	     * @returns {Function} Returns the new function.
+	     * @example
+	     *
+	     * var say = _.spread(function(who, what) {
+	     *   return who + ' says ' + what;
+	     * });
+	     *
+	     * say(['fred', 'hello']);
+	     * // => 'fred says hello'
+	     *
+	     * var numbers = Promise.all([
+	     *   Promise.resolve(40),
+	     *   Promise.resolve(36)
+	     * ]);
+	     *
+	     * numbers.then(_.spread(function(x, y) {
+	     *   return x + y;
+	     * }));
+	     * // => a Promise of 76
+	     */
+	    function spread(func, start) {
+	      if (typeof func != 'function') {
+	        throw new TypeError(FUNC_ERROR_TEXT);
+	      }
+	      start = start === undefined ? 0 : nativeMax(toInteger(start), 0);
+	      return baseRest(function(args) {
+	        var array = args[start],
+	            otherArgs = castSlice(args, 0, start);
+
+	        if (array) {
+	          arrayPush(otherArgs, array);
+	        }
+	        return apply(func, this, otherArgs);
+	      });
+	    }
+
+	    /**
+	     * Creates a throttled function that only invokes `func` at most once per
+	     * every `wait` milliseconds. The throttled function comes with a `cancel`
+	     * method to cancel delayed `func` invocations and a `flush` method to
+	     * immediately invoke them. Provide `options` to indicate whether `func`
+	     * should be invoked on the leading and/or trailing edge of the `wait`
+	     * timeout. The `func` is invoked with the last arguments provided to the
+	     * throttled function. Subsequent calls to the throttled function return the
+	     * result of the last `func` invocation.
+	     *
+	     * **Note:** If `leading` and `trailing` options are `true`, `func` is
+	     * invoked on the trailing edge of the timeout only if the throttled function
+	     * is invoked more than once during the `wait` timeout.
+	     *
+	     * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+	     * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+	     *
+	     * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+	     * for details over the differences between `_.throttle` and `_.debounce`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Function
+	     * @param {Function} func The function to throttle.
+	     * @param {number} [wait=0] The number of milliseconds to throttle invocations to.
+	     * @param {Object} [options={}] The options object.
+	     * @param {boolean} [options.leading=true]
+	     *  Specify invoking on the leading edge of the timeout.
+	     * @param {boolean} [options.trailing=true]
+	     *  Specify invoking on the trailing edge of the timeout.
+	     * @returns {Function} Returns the new throttled function.
+	     * @example
+	     *
+	     * // Avoid excessively updating the position while scrolling.
+	     * jQuery(window).on('scroll', _.throttle(updatePosition, 100));
+	     *
+	     * // Invoke `renewToken` when the click event is fired, but not more than once every 5 minutes.
+	     * var throttled = _.throttle(renewToken, 300000, { 'trailing': false });
+	     * jQuery(element).on('click', throttled);
+	     *
+	     * // Cancel the trailing throttled invocation.
+	     * jQuery(window).on('popstate', throttled.cancel);
+	     */
+	    function throttle(func, wait, options) {
+	      var leading = true,
+	          trailing = true;
+
+	      if (typeof func != 'function') {
+	        throw new TypeError(FUNC_ERROR_TEXT);
+	      }
+	      if (isObject(options)) {
+	        leading = 'leading' in options ? !!options.leading : leading;
+	        trailing = 'trailing' in options ? !!options.trailing : trailing;
+	      }
+	      return debounce(func, wait, {
+	        'leading': leading,
+	        'maxWait': wait,
+	        'trailing': trailing
+	      });
+	    }
+
+	    /**
+	     * Creates a function that accepts up to one argument, ignoring any
+	     * additional arguments.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Function
+	     * @param {Function} func The function to cap arguments for.
+	     * @returns {Function} Returns the new capped function.
+	     * @example
+	     *
+	     * _.map(['6', '8', '10'], _.unary(parseInt));
+	     * // => [6, 8, 10]
+	     */
+	    function unary(func) {
+	      return ary(func, 1);
+	    }
+
+	    /**
+	     * Creates a function that provides `value` to `wrapper` as its first
+	     * argument. Any additional arguments provided to the function are appended
+	     * to those provided to the `wrapper`. The wrapper is invoked with the `this`
+	     * binding of the created function.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Function
+	     * @param {*} value The value to wrap.
+	     * @param {Function} [wrapper=identity] The wrapper function.
+	     * @returns {Function} Returns the new function.
+	     * @example
+	     *
+	     * var p = _.wrap(_.escape, function(func, text) {
+	     *   return '<p>' + func(text) + '</p>';
+	     * });
+	     *
+	     * p('fred, barney, & pebbles');
+	     * // => '<p>fred, barney, &amp; pebbles</p>'
+	     */
+	    function wrap(value, wrapper) {
+	      wrapper = wrapper == null ? identity : wrapper;
+	      return partial(wrapper, value);
+	    }
+
+	    /*------------------------------------------------------------------------*/
+
+	    /**
+	     * Casts `value` as an array if it's not one.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.4.0
+	     * @category Lang
+	     * @param {*} value The value to inspect.
+	     * @returns {Array} Returns the cast array.
+	     * @example
+	     *
+	     * _.castArray(1);
+	     * // => [1]
+	     *
+	     * _.castArray({ 'a': 1 });
+	     * // => [{ 'a': 1 }]
+	     *
+	     * _.castArray('abc');
+	     * // => ['abc']
+	     *
+	     * _.castArray(null);
+	     * // => [null]
+	     *
+	     * _.castArray(undefined);
+	     * // => [undefined]
+	     *
+	     * _.castArray();
+	     * // => []
+	     *
+	     * var array = [1, 2, 3];
+	     * console.log(_.castArray(array) === array);
+	     * // => true
+	     */
+	    function castArray() {
+	      if (!arguments.length) {
+	        return [];
+	      }
+	      var value = arguments[0];
+	      return isArray(value) ? value : [value];
+	    }
+
+	    /**
+	     * Creates a shallow clone of `value`.
+	     *
+	     * **Note:** This method is loosely based on the
+	     * [structured clone algorithm](https://mdn.io/Structured_clone_algorithm)
+	     * and supports cloning arrays, array buffers, booleans, date objects, maps,
+	     * numbers, `Object` objects, regexes, sets, strings, symbols, and typed
+	     * arrays. The own enumerable properties of `arguments` objects are cloned
+	     * as plain objects. An empty object is returned for uncloneable values such
+	     * as error objects, functions, DOM nodes, and WeakMaps.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Lang
+	     * @param {*} value The value to clone.
+	     * @returns {*} Returns the cloned value.
+	     * @see _.cloneDeep
+	     * @example
+	     *
+	     * var objects = [{ 'a': 1 }, { 'b': 2 }];
+	     *
+	     * var shallow = _.clone(objects);
+	     * console.log(shallow[0] === objects[0]);
+	     * // => true
+	     */
+	    function clone(value) {
+	      return baseClone(value, false, true);
+	    }
+
+	    /**
+	     * This method is like `_.clone` except that it accepts `customizer` which
+	     * is invoked to produce the cloned value. If `customizer` returns `undefined`,
+	     * cloning is handled by the method instead. The `customizer` is invoked with
+	     * up to four arguments; (value [, index|key, object, stack]).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Lang
+	     * @param {*} value The value to clone.
+	     * @param {Function} [customizer] The function to customize cloning.
+	     * @returns {*} Returns the cloned value.
+	     * @see _.cloneDeepWith
+	     * @example
+	     *
+	     * function customizer(value) {
+	     *   if (_.isElement(value)) {
+	     *     return value.cloneNode(false);
+	     *   }
+	     * }
+	     *
+	     * var el = _.cloneWith(document.body, customizer);
+	     *
+	     * console.log(el === document.body);
+	     * // => false
+	     * console.log(el.nodeName);
+	     * // => 'BODY'
+	     * console.log(el.childNodes.length);
+	     * // => 0
+	     */
+	    function cloneWith(value, customizer) {
+	      return baseClone(value, false, true, customizer);
+	    }
+
+	    /**
+	     * This method is like `_.clone` except that it recursively clones `value`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 1.0.0
+	     * @category Lang
+	     * @param {*} value The value to recursively clone.
+	     * @returns {*} Returns the deep cloned value.
+	     * @see _.clone
+	     * @example
+	     *
+	     * var objects = [{ 'a': 1 }, { 'b': 2 }];
+	     *
+	     * var deep = _.cloneDeep(objects);
+	     * console.log(deep[0] === objects[0]);
+	     * // => false
+	     */
+	    function cloneDeep(value) {
+	      return baseClone(value, true, true);
+	    }
+
+	    /**
+	     * This method is like `_.cloneWith` except that it recursively clones `value`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Lang
+	     * @param {*} value The value to recursively clone.
+	     * @param {Function} [customizer] The function to customize cloning.
+	     * @returns {*} Returns the deep cloned value.
+	     * @see _.cloneWith
+	     * @example
+	     *
+	     * function customizer(value) {
+	     *   if (_.isElement(value)) {
+	     *     return value.cloneNode(true);
+	     *   }
+	     * }
+	     *
+	     * var el = _.cloneDeepWith(document.body, customizer);
+	     *
+	     * console.log(el === document.body);
+	     * // => false
+	     * console.log(el.nodeName);
+	     * // => 'BODY'
+	     * console.log(el.childNodes.length);
+	     * // => 20
+	     */
+	    function cloneDeepWith(value, customizer) {
+	      return baseClone(value, true, true, customizer);
+	    }
+
+	    /**
+	     * Checks if `object` conforms to `source` by invoking the predicate
+	     * properties of `source` with the corresponding property values of `object`.
+	     *
+	     * **Note:** This method is equivalent to `_.conforms` when `source` is
+	     * partially applied.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.14.0
+	     * @category Lang
+	     * @param {Object} object The object to inspect.
+	     * @param {Object} source The object of property predicates to conform to.
+	     * @returns {boolean} Returns `true` if `object` conforms, else `false`.
+	     * @example
+	     *
+	     * var object = { 'a': 1, 'b': 2 };
+	     *
+	     * _.conformsTo(object, { 'b': function(n) { return n > 1; } });
+	     * // => true
+	     *
+	     * _.conformsTo(object, { 'b': function(n) { return n > 2; } });
+	     * // => false
+	     */
+	    function conformsTo(object, source) {
+	      return source == null || baseConformsTo(object, source, keys(source));
+	    }
+
+	    /**
+	     * Performs a
+	     * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+	     * comparison between two values to determine if they are equivalent.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Lang
+	     * @param {*} value The value to compare.
+	     * @param {*} other The other value to compare.
+	     * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+	     * @example
+	     *
+	     * var object = { 'a': 1 };
+	     * var other = { 'a': 1 };
+	     *
+	     * _.eq(object, object);
+	     * // => true
+	     *
+	     * _.eq(object, other);
+	     * // => false
+	     *
+	     * _.eq('a', 'a');
+	     * // => true
+	     *
+	     * _.eq('a', Object('a'));
+	     * // => false
+	     *
+	     * _.eq(NaN, NaN);
+	     * // => true
+	     */
+	    function eq(value, other) {
+	      return value === other || (value !== value && other !== other);
+	    }
+
+	    /**
+	     * Checks if `value` is greater than `other`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.9.0
+	     * @category Lang
+	     * @param {*} value The value to compare.
+	     * @param {*} other The other value to compare.
+	     * @returns {boolean} Returns `true` if `value` is greater than `other`,
+	     *  else `false`.
+	     * @see _.lt
+	     * @example
+	     *
+	     * _.gt(3, 1);
+	     * // => true
+	     *
+	     * _.gt(3, 3);
+	     * // => false
+	     *
+	     * _.gt(1, 3);
+	     * // => false
+	     */
+	    var gt = createRelationalOperation(baseGt);
+
+	    /**
+	     * Checks if `value` is greater than or equal to `other`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.9.0
+	     * @category Lang
+	     * @param {*} value The value to compare.
+	     * @param {*} other The other value to compare.
+	     * @returns {boolean} Returns `true` if `value` is greater than or equal to
+	     *  `other`, else `false`.
+	     * @see _.lte
+	     * @example
+	     *
+	     * _.gte(3, 1);
+	     * // => true
+	     *
+	     * _.gte(3, 3);
+	     * // => true
+	     *
+	     * _.gte(1, 3);
+	     * // => false
+	     */
+	    var gte = createRelationalOperation(function(value, other) {
+	      return value >= other;
+	    });
+
+	    /**
+	     * Checks if `value` is likely an `arguments` object.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+	     *  else `false`.
+	     * @example
+	     *
+	     * _.isArguments(function() { return arguments; }());
+	     * // => true
+	     *
+	     * _.isArguments([1, 2, 3]);
+	     * // => false
+	     */
+	    function isArguments(value) {
+	      // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
+	      return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
+	        (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
+	    }
+
+	    /**
+	     * Checks if `value` is classified as an `Array` object.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is an array, else `false`.
+	     * @example
+	     *
+	     * _.isArray([1, 2, 3]);
+	     * // => true
+	     *
+	     * _.isArray(document.body.children);
+	     * // => false
+	     *
+	     * _.isArray('abc');
+	     * // => false
+	     *
+	     * _.isArray(_.noop);
+	     * // => false
+	     */
+	    var isArray = Array.isArray;
+
+	    /**
+	     * Checks if `value` is classified as an `ArrayBuffer` object.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.3.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is an array buffer, else `false`.
+	     * @example
+	     *
+	     * _.isArrayBuffer(new ArrayBuffer(2));
+	     * // => true
+	     *
+	     * _.isArrayBuffer(new Array(2));
+	     * // => false
+	     */
+	    var isArrayBuffer = nodeIsArrayBuffer ? baseUnary(nodeIsArrayBuffer) : baseIsArrayBuffer;
+
+	    /**
+	     * Checks if `value` is array-like. A value is considered array-like if it's
+	     * not a function and has a `value.length` that's an integer greater than or
+	     * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+	     * @example
+	     *
+	     * _.isArrayLike([1, 2, 3]);
+	     * // => true
+	     *
+	     * _.isArrayLike(document.body.children);
+	     * // => true
+	     *
+	     * _.isArrayLike('abc');
+	     * // => true
+	     *
+	     * _.isArrayLike(_.noop);
+	     * // => false
+	     */
+	    function isArrayLike(value) {
+	      return value != null && isLength(value.length) && !isFunction(value);
+	    }
+
+	    /**
+	     * This method is like `_.isArrayLike` except that it also checks if `value`
+	     * is an object.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is an array-like object,
+	     *  else `false`.
+	     * @example
+	     *
+	     * _.isArrayLikeObject([1, 2, 3]);
+	     * // => true
+	     *
+	     * _.isArrayLikeObject(document.body.children);
+	     * // => true
+	     *
+	     * _.isArrayLikeObject('abc');
+	     * // => false
+	     *
+	     * _.isArrayLikeObject(_.noop);
+	     * // => false
+	     */
+	    function isArrayLikeObject(value) {
+	      return isObjectLike(value) && isArrayLike(value);
+	    }
+
+	    /**
+	     * Checks if `value` is classified as a boolean primitive or object.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a boolean, else `false`.
+	     * @example
+	     *
+	     * _.isBoolean(false);
+	     * // => true
+	     *
+	     * _.isBoolean(null);
+	     * // => false
+	     */
+	    function isBoolean(value) {
+	      return value === true || value === false ||
+	        (isObjectLike(value) && objectToString.call(value) == boolTag);
+	    }
+
+	    /**
+	     * Checks if `value` is a buffer.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.3.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a buffer, else `false`.
+	     * @example
+	     *
+	     * _.isBuffer(new Buffer(2));
+	     * // => true
+	     *
+	     * _.isBuffer(new Uint8Array(2));
+	     * // => false
+	     */
+	    var isBuffer = nativeIsBuffer || stubFalse;
+
+	    /**
+	     * Checks if `value` is classified as a `Date` object.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a date object, else `false`.
+	     * @example
+	     *
+	     * _.isDate(new Date);
+	     * // => true
+	     *
+	     * _.isDate('Mon April 23 2012');
+	     * // => false
+	     */
+	    var isDate = nodeIsDate ? baseUnary(nodeIsDate) : baseIsDate;
+
+	    /**
+	     * Checks if `value` is likely a DOM element.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a DOM element, else `false`.
+	     * @example
+	     *
+	     * _.isElement(document.body);
+	     * // => true
+	     *
+	     * _.isElement('<body>');
+	     * // => false
+	     */
+	    function isElement(value) {
+	      return !!value && value.nodeType === 1 && isObjectLike(value) && !isPlainObject(value);
+	    }
+
+	    /**
+	     * Checks if `value` is an empty object, collection, map, or set.
+	     *
+	     * Objects are considered empty if they have no own enumerable string keyed
+	     * properties.
+	     *
+	     * Array-like values such as `arguments` objects, arrays, buffers, strings, or
+	     * jQuery-like collections are considered empty if they have a `length` of `0`.
+	     * Similarly, maps and sets are considered empty if they have a `size` of `0`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is empty, else `false`.
+	     * @example
+	     *
+	     * _.isEmpty(null);
+	     * // => true
+	     *
+	     * _.isEmpty(true);
+	     * // => true
+	     *
+	     * _.isEmpty(1);
+	     * // => true
+	     *
+	     * _.isEmpty([1, 2, 3]);
+	     * // => false
+	     *
+	     * _.isEmpty({ 'a': 1 });
+	     * // => false
+	     */
+	    function isEmpty(value) {
+	      if (isArrayLike(value) &&
+	          (isArray(value) || typeof value == 'string' ||
+	            typeof value.splice == 'function' || isBuffer(value) || isArguments(value))) {
+	        return !value.length;
+	      }
+	      var tag = getTag(value);
+	      if (tag == mapTag || tag == setTag) {
+	        return !value.size;
+	      }
+	      if (nonEnumShadows || isPrototype(value)) {
+	        return !nativeKeys(value).length;
+	      }
+	      for (var key in value) {
+	        if (hasOwnProperty.call(value, key)) {
+	          return false;
+	        }
+	      }
+	      return true;
+	    }
+
+	    /**
+	     * Performs a deep comparison between two values to determine if they are
+	     * equivalent.
+	     *
+	     * **Note:** This method supports comparing arrays, array buffers, booleans,
+	     * date objects, error objects, maps, numbers, `Object` objects, regexes,
+	     * sets, strings, symbols, and typed arrays. `Object` objects are compared
+	     * by their own, not inherited, enumerable properties. Functions and DOM
+	     * nodes are **not** supported.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Lang
+	     * @param {*} value The value to compare.
+	     * @param {*} other The other value to compare.
+	     * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+	     * @example
+	     *
+	     * var object = { 'a': 1 };
+	     * var other = { 'a': 1 };
+	     *
+	     * _.isEqual(object, other);
+	     * // => true
+	     *
+	     * object === other;
+	     * // => false
+	     */
+	    function isEqual(value, other) {
+	      return baseIsEqual(value, other);
+	    }
+
+	    /**
+	     * This method is like `_.isEqual` except that it accepts `customizer` which
+	     * is invoked to compare values. If `customizer` returns `undefined`, comparisons
+	     * are handled by the method instead. The `customizer` is invoked with up to
+	     * six arguments: (objValue, othValue [, index|key, object, other, stack]).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Lang
+	     * @param {*} value The value to compare.
+	     * @param {*} other The other value to compare.
+	     * @param {Function} [customizer] The function to customize comparisons.
+	     * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+	     * @example
+	     *
+	     * function isGreeting(value) {
+	     *   return /^h(?:i|ello)$/.test(value);
+	     * }
+	     *
+	     * function customizer(objValue, othValue) {
+	     *   if (isGreeting(objValue) && isGreeting(othValue)) {
+	     *     return true;
+	     *   }
+	     * }
+	     *
+	     * var array = ['hello', 'goodbye'];
+	     * var other = ['hi', 'goodbye'];
+	     *
+	     * _.isEqualWith(array, other, customizer);
+	     * // => true
+	     */
+	    function isEqualWith(value, other, customizer) {
+	      customizer = typeof customizer == 'function' ? customizer : undefined;
+	      var result = customizer ? customizer(value, other) : undefined;
+	      return result === undefined ? baseIsEqual(value, other, customizer) : !!result;
+	    }
+
+	    /**
+	     * Checks if `value` is an `Error`, `EvalError`, `RangeError`, `ReferenceError`,
+	     * `SyntaxError`, `TypeError`, or `URIError` object.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is an error object, else `false`.
+	     * @example
+	     *
+	     * _.isError(new Error);
+	     * // => true
+	     *
+	     * _.isError(Error);
+	     * // => false
+	     */
+	    function isError(value) {
+	      if (!isObjectLike(value)) {
+	        return false;
+	      }
+	      return (objectToString.call(value) == errorTag) ||
+	        (typeof value.message == 'string' && typeof value.name == 'string');
+	    }
+
+	    /**
+	     * Checks if `value` is a finite primitive number.
+	     *
+	     * **Note:** This method is based on
+	     * [`Number.isFinite`](https://mdn.io/Number/isFinite).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a finite number, else `false`.
+	     * @example
+	     *
+	     * _.isFinite(3);
+	     * // => true
+	     *
+	     * _.isFinite(Number.MIN_VALUE);
+	     * // => true
+	     *
+	     * _.isFinite(Infinity);
+	     * // => false
+	     *
+	     * _.isFinite('3');
+	     * // => false
+	     */
+	    function isFinite(value) {
+	      return typeof value == 'number' && nativeIsFinite(value);
+	    }
+
+	    /**
+	     * Checks if `value` is classified as a `Function` object.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+	     * @example
+	     *
+	     * _.isFunction(_);
+	     * // => true
+	     *
+	     * _.isFunction(/abc/);
+	     * // => false
+	     */
+	    function isFunction(value) {
+	      // The use of `Object#toString` avoids issues with the `typeof` operator
+	      // in Safari 8-9 which returns 'object' for typed array and other constructors.
+	      var tag = isObject(value) ? objectToString.call(value) : '';
+	      return tag == funcTag || tag == genTag;
+	    }
+
+	    /**
+	     * Checks if `value` is an integer.
+	     *
+	     * **Note:** This method is based on
+	     * [`Number.isInteger`](https://mdn.io/Number/isInteger).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is an integer, else `false`.
+	     * @example
+	     *
+	     * _.isInteger(3);
+	     * // => true
+	     *
+	     * _.isInteger(Number.MIN_VALUE);
+	     * // => false
+	     *
+	     * _.isInteger(Infinity);
+	     * // => false
+	     *
+	     * _.isInteger('3');
+	     * // => false
+	     */
+	    function isInteger(value) {
+	      return typeof value == 'number' && value == toInteger(value);
+	    }
+
+	    /**
+	     * Checks if `value` is a valid array-like length.
+	     *
+	     * **Note:** This method is loosely based on
+	     * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+	     * @example
+	     *
+	     * _.isLength(3);
+	     * // => true
+	     *
+	     * _.isLength(Number.MIN_VALUE);
+	     * // => false
+	     *
+	     * _.isLength(Infinity);
+	     * // => false
+	     *
+	     * _.isLength('3');
+	     * // => false
+	     */
+	    function isLength(value) {
+	      return typeof value == 'number' &&
+	        value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+	    }
+
+	    /**
+	     * Checks if `value` is the
+	     * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+	     * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	     * @example
+	     *
+	     * _.isObject({});
+	     * // => true
+	     *
+	     * _.isObject([1, 2, 3]);
+	     * // => true
+	     *
+	     * _.isObject(_.noop);
+	     * // => true
+	     *
+	     * _.isObject(null);
+	     * // => false
+	     */
+	    function isObject(value) {
+	      var type = typeof value;
+	      return !!value && (type == 'object' || type == 'function');
+	    }
+
+	    /**
+	     * Checks if `value` is object-like. A value is object-like if it's not `null`
+	     * and has a `typeof` result of "object".
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	     * @example
+	     *
+	     * _.isObjectLike({});
+	     * // => true
+	     *
+	     * _.isObjectLike([1, 2, 3]);
+	     * // => true
+	     *
+	     * _.isObjectLike(_.noop);
+	     * // => false
+	     *
+	     * _.isObjectLike(null);
+	     * // => false
+	     */
+	    function isObjectLike(value) {
+	      return !!value && typeof value == 'object';
+	    }
+
+	    /**
+	     * Checks if `value` is classified as a `Map` object.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.3.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a map, else `false`.
+	     * @example
+	     *
+	     * _.isMap(new Map);
+	     * // => true
+	     *
+	     * _.isMap(new WeakMap);
+	     * // => false
+	     */
+	    var isMap = nodeIsMap ? baseUnary(nodeIsMap) : baseIsMap;
+
+	    /**
+	     * Performs a partial deep comparison between `object` and `source` to
+	     * determine if `object` contains equivalent property values.
+	     *
+	     * **Note:** This method is equivalent to `_.matches` when `source` is
+	     * partially applied.
+	     *
+	     * Partial comparisons will match empty array and empty object `source`
+	     * values against any array or object value, respectively. See `_.isEqual`
+	     * for a list of supported value comparisons.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Lang
+	     * @param {Object} object The object to inspect.
+	     * @param {Object} source The object of property values to match.
+	     * @returns {boolean} Returns `true` if `object` is a match, else `false`.
+	     * @example
+	     *
+	     * var object = { 'a': 1, 'b': 2 };
+	     *
+	     * _.isMatch(object, { 'b': 2 });
+	     * // => true
+	     *
+	     * _.isMatch(object, { 'b': 1 });
+	     * // => false
+	     */
+	    function isMatch(object, source) {
+	      return object === source || baseIsMatch(object, source, getMatchData(source));
+	    }
+
+	    /**
+	     * This method is like `_.isMatch` except that it accepts `customizer` which
+	     * is invoked to compare values. If `customizer` returns `undefined`, comparisons
+	     * are handled by the method instead. The `customizer` is invoked with five
+	     * arguments: (objValue, srcValue, index|key, object, source).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Lang
+	     * @param {Object} object The object to inspect.
+	     * @param {Object} source The object of property values to match.
+	     * @param {Function} [customizer] The function to customize comparisons.
+	     * @returns {boolean} Returns `true` if `object` is a match, else `false`.
+	     * @example
+	     *
+	     * function isGreeting(value) {
+	     *   return /^h(?:i|ello)$/.test(value);
+	     * }
+	     *
+	     * function customizer(objValue, srcValue) {
+	     *   if (isGreeting(objValue) && isGreeting(srcValue)) {
+	     *     return true;
+	     *   }
+	     * }
+	     *
+	     * var object = { 'greeting': 'hello' };
+	     * var source = { 'greeting': 'hi' };
+	     *
+	     * _.isMatchWith(object, source, customizer);
+	     * // => true
+	     */
+	    function isMatchWith(object, source, customizer) {
+	      customizer = typeof customizer == 'function' ? customizer : undefined;
+	      return baseIsMatch(object, source, getMatchData(source), customizer);
+	    }
+
+	    /**
+	     * Checks if `value` is `NaN`.
+	     *
+	     * **Note:** This method is based on
+	     * [`Number.isNaN`](https://mdn.io/Number/isNaN) and is not the same as
+	     * global [`isNaN`](https://mdn.io/isNaN) which returns `true` for
+	     * `undefined` and other non-number values.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is `NaN`, else `false`.
+	     * @example
+	     *
+	     * _.isNaN(NaN);
+	     * // => true
+	     *
+	     * _.isNaN(new Number(NaN));
+	     * // => true
+	     *
+	     * isNaN(undefined);
+	     * // => true
+	     *
+	     * _.isNaN(undefined);
+	     * // => false
+	     */
+	    function isNaN(value) {
+	      // An `NaN` primitive is the only value that is not equal to itself.
+	      // Perform the `toStringTag` check first to avoid errors with some
+	      // ActiveX objects in IE.
+	      return isNumber(value) && value != +value;
+	    }
+
+	    /**
+	     * Checks if `value` is a pristine native function.
+	     *
+	     * **Note:** This method can't reliably detect native functions in the presence
+	     * of the core-js package because core-js circumvents this kind of detection.
+	     * Despite multiple requests, the core-js maintainer has made it clear: any
+	     * attempt to fix the detection will be obstructed. As a result, we're left
+	     * with little choice but to throw an error. Unfortunately, this also affects
+	     * packages, like [babel-polyfill](https://www.npmjs.com/package/babel-polyfill),
+	     * which rely on core-js.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a native function,
+	     *  else `false`.
+	     * @example
+	     *
+	     * _.isNative(Array.prototype.push);
+	     * // => true
+	     *
+	     * _.isNative(_);
+	     * // => false
+	     */
+	    function isNative(value) {
+	      if (isMaskable(value)) {
+	        throw new Error('This method is not supported with core-js. Try https://github.com/es-shims.');
+	      }
+	      return baseIsNative(value);
+	    }
+
+	    /**
+	     * Checks if `value` is `null`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is `null`, else `false`.
+	     * @example
+	     *
+	     * _.isNull(null);
+	     * // => true
+	     *
+	     * _.isNull(void 0);
+	     * // => false
+	     */
+	    function isNull(value) {
+	      return value === null;
+	    }
+
+	    /**
+	     * Checks if `value` is `null` or `undefined`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is nullish, else `false`.
+	     * @example
+	     *
+	     * _.isNil(null);
+	     * // => true
+	     *
+	     * _.isNil(void 0);
+	     * // => true
+	     *
+	     * _.isNil(NaN);
+	     * // => false
+	     */
+	    function isNil(value) {
+	      return value == null;
+	    }
+
+	    /**
+	     * Checks if `value` is classified as a `Number` primitive or object.
+	     *
+	     * **Note:** To exclude `Infinity`, `-Infinity`, and `NaN`, which are
+	     * classified as numbers, use the `_.isFinite` method.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a number, else `false`.
+	     * @example
+	     *
+	     * _.isNumber(3);
+	     * // => true
+	     *
+	     * _.isNumber(Number.MIN_VALUE);
+	     * // => true
+	     *
+	     * _.isNumber(Infinity);
+	     * // => true
+	     *
+	     * _.isNumber('3');
+	     * // => false
+	     */
+	    function isNumber(value) {
+	      return typeof value == 'number' ||
+	        (isObjectLike(value) && objectToString.call(value) == numberTag);
+	    }
+
+	    /**
+	     * Checks if `value` is a plain object, that is, an object created by the
+	     * `Object` constructor or one with a `[[Prototype]]` of `null`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.8.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
+	     * @example
+	     *
+	     * function Foo() {
+	     *   this.a = 1;
+	     * }
+	     *
+	     * _.isPlainObject(new Foo);
+	     * // => false
+	     *
+	     * _.isPlainObject([1, 2, 3]);
+	     * // => false
+	     *
+	     * _.isPlainObject({ 'x': 0, 'y': 0 });
+	     * // => true
+	     *
+	     * _.isPlainObject(Object.create(null));
+	     * // => true
+	     */
+	    function isPlainObject(value) {
+	      if (!isObjectLike(value) ||
+	          objectToString.call(value) != objectTag || isHostObject(value)) {
+	        return false;
+	      }
+	      var proto = getPrototype(value);
+	      if (proto === null) {
+	        return true;
+	      }
+	      var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
+	      return (typeof Ctor == 'function' &&
+	        Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
+	    }
+
+	    /**
+	     * Checks if `value` is classified as a `RegExp` object.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.1.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a regexp, else `false`.
+	     * @example
+	     *
+	     * _.isRegExp(/abc/);
+	     * // => true
+	     *
+	     * _.isRegExp('/abc/');
+	     * // => false
+	     */
+	    var isRegExp = nodeIsRegExp ? baseUnary(nodeIsRegExp) : baseIsRegExp;
+
+	    /**
+	     * Checks if `value` is a safe integer. An integer is safe if it's an IEEE-754
+	     * double precision number which isn't the result of a rounded unsafe integer.
+	     *
+	     * **Note:** This method is based on
+	     * [`Number.isSafeInteger`](https://mdn.io/Number/isSafeInteger).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a safe integer, else `false`.
+	     * @example
+	     *
+	     * _.isSafeInteger(3);
+	     * // => true
+	     *
+	     * _.isSafeInteger(Number.MIN_VALUE);
+	     * // => false
+	     *
+	     * _.isSafeInteger(Infinity);
+	     * // => false
+	     *
+	     * _.isSafeInteger('3');
+	     * // => false
+	     */
+	    function isSafeInteger(value) {
+	      return isInteger(value) && value >= -MAX_SAFE_INTEGER && value <= MAX_SAFE_INTEGER;
+	    }
+
+	    /**
+	     * Checks if `value` is classified as a `Set` object.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.3.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a set, else `false`.
+	     * @example
+	     *
+	     * _.isSet(new Set);
+	     * // => true
+	     *
+	     * _.isSet(new WeakSet);
+	     * // => false
+	     */
+	    var isSet = nodeIsSet ? baseUnary(nodeIsSet) : baseIsSet;
+
+	    /**
+	     * Checks if `value` is classified as a `String` primitive or object.
+	     *
+	     * @static
+	     * @since 0.1.0
+	     * @memberOf _
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a string, else `false`.
+	     * @example
+	     *
+	     * _.isString('abc');
+	     * // => true
+	     *
+	     * _.isString(1);
+	     * // => false
+	     */
+	    function isString(value) {
+	      return typeof value == 'string' ||
+	        (!isArray(value) && isObjectLike(value) && objectToString.call(value) == stringTag);
+	    }
+
+	    /**
+	     * Checks if `value` is classified as a `Symbol` primitive or object.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+	     * @example
+	     *
+	     * _.isSymbol(Symbol.iterator);
+	     * // => true
+	     *
+	     * _.isSymbol('abc');
+	     * // => false
+	     */
+	    function isSymbol(value) {
+	      return typeof value == 'symbol' ||
+	        (isObjectLike(value) && objectToString.call(value) == symbolTag);
+	    }
+
+	    /**
+	     * Checks if `value` is classified as a typed array.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.
+	     * @example
+	     *
+	     * _.isTypedArray(new Uint8Array);
+	     * // => true
+	     *
+	     * _.isTypedArray([]);
+	     * // => false
+	     */
+	    var isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedArray;
+
+	    /**
+	     * Checks if `value` is `undefined`.
+	     *
+	     * @static
+	     * @since 0.1.0
+	     * @memberOf _
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is `undefined`, else `false`.
+	     * @example
+	     *
+	     * _.isUndefined(void 0);
+	     * // => true
+	     *
+	     * _.isUndefined(null);
+	     * // => false
+	     */
+	    function isUndefined(value) {
+	      return value === undefined;
+	    }
+
+	    /**
+	     * Checks if `value` is classified as a `WeakMap` object.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.3.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a weak map, else `false`.
+	     * @example
+	     *
+	     * _.isWeakMap(new WeakMap);
+	     * // => true
+	     *
+	     * _.isWeakMap(new Map);
+	     * // => false
+	     */
+	    function isWeakMap(value) {
+	      return isObjectLike(value) && getTag(value) == weakMapTag;
+	    }
+
+	    /**
+	     * Checks if `value` is classified as a `WeakSet` object.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.3.0
+	     * @category Lang
+	     * @param {*} value The value to check.
+	     * @returns {boolean} Returns `true` if `value` is a weak set, else `false`.
+	     * @example
+	     *
+	     * _.isWeakSet(new WeakSet);
+	     * // => true
+	     *
+	     * _.isWeakSet(new Set);
+	     * // => false
+	     */
+	    function isWeakSet(value) {
+	      return isObjectLike(value) && objectToString.call(value) == weakSetTag;
+	    }
+
+	    /**
+	     * Checks if `value` is less than `other`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.9.0
+	     * @category Lang
+	     * @param {*} value The value to compare.
+	     * @param {*} other The other value to compare.
+	     * @returns {boolean} Returns `true` if `value` is less than `other`,
+	     *  else `false`.
+	     * @see _.gt
+	     * @example
+	     *
+	     * _.lt(1, 3);
+	     * // => true
+	     *
+	     * _.lt(3, 3);
+	     * // => false
+	     *
+	     * _.lt(3, 1);
+	     * // => false
+	     */
+	    var lt = createRelationalOperation(baseLt);
+
+	    /**
+	     * Checks if `value` is less than or equal to `other`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.9.0
+	     * @category Lang
+	     * @param {*} value The value to compare.
+	     * @param {*} other The other value to compare.
+	     * @returns {boolean} Returns `true` if `value` is less than or equal to
+	     *  `other`, else `false`.
+	     * @see _.gte
+	     * @example
+	     *
+	     * _.lte(1, 3);
+	     * // => true
+	     *
+	     * _.lte(3, 3);
+	     * // => true
+	     *
+	     * _.lte(3, 1);
+	     * // => false
+	     */
+	    var lte = createRelationalOperation(function(value, other) {
+	      return value <= other;
+	    });
+
+	    /**
+	     * Converts `value` to an array.
+	     *
+	     * @static
+	     * @since 0.1.0
+	     * @memberOf _
+	     * @category Lang
+	     * @param {*} value The value to convert.
+	     * @returns {Array} Returns the converted array.
+	     * @example
+	     *
+	     * _.toArray({ 'a': 1, 'b': 2 });
+	     * // => [1, 2]
+	     *
+	     * _.toArray('abc');
+	     * // => ['a', 'b', 'c']
+	     *
+	     * _.toArray(1);
+	     * // => []
+	     *
+	     * _.toArray(null);
+	     * // => []
+	     */
+	    function toArray(value) {
+	      if (!value) {
+	        return [];
+	      }
+	      if (isArrayLike(value)) {
+	        return isString(value) ? stringToArray(value) : copyArray(value);
+	      }
+	      if (iteratorSymbol && value[iteratorSymbol]) {
+	        return iteratorToArray(value[iteratorSymbol]());
+	      }
+	      var tag = getTag(value),
+	          func = tag == mapTag ? mapToArray : (tag == setTag ? setToArray : values);
+
+	      return func(value);
+	    }
+
+	    /**
+	     * Converts `value` to a finite number.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.12.0
+	     * @category Lang
+	     * @param {*} value The value to convert.
+	     * @returns {number} Returns the converted number.
+	     * @example
+	     *
+	     * _.toFinite(3.2);
+	     * // => 3.2
+	     *
+	     * _.toFinite(Number.MIN_VALUE);
+	     * // => 5e-324
+	     *
+	     * _.toFinite(Infinity);
+	     * // => 1.7976931348623157e+308
+	     *
+	     * _.toFinite('3.2');
+	     * // => 3.2
+	     */
+	    function toFinite(value) {
+	      if (!value) {
+	        return value === 0 ? value : 0;
+	      }
+	      value = toNumber(value);
+	      if (value === INFINITY || value === -INFINITY) {
+	        var sign = (value < 0 ? -1 : 1);
+	        return sign * MAX_INTEGER;
+	      }
+	      return value === value ? value : 0;
+	    }
+
+	    /**
+	     * Converts `value` to an integer.
+	     *
+	     * **Note:** This method is loosely based on
+	     * [`ToInteger`](http://www.ecma-international.org/ecma-262/7.0/#sec-tointeger).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Lang
+	     * @param {*} value The value to convert.
+	     * @returns {number} Returns the converted integer.
+	     * @example
+	     *
+	     * _.toInteger(3.2);
+	     * // => 3
+	     *
+	     * _.toInteger(Number.MIN_VALUE);
+	     * // => 0
+	     *
+	     * _.toInteger(Infinity);
+	     * // => 1.7976931348623157e+308
+	     *
+	     * _.toInteger('3.2');
+	     * // => 3
+	     */
+	    function toInteger(value) {
+	      var result = toFinite(value),
+	          remainder = result % 1;
+
+	      return result === result ? (remainder ? result - remainder : result) : 0;
+	    }
+
+	    /**
+	     * Converts `value` to an integer suitable for use as the length of an
+	     * array-like object.
+	     *
+	     * **Note:** This method is based on
+	     * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Lang
+	     * @param {*} value The value to convert.
+	     * @returns {number} Returns the converted integer.
+	     * @example
+	     *
+	     * _.toLength(3.2);
+	     * // => 3
+	     *
+	     * _.toLength(Number.MIN_VALUE);
+	     * // => 0
+	     *
+	     * _.toLength(Infinity);
+	     * // => 4294967295
+	     *
+	     * _.toLength('3.2');
+	     * // => 3
+	     */
+	    function toLength(value) {
+	      return value ? baseClamp(toInteger(value), 0, MAX_ARRAY_LENGTH) : 0;
+	    }
+
+	    /**
+	     * Converts `value` to a number.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Lang
+	     * @param {*} value The value to process.
+	     * @returns {number} Returns the number.
+	     * @example
+	     *
+	     * _.toNumber(3.2);
+	     * // => 3.2
+	     *
+	     * _.toNumber(Number.MIN_VALUE);
+	     * // => 5e-324
+	     *
+	     * _.toNumber(Infinity);
+	     * // => Infinity
+	     *
+	     * _.toNumber('3.2');
+	     * // => 3.2
+	     */
+	    function toNumber(value) {
+	      if (typeof value == 'number') {
+	        return value;
+	      }
+	      if (isSymbol(value)) {
+	        return NAN;
+	      }
+	      if (isObject(value)) {
+	        var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+	        value = isObject(other) ? (other + '') : other;
+	      }
+	      if (typeof value != 'string') {
+	        return value === 0 ? value : +value;
+	      }
+	      value = value.replace(reTrim, '');
+	      var isBinary = reIsBinary.test(value);
+	      return (isBinary || reIsOctal.test(value))
+	        ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+	        : (reIsBadHex.test(value) ? NAN : +value);
+	    }
+
+	    /**
+	     * Converts `value` to a plain object flattening inherited enumerable string
+	     * keyed properties of `value` to own properties of the plain object.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Lang
+	     * @param {*} value The value to convert.
+	     * @returns {Object} Returns the converted plain object.
+	     * @example
+	     *
+	     * function Foo() {
+	     *   this.b = 2;
+	     * }
+	     *
+	     * Foo.prototype.c = 3;
+	     *
+	     * _.assign({ 'a': 1 }, new Foo);
+	     * // => { 'a': 1, 'b': 2 }
+	     *
+	     * _.assign({ 'a': 1 }, _.toPlainObject(new Foo));
+	     * // => { 'a': 1, 'b': 2, 'c': 3 }
+	     */
+	    function toPlainObject(value) {
+	      return copyObject(value, keysIn(value));
+	    }
+
+	    /**
+	     * Converts `value` to a safe integer. A safe integer can be compared and
+	     * represented correctly.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Lang
+	     * @param {*} value The value to convert.
+	     * @returns {number} Returns the converted integer.
+	     * @example
+	     *
+	     * _.toSafeInteger(3.2);
+	     * // => 3
+	     *
+	     * _.toSafeInteger(Number.MIN_VALUE);
+	     * // => 0
+	     *
+	     * _.toSafeInteger(Infinity);
+	     * // => 9007199254740991
+	     *
+	     * _.toSafeInteger('3.2');
+	     * // => 3
+	     */
+	    function toSafeInteger(value) {
+	      return baseClamp(toInteger(value), -MAX_SAFE_INTEGER, MAX_SAFE_INTEGER);
+	    }
+
+	    /**
+	     * Converts `value` to a string. An empty string is returned for `null`
+	     * and `undefined` values. The sign of `-0` is preserved.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Lang
+	     * @param {*} value The value to process.
+	     * @returns {string} Returns the string.
+	     * @example
+	     *
+	     * _.toString(null);
+	     * // => ''
+	     *
+	     * _.toString(-0);
+	     * // => '-0'
+	     *
+	     * _.toString([1, 2, 3]);
+	     * // => '1,2,3'
+	     */
+	    function toString(value) {
+	      return value == null ? '' : baseToString(value);
+	    }
+
+	    /*------------------------------------------------------------------------*/
+
+	    /**
+	     * Assigns own enumerable string keyed properties of source objects to the
+	     * destination object. Source objects are applied from left to right.
+	     * Subsequent sources overwrite property assignments of previous sources.
+	     *
+	     * **Note:** This method mutates `object` and is loosely based on
+	     * [`Object.assign`](https://mdn.io/Object/assign).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.10.0
+	     * @category Object
+	     * @param {Object} object The destination object.
+	     * @param {...Object} [sources] The source objects.
+	     * @returns {Object} Returns `object`.
+	     * @see _.assignIn
+	     * @example
+	     *
+	     * function Foo() {
+	     *   this.a = 1;
+	     * }
+	     *
+	     * function Bar() {
+	     *   this.c = 3;
+	     * }
+	     *
+	     * Foo.prototype.b = 2;
+	     * Bar.prototype.d = 4;
+	     *
+	     * _.assign({ 'a': 0 }, new Foo, new Bar);
+	     * // => { 'a': 1, 'c': 3 }
+	     */
+	    var assign = createAssigner(function(object, source) {
+	      if (nonEnumShadows || isPrototype(source) || isArrayLike(source)) {
+	        copyObject(source, keys(source), object);
+	        return;
+	      }
+	      for (var key in source) {
+	        if (hasOwnProperty.call(source, key)) {
+	          assignValue(object, key, source[key]);
+	        }
+	      }
+	    });
+
+	    /**
+	     * This method is like `_.assign` except that it iterates over own and
+	     * inherited source properties.
+	     *
+	     * **Note:** This method mutates `object`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @alias extend
+	     * @category Object
+	     * @param {Object} object The destination object.
+	     * @param {...Object} [sources] The source objects.
+	     * @returns {Object} Returns `object`.
+	     * @see _.assign
+	     * @example
+	     *
+	     * function Foo() {
+	     *   this.a = 1;
+	     * }
+	     *
+	     * function Bar() {
+	     *   this.c = 3;
+	     * }
+	     *
+	     * Foo.prototype.b = 2;
+	     * Bar.prototype.d = 4;
+	     *
+	     * _.assignIn({ 'a': 0 }, new Foo, new Bar);
+	     * // => { 'a': 1, 'b': 2, 'c': 3, 'd': 4 }
+	     */
+	    var assignIn = createAssigner(function(object, source) {
+	      copyObject(source, keysIn(source), object);
+	    });
+
+	    /**
+	     * This method is like `_.assignIn` except that it accepts `customizer`
+	     * which is invoked to produce the assigned values. If `customizer` returns
+	     * `undefined`, assignment is handled by the method instead. The `customizer`
+	     * is invoked with five arguments: (objValue, srcValue, key, object, source).
+	     *
+	     * **Note:** This method mutates `object`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @alias extendWith
+	     * @category Object
+	     * @param {Object} object The destination object.
+	     * @param {...Object} sources The source objects.
+	     * @param {Function} [customizer] The function to customize assigned values.
+	     * @returns {Object} Returns `object`.
+	     * @see _.assignWith
+	     * @example
+	     *
+	     * function customizer(objValue, srcValue) {
+	     *   return _.isUndefined(objValue) ? srcValue : objValue;
+	     * }
+	     *
+	     * var defaults = _.partialRight(_.assignInWith, customizer);
+	     *
+	     * defaults({ 'a': 1 }, { 'b': 2 }, { 'a': 3 });
+	     * // => { 'a': 1, 'b': 2 }
+	     */
+	    var assignInWith = createAssigner(function(object, source, srcIndex, customizer) {
+	      copyObject(source, keysIn(source), object, customizer);
+	    });
+
+	    /**
+	     * This method is like `_.assign` except that it accepts `customizer`
+	     * which is invoked to produce the assigned values. If `customizer` returns
+	     * `undefined`, assignment is handled by the method instead. The `customizer`
+	     * is invoked with five arguments: (objValue, srcValue, key, object, source).
+	     *
+	     * **Note:** This method mutates `object`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Object
+	     * @param {Object} object The destination object.
+	     * @param {...Object} sources The source objects.
+	     * @param {Function} [customizer] The function to customize assigned values.
+	     * @returns {Object} Returns `object`.
+	     * @see _.assignInWith
+	     * @example
+	     *
+	     * function customizer(objValue, srcValue) {
+	     *   return _.isUndefined(objValue) ? srcValue : objValue;
+	     * }
+	     *
+	     * var defaults = _.partialRight(_.assignWith, customizer);
+	     *
+	     * defaults({ 'a': 1 }, { 'b': 2 }, { 'a': 3 });
+	     * // => { 'a': 1, 'b': 2 }
+	     */
+	    var assignWith = createAssigner(function(object, source, srcIndex, customizer) {
+	      copyObject(source, keys(source), object, customizer);
+	    });
+
+	    /**
+	     * Creates an array of values corresponding to `paths` of `object`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 1.0.0
+	     * @category Object
+	     * @param {Object} object The object to iterate over.
+	     * @param {...(string|string[])} [paths] The property paths of elements to pick.
+	     * @returns {Array} Returns the picked values.
+	     * @example
+	     *
+	     * var object = { 'a': [{ 'b': { 'c': 3 } }, 4] };
+	     *
+	     * _.at(object, ['a[0].b.c', 'a[1]']);
+	     * // => [3, 4]
+	     */
+	    var at = baseRest(function(object, paths) {
+	      return baseAt(object, baseFlatten(paths, 1));
+	    });
+
+	    /**
+	     * Creates an object that inherits from the `prototype` object. If a
+	     * `properties` object is given, its own enumerable string keyed properties
+	     * are assigned to the created object.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 2.3.0
+	     * @category Object
+	     * @param {Object} prototype The object to inherit from.
+	     * @param {Object} [properties] The properties to assign to the object.
+	     * @returns {Object} Returns the new object.
+	     * @example
+	     *
+	     * function Shape() {
+	     *   this.x = 0;
+	     *   this.y = 0;
+	     * }
+	     *
+	     * function Circle() {
+	     *   Shape.call(this);
+	     * }
+	     *
+	     * Circle.prototype = _.create(Shape.prototype, {
+	     *   'constructor': Circle
+	     * });
+	     *
+	     * var circle = new Circle;
+	     * circle instanceof Circle;
+	     * // => true
+	     *
+	     * circle instanceof Shape;
+	     * // => true
+	     */
+	    function create(prototype, properties) {
+	      var result = baseCreate(prototype);
+	      return properties ? baseAssign(result, properties) : result;
+	    }
+
+	    /**
+	     * Assigns own and inherited enumerable string keyed properties of source
+	     * objects to the destination object for all destination properties that
+	     * resolve to `undefined`. Source objects are applied from left to right.
+	     * Once a property is set, additional values of the same property are ignored.
+	     *
+	     * **Note:** This method mutates `object`.
+	     *
+	     * @static
+	     * @since 0.1.0
+	     * @memberOf _
+	     * @category Object
+	     * @param {Object} object The destination object.
+	     * @param {...Object} [sources] The source objects.
+	     * @returns {Object} Returns `object`.
+	     * @see _.defaultsDeep
+	     * @example
+	     *
+	     * _.defaults({ 'a': 1 }, { 'b': 2 }, { 'a': 3 });
+	     * // => { 'a': 1, 'b': 2 }
+	     */
+	    var defaults = baseRest(function(args) {
+	      args.push(undefined, assignInDefaults);
+	      return apply(assignInWith, undefined, args);
+	    });
+
+	    /**
+	     * This method is like `_.defaults` except that it recursively assigns
+	     * default properties.
+	     *
+	     * **Note:** This method mutates `object`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.10.0
+	     * @category Object
+	     * @param {Object} object The destination object.
+	     * @param {...Object} [sources] The source objects.
+	     * @returns {Object} Returns `object`.
+	     * @see _.defaults
+	     * @example
+	     *
+	     * _.defaultsDeep({ 'a': { 'b': 2 } }, { 'a': { 'b': 1, 'c': 3 } });
+	     * // => { 'a': { 'b': 2, 'c': 3 } }
+	     */
+	    var defaultsDeep = baseRest(function(args) {
+	      args.push(undefined, mergeDefaults);
+	      return apply(mergeWith, undefined, args);
+	    });
+
+	    /**
+	     * This method is like `_.find` except that it returns the key of the first
+	     * element `predicate` returns truthy for instead of the element itself.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 1.1.0
+	     * @category Object
+	     * @param {Object} object The object to inspect.
+	     * @param {Function} [predicate=_.identity] The function invoked per iteration.
+	     * @returns {string|undefined} Returns the key of the matched element,
+	     *  else `undefined`.
+	     * @example
+	     *
+	     * var users = {
+	     *   'barney':  { 'age': 36, 'active': true },
+	     *   'fred':    { 'age': 40, 'active': false },
+	     *   'pebbles': { 'age': 1,  'active': true }
+	     * };
+	     *
+	     * _.findKey(users, function(o) { return o.age < 40; });
+	     * // => 'barney' (iteration order is not guaranteed)
+	     *
+	     * // The `_.matches` iteratee shorthand.
+	     * _.findKey(users, { 'age': 1, 'active': true });
+	     * // => 'pebbles'
+	     *
+	     * // The `_.matchesProperty` iteratee shorthand.
+	     * _.findKey(users, ['active', false]);
+	     * // => 'fred'
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.findKey(users, 'active');
+	     * // => 'barney'
+	     */
+	    function findKey(object, predicate) {
+	      return baseFindKey(object, getIteratee(predicate, 3), baseForOwn);
+	    }
+
+	    /**
+	     * This method is like `_.findKey` except that it iterates over elements of
+	     * a collection in the opposite order.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 2.0.0
+	     * @category Object
+	     * @param {Object} object The object to inspect.
+	     * @param {Function} [predicate=_.identity] The function invoked per iteration.
+	     * @returns {string|undefined} Returns the key of the matched element,
+	     *  else `undefined`.
+	     * @example
+	     *
+	     * var users = {
+	     *   'barney':  { 'age': 36, 'active': true },
+	     *   'fred':    { 'age': 40, 'active': false },
+	     *   'pebbles': { 'age': 1,  'active': true }
+	     * };
+	     *
+	     * _.findLastKey(users, function(o) { return o.age < 40; });
+	     * // => returns 'pebbles' assuming `_.findKey` returns 'barney'
+	     *
+	     * // The `_.matches` iteratee shorthand.
+	     * _.findLastKey(users, { 'age': 36, 'active': true });
+	     * // => 'barney'
+	     *
+	     * // The `_.matchesProperty` iteratee shorthand.
+	     * _.findLastKey(users, ['active', false]);
+	     * // => 'fred'
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.findLastKey(users, 'active');
+	     * // => 'pebbles'
+	     */
+	    function findLastKey(object, predicate) {
+	      return baseFindKey(object, getIteratee(predicate, 3), baseForOwnRight);
+	    }
+
+	    /**
+	     * Iterates over own and inherited enumerable string keyed properties of an
+	     * object and invokes `iteratee` for each property. The iteratee is invoked
+	     * with three arguments: (value, key, object). Iteratee functions may exit
+	     * iteration early by explicitly returning `false`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.3.0
+	     * @category Object
+	     * @param {Object} object The object to iterate over.
+	     * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+	     * @returns {Object} Returns `object`.
+	     * @see _.forInRight
+	     * @example
+	     *
+	     * function Foo() {
+	     *   this.a = 1;
+	     *   this.b = 2;
+	     * }
+	     *
+	     * Foo.prototype.c = 3;
+	     *
+	     * _.forIn(new Foo, function(value, key) {
+	     *   console.log(key);
+	     * });
+	     * // => Logs 'a', 'b', then 'c' (iteration order is not guaranteed).
+	     */
+	    function forIn(object, iteratee) {
+	      return object == null
+	        ? object
+	        : baseFor(object, getIteratee(iteratee, 3), keysIn);
+	    }
+
+	    /**
+	     * This method is like `_.forIn` except that it iterates over properties of
+	     * `object` in the opposite order.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 2.0.0
+	     * @category Object
+	     * @param {Object} object The object to iterate over.
+	     * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+	     * @returns {Object} Returns `object`.
+	     * @see _.forIn
+	     * @example
+	     *
+	     * function Foo() {
+	     *   this.a = 1;
+	     *   this.b = 2;
+	     * }
+	     *
+	     * Foo.prototype.c = 3;
+	     *
+	     * _.forInRight(new Foo, function(value, key) {
+	     *   console.log(key);
+	     * });
+	     * // => Logs 'c', 'b', then 'a' assuming `_.forIn` logs 'a', 'b', then 'c'.
+	     */
+	    function forInRight(object, iteratee) {
+	      return object == null
+	        ? object
+	        : baseForRight(object, getIteratee(iteratee, 3), keysIn);
+	    }
+
+	    /**
+	     * Iterates over own enumerable string keyed properties of an object and
+	     * invokes `iteratee` for each property. The iteratee is invoked with three
+	     * arguments: (value, key, object). Iteratee functions may exit iteration
+	     * early by explicitly returning `false`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.3.0
+	     * @category Object
+	     * @param {Object} object The object to iterate over.
+	     * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+	     * @returns {Object} Returns `object`.
+	     * @see _.forOwnRight
+	     * @example
+	     *
+	     * function Foo() {
+	     *   this.a = 1;
+	     *   this.b = 2;
+	     * }
+	     *
+	     * Foo.prototype.c = 3;
+	     *
+	     * _.forOwn(new Foo, function(value, key) {
+	     *   console.log(key);
+	     * });
+	     * // => Logs 'a' then 'b' (iteration order is not guaranteed).
+	     */
+	    function forOwn(object, iteratee) {
+	      return object && baseForOwn(object, getIteratee(iteratee, 3));
+	    }
+
+	    /**
+	     * This method is like `_.forOwn` except that it iterates over properties of
+	     * `object` in the opposite order.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 2.0.0
+	     * @category Object
+	     * @param {Object} object The object to iterate over.
+	     * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+	     * @returns {Object} Returns `object`.
+	     * @see _.forOwn
+	     * @example
+	     *
+	     * function Foo() {
+	     *   this.a = 1;
+	     *   this.b = 2;
+	     * }
+	     *
+	     * Foo.prototype.c = 3;
+	     *
+	     * _.forOwnRight(new Foo, function(value, key) {
+	     *   console.log(key);
+	     * });
+	     * // => Logs 'b' then 'a' assuming `_.forOwn` logs 'a' then 'b'.
+	     */
+	    function forOwnRight(object, iteratee) {
+	      return object && baseForOwnRight(object, getIteratee(iteratee, 3));
+	    }
+
+	    /**
+	     * Creates an array of function property names from own enumerable properties
+	     * of `object`.
+	     *
+	     * @static
+	     * @since 0.1.0
+	     * @memberOf _
+	     * @category Object
+	     * @param {Object} object The object to inspect.
+	     * @returns {Array} Returns the function names.
+	     * @see _.functionsIn
+	     * @example
+	     *
+	     * function Foo() {
+	     *   this.a = _.constant('a');
+	     *   this.b = _.constant('b');
+	     * }
+	     *
+	     * Foo.prototype.c = _.constant('c');
+	     *
+	     * _.functions(new Foo);
+	     * // => ['a', 'b']
+	     */
+	    function functions(object) {
+	      return object == null ? [] : baseFunctions(object, keys(object));
+	    }
+
+	    /**
+	     * Creates an array of function property names from own and inherited
+	     * enumerable properties of `object`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Object
+	     * @param {Object} object The object to inspect.
+	     * @returns {Array} Returns the function names.
+	     * @see _.functions
+	     * @example
+	     *
+	     * function Foo() {
+	     *   this.a = _.constant('a');
+	     *   this.b = _.constant('b');
+	     * }
+	     *
+	     * Foo.prototype.c = _.constant('c');
+	     *
+	     * _.functionsIn(new Foo);
+	     * // => ['a', 'b', 'c']
+	     */
+	    function functionsIn(object) {
+	      return object == null ? [] : baseFunctions(object, keysIn(object));
+	    }
+
+	    /**
+	     * Gets the value at `path` of `object`. If the resolved value is
+	     * `undefined`, the `defaultValue` is returned in its place.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.7.0
+	     * @category Object
+	     * @param {Object} object The object to query.
+	     * @param {Array|string} path The path of the property to get.
+	     * @param {*} [defaultValue] The value returned for `undefined` resolved values.
+	     * @returns {*} Returns the resolved value.
+	     * @example
+	     *
+	     * var object = { 'a': [{ 'b': { 'c': 3 } }] };
+	     *
+	     * _.get(object, 'a[0].b.c');
+	     * // => 3
+	     *
+	     * _.get(object, ['a', '0', 'b', 'c']);
+	     * // => 3
+	     *
+	     * _.get(object, 'a.b.c', 'default');
+	     * // => 'default'
+	     */
+	    function get(object, path, defaultValue) {
+	      var result = object == null ? undefined : baseGet(object, path);
+	      return result === undefined ? defaultValue : result;
+	    }
+
+	    /**
+	     * Checks if `path` is a direct property of `object`.
+	     *
+	     * @static
+	     * @since 0.1.0
+	     * @memberOf _
+	     * @category Object
+	     * @param {Object} object The object to query.
+	     * @param {Array|string} path The path to check.
+	     * @returns {boolean} Returns `true` if `path` exists, else `false`.
+	     * @example
+	     *
+	     * var object = { 'a': { 'b': 2 } };
+	     * var other = _.create({ 'a': _.create({ 'b': 2 }) });
+	     *
+	     * _.has(object, 'a');
+	     * // => true
+	     *
+	     * _.has(object, 'a.b');
+	     * // => true
+	     *
+	     * _.has(object, ['a', 'b']);
+	     * // => true
+	     *
+	     * _.has(other, 'a');
+	     * // => false
+	     */
+	    function has(object, path) {
+	      return object != null && hasPath(object, path, baseHas);
+	    }
+
+	    /**
+	     * Checks if `path` is a direct or inherited property of `object`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Object
+	     * @param {Object} object The object to query.
+	     * @param {Array|string} path The path to check.
+	     * @returns {boolean} Returns `true` if `path` exists, else `false`.
+	     * @example
+	     *
+	     * var object = _.create({ 'a': _.create({ 'b': 2 }) });
+	     *
+	     * _.hasIn(object, 'a');
+	     * // => true
+	     *
+	     * _.hasIn(object, 'a.b');
+	     * // => true
+	     *
+	     * _.hasIn(object, ['a', 'b']);
+	     * // => true
+	     *
+	     * _.hasIn(object, 'b');
+	     * // => false
+	     */
+	    function hasIn(object, path) {
+	      return object != null && hasPath(object, path, baseHasIn);
+	    }
+
+	    /**
+	     * Creates an object composed of the inverted keys and values of `object`.
+	     * If `object` contains duplicate values, subsequent values overwrite
+	     * property assignments of previous values.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.7.0
+	     * @category Object
+	     * @param {Object} object The object to invert.
+	     * @returns {Object} Returns the new inverted object.
+	     * @example
+	     *
+	     * var object = { 'a': 1, 'b': 2, 'c': 1 };
+	     *
+	     * _.invert(object);
+	     * // => { '1': 'c', '2': 'b' }
+	     */
+	    var invert = createInverter(function(result, value, key) {
+	      result[value] = key;
+	    }, constant(identity));
+
+	    /**
+	     * This method is like `_.invert` except that the inverted object is generated
+	     * from the results of running each element of `object` thru `iteratee`. The
+	     * corresponding inverted value of each inverted key is an array of keys
+	     * responsible for generating the inverted value. The iteratee is invoked
+	     * with one argument: (value).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.1.0
+	     * @category Object
+	     * @param {Object} object The object to invert.
+	     * @param {Function} [iteratee=_.identity] The iteratee invoked per element.
+	     * @returns {Object} Returns the new inverted object.
+	     * @example
+	     *
+	     * var object = { 'a': 1, 'b': 2, 'c': 1 };
+	     *
+	     * _.invertBy(object);
+	     * // => { '1': ['a', 'c'], '2': ['b'] }
+	     *
+	     * _.invertBy(object, function(value) {
+	     *   return 'group' + value;
+	     * });
+	     * // => { 'group1': ['a', 'c'], 'group2': ['b'] }
+	     */
+	    var invertBy = createInverter(function(result, value, key) {
+	      if (hasOwnProperty.call(result, value)) {
+	        result[value].push(key);
+	      } else {
+	        result[value] = [key];
+	      }
+	    }, getIteratee);
+
+	    /**
+	     * Invokes the method at `path` of `object`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Object
+	     * @param {Object} object The object to query.
+	     * @param {Array|string} path The path of the method to invoke.
+	     * @param {...*} [args] The arguments to invoke the method with.
+	     * @returns {*} Returns the result of the invoked method.
+	     * @example
+	     *
+	     * var object = { 'a': [{ 'b': { 'c': [1, 2, 3, 4] } }] };
+	     *
+	     * _.invoke(object, 'a[0].b.c.slice', 1, 3);
+	     * // => [2, 3]
+	     */
+	    var invoke = baseRest(baseInvoke);
+
+	    /**
+	     * Creates an array of the own enumerable property names of `object`.
+	     *
+	     * **Note:** Non-object values are coerced to objects. See the
+	     * [ES spec](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
+	     * for more details.
+	     *
+	     * @static
+	     * @since 0.1.0
+	     * @memberOf _
+	     * @category Object
+	     * @param {Object} object The object to query.
+	     * @returns {Array} Returns the array of property names.
+	     * @example
+	     *
+	     * function Foo() {
+	     *   this.a = 1;
+	     *   this.b = 2;
+	     * }
+	     *
+	     * Foo.prototype.c = 3;
+	     *
+	     * _.keys(new Foo);
+	     * // => ['a', 'b'] (iteration order is not guaranteed)
+	     *
+	     * _.keys('hi');
+	     * // => ['0', '1']
+	     */
+	    function keys(object) {
+	      return isArrayLike(object) ? arrayLikeKeys(object) : baseKeys(object);
+	    }
+
+	    /**
+	     * Creates an array of the own and inherited enumerable property names of `object`.
+	     *
+	     * **Note:** Non-object values are coerced to objects.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Object
+	     * @param {Object} object The object to query.
+	     * @returns {Array} Returns the array of property names.
+	     * @example
+	     *
+	     * function Foo() {
+	     *   this.a = 1;
+	     *   this.b = 2;
+	     * }
+	     *
+	     * Foo.prototype.c = 3;
+	     *
+	     * _.keysIn(new Foo);
+	     * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
+	     */
+	    function keysIn(object) {
+	      return isArrayLike(object) ? arrayLikeKeys(object, true) : baseKeysIn(object);
+	    }
+
+	    /**
+	     * The opposite of `_.mapValues`; this method creates an object with the
+	     * same values as `object` and keys generated by running each own enumerable
+	     * string keyed property of `object` thru `iteratee`. The iteratee is invoked
+	     * with three arguments: (value, key, object).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.8.0
+	     * @category Object
+	     * @param {Object} object The object to iterate over.
+	     * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+	     * @returns {Object} Returns the new mapped object.
+	     * @see _.mapValues
+	     * @example
+	     *
+	     * _.mapKeys({ 'a': 1, 'b': 2 }, function(value, key) {
+	     *   return key + value;
+	     * });
+	     * // => { 'a1': 1, 'b2': 2 }
+	     */
+	    function mapKeys(object, iteratee) {
+	      var result = {};
+	      iteratee = getIteratee(iteratee, 3);
+
+	      baseForOwn(object, function(value, key, object) {
+	        result[iteratee(value, key, object)] = value;
+	      });
+	      return result;
+	    }
+
+	    /**
+	     * Creates an object with the same keys as `object` and values generated
+	     * by running each own enumerable string keyed property of `object` thru
+	     * `iteratee`. The iteratee is invoked with three arguments:
+	     * (value, key, object).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 2.4.0
+	     * @category Object
+	     * @param {Object} object The object to iterate over.
+	     * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+	     * @returns {Object} Returns the new mapped object.
+	     * @see _.mapKeys
+	     * @example
+	     *
+	     * var users = {
+	     *   'fred':    { 'user': 'fred',    'age': 40 },
+	     *   'pebbles': { 'user': 'pebbles', 'age': 1 }
+	     * };
+	     *
+	     * _.mapValues(users, function(o) { return o.age; });
+	     * // => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.mapValues(users, 'age');
+	     * // => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
+	     */
+	    function mapValues(object, iteratee) {
+	      var result = {};
+	      iteratee = getIteratee(iteratee, 3);
+
+	      baseForOwn(object, function(value, key, object) {
+	        result[key] = iteratee(value, key, object);
+	      });
+	      return result;
+	    }
+
+	    /**
+	     * This method is like `_.assign` except that it recursively merges own and
+	     * inherited enumerable string keyed properties of source objects into the
+	     * destination object. Source properties that resolve to `undefined` are
+	     * skipped if a destination value exists. Array and plain object properties
+	     * are merged recursively. Other objects and value types are overridden by
+	     * assignment. Source objects are applied from left to right. Subsequent
+	     * sources overwrite property assignments of previous sources.
+	     *
+	     * **Note:** This method mutates `object`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.5.0
+	     * @category Object
+	     * @param {Object} object The destination object.
+	     * @param {...Object} [sources] The source objects.
+	     * @returns {Object} Returns `object`.
+	     * @example
+	     *
+	     * var object = {
+	     *   'a': [{ 'b': 2 }, { 'd': 4 }]
+	     * };
+	     *
+	     * var other = {
+	     *   'a': [{ 'c': 3 }, { 'e': 5 }]
+	     * };
+	     *
+	     * _.merge(object, other);
+	     * // => { 'a': [{ 'b': 2, 'c': 3 }, { 'd': 4, 'e': 5 }] }
+	     */
+	    var merge = createAssigner(function(object, source, srcIndex) {
+	      baseMerge(object, source, srcIndex);
+	    });
+
+	    /**
+	     * This method is like `_.merge` except that it accepts `customizer` which
+	     * is invoked to produce the merged values of the destination and source
+	     * properties. If `customizer` returns `undefined`, merging is handled by the
+	     * method instead. The `customizer` is invoked with seven arguments:
+	     * (objValue, srcValue, key, object, source, stack).
+	     *
+	     * **Note:** This method mutates `object`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Object
+	     * @param {Object} object The destination object.
+	     * @param {...Object} sources The source objects.
+	     * @param {Function} customizer The function to customize assigned values.
+	     * @returns {Object} Returns `object`.
+	     * @example
+	     *
+	     * function customizer(objValue, srcValue) {
+	     *   if (_.isArray(objValue)) {
+	     *     return objValue.concat(srcValue);
+	     *   }
+	     * }
+	     *
+	     * var object = { 'a': [1], 'b': [2] };
+	     * var other = { 'a': [3], 'b': [4] };
+	     *
+	     * _.mergeWith(object, other, customizer);
+	     * // => { 'a': [1, 3], 'b': [2, 4] }
+	     */
+	    var mergeWith = createAssigner(function(object, source, srcIndex, customizer) {
+	      baseMerge(object, source, srcIndex, customizer);
+	    });
+
+	    /**
+	     * The opposite of `_.pick`; this method creates an object composed of the
+	     * own and inherited enumerable string keyed properties of `object` that are
+	     * not omitted.
+	     *
+	     * @static
+	     * @since 0.1.0
+	     * @memberOf _
+	     * @category Object
+	     * @param {Object} object The source object.
+	     * @param {...(string|string[])} [props] The property identifiers to omit.
+	     * @returns {Object} Returns the new object.
+	     * @example
+	     *
+	     * var object = { 'a': 1, 'b': '2', 'c': 3 };
+	     *
+	     * _.omit(object, ['a', 'c']);
+	     * // => { 'b': '2' }
+	     */
+	    var omit = baseRest(function(object, props) {
+	      if (object == null) {
+	        return {};
+	      }
+	      props = arrayMap(baseFlatten(props, 1), toKey);
+	      return basePick(object, baseDifference(getAllKeysIn(object), props));
+	    });
+
+	    /**
+	     * The opposite of `_.pickBy`; this method creates an object composed of
+	     * the own and inherited enumerable string keyed properties of `object` that
+	     * `predicate` doesn't return truthy for. The predicate is invoked with two
+	     * arguments: (value, key).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Object
+	     * @param {Object} object The source object.
+	     * @param {Function} [predicate=_.identity] The function invoked per property.
+	     * @returns {Object} Returns the new object.
+	     * @example
+	     *
+	     * var object = { 'a': 1, 'b': '2', 'c': 3 };
+	     *
+	     * _.omitBy(object, _.isNumber);
+	     * // => { 'b': '2' }
+	     */
+	    function omitBy(object, predicate) {
+	      return pickBy(object, negate(getIteratee(predicate)));
+	    }
+
+	    /**
+	     * Creates an object composed of the picked `object` properties.
+	     *
+	     * @static
+	     * @since 0.1.0
+	     * @memberOf _
+	     * @category Object
+	     * @param {Object} object The source object.
+	     * @param {...(string|string[])} [props] The property identifiers to pick.
+	     * @returns {Object} Returns the new object.
+	     * @example
+	     *
+	     * var object = { 'a': 1, 'b': '2', 'c': 3 };
+	     *
+	     * _.pick(object, ['a', 'c']);
+	     * // => { 'a': 1, 'c': 3 }
+	     */
+	    var pick = baseRest(function(object, props) {
+	      return object == null ? {} : basePick(object, arrayMap(baseFlatten(props, 1), toKey));
+	    });
+
+	    /**
+	     * Creates an object composed of the `object` properties `predicate` returns
+	     * truthy for. The predicate is invoked with two arguments: (value, key).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Object
+	     * @param {Object} object The source object.
+	     * @param {Function} [predicate=_.identity] The function invoked per property.
+	     * @returns {Object} Returns the new object.
+	     * @example
+	     *
+	     * var object = { 'a': 1, 'b': '2', 'c': 3 };
+	     *
+	     * _.pickBy(object, _.isNumber);
+	     * // => { 'a': 1, 'c': 3 }
+	     */
+	    function pickBy(object, predicate) {
+	      return object == null ? {} : basePickBy(object, getAllKeysIn(object), getIteratee(predicate));
+	    }
+
+	    /**
+	     * This method is like `_.get` except that if the resolved value is a
+	     * function it's invoked with the `this` binding of its parent object and
+	     * its result is returned.
+	     *
+	     * @static
+	     * @since 0.1.0
+	     * @memberOf _
+	     * @category Object
+	     * @param {Object} object The object to query.
+	     * @param {Array|string} path The path of the property to resolve.
+	     * @param {*} [defaultValue] The value returned for `undefined` resolved values.
+	     * @returns {*} Returns the resolved value.
+	     * @example
+	     *
+	     * var object = { 'a': [{ 'b': { 'c1': 3, 'c2': _.constant(4) } }] };
+	     *
+	     * _.result(object, 'a[0].b.c1');
+	     * // => 3
+	     *
+	     * _.result(object, 'a[0].b.c2');
+	     * // => 4
+	     *
+	     * _.result(object, 'a[0].b.c3', 'default');
+	     * // => 'default'
+	     *
+	     * _.result(object, 'a[0].b.c3', _.constant('default'));
+	     * // => 'default'
+	     */
+	    function result(object, path, defaultValue) {
+	      path = isKey(path, object) ? [path] : castPath(path);
+
+	      var index = -1,
+	          length = path.length;
+
+	      // Ensure the loop is entered when path is empty.
+	      if (!length) {
+	        object = undefined;
+	        length = 1;
+	      }
+	      while (++index < length) {
+	        var value = object == null ? undefined : object[toKey(path[index])];
+	        if (value === undefined) {
+	          index = length;
+	          value = defaultValue;
+	        }
+	        object = isFunction(value) ? value.call(object) : value;
+	      }
+	      return object;
+	    }
+
+	    /**
+	     * Sets the value at `path` of `object`. If a portion of `path` doesn't exist,
+	     * it's created. Arrays are created for missing index properties while objects
+	     * are created for all other missing properties. Use `_.setWith` to customize
+	     * `path` creation.
+	     *
+	     * **Note:** This method mutates `object`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.7.0
+	     * @category Object
+	     * @param {Object} object The object to modify.
+	     * @param {Array|string} path The path of the property to set.
+	     * @param {*} value The value to set.
+	     * @returns {Object} Returns `object`.
+	     * @example
+	     *
+	     * var object = { 'a': [{ 'b': { 'c': 3 } }] };
+	     *
+	     * _.set(object, 'a[0].b.c', 4);
+	     * console.log(object.a[0].b.c);
+	     * // => 4
+	     *
+	     * _.set(object, ['x', '0', 'y', 'z'], 5);
+	     * console.log(object.x[0].y.z);
+	     * // => 5
+	     */
+	    function set(object, path, value) {
+	      return object == null ? object : baseSet(object, path, value);
+	    }
+
+	    /**
+	     * This method is like `_.set` except that it accepts `customizer` which is
+	     * invoked to produce the objects of `path`.  If `customizer` returns `undefined`
+	     * path creation is handled by the method instead. The `customizer` is invoked
+	     * with three arguments: (nsValue, key, nsObject).
+	     *
+	     * **Note:** This method mutates `object`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Object
+	     * @param {Object} object The object to modify.
+	     * @param {Array|string} path The path of the property to set.
+	     * @param {*} value The value to set.
+	     * @param {Function} [customizer] The function to customize assigned values.
+	     * @returns {Object} Returns `object`.
+	     * @example
+	     *
+	     * var object = {};
+	     *
+	     * _.setWith(object, '[0][1]', 'a', Object);
+	     * // => { '0': { '1': 'a' } }
+	     */
+	    function setWith(object, path, value, customizer) {
+	      customizer = typeof customizer == 'function' ? customizer : undefined;
+	      return object == null ? object : baseSet(object, path, value, customizer);
+	    }
+
+	    /**
+	     * Creates an array of own enumerable string keyed-value pairs for `object`
+	     * which can be consumed by `_.fromPairs`. If `object` is a map or set, its
+	     * entries are returned.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @alias entries
+	     * @category Object
+	     * @param {Object} object The object to query.
+	     * @returns {Array} Returns the key-value pairs.
+	     * @example
+	     *
+	     * function Foo() {
+	     *   this.a = 1;
+	     *   this.b = 2;
+	     * }
+	     *
+	     * Foo.prototype.c = 3;
+	     *
+	     * _.toPairs(new Foo);
+	     * // => [['a', 1], ['b', 2]] (iteration order is not guaranteed)
+	     */
+	    var toPairs = createToPairs(keys);
+
+	    /**
+	     * Creates an array of own and inherited enumerable string keyed-value pairs
+	     * for `object` which can be consumed by `_.fromPairs`. If `object` is a map
+	     * or set, its entries are returned.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @alias entriesIn
+	     * @category Object
+	     * @param {Object} object The object to query.
+	     * @returns {Array} Returns the key-value pairs.
+	     * @example
+	     *
+	     * function Foo() {
+	     *   this.a = 1;
+	     *   this.b = 2;
+	     * }
+	     *
+	     * Foo.prototype.c = 3;
+	     *
+	     * _.toPairsIn(new Foo);
+	     * // => [['a', 1], ['b', 2], ['c', 3]] (iteration order is not guaranteed)
+	     */
+	    var toPairsIn = createToPairs(keysIn);
+
+	    /**
+	     * An alternative to `_.reduce`; this method transforms `object` to a new
+	     * `accumulator` object which is the result of running each of its own
+	     * enumerable string keyed properties thru `iteratee`, with each invocation
+	     * potentially mutating the `accumulator` object. If `accumulator` is not
+	     * provided, a new object with the same `[[Prototype]]` will be used. The
+	     * iteratee is invoked with four arguments: (accumulator, value, key, object).
+	     * Iteratee functions may exit iteration early by explicitly returning `false`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 1.3.0
+	     * @category Object
+	     * @param {Object} object The object to iterate over.
+	     * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+	     * @param {*} [accumulator] The custom accumulator value.
+	     * @returns {*} Returns the accumulated value.
+	     * @example
+	     *
+	     * _.transform([2, 3, 4], function(result, n) {
+	     *   result.push(n *= n);
+	     *   return n % 2 == 0;
+	     * }, []);
+	     * // => [4, 9]
+	     *
+	     * _.transform({ 'a': 1, 'b': 2, 'c': 1 }, function(result, value, key) {
+	     *   (result[value] || (result[value] = [])).push(key);
+	     * }, {});
+	     * // => { '1': ['a', 'c'], '2': ['b'] }
+	     */
+	    function transform(object, iteratee, accumulator) {
+	      var isArr = isArray(object) || isTypedArray(object);
+	      iteratee = getIteratee(iteratee, 4);
+
+	      if (accumulator == null) {
+	        if (isArr || isObject(object)) {
+	          var Ctor = object.constructor;
+	          if (isArr) {
+	            accumulator = isArray(object) ? new Ctor : [];
+	          } else {
+	            accumulator = isFunction(Ctor) ? baseCreate(getPrototype(object)) : {};
+	          }
+	        } else {
+	          accumulator = {};
+	        }
+	      }
+	      (isArr ? arrayEach : baseForOwn)(object, function(value, index, object) {
+	        return iteratee(accumulator, value, index, object);
+	      });
+	      return accumulator;
+	    }
+
+	    /**
+	     * Removes the property at `path` of `object`.
+	     *
+	     * **Note:** This method mutates `object`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Object
+	     * @param {Object} object The object to modify.
+	     * @param {Array|string} path The path of the property to unset.
+	     * @returns {boolean} Returns `true` if the property is deleted, else `false`.
+	     * @example
+	     *
+	     * var object = { 'a': [{ 'b': { 'c': 7 } }] };
+	     * _.unset(object, 'a[0].b.c');
+	     * // => true
+	     *
+	     * console.log(object);
+	     * // => { 'a': [{ 'b': {} }] };
+	     *
+	     * _.unset(object, ['a', '0', 'b', 'c']);
+	     * // => true
+	     *
+	     * console.log(object);
+	     * // => { 'a': [{ 'b': {} }] };
+	     */
+	    function unset(object, path) {
+	      return object == null ? true : baseUnset(object, path);
+	    }
+
+	    /**
+	     * This method is like `_.set` except that accepts `updater` to produce the
+	     * value to set. Use `_.updateWith` to customize `path` creation. The `updater`
+	     * is invoked with one argument: (value).
+	     *
+	     * **Note:** This method mutates `object`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.6.0
+	     * @category Object
+	     * @param {Object} object The object to modify.
+	     * @param {Array|string} path The path of the property to set.
+	     * @param {Function} updater The function to produce the updated value.
+	     * @returns {Object} Returns `object`.
+	     * @example
+	     *
+	     * var object = { 'a': [{ 'b': { 'c': 3 } }] };
+	     *
+	     * _.update(object, 'a[0].b.c', function(n) { return n * n; });
+	     * console.log(object.a[0].b.c);
+	     * // => 9
+	     *
+	     * _.update(object, 'x[0].y.z', function(n) { return n ? n + 1 : 0; });
+	     * console.log(object.x[0].y.z);
+	     * // => 0
+	     */
+	    function update(object, path, updater) {
+	      return object == null ? object : baseUpdate(object, path, castFunction(updater));
+	    }
+
+	    /**
+	     * This method is like `_.update` except that it accepts `customizer` which is
+	     * invoked to produce the objects of `path`.  If `customizer` returns `undefined`
+	     * path creation is handled by the method instead. The `customizer` is invoked
+	     * with three arguments: (nsValue, key, nsObject).
+	     *
+	     * **Note:** This method mutates `object`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.6.0
+	     * @category Object
+	     * @param {Object} object The object to modify.
+	     * @param {Array|string} path The path of the property to set.
+	     * @param {Function} updater The function to produce the updated value.
+	     * @param {Function} [customizer] The function to customize assigned values.
+	     * @returns {Object} Returns `object`.
+	     * @example
+	     *
+	     * var object = {};
+	     *
+	     * _.updateWith(object, '[0][1]', _.constant('a'), Object);
+	     * // => { '0': { '1': 'a' } }
+	     */
+	    function updateWith(object, path, updater, customizer) {
+	      customizer = typeof customizer == 'function' ? customizer : undefined;
+	      return object == null ? object : baseUpdate(object, path, castFunction(updater), customizer);
+	    }
+
+	    /**
+	     * Creates an array of the own enumerable string keyed property values of `object`.
+	     *
+	     * **Note:** Non-object values are coerced to objects.
+	     *
+	     * @static
+	     * @since 0.1.0
+	     * @memberOf _
+	     * @category Object
+	     * @param {Object} object The object to query.
+	     * @returns {Array} Returns the array of property values.
+	     * @example
+	     *
+	     * function Foo() {
+	     *   this.a = 1;
+	     *   this.b = 2;
+	     * }
+	     *
+	     * Foo.prototype.c = 3;
+	     *
+	     * _.values(new Foo);
+	     * // => [1, 2] (iteration order is not guaranteed)
+	     *
+	     * _.values('hi');
+	     * // => ['h', 'i']
+	     */
+	    function values(object) {
+	      return object ? baseValues(object, keys(object)) : [];
+	    }
+
+	    /**
+	     * Creates an array of the own and inherited enumerable string keyed property
+	     * values of `object`.
+	     *
+	     * **Note:** Non-object values are coerced to objects.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Object
+	     * @param {Object} object The object to query.
+	     * @returns {Array} Returns the array of property values.
+	     * @example
+	     *
+	     * function Foo() {
+	     *   this.a = 1;
+	     *   this.b = 2;
+	     * }
+	     *
+	     * Foo.prototype.c = 3;
+	     *
+	     * _.valuesIn(new Foo);
+	     * // => [1, 2, 3] (iteration order is not guaranteed)
+	     */
+	    function valuesIn(object) {
+	      return object == null ? [] : baseValues(object, keysIn(object));
+	    }
+
+	    /*------------------------------------------------------------------------*/
+
+	    /**
+	     * Clamps `number` within the inclusive `lower` and `upper` bounds.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Number
+	     * @param {number} number The number to clamp.
+	     * @param {number} [lower] The lower bound.
+	     * @param {number} upper The upper bound.
+	     * @returns {number} Returns the clamped number.
+	     * @example
+	     *
+	     * _.clamp(-10, -5, 5);
+	     * // => -5
+	     *
+	     * _.clamp(10, -5, 5);
+	     * // => 5
+	     */
+	    function clamp(number, lower, upper) {
+	      if (upper === undefined) {
+	        upper = lower;
+	        lower = undefined;
+	      }
+	      if (upper !== undefined) {
+	        upper = toNumber(upper);
+	        upper = upper === upper ? upper : 0;
+	      }
+	      if (lower !== undefined) {
+	        lower = toNumber(lower);
+	        lower = lower === lower ? lower : 0;
+	      }
+	      return baseClamp(toNumber(number), lower, upper);
+	    }
+
+	    /**
+	     * Checks if `n` is between `start` and up to, but not including, `end`. If
+	     * `end` is not specified, it's set to `start` with `start` then set to `0`.
+	     * If `start` is greater than `end` the params are swapped to support
+	     * negative ranges.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.3.0
+	     * @category Number
+	     * @param {number} number The number to check.
+	     * @param {number} [start=0] The start of the range.
+	     * @param {number} end The end of the range.
+	     * @returns {boolean} Returns `true` if `number` is in the range, else `false`.
+	     * @see _.range, _.rangeRight
+	     * @example
+	     *
+	     * _.inRange(3, 2, 4);
+	     * // => true
+	     *
+	     * _.inRange(4, 8);
+	     * // => true
+	     *
+	     * _.inRange(4, 2);
+	     * // => false
+	     *
+	     * _.inRange(2, 2);
+	     * // => false
+	     *
+	     * _.inRange(1.2, 2);
+	     * // => true
+	     *
+	     * _.inRange(5.2, 4);
+	     * // => false
+	     *
+	     * _.inRange(-3, -2, -6);
+	     * // => true
+	     */
+	    function inRange(number, start, end) {
+	      start = toFinite(start);
+	      if (end === undefined) {
+	        end = start;
+	        start = 0;
+	      } else {
+	        end = toFinite(end);
+	      }
+	      number = toNumber(number);
+	      return baseInRange(number, start, end);
+	    }
+
+	    /**
+	     * Produces a random number between the inclusive `lower` and `upper` bounds.
+	     * If only one argument is provided a number between `0` and the given number
+	     * is returned. If `floating` is `true`, or either `lower` or `upper` are
+	     * floats, a floating-point number is returned instead of an integer.
+	     *
+	     * **Note:** JavaScript follows the IEEE-754 standard for resolving
+	     * floating-point values which can produce unexpected results.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.7.0
+	     * @category Number
+	     * @param {number} [lower=0] The lower bound.
+	     * @param {number} [upper=1] The upper bound.
+	     * @param {boolean} [floating] Specify returning a floating-point number.
+	     * @returns {number} Returns the random number.
+	     * @example
+	     *
+	     * _.random(0, 5);
+	     * // => an integer between 0 and 5
+	     *
+	     * _.random(5);
+	     * // => also an integer between 0 and 5
+	     *
+	     * _.random(5, true);
+	     * // => a floating-point number between 0 and 5
+	     *
+	     * _.random(1.2, 5.2);
+	     * // => a floating-point number between 1.2 and 5.2
+	     */
+	    function random(lower, upper, floating) {
+	      if (floating && typeof floating != 'boolean' && isIterateeCall(lower, upper, floating)) {
+	        upper = floating = undefined;
+	      }
+	      if (floating === undefined) {
+	        if (typeof upper == 'boolean') {
+	          floating = upper;
+	          upper = undefined;
+	        }
+	        else if (typeof lower == 'boolean') {
+	          floating = lower;
+	          lower = undefined;
+	        }
+	      }
+	      if (lower === undefined && upper === undefined) {
+	        lower = 0;
+	        upper = 1;
+	      }
+	      else {
+	        lower = toFinite(lower);
+	        if (upper === undefined) {
+	          upper = lower;
+	          lower = 0;
+	        } else {
+	          upper = toFinite(upper);
+	        }
+	      }
+	      if (lower > upper) {
+	        var temp = lower;
+	        lower = upper;
+	        upper = temp;
+	      }
+	      if (floating || lower % 1 || upper % 1) {
+	        var rand = nativeRandom();
+	        return nativeMin(lower + (rand * (upper - lower + freeParseFloat('1e-' + ((rand + '').length - 1)))), upper);
+	      }
+	      return baseRandom(lower, upper);
+	    }
+
+	    /*------------------------------------------------------------------------*/
+
+	    /**
+	     * Converts `string` to [camel case](https://en.wikipedia.org/wiki/CamelCase).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to convert.
+	     * @returns {string} Returns the camel cased string.
+	     * @example
+	     *
+	     * _.camelCase('Foo Bar');
+	     * // => 'fooBar'
+	     *
+	     * _.camelCase('--foo-bar--');
+	     * // => 'fooBar'
+	     *
+	     * _.camelCase('__FOO_BAR__');
+	     * // => 'fooBar'
+	     */
+	    var camelCase = createCompounder(function(result, word, index) {
+	      word = word.toLowerCase();
+	      return result + (index ? capitalize(word) : word);
+	    });
+
+	    /**
+	     * Converts the first character of `string` to upper case and the remaining
+	     * to lower case.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to capitalize.
+	     * @returns {string} Returns the capitalized string.
+	     * @example
+	     *
+	     * _.capitalize('FRED');
+	     * // => 'Fred'
+	     */
+	    function capitalize(string) {
+	      return upperFirst(toString(string).toLowerCase());
+	    }
+
+	    /**
+	     * Deburrs `string` by converting
+	     * [Latin-1 Supplement](https://en.wikipedia.org/wiki/Latin-1_Supplement_(Unicode_block)#Character_table)
+	     * and [Latin Extended-A](https://en.wikipedia.org/wiki/Latin_Extended-A)
+	     * letters to basic Latin letters and removing
+	     * [combining diacritical marks](https://en.wikipedia.org/wiki/Combining_Diacritical_Marks).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to deburr.
+	     * @returns {string} Returns the deburred string.
+	     * @example
+	     *
+	     * _.deburr('déjà vu');
+	     * // => 'deja vu'
+	     */
+	    function deburr(string) {
+	      string = toString(string);
+	      return string && string.replace(reLatin, deburrLetter).replace(reComboMark, '');
+	    }
+
+	    /**
+	     * Checks if `string` ends with the given target string.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to inspect.
+	     * @param {string} [target] The string to search for.
+	     * @param {number} [position=string.length] The position to search up to.
+	     * @returns {boolean} Returns `true` if `string` ends with `target`,
+	     *  else `false`.
+	     * @example
+	     *
+	     * _.endsWith('abc', 'c');
+	     * // => true
+	     *
+	     * _.endsWith('abc', 'b');
+	     * // => false
+	     *
+	     * _.endsWith('abc', 'b', 2);
+	     * // => true
+	     */
+	    function endsWith(string, target, position) {
+	      string = toString(string);
+	      target = baseToString(target);
+
+	      var length = string.length;
+	      position = position === undefined
+	        ? length
+	        : baseClamp(toInteger(position), 0, length);
+
+	      var end = position;
+	      position -= target.length;
+	      return position >= 0 && string.slice(position, end) == target;
+	    }
+
+	    /**
+	     * Converts the characters "&", "<", ">", '"', "'", and "\`" in `string` to
+	     * their corresponding HTML entities.
+	     *
+	     * **Note:** No other characters are escaped. To escape additional
+	     * characters use a third-party library like [_he_](https://mths.be/he).
+	     *
+	     * Though the ">" character is escaped for symmetry, characters like
+	     * ">" and "/" don't need escaping in HTML and have no special meaning
+	     * unless they're part of a tag or unquoted attribute value. See
+	     * [Mathias Bynens's article](https://mathiasbynens.be/notes/ambiguous-ampersands)
+	     * (under "semi-related fun fact") for more details.
+	     *
+	     * Backticks are escaped because in IE < 9, they can break out of
+	     * attribute values or HTML comments. See [#59](https://html5sec.org/#59),
+	     * [#102](https://html5sec.org/#102), [#108](https://html5sec.org/#108), and
+	     * [#133](https://html5sec.org/#133) of the
+	     * [HTML5 Security Cheatsheet](https://html5sec.org/) for more details.
+	     *
+	     * When working with HTML you should always
+	     * [quote attribute values](http://wonko.com/post/html-escaping) to reduce
+	     * XSS vectors.
+	     *
+	     * @static
+	     * @since 0.1.0
+	     * @memberOf _
+	     * @category String
+	     * @param {string} [string=''] The string to escape.
+	     * @returns {string} Returns the escaped string.
+	     * @example
+	     *
+	     * _.escape('fred, barney, & pebbles');
+	     * // => 'fred, barney, &amp; pebbles'
+	     */
+	    function escape(string) {
+	      string = toString(string);
+	      return (string && reHasUnescapedHtml.test(string))
+	        ? string.replace(reUnescapedHtml, escapeHtmlChar)
+	        : string;
+	    }
+
+	    /**
+	     * Escapes the `RegExp` special characters "^", "$", "\", ".", "*", "+",
+	     * "?", "(", ")", "[", "]", "{", "}", and "|" in `string`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to escape.
+	     * @returns {string} Returns the escaped string.
+	     * @example
+	     *
+	     * _.escapeRegExp('[lodash](https://lodash.com/)');
+	     * // => '\[lodash\]\(https://lodash\.com/\)'
+	     */
+	    function escapeRegExp(string) {
+	      string = toString(string);
+	      return (string && reHasRegExpChar.test(string))
+	        ? string.replace(reRegExpChar, '\\$&')
+	        : string;
+	    }
+
+	    /**
+	     * Converts `string` to
+	     * [kebab case](https://en.wikipedia.org/wiki/Letter_case#Special_case_styles).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to convert.
+	     * @returns {string} Returns the kebab cased string.
+	     * @example
+	     *
+	     * _.kebabCase('Foo Bar');
+	     * // => 'foo-bar'
+	     *
+	     * _.kebabCase('fooBar');
+	     * // => 'foo-bar'
+	     *
+	     * _.kebabCase('__FOO_BAR__');
+	     * // => 'foo-bar'
+	     */
+	    var kebabCase = createCompounder(function(result, word, index) {
+	      return result + (index ? '-' : '') + word.toLowerCase();
+	    });
+
+	    /**
+	     * Converts `string`, as space separated words, to lower case.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to convert.
+	     * @returns {string} Returns the lower cased string.
+	     * @example
+	     *
+	     * _.lowerCase('--Foo-Bar--');
+	     * // => 'foo bar'
+	     *
+	     * _.lowerCase('fooBar');
+	     * // => 'foo bar'
+	     *
+	     * _.lowerCase('__FOO_BAR__');
+	     * // => 'foo bar'
+	     */
+	    var lowerCase = createCompounder(function(result, word, index) {
+	      return result + (index ? ' ' : '') + word.toLowerCase();
+	    });
+
+	    /**
+	     * Converts the first character of `string` to lower case.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to convert.
+	     * @returns {string} Returns the converted string.
+	     * @example
+	     *
+	     * _.lowerFirst('Fred');
+	     * // => 'fred'
+	     *
+	     * _.lowerFirst('FRED');
+	     * // => 'fRED'
+	     */
+	    var lowerFirst = createCaseFirst('toLowerCase');
+
+	    /**
+	     * Pads `string` on the left and right sides if it's shorter than `length`.
+	     * Padding characters are truncated if they can't be evenly divided by `length`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to pad.
+	     * @param {number} [length=0] The padding length.
+	     * @param {string} [chars=' '] The string used as padding.
+	     * @returns {string} Returns the padded string.
+	     * @example
+	     *
+	     * _.pad('abc', 8);
+	     * // => '  abc   '
+	     *
+	     * _.pad('abc', 8, '_-');
+	     * // => '_-abc_-_'
+	     *
+	     * _.pad('abc', 3);
+	     * // => 'abc'
+	     */
+	    function pad(string, length, chars) {
+	      string = toString(string);
+	      length = toInteger(length);
+
+	      var strLength = length ? stringSize(string) : 0;
+	      if (!length || strLength >= length) {
+	        return string;
+	      }
+	      var mid = (length - strLength) / 2;
+	      return (
+	        createPadding(nativeFloor(mid), chars) +
+	        string +
+	        createPadding(nativeCeil(mid), chars)
 	      );
 	    }
-	  }]);
 
-	  return Match;
-	}(_react.Component);
+	    /**
+	     * Pads `string` on the right side if it's shorter than `length`. Padding
+	     * characters are truncated if they exceed `length`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to pad.
+	     * @param {number} [length=0] The padding length.
+	     * @param {string} [chars=' '] The string used as padding.
+	     * @returns {string} Returns the padded string.
+	     * @example
+	     *
+	     * _.padEnd('abc', 6);
+	     * // => 'abc   '
+	     *
+	     * _.padEnd('abc', 6, '_-');
+	     * // => 'abc_-_'
+	     *
+	     * _.padEnd('abc', 3);
+	     * // => 'abc'
+	     */
+	    function padEnd(string, length, chars) {
+	      string = toString(string);
+	      length = toInteger(length);
 
-	// https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/47682701/ranked?api_key=a85d0753-6824-4725-a76f-23be84110e08
-	// https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/unclerodgers?api_key=a85d0753-6824-4725-a76f-23be84110e08
-	// https://na.api.pvp.net/api/lol/na/v2.4/team/by-summoner/42733402,21066307,67169698,59667857,70520692,65529523,52609925,52315500,49639860,64099838?api_key=a85d0753-6824-4725-a76f-23be84110e08
-	// https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/47682701?api_key=a85d0753-6824-4725-a76f-23be84110e08
+	      var strLength = length ? stringSize(string) : 0;
+	      return (length && strLength < length)
+	        ? (string + createPadding(length - strLength, chars))
+	        : string;
+	    }
 
-	exports.default = Match;
+	    /**
+	     * Pads `string` on the left side if it's shorter than `length`. Padding
+	     * characters are truncated if they exceed `length`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to pad.
+	     * @param {number} [length=0] The padding length.
+	     * @param {string} [chars=' '] The string used as padding.
+	     * @returns {string} Returns the padded string.
+	     * @example
+	     *
+	     * _.padStart('abc', 6);
+	     * // => '   abc'
+	     *
+	     * _.padStart('abc', 6, '_-');
+	     * // => '_-_abc'
+	     *
+	     * _.padStart('abc', 3);
+	     * // => 'abc'
+	     */
+	    function padStart(string, length, chars) {
+	      string = toString(string);
+	      length = toInteger(length);
+
+	      var strLength = length ? stringSize(string) : 0;
+	      return (length && strLength < length)
+	        ? (createPadding(length - strLength, chars) + string)
+	        : string;
+	    }
+
+	    /**
+	     * Converts `string` to an integer of the specified radix. If `radix` is
+	     * `undefined` or `0`, a `radix` of `10` is used unless `value` is a
+	     * hexadecimal, in which case a `radix` of `16` is used.
+	     *
+	     * **Note:** This method aligns with the
+	     * [ES5 implementation](https://es5.github.io/#x15.1.2.2) of `parseInt`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 1.1.0
+	     * @category String
+	     * @param {string} string The string to convert.
+	     * @param {number} [radix=10] The radix to interpret `value` by.
+	     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+	     * @returns {number} Returns the converted integer.
+	     * @example
+	     *
+	     * _.parseInt('08');
+	     * // => 8
+	     *
+	     * _.map(['6', '08', '10'], _.parseInt);
+	     * // => [6, 8, 10]
+	     */
+	    function parseInt(string, radix, guard) {
+	      // Chrome fails to trim leading <BOM> whitespace characters.
+	      // See https://bugs.chromium.org/p/v8/issues/detail?id=3109 for more details.
+	      if (guard || radix == null) {
+	        radix = 0;
+	      } else if (radix) {
+	        radix = +radix;
+	      }
+	      string = toString(string).replace(reTrim, '');
+	      return nativeParseInt(string, radix || (reHasHexPrefix.test(string) ? 16 : 10));
+	    }
+
+	    /**
+	     * Repeats the given string `n` times.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to repeat.
+	     * @param {number} [n=1] The number of times to repeat the string.
+	     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+	     * @returns {string} Returns the repeated string.
+	     * @example
+	     *
+	     * _.repeat('*', 3);
+	     * // => '***'
+	     *
+	     * _.repeat('abc', 2);
+	     * // => 'abcabc'
+	     *
+	     * _.repeat('abc', 0);
+	     * // => ''
+	     */
+	    function repeat(string, n, guard) {
+	      if ((guard ? isIterateeCall(string, n, guard) : n === undefined)) {
+	        n = 1;
+	      } else {
+	        n = toInteger(n);
+	      }
+	      return baseRepeat(toString(string), n);
+	    }
+
+	    /**
+	     * Replaces matches for `pattern` in `string` with `replacement`.
+	     *
+	     * **Note:** This method is based on
+	     * [`String#replace`](https://mdn.io/String/replace).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to modify.
+	     * @param {RegExp|string} pattern The pattern to replace.
+	     * @param {Function|string} replacement The match replacement.
+	     * @returns {string} Returns the modified string.
+	     * @example
+	     *
+	     * _.replace('Hi Fred', 'Fred', 'Barney');
+	     * // => 'Hi Barney'
+	     */
+	    function replace() {
+	      var args = arguments,
+	          string = toString(args[0]);
+
+	      return args.length < 3 ? string : string.replace(args[1], args[2]);
+	    }
+
+	    /**
+	     * Converts `string` to
+	     * [snake case](https://en.wikipedia.org/wiki/Snake_case).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to convert.
+	     * @returns {string} Returns the snake cased string.
+	     * @example
+	     *
+	     * _.snakeCase('Foo Bar');
+	     * // => 'foo_bar'
+	     *
+	     * _.snakeCase('fooBar');
+	     * // => 'foo_bar'
+	     *
+	     * _.snakeCase('--FOO-BAR--');
+	     * // => 'foo_bar'
+	     */
+	    var snakeCase = createCompounder(function(result, word, index) {
+	      return result + (index ? '_' : '') + word.toLowerCase();
+	    });
+
+	    /**
+	     * Splits `string` by `separator`.
+	     *
+	     * **Note:** This method is based on
+	     * [`String#split`](https://mdn.io/String/split).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to split.
+	     * @param {RegExp|string} separator The separator pattern to split by.
+	     * @param {number} [limit] The length to truncate results to.
+	     * @returns {Array} Returns the string segments.
+	     * @example
+	     *
+	     * _.split('a-b-c', '-', 2);
+	     * // => ['a', 'b']
+	     */
+	    function split(string, separator, limit) {
+	      if (limit && typeof limit != 'number' && isIterateeCall(string, separator, limit)) {
+	        separator = limit = undefined;
+	      }
+	      limit = limit === undefined ? MAX_ARRAY_LENGTH : limit >>> 0;
+	      if (!limit) {
+	        return [];
+	      }
+	      string = toString(string);
+	      if (string && (
+	            typeof separator == 'string' ||
+	            (separator != null && !isRegExp(separator))
+	          )) {
+	        separator = baseToString(separator);
+	        if (!separator && hasUnicode(string)) {
+	          return castSlice(stringToArray(string), 0, limit);
+	        }
+	      }
+	      return string.split(separator, limit);
+	    }
+
+	    /**
+	     * Converts `string` to
+	     * [start case](https://en.wikipedia.org/wiki/Letter_case#Stylistic_or_specialised_usage).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.1.0
+	     * @category String
+	     * @param {string} [string=''] The string to convert.
+	     * @returns {string} Returns the start cased string.
+	     * @example
+	     *
+	     * _.startCase('--foo-bar--');
+	     * // => 'Foo Bar'
+	     *
+	     * _.startCase('fooBar');
+	     * // => 'Foo Bar'
+	     *
+	     * _.startCase('__FOO_BAR__');
+	     * // => 'FOO BAR'
+	     */
+	    var startCase = createCompounder(function(result, word, index) {
+	      return result + (index ? ' ' : '') + upperFirst(word);
+	    });
+
+	    /**
+	     * Checks if `string` starts with the given target string.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to inspect.
+	     * @param {string} [target] The string to search for.
+	     * @param {number} [position=0] The position to search from.
+	     * @returns {boolean} Returns `true` if `string` starts with `target`,
+	     *  else `false`.
+	     * @example
+	     *
+	     * _.startsWith('abc', 'a');
+	     * // => true
+	     *
+	     * _.startsWith('abc', 'b');
+	     * // => false
+	     *
+	     * _.startsWith('abc', 'b', 1);
+	     * // => true
+	     */
+	    function startsWith(string, target, position) {
+	      string = toString(string);
+	      position = baseClamp(toInteger(position), 0, string.length);
+	      target = baseToString(target);
+	      return string.slice(position, position + target.length) == target;
+	    }
+
+	    /**
+	     * Creates a compiled template function that can interpolate data properties
+	     * in "interpolate" delimiters, HTML-escape interpolated data properties in
+	     * "escape" delimiters, and execute JavaScript in "evaluate" delimiters. Data
+	     * properties may be accessed as free variables in the template. If a setting
+	     * object is given, it takes precedence over `_.templateSettings` values.
+	     *
+	     * **Note:** In the development build `_.template` utilizes
+	     * [sourceURLs](http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/#toc-sourceurl)
+	     * for easier debugging.
+	     *
+	     * For more information on precompiling templates see
+	     * [lodash's custom builds documentation](https://lodash.com/custom-builds).
+	     *
+	     * For more information on Chrome extension sandboxes see
+	     * [Chrome's extensions documentation](https://developer.chrome.com/extensions/sandboxingEval).
+	     *
+	     * @static
+	     * @since 0.1.0
+	     * @memberOf _
+	     * @category String
+	     * @param {string} [string=''] The template string.
+	     * @param {Object} [options={}] The options object.
+	     * @param {RegExp} [options.escape=_.templateSettings.escape]
+	     *  The HTML "escape" delimiter.
+	     * @param {RegExp} [options.evaluate=_.templateSettings.evaluate]
+	     *  The "evaluate" delimiter.
+	     * @param {Object} [options.imports=_.templateSettings.imports]
+	     *  An object to import into the template as free variables.
+	     * @param {RegExp} [options.interpolate=_.templateSettings.interpolate]
+	     *  The "interpolate" delimiter.
+	     * @param {string} [options.sourceURL='lodash.templateSources[n]']
+	     *  The sourceURL of the compiled template.
+	     * @param {string} [options.variable='obj']
+	     *  The data object variable name.
+	     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+	     * @returns {Function} Returns the compiled template function.
+	     * @example
+	     *
+	     * // Use the "interpolate" delimiter to create a compiled template.
+	     * var compiled = _.template('hello <%= user %>!');
+	     * compiled({ 'user': 'fred' });
+	     * // => 'hello fred!'
+	     *
+	     * // Use the HTML "escape" delimiter to escape data property values.
+	     * var compiled = _.template('<b><%- value %></b>');
+	     * compiled({ 'value': '<script>' });
+	     * // => '<b>&lt;script&gt;</b>'
+	     *
+	     * // Use the "evaluate" delimiter to execute JavaScript and generate HTML.
+	     * var compiled = _.template('<% _.forEach(users, function(user) { %><li><%- user %></li><% }); %>');
+	     * compiled({ 'users': ['fred', 'barney'] });
+	     * // => '<li>fred</li><li>barney</li>'
+	     *
+	     * // Use the internal `print` function in "evaluate" delimiters.
+	     * var compiled = _.template('<% print("hello " + user); %>!');
+	     * compiled({ 'user': 'barney' });
+	     * // => 'hello barney!'
+	     *
+	     * // Use the ES delimiter as an alternative to the default "interpolate" delimiter.
+	     * var compiled = _.template('hello ${ user }!');
+	     * compiled({ 'user': 'pebbles' });
+	     * // => 'hello pebbles!'
+	     *
+	     * // Use backslashes to treat delimiters as plain text.
+	     * var compiled = _.template('<%= "\\<%- value %\\>" %>');
+	     * compiled({ 'value': 'ignored' });
+	     * // => '<%- value %>'
+	     *
+	     * // Use the `imports` option to import `jQuery` as `jq`.
+	     * var text = '<% jq.each(users, function(user) { %><li><%- user %></li><% }); %>';
+	     * var compiled = _.template(text, { 'imports': { 'jq': jQuery } });
+	     * compiled({ 'users': ['fred', 'barney'] });
+	     * // => '<li>fred</li><li>barney</li>'
+	     *
+	     * // Use the `sourceURL` option to specify a custom sourceURL for the template.
+	     * var compiled = _.template('hello <%= user %>!', { 'sourceURL': '/basic/greeting.jst' });
+	     * compiled(data);
+	     * // => Find the source of "greeting.jst" under the Sources tab or Resources panel of the web inspector.
+	     *
+	     * // Use the `variable` option to ensure a with-statement isn't used in the compiled template.
+	     * var compiled = _.template('hi <%= data.user %>!', { 'variable': 'data' });
+	     * compiled.source;
+	     * // => function(data) {
+	     * //   var __t, __p = '';
+	     * //   __p += 'hi ' + ((__t = ( data.user )) == null ? '' : __t) + '!';
+	     * //   return __p;
+	     * // }
+	     *
+	     * // Use custom template delimiters.
+	     * _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
+	     * var compiled = _.template('hello {{ user }}!');
+	     * compiled({ 'user': 'mustache' });
+	     * // => 'hello mustache!'
+	     *
+	     * // Use the `source` property to inline compiled templates for meaningful
+	     * // line numbers in error messages and stack traces.
+	     * fs.writeFileSync(path.join(process.cwd(), 'jst.js'), '\
+	     *   var JST = {\
+	     *     "main": ' + _.template(mainText).source + '\
+	     *   };\
+	     * ');
+	     */
+	    function template(string, options, guard) {
+	      // Based on John Resig's `tmpl` implementation
+	      // (http://ejohn.org/blog/javascript-micro-templating/)
+	      // and Laura Doktorova's doT.js (https://github.com/olado/doT).
+	      var settings = lodash.templateSettings;
+
+	      if (guard && isIterateeCall(string, options, guard)) {
+	        options = undefined;
+	      }
+	      string = toString(string);
+	      options = assignInWith({}, options, settings, assignInDefaults);
+
+	      var imports = assignInWith({}, options.imports, settings.imports, assignInDefaults),
+	          importsKeys = keys(imports),
+	          importsValues = baseValues(imports, importsKeys);
+
+	      var isEscaping,
+	          isEvaluating,
+	          index = 0,
+	          interpolate = options.interpolate || reNoMatch,
+	          source = "__p += '";
+
+	      // Compile the regexp to match each delimiter.
+	      var reDelimiters = RegExp(
+	        (options.escape || reNoMatch).source + '|' +
+	        interpolate.source + '|' +
+	        (interpolate === reInterpolate ? reEsTemplate : reNoMatch).source + '|' +
+	        (options.evaluate || reNoMatch).source + '|$'
+	      , 'g');
+
+	      // Use a sourceURL for easier debugging.
+	      var sourceURL = '//# sourceURL=' +
+	        ('sourceURL' in options
+	          ? options.sourceURL
+	          : ('lodash.templateSources[' + (++templateCounter) + ']')
+	        ) + '\n';
+
+	      string.replace(reDelimiters, function(match, escapeValue, interpolateValue, esTemplateValue, evaluateValue, offset) {
+	        interpolateValue || (interpolateValue = esTemplateValue);
+
+	        // Escape characters that can't be included in string literals.
+	        source += string.slice(index, offset).replace(reUnescapedString, escapeStringChar);
+
+	        // Replace delimiters with snippets.
+	        if (escapeValue) {
+	          isEscaping = true;
+	          source += "' +\n__e(" + escapeValue + ") +\n'";
+	        }
+	        if (evaluateValue) {
+	          isEvaluating = true;
+	          source += "';\n" + evaluateValue + ";\n__p += '";
+	        }
+	        if (interpolateValue) {
+	          source += "' +\n((__t = (" + interpolateValue + ")) == null ? '' : __t) +\n'";
+	        }
+	        index = offset + match.length;
+
+	        // The JS engine embedded in Adobe products needs `match` returned in
+	        // order to produce the correct `offset` value.
+	        return match;
+	      });
+
+	      source += "';\n";
+
+	      // If `variable` is not specified wrap a with-statement around the generated
+	      // code to add the data object to the top of the scope chain.
+	      var variable = options.variable;
+	      if (!variable) {
+	        source = 'with (obj) {\n' + source + '\n}\n';
+	      }
+	      // Cleanup code by stripping empty strings.
+	      source = (isEvaluating ? source.replace(reEmptyStringLeading, '') : source)
+	        .replace(reEmptyStringMiddle, '$1')
+	        .replace(reEmptyStringTrailing, '$1;');
+
+	      // Frame code as the function body.
+	      source = 'function(' + (variable || 'obj') + ') {\n' +
+	        (variable
+	          ? ''
+	          : 'obj || (obj = {});\n'
+	        ) +
+	        "var __t, __p = ''" +
+	        (isEscaping
+	           ? ', __e = _.escape'
+	           : ''
+	        ) +
+	        (isEvaluating
+	          ? ', __j = Array.prototype.join;\n' +
+	            "function print() { __p += __j.call(arguments, '') }\n"
+	          : ';\n'
+	        ) +
+	        source +
+	        'return __p\n}';
+
+	      var result = attempt(function() {
+	        return Function(importsKeys, sourceURL + 'return ' + source)
+	          .apply(undefined, importsValues);
+	      });
+
+	      // Provide the compiled function's source by its `toString` method or
+	      // the `source` property as a convenience for inlining compiled templates.
+	      result.source = source;
+	      if (isError(result)) {
+	        throw result;
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * Converts `string`, as a whole, to lower case just like
+	     * [String#toLowerCase](https://mdn.io/toLowerCase).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to convert.
+	     * @returns {string} Returns the lower cased string.
+	     * @example
+	     *
+	     * _.toLower('--Foo-Bar--');
+	     * // => '--foo-bar--'
+	     *
+	     * _.toLower('fooBar');
+	     * // => 'foobar'
+	     *
+	     * _.toLower('__FOO_BAR__');
+	     * // => '__foo_bar__'
+	     */
+	    function toLower(value) {
+	      return toString(value).toLowerCase();
+	    }
+
+	    /**
+	     * Converts `string`, as a whole, to upper case just like
+	     * [String#toUpperCase](https://mdn.io/toUpperCase).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to convert.
+	     * @returns {string} Returns the upper cased string.
+	     * @example
+	     *
+	     * _.toUpper('--foo-bar--');
+	     * // => '--FOO-BAR--'
+	     *
+	     * _.toUpper('fooBar');
+	     * // => 'FOOBAR'
+	     *
+	     * _.toUpper('__foo_bar__');
+	     * // => '__FOO_BAR__'
+	     */
+	    function toUpper(value) {
+	      return toString(value).toUpperCase();
+	    }
+
+	    /**
+	     * Removes leading and trailing whitespace or specified characters from `string`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to trim.
+	     * @param {string} [chars=whitespace] The characters to trim.
+	     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+	     * @returns {string} Returns the trimmed string.
+	     * @example
+	     *
+	     * _.trim('  abc  ');
+	     * // => 'abc'
+	     *
+	     * _.trim('-_-abc-_-', '_-');
+	     * // => 'abc'
+	     *
+	     * _.map(['  foo  ', '  bar  '], _.trim);
+	     * // => ['foo', 'bar']
+	     */
+	    function trim(string, chars, guard) {
+	      string = toString(string);
+	      if (string && (guard || chars === undefined)) {
+	        return string.replace(reTrim, '');
+	      }
+	      if (!string || !(chars = baseToString(chars))) {
+	        return string;
+	      }
+	      var strSymbols = stringToArray(string),
+	          chrSymbols = stringToArray(chars),
+	          start = charsStartIndex(strSymbols, chrSymbols),
+	          end = charsEndIndex(strSymbols, chrSymbols) + 1;
+
+	      return castSlice(strSymbols, start, end).join('');
+	    }
+
+	    /**
+	     * Removes trailing whitespace or specified characters from `string`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to trim.
+	     * @param {string} [chars=whitespace] The characters to trim.
+	     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+	     * @returns {string} Returns the trimmed string.
+	     * @example
+	     *
+	     * _.trimEnd('  abc  ');
+	     * // => '  abc'
+	     *
+	     * _.trimEnd('-_-abc-_-', '_-');
+	     * // => '-_-abc'
+	     */
+	    function trimEnd(string, chars, guard) {
+	      string = toString(string);
+	      if (string && (guard || chars === undefined)) {
+	        return string.replace(reTrimEnd, '');
+	      }
+	      if (!string || !(chars = baseToString(chars))) {
+	        return string;
+	      }
+	      var strSymbols = stringToArray(string),
+	          end = charsEndIndex(strSymbols, stringToArray(chars)) + 1;
+
+	      return castSlice(strSymbols, 0, end).join('');
+	    }
+
+	    /**
+	     * Removes leading whitespace or specified characters from `string`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to trim.
+	     * @param {string} [chars=whitespace] The characters to trim.
+	     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+	     * @returns {string} Returns the trimmed string.
+	     * @example
+	     *
+	     * _.trimStart('  abc  ');
+	     * // => 'abc  '
+	     *
+	     * _.trimStart('-_-abc-_-', '_-');
+	     * // => 'abc-_-'
+	     */
+	    function trimStart(string, chars, guard) {
+	      string = toString(string);
+	      if (string && (guard || chars === undefined)) {
+	        return string.replace(reTrimStart, '');
+	      }
+	      if (!string || !(chars = baseToString(chars))) {
+	        return string;
+	      }
+	      var strSymbols = stringToArray(string),
+	          start = charsStartIndex(strSymbols, stringToArray(chars));
+
+	      return castSlice(strSymbols, start).join('');
+	    }
+
+	    /**
+	     * Truncates `string` if it's longer than the given maximum string length.
+	     * The last characters of the truncated string are replaced with the omission
+	     * string which defaults to "...".
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to truncate.
+	     * @param {Object} [options={}] The options object.
+	     * @param {number} [options.length=30] The maximum string length.
+	     * @param {string} [options.omission='...'] The string to indicate text is omitted.
+	     * @param {RegExp|string} [options.separator] The separator pattern to truncate to.
+	     * @returns {string} Returns the truncated string.
+	     * @example
+	     *
+	     * _.truncate('hi-diddly-ho there, neighborino');
+	     * // => 'hi-diddly-ho there, neighbo...'
+	     *
+	     * _.truncate('hi-diddly-ho there, neighborino', {
+	     *   'length': 24,
+	     *   'separator': ' '
+	     * });
+	     * // => 'hi-diddly-ho there,...'
+	     *
+	     * _.truncate('hi-diddly-ho there, neighborino', {
+	     *   'length': 24,
+	     *   'separator': /,? +/
+	     * });
+	     * // => 'hi-diddly-ho there...'
+	     *
+	     * _.truncate('hi-diddly-ho there, neighborino', {
+	     *   'omission': ' [...]'
+	     * });
+	     * // => 'hi-diddly-ho there, neig [...]'
+	     */
+	    function truncate(string, options) {
+	      var length = DEFAULT_TRUNC_LENGTH,
+	          omission = DEFAULT_TRUNC_OMISSION;
+
+	      if (isObject(options)) {
+	        var separator = 'separator' in options ? options.separator : separator;
+	        length = 'length' in options ? toInteger(options.length) : length;
+	        omission = 'omission' in options ? baseToString(options.omission) : omission;
+	      }
+	      string = toString(string);
+
+	      var strLength = string.length;
+	      if (hasUnicode(string)) {
+	        var strSymbols = stringToArray(string);
+	        strLength = strSymbols.length;
+	      }
+	      if (length >= strLength) {
+	        return string;
+	      }
+	      var end = length - stringSize(omission);
+	      if (end < 1) {
+	        return omission;
+	      }
+	      var result = strSymbols
+	        ? castSlice(strSymbols, 0, end).join('')
+	        : string.slice(0, end);
+
+	      if (separator === undefined) {
+	        return result + omission;
+	      }
+	      if (strSymbols) {
+	        end += (result.length - end);
+	      }
+	      if (isRegExp(separator)) {
+	        if (string.slice(end).search(separator)) {
+	          var match,
+	              substring = result;
+
+	          if (!separator.global) {
+	            separator = RegExp(separator.source, toString(reFlags.exec(separator)) + 'g');
+	          }
+	          separator.lastIndex = 0;
+	          while ((match = separator.exec(substring))) {
+	            var newEnd = match.index;
+	          }
+	          result = result.slice(0, newEnd === undefined ? end : newEnd);
+	        }
+	      } else if (string.indexOf(baseToString(separator), end) != end) {
+	        var index = result.lastIndexOf(separator);
+	        if (index > -1) {
+	          result = result.slice(0, index);
+	        }
+	      }
+	      return result + omission;
+	    }
+
+	    /**
+	     * The inverse of `_.escape`; this method converts the HTML entities
+	     * `&amp;`, `&lt;`, `&gt;`, `&quot;`, `&#39;`, and `&#96;` in `string` to
+	     * their corresponding characters.
+	     *
+	     * **Note:** No other HTML entities are unescaped. To unescape additional
+	     * HTML entities use a third-party library like [_he_](https://mths.be/he).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 0.6.0
+	     * @category String
+	     * @param {string} [string=''] The string to unescape.
+	     * @returns {string} Returns the unescaped string.
+	     * @example
+	     *
+	     * _.unescape('fred, barney, &amp; pebbles');
+	     * // => 'fred, barney, & pebbles'
+	     */
+	    function unescape(string) {
+	      string = toString(string);
+	      return (string && reHasEscapedHtml.test(string))
+	        ? string.replace(reEscapedHtml, unescapeHtmlChar)
+	        : string;
+	    }
+
+	    /**
+	     * Converts `string`, as space separated words, to upper case.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to convert.
+	     * @returns {string} Returns the upper cased string.
+	     * @example
+	     *
+	     * _.upperCase('--foo-bar');
+	     * // => 'FOO BAR'
+	     *
+	     * _.upperCase('fooBar');
+	     * // => 'FOO BAR'
+	     *
+	     * _.upperCase('__foo_bar__');
+	     * // => 'FOO BAR'
+	     */
+	    var upperCase = createCompounder(function(result, word, index) {
+	      return result + (index ? ' ' : '') + word.toUpperCase();
+	    });
+
+	    /**
+	     * Converts the first character of `string` to upper case.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to convert.
+	     * @returns {string} Returns the converted string.
+	     * @example
+	     *
+	     * _.upperFirst('fred');
+	     * // => 'Fred'
+	     *
+	     * _.upperFirst('FRED');
+	     * // => 'FRED'
+	     */
+	    var upperFirst = createCaseFirst('toUpperCase');
+
+	    /**
+	     * Splits `string` into an array of its words.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category String
+	     * @param {string} [string=''] The string to inspect.
+	     * @param {RegExp|string} [pattern] The pattern to match words.
+	     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+	     * @returns {Array} Returns the words of `string`.
+	     * @example
+	     *
+	     * _.words('fred, barney, & pebbles');
+	     * // => ['fred', 'barney', 'pebbles']
+	     *
+	     * _.words('fred, barney, & pebbles', /[^, ]+/g);
+	     * // => ['fred', 'barney', '&', 'pebbles']
+	     */
+	    function words(string, pattern, guard) {
+	      string = toString(string);
+	      pattern = guard ? undefined : pattern;
+
+	      if (pattern === undefined) {
+	        return hasUnicodeWord(string) ? unicodeWords(string) : asciiWords(string);
+	      }
+	      return string.match(pattern) || [];
+	    }
+
+	    /*------------------------------------------------------------------------*/
+
+	    /**
+	     * Attempts to invoke `func`, returning either the result or the caught error
+	     * object. Any additional arguments are provided to `func` when it's invoked.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Util
+	     * @param {Function} func The function to attempt.
+	     * @param {...*} [args] The arguments to invoke `func` with.
+	     * @returns {*} Returns the `func` result or error object.
+	     * @example
+	     *
+	     * // Avoid throwing errors for invalid selectors.
+	     * var elements = _.attempt(function(selector) {
+	     *   return document.querySelectorAll(selector);
+	     * }, '>_>');
+	     *
+	     * if (_.isError(elements)) {
+	     *   elements = [];
+	     * }
+	     */
+	    var attempt = baseRest(function(func, args) {
+	      try {
+	        return apply(func, undefined, args);
+	      } catch (e) {
+	        return isError(e) ? e : new Error(e);
+	      }
+	    });
+
+	    /**
+	     * Binds methods of an object to the object itself, overwriting the existing
+	     * method.
+	     *
+	     * **Note:** This method doesn't set the "length" property of bound functions.
+	     *
+	     * @static
+	     * @since 0.1.0
+	     * @memberOf _
+	     * @category Util
+	     * @param {Object} object The object to bind and assign the bound methods to.
+	     * @param {...(string|string[])} methodNames The object method names to bind.
+	     * @returns {Object} Returns `object`.
+	     * @example
+	     *
+	     * var view = {
+	     *   'label': 'docs',
+	     *   'click': function() {
+	     *     console.log('clicked ' + this.label);
+	     *   }
+	     * };
+	     *
+	     * _.bindAll(view, ['click']);
+	     * jQuery(element).on('click', view.click);
+	     * // => Logs 'clicked docs' when clicked.
+	     */
+	    var bindAll = baseRest(function(object, methodNames) {
+	      arrayEach(baseFlatten(methodNames, 1), function(key) {
+	        key = toKey(key);
+	        object[key] = bind(object[key], object);
+	      });
+	      return object;
+	    });
+
+	    /**
+	     * Creates a function that iterates over `pairs` and invokes the corresponding
+	     * function of the first predicate to return truthy. The predicate-function
+	     * pairs are invoked with the `this` binding and arguments of the created
+	     * function.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Util
+	     * @param {Array} pairs The predicate-function pairs.
+	     * @returns {Function} Returns the new composite function.
+	     * @example
+	     *
+	     * var func = _.cond([
+	     *   [_.matches({ 'a': 1 }),           _.constant('matches A')],
+	     *   [_.conforms({ 'b': _.isNumber }), _.constant('matches B')],
+	     *   [_.stubTrue,                      _.constant('no match')]
+	     * ]);
+	     *
+	     * func({ 'a': 1, 'b': 2 });
+	     * // => 'matches A'
+	     *
+	     * func({ 'a': 0, 'b': 1 });
+	     * // => 'matches B'
+	     *
+	     * func({ 'a': '1', 'b': '2' });
+	     * // => 'no match'
+	     */
+	    function cond(pairs) {
+	      var length = pairs ? pairs.length : 0,
+	          toIteratee = getIteratee();
+
+	      pairs = !length ? [] : arrayMap(pairs, function(pair) {
+	        if (typeof pair[1] != 'function') {
+	          throw new TypeError(FUNC_ERROR_TEXT);
+	        }
+	        return [toIteratee(pair[0]), pair[1]];
+	      });
+
+	      return baseRest(function(args) {
+	        var index = -1;
+	        while (++index < length) {
+	          var pair = pairs[index];
+	          if (apply(pair[0], this, args)) {
+	            return apply(pair[1], this, args);
+	          }
+	        }
+	      });
+	    }
+
+	    /**
+	     * Creates a function that invokes the predicate properties of `source` with
+	     * the corresponding property values of a given object, returning `true` if
+	     * all predicates return truthy, else `false`.
+	     *
+	     * **Note:** The created function is equivalent to `_.conformsTo` with
+	     * `source` partially applied.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Util
+	     * @param {Object} source The object of property predicates to conform to.
+	     * @returns {Function} Returns the new spec function.
+	     * @example
+	     *
+	     * var objects = [
+	     *   { 'a': 2, 'b': 1 },
+	     *   { 'a': 1, 'b': 2 }
+	     * ];
+	     *
+	     * _.filter(objects, _.conforms({ 'b': function(n) { return n > 1; } }));
+	     * // => [{ 'a': 1, 'b': 2 }]
+	     */
+	    function conforms(source) {
+	      return baseConforms(baseClone(source, true));
+	    }
+
+	    /**
+	     * Creates a function that returns `value`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 2.4.0
+	     * @category Util
+	     * @param {*} value The value to return from the new function.
+	     * @returns {Function} Returns the new constant function.
+	     * @example
+	     *
+	     * var objects = _.times(2, _.constant({ 'a': 1 }));
+	     *
+	     * console.log(objects);
+	     * // => [{ 'a': 1 }, { 'a': 1 }]
+	     *
+	     * console.log(objects[0] === objects[1]);
+	     * // => true
+	     */
+	    function constant(value) {
+	      return function() {
+	        return value;
+	      };
+	    }
+
+	    /**
+	     * Checks `value` to determine whether a default value should be returned in
+	     * its place. The `defaultValue` is returned if `value` is `NaN`, `null`,
+	     * or `undefined`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.14.0
+	     * @category Util
+	     * @param {*} value The value to check.
+	     * @param {*} defaultValue The default value.
+	     * @returns {*} Returns the resolved value.
+	     * @example
+	     *
+	     * _.defaultTo(1, 10);
+	     * // => 1
+	     *
+	     * _.defaultTo(undefined, 10);
+	     * // => 10
+	     */
+	    function defaultTo(value, defaultValue) {
+	      return (value == null || value !== value) ? defaultValue : value;
+	    }
+
+	    /**
+	     * Creates a function that returns the result of invoking the given functions
+	     * with the `this` binding of the created function, where each successive
+	     * invocation is supplied the return value of the previous.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Util
+	     * @param {...(Function|Function[])} [funcs] The functions to invoke.
+	     * @returns {Function} Returns the new composite function.
+	     * @see _.flowRight
+	     * @example
+	     *
+	     * function square(n) {
+	     *   return n * n;
+	     * }
+	     *
+	     * var addSquare = _.flow([_.add, square]);
+	     * addSquare(1, 2);
+	     * // => 9
+	     */
+	    var flow = createFlow();
+
+	    /**
+	     * This method is like `_.flow` except that it creates a function that
+	     * invokes the given functions from right to left.
+	     *
+	     * @static
+	     * @since 3.0.0
+	     * @memberOf _
+	     * @category Util
+	     * @param {...(Function|Function[])} [funcs] The functions to invoke.
+	     * @returns {Function} Returns the new composite function.
+	     * @see _.flow
+	     * @example
+	     *
+	     * function square(n) {
+	     *   return n * n;
+	     * }
+	     *
+	     * var addSquare = _.flowRight([square, _.add]);
+	     * addSquare(1, 2);
+	     * // => 9
+	     */
+	    var flowRight = createFlow(true);
+
+	    /**
+	     * This method returns the first argument it receives.
+	     *
+	     * @static
+	     * @since 0.1.0
+	     * @memberOf _
+	     * @category Util
+	     * @param {*} value Any value.
+	     * @returns {*} Returns `value`.
+	     * @example
+	     *
+	     * var object = { 'a': 1 };
+	     *
+	     * console.log(_.identity(object) === object);
+	     * // => true
+	     */
+	    function identity(value) {
+	      return value;
+	    }
+
+	    /**
+	     * Creates a function that invokes `func` with the arguments of the created
+	     * function. If `func` is a property name, the created function returns the
+	     * property value for a given element. If `func` is an array or object, the
+	     * created function returns `true` for elements that contain the equivalent
+	     * source properties, otherwise it returns `false`.
+	     *
+	     * @static
+	     * @since 4.0.0
+	     * @memberOf _
+	     * @category Util
+	     * @param {*} [func=_.identity] The value to convert to a callback.
+	     * @returns {Function} Returns the callback.
+	     * @example
+	     *
+	     * var users = [
+	     *   { 'user': 'barney', 'age': 36, 'active': true },
+	     *   { 'user': 'fred',   'age': 40, 'active': false }
+	     * ];
+	     *
+	     * // The `_.matches` iteratee shorthand.
+	     * _.filter(users, _.iteratee({ 'user': 'barney', 'active': true }));
+	     * // => [{ 'user': 'barney', 'age': 36, 'active': true }]
+	     *
+	     * // The `_.matchesProperty` iteratee shorthand.
+	     * _.filter(users, _.iteratee(['user', 'fred']));
+	     * // => [{ 'user': 'fred', 'age': 40 }]
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.map(users, _.iteratee('user'));
+	     * // => ['barney', 'fred']
+	     *
+	     * // Create custom iteratee shorthands.
+	     * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {
+	     *   return !_.isRegExp(func) ? iteratee(func) : function(string) {
+	     *     return func.test(string);
+	     *   };
+	     * });
+	     *
+	     * _.filter(['abc', 'def'], /ef/);
+	     * // => ['def']
+	     */
+	    function iteratee(func) {
+	      return baseIteratee(typeof func == 'function' ? func : baseClone(func, true));
+	    }
+
+	    /**
+	     * Creates a function that performs a partial deep comparison between a given
+	     * object and `source`, returning `true` if the given object has equivalent
+	     * property values, else `false`.
+	     *
+	     * **Note:** The created function is equivalent to `_.isMatch` with `source`
+	     * partially applied.
+	     *
+	     * Partial comparisons will match empty array and empty object `source`
+	     * values against any array or object value, respectively. See `_.isEqual`
+	     * for a list of supported value comparisons.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Util
+	     * @param {Object} source The object of property values to match.
+	     * @returns {Function} Returns the new spec function.
+	     * @example
+	     *
+	     * var objects = [
+	     *   { 'a': 1, 'b': 2, 'c': 3 },
+	     *   { 'a': 4, 'b': 5, 'c': 6 }
+	     * ];
+	     *
+	     * _.filter(objects, _.matches({ 'a': 4, 'c': 6 }));
+	     * // => [{ 'a': 4, 'b': 5, 'c': 6 }]
+	     */
+	    function matches(source) {
+	      return baseMatches(baseClone(source, true));
+	    }
+
+	    /**
+	     * Creates a function that performs a partial deep comparison between the
+	     * value at `path` of a given object to `srcValue`, returning `true` if the
+	     * object value is equivalent, else `false`.
+	     *
+	     * **Note:** Partial comparisons will match empty array and empty object
+	     * `srcValue` values against any array or object value, respectively. See
+	     * `_.isEqual` for a list of supported value comparisons.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.2.0
+	     * @category Util
+	     * @param {Array|string} path The path of the property to get.
+	     * @param {*} srcValue The value to match.
+	     * @returns {Function} Returns the new spec function.
+	     * @example
+	     *
+	     * var objects = [
+	     *   { 'a': 1, 'b': 2, 'c': 3 },
+	     *   { 'a': 4, 'b': 5, 'c': 6 }
+	     * ];
+	     *
+	     * _.find(objects, _.matchesProperty('a', 4));
+	     * // => { 'a': 4, 'b': 5, 'c': 6 }
+	     */
+	    function matchesProperty(path, srcValue) {
+	      return baseMatchesProperty(path, baseClone(srcValue, true));
+	    }
+
+	    /**
+	     * Creates a function that invokes the method at `path` of a given object.
+	     * Any additional arguments are provided to the invoked method.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.7.0
+	     * @category Util
+	     * @param {Array|string} path The path of the method to invoke.
+	     * @param {...*} [args] The arguments to invoke the method with.
+	     * @returns {Function} Returns the new invoker function.
+	     * @example
+	     *
+	     * var objects = [
+	     *   { 'a': { 'b': _.constant(2) } },
+	     *   { 'a': { 'b': _.constant(1) } }
+	     * ];
+	     *
+	     * _.map(objects, _.method('a.b'));
+	     * // => [2, 1]
+	     *
+	     * _.map(objects, _.method(['a', 'b']));
+	     * // => [2, 1]
+	     */
+	    var method = baseRest(function(path, args) {
+	      return function(object) {
+	        return baseInvoke(object, path, args);
+	      };
+	    });
+
+	    /**
+	     * The opposite of `_.method`; this method creates a function that invokes
+	     * the method at a given path of `object`. Any additional arguments are
+	     * provided to the invoked method.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.7.0
+	     * @category Util
+	     * @param {Object} object The object to query.
+	     * @param {...*} [args] The arguments to invoke the method with.
+	     * @returns {Function} Returns the new invoker function.
+	     * @example
+	     *
+	     * var array = _.times(3, _.constant),
+	     *     object = { 'a': array, 'b': array, 'c': array };
+	     *
+	     * _.map(['a[2]', 'c[0]'], _.methodOf(object));
+	     * // => [2, 0]
+	     *
+	     * _.map([['a', '2'], ['c', '0']], _.methodOf(object));
+	     * // => [2, 0]
+	     */
+	    var methodOf = baseRest(function(object, args) {
+	      return function(path) {
+	        return baseInvoke(object, path, args);
+	      };
+	    });
+
+	    /**
+	     * Adds all own enumerable string keyed function properties of a source
+	     * object to the destination object. If `object` is a function, then methods
+	     * are added to its prototype as well.
+	     *
+	     * **Note:** Use `_.runInContext` to create a pristine `lodash` function to
+	     * avoid conflicts caused by modifying the original.
+	     *
+	     * @static
+	     * @since 0.1.0
+	     * @memberOf _
+	     * @category Util
+	     * @param {Function|Object} [object=lodash] The destination object.
+	     * @param {Object} source The object of functions to add.
+	     * @param {Object} [options={}] The options object.
+	     * @param {boolean} [options.chain=true] Specify whether mixins are chainable.
+	     * @returns {Function|Object} Returns `object`.
+	     * @example
+	     *
+	     * function vowels(string) {
+	     *   return _.filter(string, function(v) {
+	     *     return /[aeiou]/i.test(v);
+	     *   });
+	     * }
+	     *
+	     * _.mixin({ 'vowels': vowels });
+	     * _.vowels('fred');
+	     * // => ['e']
+	     *
+	     * _('fred').vowels().value();
+	     * // => ['e']
+	     *
+	     * _.mixin({ 'vowels': vowels }, { 'chain': false });
+	     * _('fred').vowels();
+	     * // => ['e']
+	     */
+	    function mixin(object, source, options) {
+	      var props = keys(source),
+	          methodNames = baseFunctions(source, props);
+
+	      if (options == null &&
+	          !(isObject(source) && (methodNames.length || !props.length))) {
+	        options = source;
+	        source = object;
+	        object = this;
+	        methodNames = baseFunctions(source, keys(source));
+	      }
+	      var chain = !(isObject(options) && 'chain' in options) || !!options.chain,
+	          isFunc = isFunction(object);
+
+	      arrayEach(methodNames, function(methodName) {
+	        var func = source[methodName];
+	        object[methodName] = func;
+	        if (isFunc) {
+	          object.prototype[methodName] = function() {
+	            var chainAll = this.__chain__;
+	            if (chain || chainAll) {
+	              var result = object(this.__wrapped__),
+	                  actions = result.__actions__ = copyArray(this.__actions__);
+
+	              actions.push({ 'func': func, 'args': arguments, 'thisArg': object });
+	              result.__chain__ = chainAll;
+	              return result;
+	            }
+	            return func.apply(object, arrayPush([this.value()], arguments));
+	          };
+	        }
+	      });
+
+	      return object;
+	    }
+
+	    /**
+	     * Reverts the `_` variable to its previous value and returns a reference to
+	     * the `lodash` function.
+	     *
+	     * @static
+	     * @since 0.1.0
+	     * @memberOf _
+	     * @category Util
+	     * @returns {Function} Returns the `lodash` function.
+	     * @example
+	     *
+	     * var lodash = _.noConflict();
+	     */
+	    function noConflict() {
+	      if (root._ === this) {
+	        root._ = oldDash;
+	      }
+	      return this;
+	    }
+
+	    /**
+	     * This method returns `undefined`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 2.3.0
+	     * @category Util
+	     * @example
+	     *
+	     * _.times(2, _.noop);
+	     * // => [undefined, undefined]
+	     */
+	    function noop() {
+	      // No operation performed.
+	    }
+
+	    /**
+	     * Creates a function that gets the argument at index `n`. If `n` is negative,
+	     * the nth argument from the end is returned.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Util
+	     * @param {number} [n=0] The index of the argument to return.
+	     * @returns {Function} Returns the new pass-thru function.
+	     * @example
+	     *
+	     * var func = _.nthArg(1);
+	     * func('a', 'b', 'c', 'd');
+	     * // => 'b'
+	     *
+	     * var func = _.nthArg(-2);
+	     * func('a', 'b', 'c', 'd');
+	     * // => 'c'
+	     */
+	    function nthArg(n) {
+	      n = toInteger(n);
+	      return baseRest(function(args) {
+	        return baseNth(args, n);
+	      });
+	    }
+
+	    /**
+	     * Creates a function that invokes `iteratees` with the arguments it receives
+	     * and returns their results.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Util
+	     * @param {...(Function|Function[])} [iteratees=[_.identity]]
+	     *  The iteratees to invoke.
+	     * @returns {Function} Returns the new function.
+	     * @example
+	     *
+	     * var func = _.over([Math.max, Math.min]);
+	     *
+	     * func(1, 2, 3, 4);
+	     * // => [4, 1]
+	     */
+	    var over = createOver(arrayMap);
+
+	    /**
+	     * Creates a function that checks if **all** of the `predicates` return
+	     * truthy when invoked with the arguments it receives.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Util
+	     * @param {...(Function|Function[])} [predicates=[_.identity]]
+	     *  The predicates to check.
+	     * @returns {Function} Returns the new function.
+	     * @example
+	     *
+	     * var func = _.overEvery([Boolean, isFinite]);
+	     *
+	     * func('1');
+	     * // => true
+	     *
+	     * func(null);
+	     * // => false
+	     *
+	     * func(NaN);
+	     * // => false
+	     */
+	    var overEvery = createOver(arrayEvery);
+
+	    /**
+	     * Creates a function that checks if **any** of the `predicates` return
+	     * truthy when invoked with the arguments it receives.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Util
+	     * @param {...(Function|Function[])} [predicates=[_.identity]]
+	     *  The predicates to check.
+	     * @returns {Function} Returns the new function.
+	     * @example
+	     *
+	     * var func = _.overSome([Boolean, isFinite]);
+	     *
+	     * func('1');
+	     * // => true
+	     *
+	     * func(null);
+	     * // => true
+	     *
+	     * func(NaN);
+	     * // => false
+	     */
+	    var overSome = createOver(arraySome);
+
+	    /**
+	     * Creates a function that returns the value at `path` of a given object.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 2.4.0
+	     * @category Util
+	     * @param {Array|string} path The path of the property to get.
+	     * @returns {Function} Returns the new accessor function.
+	     * @example
+	     *
+	     * var objects = [
+	     *   { 'a': { 'b': 2 } },
+	     *   { 'a': { 'b': 1 } }
+	     * ];
+	     *
+	     * _.map(objects, _.property('a.b'));
+	     * // => [2, 1]
+	     *
+	     * _.map(_.sortBy(objects, _.property(['a', 'b'])), 'a.b');
+	     * // => [1, 2]
+	     */
+	    function property(path) {
+	      return isKey(path) ? baseProperty(toKey(path)) : basePropertyDeep(path);
+	    }
+
+	    /**
+	     * The opposite of `_.property`; this method creates a function that returns
+	     * the value at a given path of `object`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.0.0
+	     * @category Util
+	     * @param {Object} object The object to query.
+	     * @returns {Function} Returns the new accessor function.
+	     * @example
+	     *
+	     * var array = [0, 1, 2],
+	     *     object = { 'a': array, 'b': array, 'c': array };
+	     *
+	     * _.map(['a[2]', 'c[0]'], _.propertyOf(object));
+	     * // => [2, 0]
+	     *
+	     * _.map([['a', '2'], ['c', '0']], _.propertyOf(object));
+	     * // => [2, 0]
+	     */
+	    function propertyOf(object) {
+	      return function(path) {
+	        return object == null ? undefined : baseGet(object, path);
+	      };
+	    }
+
+	    /**
+	     * Creates an array of numbers (positive and/or negative) progressing from
+	     * `start` up to, but not including, `end`. A step of `-1` is used if a negative
+	     * `start` is specified without an `end` or `step`. If `end` is not specified,
+	     * it's set to `start` with `start` then set to `0`.
+	     *
+	     * **Note:** JavaScript follows the IEEE-754 standard for resolving
+	     * floating-point values which can produce unexpected results.
+	     *
+	     * @static
+	     * @since 0.1.0
+	     * @memberOf _
+	     * @category Util
+	     * @param {number} [start=0] The start of the range.
+	     * @param {number} end The end of the range.
+	     * @param {number} [step=1] The value to increment or decrement by.
+	     * @returns {Array} Returns the range of numbers.
+	     * @see _.inRange, _.rangeRight
+	     * @example
+	     *
+	     * _.range(4);
+	     * // => [0, 1, 2, 3]
+	     *
+	     * _.range(-4);
+	     * // => [0, -1, -2, -3]
+	     *
+	     * _.range(1, 5);
+	     * // => [1, 2, 3, 4]
+	     *
+	     * _.range(0, 20, 5);
+	     * // => [0, 5, 10, 15]
+	     *
+	     * _.range(0, -4, -1);
+	     * // => [0, -1, -2, -3]
+	     *
+	     * _.range(1, 4, 0);
+	     * // => [1, 1, 1]
+	     *
+	     * _.range(0);
+	     * // => []
+	     */
+	    var range = createRange();
+
+	    /**
+	     * This method is like `_.range` except that it populates values in
+	     * descending order.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Util
+	     * @param {number} [start=0] The start of the range.
+	     * @param {number} end The end of the range.
+	     * @param {number} [step=1] The value to increment or decrement by.
+	     * @returns {Array} Returns the range of numbers.
+	     * @see _.inRange, _.range
+	     * @example
+	     *
+	     * _.rangeRight(4);
+	     * // => [3, 2, 1, 0]
+	     *
+	     * _.rangeRight(-4);
+	     * // => [-3, -2, -1, 0]
+	     *
+	     * _.rangeRight(1, 5);
+	     * // => [4, 3, 2, 1]
+	     *
+	     * _.rangeRight(0, 20, 5);
+	     * // => [15, 10, 5, 0]
+	     *
+	     * _.rangeRight(0, -4, -1);
+	     * // => [-3, -2, -1, 0]
+	     *
+	     * _.rangeRight(1, 4, 0);
+	     * // => [1, 1, 1]
+	     *
+	     * _.rangeRight(0);
+	     * // => []
+	     */
+	    var rangeRight = createRange(true);
+
+	    /**
+	     * This method returns a new empty array.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.13.0
+	     * @category Util
+	     * @returns {Array} Returns the new empty array.
+	     * @example
+	     *
+	     * var arrays = _.times(2, _.stubArray);
+	     *
+	     * console.log(arrays);
+	     * // => [[], []]
+	     *
+	     * console.log(arrays[0] === arrays[1]);
+	     * // => false
+	     */
+	    function stubArray() {
+	      return [];
+	    }
+
+	    /**
+	     * This method returns `false`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.13.0
+	     * @category Util
+	     * @returns {boolean} Returns `false`.
+	     * @example
+	     *
+	     * _.times(2, _.stubFalse);
+	     * // => [false, false]
+	     */
+	    function stubFalse() {
+	      return false;
+	    }
+
+	    /**
+	     * This method returns a new empty object.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.13.0
+	     * @category Util
+	     * @returns {Object} Returns the new empty object.
+	     * @example
+	     *
+	     * var objects = _.times(2, _.stubObject);
+	     *
+	     * console.log(objects);
+	     * // => [{}, {}]
+	     *
+	     * console.log(objects[0] === objects[1]);
+	     * // => false
+	     */
+	    function stubObject() {
+	      return {};
+	    }
+
+	    /**
+	     * This method returns an empty string.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.13.0
+	     * @category Util
+	     * @returns {string} Returns the empty string.
+	     * @example
+	     *
+	     * _.times(2, _.stubString);
+	     * // => ['', '']
+	     */
+	    function stubString() {
+	      return '';
+	    }
+
+	    /**
+	     * This method returns `true`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.13.0
+	     * @category Util
+	     * @returns {boolean} Returns `true`.
+	     * @example
+	     *
+	     * _.times(2, _.stubTrue);
+	     * // => [true, true]
+	     */
+	    function stubTrue() {
+	      return true;
+	    }
+
+	    /**
+	     * Invokes the iteratee `n` times, returning an array of the results of
+	     * each invocation. The iteratee is invoked with one argument; (index).
+	     *
+	     * @static
+	     * @since 0.1.0
+	     * @memberOf _
+	     * @category Util
+	     * @param {number} n The number of times to invoke `iteratee`.
+	     * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+	     * @returns {Array} Returns the array of results.
+	     * @example
+	     *
+	     * _.times(3, String);
+	     * // => ['0', '1', '2']
+	     *
+	     *  _.times(4, _.constant(0));
+	     * // => [0, 0, 0, 0]
+	     */
+	    function times(n, iteratee) {
+	      n = toInteger(n);
+	      if (n < 1 || n > MAX_SAFE_INTEGER) {
+	        return [];
+	      }
+	      var index = MAX_ARRAY_LENGTH,
+	          length = nativeMin(n, MAX_ARRAY_LENGTH);
+
+	      iteratee = getIteratee(iteratee);
+	      n -= MAX_ARRAY_LENGTH;
+
+	      var result = baseTimes(length, iteratee);
+	      while (++index < n) {
+	        iteratee(index);
+	      }
+	      return result;
+	    }
+
+	    /**
+	     * Converts `value` to a property path array.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Util
+	     * @param {*} value The value to convert.
+	     * @returns {Array} Returns the new property path array.
+	     * @example
+	     *
+	     * _.toPath('a.b.c');
+	     * // => ['a', 'b', 'c']
+	     *
+	     * _.toPath('a[0].b.c');
+	     * // => ['a', '0', 'b', 'c']
+	     */
+	    function toPath(value) {
+	      if (isArray(value)) {
+	        return arrayMap(value, toKey);
+	      }
+	      return isSymbol(value) ? [value] : copyArray(stringToPath(value));
+	    }
+
+	    /**
+	     * Generates a unique ID. If `prefix` is given, the ID is appended to it.
+	     *
+	     * @static
+	     * @since 0.1.0
+	     * @memberOf _
+	     * @category Util
+	     * @param {string} [prefix=''] The value to prefix the ID with.
+	     * @returns {string} Returns the unique ID.
+	     * @example
+	     *
+	     * _.uniqueId('contact_');
+	     * // => 'contact_104'
+	     *
+	     * _.uniqueId();
+	     * // => '105'
+	     */
+	    function uniqueId(prefix) {
+	      var id = ++idCounter;
+	      return toString(prefix) + id;
+	    }
+
+	    /*------------------------------------------------------------------------*/
+
+	    /**
+	     * Adds two numbers.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.4.0
+	     * @category Math
+	     * @param {number} augend The first number in an addition.
+	     * @param {number} addend The second number in an addition.
+	     * @returns {number} Returns the total.
+	     * @example
+	     *
+	     * _.add(6, 4);
+	     * // => 10
+	     */
+	    var add = createMathOperation(function(augend, addend) {
+	      return augend + addend;
+	    }, 0);
+
+	    /**
+	     * Computes `number` rounded up to `precision`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.10.0
+	     * @category Math
+	     * @param {number} number The number to round up.
+	     * @param {number} [precision=0] The precision to round up to.
+	     * @returns {number} Returns the rounded up number.
+	     * @example
+	     *
+	     * _.ceil(4.006);
+	     * // => 5
+	     *
+	     * _.ceil(6.004, 2);
+	     * // => 6.01
+	     *
+	     * _.ceil(6040, -2);
+	     * // => 6100
+	     */
+	    var ceil = createRound('ceil');
+
+	    /**
+	     * Divide two numbers.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.7.0
+	     * @category Math
+	     * @param {number} dividend The first number in a division.
+	     * @param {number} divisor The second number in a division.
+	     * @returns {number} Returns the quotient.
+	     * @example
+	     *
+	     * _.divide(6, 4);
+	     * // => 1.5
+	     */
+	    var divide = createMathOperation(function(dividend, divisor) {
+	      return dividend / divisor;
+	    }, 1);
+
+	    /**
+	     * Computes `number` rounded down to `precision`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.10.0
+	     * @category Math
+	     * @param {number} number The number to round down.
+	     * @param {number} [precision=0] The precision to round down to.
+	     * @returns {number} Returns the rounded down number.
+	     * @example
+	     *
+	     * _.floor(4.006);
+	     * // => 4
+	     *
+	     * _.floor(0.046, 2);
+	     * // => 0.04
+	     *
+	     * _.floor(4060, -2);
+	     * // => 4000
+	     */
+	    var floor = createRound('floor');
+
+	    /**
+	     * Computes the maximum value of `array`. If `array` is empty or falsey,
+	     * `undefined` is returned.
+	     *
+	     * @static
+	     * @since 0.1.0
+	     * @memberOf _
+	     * @category Math
+	     * @param {Array} array The array to iterate over.
+	     * @returns {*} Returns the maximum value.
+	     * @example
+	     *
+	     * _.max([4, 2, 8, 6]);
+	     * // => 8
+	     *
+	     * _.max([]);
+	     * // => undefined
+	     */
+	    function max(array) {
+	      return (array && array.length)
+	        ? baseExtremum(array, identity, baseGt)
+	        : undefined;
+	    }
+
+	    /**
+	     * This method is like `_.max` except that it accepts `iteratee` which is
+	     * invoked for each element in `array` to generate the criterion by which
+	     * the value is ranked. The iteratee is invoked with one argument: (value).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Math
+	     * @param {Array} array The array to iterate over.
+	     * @param {Function} [iteratee=_.identity] The iteratee invoked per element.
+	     * @returns {*} Returns the maximum value.
+	     * @example
+	     *
+	     * var objects = [{ 'n': 1 }, { 'n': 2 }];
+	     *
+	     * _.maxBy(objects, function(o) { return o.n; });
+	     * // => { 'n': 2 }
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.maxBy(objects, 'n');
+	     * // => { 'n': 2 }
+	     */
+	    function maxBy(array, iteratee) {
+	      return (array && array.length)
+	        ? baseExtremum(array, getIteratee(iteratee, 2), baseGt)
+	        : undefined;
+	    }
+
+	    /**
+	     * Computes the mean of the values in `array`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Math
+	     * @param {Array} array The array to iterate over.
+	     * @returns {number} Returns the mean.
+	     * @example
+	     *
+	     * _.mean([4, 2, 8, 6]);
+	     * // => 5
+	     */
+	    function mean(array) {
+	      return baseMean(array, identity);
+	    }
+
+	    /**
+	     * This method is like `_.mean` except that it accepts `iteratee` which is
+	     * invoked for each element in `array` to generate the value to be averaged.
+	     * The iteratee is invoked with one argument: (value).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.7.0
+	     * @category Math
+	     * @param {Array} array The array to iterate over.
+	     * @param {Function} [iteratee=_.identity] The iteratee invoked per element.
+	     * @returns {number} Returns the mean.
+	     * @example
+	     *
+	     * var objects = [{ 'n': 4 }, { 'n': 2 }, { 'n': 8 }, { 'n': 6 }];
+	     *
+	     * _.meanBy(objects, function(o) { return o.n; });
+	     * // => 5
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.meanBy(objects, 'n');
+	     * // => 5
+	     */
+	    function meanBy(array, iteratee) {
+	      return baseMean(array, getIteratee(iteratee, 2));
+	    }
+
+	    /**
+	     * Computes the minimum value of `array`. If `array` is empty or falsey,
+	     * `undefined` is returned.
+	     *
+	     * @static
+	     * @since 0.1.0
+	     * @memberOf _
+	     * @category Math
+	     * @param {Array} array The array to iterate over.
+	     * @returns {*} Returns the minimum value.
+	     * @example
+	     *
+	     * _.min([4, 2, 8, 6]);
+	     * // => 2
+	     *
+	     * _.min([]);
+	     * // => undefined
+	     */
+	    function min(array) {
+	      return (array && array.length)
+	        ? baseExtremum(array, identity, baseLt)
+	        : undefined;
+	    }
+
+	    /**
+	     * This method is like `_.min` except that it accepts `iteratee` which is
+	     * invoked for each element in `array` to generate the criterion by which
+	     * the value is ranked. The iteratee is invoked with one argument: (value).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Math
+	     * @param {Array} array The array to iterate over.
+	     * @param {Function} [iteratee=_.identity] The iteratee invoked per element.
+	     * @returns {*} Returns the minimum value.
+	     * @example
+	     *
+	     * var objects = [{ 'n': 1 }, { 'n': 2 }];
+	     *
+	     * _.minBy(objects, function(o) { return o.n; });
+	     * // => { 'n': 1 }
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.minBy(objects, 'n');
+	     * // => { 'n': 1 }
+	     */
+	    function minBy(array, iteratee) {
+	      return (array && array.length)
+	        ? baseExtremum(array, getIteratee(iteratee, 2), baseLt)
+	        : undefined;
+	    }
+
+	    /**
+	     * Multiply two numbers.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.7.0
+	     * @category Math
+	     * @param {number} multiplier The first number in a multiplication.
+	     * @param {number} multiplicand The second number in a multiplication.
+	     * @returns {number} Returns the product.
+	     * @example
+	     *
+	     * _.multiply(6, 4);
+	     * // => 24
+	     */
+	    var multiply = createMathOperation(function(multiplier, multiplicand) {
+	      return multiplier * multiplicand;
+	    }, 1);
+
+	    /**
+	     * Computes `number` rounded to `precision`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.10.0
+	     * @category Math
+	     * @param {number} number The number to round.
+	     * @param {number} [precision=0] The precision to round to.
+	     * @returns {number} Returns the rounded number.
+	     * @example
+	     *
+	     * _.round(4.006);
+	     * // => 4
+	     *
+	     * _.round(4.006, 2);
+	     * // => 4.01
+	     *
+	     * _.round(4060, -2);
+	     * // => 4100
+	     */
+	    var round = createRound('round');
+
+	    /**
+	     * Subtract two numbers.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Math
+	     * @param {number} minuend The first number in a subtraction.
+	     * @param {number} subtrahend The second number in a subtraction.
+	     * @returns {number} Returns the difference.
+	     * @example
+	     *
+	     * _.subtract(6, 4);
+	     * // => 2
+	     */
+	    var subtract = createMathOperation(function(minuend, subtrahend) {
+	      return minuend - subtrahend;
+	    }, 0);
+
+	    /**
+	     * Computes the sum of the values in `array`.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 3.4.0
+	     * @category Math
+	     * @param {Array} array The array to iterate over.
+	     * @returns {number} Returns the sum.
+	     * @example
+	     *
+	     * _.sum([4, 2, 8, 6]);
+	     * // => 20
+	     */
+	    function sum(array) {
+	      return (array && array.length)
+	        ? baseSum(array, identity)
+	        : 0;
+	    }
+
+	    /**
+	     * This method is like `_.sum` except that it accepts `iteratee` which is
+	     * invoked for each element in `array` to generate the value to be summed.
+	     * The iteratee is invoked with one argument: (value).
+	     *
+	     * @static
+	     * @memberOf _
+	     * @since 4.0.0
+	     * @category Math
+	     * @param {Array} array The array to iterate over.
+	     * @param {Function} [iteratee=_.identity] The iteratee invoked per element.
+	     * @returns {number} Returns the sum.
+	     * @example
+	     *
+	     * var objects = [{ 'n': 4 }, { 'n': 2 }, { 'n': 8 }, { 'n': 6 }];
+	     *
+	     * _.sumBy(objects, function(o) { return o.n; });
+	     * // => 20
+	     *
+	     * // The `_.property` iteratee shorthand.
+	     * _.sumBy(objects, 'n');
+	     * // => 20
+	     */
+	    function sumBy(array, iteratee) {
+	      return (array && array.length)
+	        ? baseSum(array, getIteratee(iteratee, 2))
+	        : 0;
+	    }
+
+	    /*------------------------------------------------------------------------*/
+
+	    // Add methods that return wrapped values in chain sequences.
+	    lodash.after = after;
+	    lodash.ary = ary;
+	    lodash.assign = assign;
+	    lodash.assignIn = assignIn;
+	    lodash.assignInWith = assignInWith;
+	    lodash.assignWith = assignWith;
+	    lodash.at = at;
+	    lodash.before = before;
+	    lodash.bind = bind;
+	    lodash.bindAll = bindAll;
+	    lodash.bindKey = bindKey;
+	    lodash.castArray = castArray;
+	    lodash.chain = chain;
+	    lodash.chunk = chunk;
+	    lodash.compact = compact;
+	    lodash.concat = concat;
+	    lodash.cond = cond;
+	    lodash.conforms = conforms;
+	    lodash.constant = constant;
+	    lodash.countBy = countBy;
+	    lodash.create = create;
+	    lodash.curry = curry;
+	    lodash.curryRight = curryRight;
+	    lodash.debounce = debounce;
+	    lodash.defaults = defaults;
+	    lodash.defaultsDeep = defaultsDeep;
+	    lodash.defer = defer;
+	    lodash.delay = delay;
+	    lodash.difference = difference;
+	    lodash.differenceBy = differenceBy;
+	    lodash.differenceWith = differenceWith;
+	    lodash.drop = drop;
+	    lodash.dropRight = dropRight;
+	    lodash.dropRightWhile = dropRightWhile;
+	    lodash.dropWhile = dropWhile;
+	    lodash.fill = fill;
+	    lodash.filter = filter;
+	    lodash.flatMap = flatMap;
+	    lodash.flatMapDeep = flatMapDeep;
+	    lodash.flatMapDepth = flatMapDepth;
+	    lodash.flatten = flatten;
+	    lodash.flattenDeep = flattenDeep;
+	    lodash.flattenDepth = flattenDepth;
+	    lodash.flip = flip;
+	    lodash.flow = flow;
+	    lodash.flowRight = flowRight;
+	    lodash.fromPairs = fromPairs;
+	    lodash.functions = functions;
+	    lodash.functionsIn = functionsIn;
+	    lodash.groupBy = groupBy;
+	    lodash.initial = initial;
+	    lodash.intersection = intersection;
+	    lodash.intersectionBy = intersectionBy;
+	    lodash.intersectionWith = intersectionWith;
+	    lodash.invert = invert;
+	    lodash.invertBy = invertBy;
+	    lodash.invokeMap = invokeMap;
+	    lodash.iteratee = iteratee;
+	    lodash.keyBy = keyBy;
+	    lodash.keys = keys;
+	    lodash.keysIn = keysIn;
+	    lodash.map = map;
+	    lodash.mapKeys = mapKeys;
+	    lodash.mapValues = mapValues;
+	    lodash.matches = matches;
+	    lodash.matchesProperty = matchesProperty;
+	    lodash.memoize = memoize;
+	    lodash.merge = merge;
+	    lodash.mergeWith = mergeWith;
+	    lodash.method = method;
+	    lodash.methodOf = methodOf;
+	    lodash.mixin = mixin;
+	    lodash.negate = negate;
+	    lodash.nthArg = nthArg;
+	    lodash.omit = omit;
+	    lodash.omitBy = omitBy;
+	    lodash.once = once;
+	    lodash.orderBy = orderBy;
+	    lodash.over = over;
+	    lodash.overArgs = overArgs;
+	    lodash.overEvery = overEvery;
+	    lodash.overSome = overSome;
+	    lodash.partial = partial;
+	    lodash.partialRight = partialRight;
+	    lodash.partition = partition;
+	    lodash.pick = pick;
+	    lodash.pickBy = pickBy;
+	    lodash.property = property;
+	    lodash.propertyOf = propertyOf;
+	    lodash.pull = pull;
+	    lodash.pullAll = pullAll;
+	    lodash.pullAllBy = pullAllBy;
+	    lodash.pullAllWith = pullAllWith;
+	    lodash.pullAt = pullAt;
+	    lodash.range = range;
+	    lodash.rangeRight = rangeRight;
+	    lodash.rearg = rearg;
+	    lodash.reject = reject;
+	    lodash.remove = remove;
+	    lodash.rest = rest;
+	    lodash.reverse = reverse;
+	    lodash.sampleSize = sampleSize;
+	    lodash.set = set;
+	    lodash.setWith = setWith;
+	    lodash.shuffle = shuffle;
+	    lodash.slice = slice;
+	    lodash.sortBy = sortBy;
+	    lodash.sortedUniq = sortedUniq;
+	    lodash.sortedUniqBy = sortedUniqBy;
+	    lodash.split = split;
+	    lodash.spread = spread;
+	    lodash.tail = tail;
+	    lodash.take = take;
+	    lodash.takeRight = takeRight;
+	    lodash.takeRightWhile = takeRightWhile;
+	    lodash.takeWhile = takeWhile;
+	    lodash.tap = tap;
+	    lodash.throttle = throttle;
+	    lodash.thru = thru;
+	    lodash.toArray = toArray;
+	    lodash.toPairs = toPairs;
+	    lodash.toPairsIn = toPairsIn;
+	    lodash.toPath = toPath;
+	    lodash.toPlainObject = toPlainObject;
+	    lodash.transform = transform;
+	    lodash.unary = unary;
+	    lodash.union = union;
+	    lodash.unionBy = unionBy;
+	    lodash.unionWith = unionWith;
+	    lodash.uniq = uniq;
+	    lodash.uniqBy = uniqBy;
+	    lodash.uniqWith = uniqWith;
+	    lodash.unset = unset;
+	    lodash.unzip = unzip;
+	    lodash.unzipWith = unzipWith;
+	    lodash.update = update;
+	    lodash.updateWith = updateWith;
+	    lodash.values = values;
+	    lodash.valuesIn = valuesIn;
+	    lodash.without = without;
+	    lodash.words = words;
+	    lodash.wrap = wrap;
+	    lodash.xor = xor;
+	    lodash.xorBy = xorBy;
+	    lodash.xorWith = xorWith;
+	    lodash.zip = zip;
+	    lodash.zipObject = zipObject;
+	    lodash.zipObjectDeep = zipObjectDeep;
+	    lodash.zipWith = zipWith;
+
+	    // Add aliases.
+	    lodash.entries = toPairs;
+	    lodash.entriesIn = toPairsIn;
+	    lodash.extend = assignIn;
+	    lodash.extendWith = assignInWith;
+
+	    // Add methods to `lodash.prototype`.
+	    mixin(lodash, lodash);
+
+	    /*------------------------------------------------------------------------*/
+
+	    // Add methods that return unwrapped values in chain sequences.
+	    lodash.add = add;
+	    lodash.attempt = attempt;
+	    lodash.camelCase = camelCase;
+	    lodash.capitalize = capitalize;
+	    lodash.ceil = ceil;
+	    lodash.clamp = clamp;
+	    lodash.clone = clone;
+	    lodash.cloneDeep = cloneDeep;
+	    lodash.cloneDeepWith = cloneDeepWith;
+	    lodash.cloneWith = cloneWith;
+	    lodash.conformsTo = conformsTo;
+	    lodash.deburr = deburr;
+	    lodash.defaultTo = defaultTo;
+	    lodash.divide = divide;
+	    lodash.endsWith = endsWith;
+	    lodash.eq = eq;
+	    lodash.escape = escape;
+	    lodash.escapeRegExp = escapeRegExp;
+	    lodash.every = every;
+	    lodash.find = find;
+	    lodash.findIndex = findIndex;
+	    lodash.findKey = findKey;
+	    lodash.findLast = findLast;
+	    lodash.findLastIndex = findLastIndex;
+	    lodash.findLastKey = findLastKey;
+	    lodash.floor = floor;
+	    lodash.forEach = forEach;
+	    lodash.forEachRight = forEachRight;
+	    lodash.forIn = forIn;
+	    lodash.forInRight = forInRight;
+	    lodash.forOwn = forOwn;
+	    lodash.forOwnRight = forOwnRight;
+	    lodash.get = get;
+	    lodash.gt = gt;
+	    lodash.gte = gte;
+	    lodash.has = has;
+	    lodash.hasIn = hasIn;
+	    lodash.head = head;
+	    lodash.identity = identity;
+	    lodash.includes = includes;
+	    lodash.indexOf = indexOf;
+	    lodash.inRange = inRange;
+	    lodash.invoke = invoke;
+	    lodash.isArguments = isArguments;
+	    lodash.isArray = isArray;
+	    lodash.isArrayBuffer = isArrayBuffer;
+	    lodash.isArrayLike = isArrayLike;
+	    lodash.isArrayLikeObject = isArrayLikeObject;
+	    lodash.isBoolean = isBoolean;
+	    lodash.isBuffer = isBuffer;
+	    lodash.isDate = isDate;
+	    lodash.isElement = isElement;
+	    lodash.isEmpty = isEmpty;
+	    lodash.isEqual = isEqual;
+	    lodash.isEqualWith = isEqualWith;
+	    lodash.isError = isError;
+	    lodash.isFinite = isFinite;
+	    lodash.isFunction = isFunction;
+	    lodash.isInteger = isInteger;
+	    lodash.isLength = isLength;
+	    lodash.isMap = isMap;
+	    lodash.isMatch = isMatch;
+	    lodash.isMatchWith = isMatchWith;
+	    lodash.isNaN = isNaN;
+	    lodash.isNative = isNative;
+	    lodash.isNil = isNil;
+	    lodash.isNull = isNull;
+	    lodash.isNumber = isNumber;
+	    lodash.isObject = isObject;
+	    lodash.isObjectLike = isObjectLike;
+	    lodash.isPlainObject = isPlainObject;
+	    lodash.isRegExp = isRegExp;
+	    lodash.isSafeInteger = isSafeInteger;
+	    lodash.isSet = isSet;
+	    lodash.isString = isString;
+	    lodash.isSymbol = isSymbol;
+	    lodash.isTypedArray = isTypedArray;
+	    lodash.isUndefined = isUndefined;
+	    lodash.isWeakMap = isWeakMap;
+	    lodash.isWeakSet = isWeakSet;
+	    lodash.join = join;
+	    lodash.kebabCase = kebabCase;
+	    lodash.last = last;
+	    lodash.lastIndexOf = lastIndexOf;
+	    lodash.lowerCase = lowerCase;
+	    lodash.lowerFirst = lowerFirst;
+	    lodash.lt = lt;
+	    lodash.lte = lte;
+	    lodash.max = max;
+	    lodash.maxBy = maxBy;
+	    lodash.mean = mean;
+	    lodash.meanBy = meanBy;
+	    lodash.min = min;
+	    lodash.minBy = minBy;
+	    lodash.stubArray = stubArray;
+	    lodash.stubFalse = stubFalse;
+	    lodash.stubObject = stubObject;
+	    lodash.stubString = stubString;
+	    lodash.stubTrue = stubTrue;
+	    lodash.multiply = multiply;
+	    lodash.nth = nth;
+	    lodash.noConflict = noConflict;
+	    lodash.noop = noop;
+	    lodash.now = now;
+	    lodash.pad = pad;
+	    lodash.padEnd = padEnd;
+	    lodash.padStart = padStart;
+	    lodash.parseInt = parseInt;
+	    lodash.random = random;
+	    lodash.reduce = reduce;
+	    lodash.reduceRight = reduceRight;
+	    lodash.repeat = repeat;
+	    lodash.replace = replace;
+	    lodash.result = result;
+	    lodash.round = round;
+	    lodash.runInContext = runInContext;
+	    lodash.sample = sample;
+	    lodash.size = size;
+	    lodash.snakeCase = snakeCase;
+	    lodash.some = some;
+	    lodash.sortedIndex = sortedIndex;
+	    lodash.sortedIndexBy = sortedIndexBy;
+	    lodash.sortedIndexOf = sortedIndexOf;
+	    lodash.sortedLastIndex = sortedLastIndex;
+	    lodash.sortedLastIndexBy = sortedLastIndexBy;
+	    lodash.sortedLastIndexOf = sortedLastIndexOf;
+	    lodash.startCase = startCase;
+	    lodash.startsWith = startsWith;
+	    lodash.subtract = subtract;
+	    lodash.sum = sum;
+	    lodash.sumBy = sumBy;
+	    lodash.template = template;
+	    lodash.times = times;
+	    lodash.toFinite = toFinite;
+	    lodash.toInteger = toInteger;
+	    lodash.toLength = toLength;
+	    lodash.toLower = toLower;
+	    lodash.toNumber = toNumber;
+	    lodash.toSafeInteger = toSafeInteger;
+	    lodash.toString = toString;
+	    lodash.toUpper = toUpper;
+	    lodash.trim = trim;
+	    lodash.trimEnd = trimEnd;
+	    lodash.trimStart = trimStart;
+	    lodash.truncate = truncate;
+	    lodash.unescape = unescape;
+	    lodash.uniqueId = uniqueId;
+	    lodash.upperCase = upperCase;
+	    lodash.upperFirst = upperFirst;
+
+	    // Add aliases.
+	    lodash.each = forEach;
+	    lodash.eachRight = forEachRight;
+	    lodash.first = head;
+
+	    mixin(lodash, (function() {
+	      var source = {};
+	      baseForOwn(lodash, function(func, methodName) {
+	        if (!hasOwnProperty.call(lodash.prototype, methodName)) {
+	          source[methodName] = func;
+	        }
+	      });
+	      return source;
+	    }()), { 'chain': false });
+
+	    /*------------------------------------------------------------------------*/
+
+	    /**
+	     * The semantic version number.
+	     *
+	     * @static
+	     * @memberOf _
+	     * @type {string}
+	     */
+	    lodash.VERSION = VERSION;
+
+	    // Assign default placeholders.
+	    arrayEach(['bind', 'bindKey', 'curry', 'curryRight', 'partial', 'partialRight'], function(methodName) {
+	      lodash[methodName].placeholder = lodash;
+	    });
+
+	    // Add `LazyWrapper` methods for `_.drop` and `_.take` variants.
+	    arrayEach(['drop', 'take'], function(methodName, index) {
+	      LazyWrapper.prototype[methodName] = function(n) {
+	        var filtered = this.__filtered__;
+	        if (filtered && !index) {
+	          return new LazyWrapper(this);
+	        }
+	        n = n === undefined ? 1 : nativeMax(toInteger(n), 0);
+
+	        var result = this.clone();
+	        if (filtered) {
+	          result.__takeCount__ = nativeMin(n, result.__takeCount__);
+	        } else {
+	          result.__views__.push({
+	            'size': nativeMin(n, MAX_ARRAY_LENGTH),
+	            'type': methodName + (result.__dir__ < 0 ? 'Right' : '')
+	          });
+	        }
+	        return result;
+	      };
+
+	      LazyWrapper.prototype[methodName + 'Right'] = function(n) {
+	        return this.reverse()[methodName](n).reverse();
+	      };
+	    });
+
+	    // Add `LazyWrapper` methods that accept an `iteratee` value.
+	    arrayEach(['filter', 'map', 'takeWhile'], function(methodName, index) {
+	      var type = index + 1,
+	          isFilter = type == LAZY_FILTER_FLAG || type == LAZY_WHILE_FLAG;
+
+	      LazyWrapper.prototype[methodName] = function(iteratee) {
+	        var result = this.clone();
+	        result.__iteratees__.push({
+	          'iteratee': getIteratee(iteratee, 3),
+	          'type': type
+	        });
+	        result.__filtered__ = result.__filtered__ || isFilter;
+	        return result;
+	      };
+	    });
+
+	    // Add `LazyWrapper` methods for `_.head` and `_.last`.
+	    arrayEach(['head', 'last'], function(methodName, index) {
+	      var takeName = 'take' + (index ? 'Right' : '');
+
+	      LazyWrapper.prototype[methodName] = function() {
+	        return this[takeName](1).value()[0];
+	      };
+	    });
+
+	    // Add `LazyWrapper` methods for `_.initial` and `_.tail`.
+	    arrayEach(['initial', 'tail'], function(methodName, index) {
+	      var dropName = 'drop' + (index ? '' : 'Right');
+
+	      LazyWrapper.prototype[methodName] = function() {
+	        return this.__filtered__ ? new LazyWrapper(this) : this[dropName](1);
+	      };
+	    });
+
+	    LazyWrapper.prototype.compact = function() {
+	      return this.filter(identity);
+	    };
+
+	    LazyWrapper.prototype.find = function(predicate) {
+	      return this.filter(predicate).head();
+	    };
+
+	    LazyWrapper.prototype.findLast = function(predicate) {
+	      return this.reverse().find(predicate);
+	    };
+
+	    LazyWrapper.prototype.invokeMap = baseRest(function(path, args) {
+	      if (typeof path == 'function') {
+	        return new LazyWrapper(this);
+	      }
+	      return this.map(function(value) {
+	        return baseInvoke(value, path, args);
+	      });
+	    });
+
+	    LazyWrapper.prototype.reject = function(predicate) {
+	      return this.filter(negate(getIteratee(predicate)));
+	    };
+
+	    LazyWrapper.prototype.slice = function(start, end) {
+	      start = toInteger(start);
+
+	      var result = this;
+	      if (result.__filtered__ && (start > 0 || end < 0)) {
+	        return new LazyWrapper(result);
+	      }
+	      if (start < 0) {
+	        result = result.takeRight(-start);
+	      } else if (start) {
+	        result = result.drop(start);
+	      }
+	      if (end !== undefined) {
+	        end = toInteger(end);
+	        result = end < 0 ? result.dropRight(-end) : result.take(end - start);
+	      }
+	      return result;
+	    };
+
+	    LazyWrapper.prototype.takeRightWhile = function(predicate) {
+	      return this.reverse().takeWhile(predicate).reverse();
+	    };
+
+	    LazyWrapper.prototype.toArray = function() {
+	      return this.take(MAX_ARRAY_LENGTH);
+	    };
+
+	    // Add `LazyWrapper` methods to `lodash.prototype`.
+	    baseForOwn(LazyWrapper.prototype, function(func, methodName) {
+	      var checkIteratee = /^(?:filter|find|map|reject)|While$/.test(methodName),
+	          isTaker = /^(?:head|last)$/.test(methodName),
+	          lodashFunc = lodash[isTaker ? ('take' + (methodName == 'last' ? 'Right' : '')) : methodName],
+	          retUnwrapped = isTaker || /^find/.test(methodName);
+
+	      if (!lodashFunc) {
+	        return;
+	      }
+	      lodash.prototype[methodName] = function() {
+	        var value = this.__wrapped__,
+	            args = isTaker ? [1] : arguments,
+	            isLazy = value instanceof LazyWrapper,
+	            iteratee = args[0],
+	            useLazy = isLazy || isArray(value);
+
+	        var interceptor = function(value) {
+	          var result = lodashFunc.apply(lodash, arrayPush([value], args));
+	          return (isTaker && chainAll) ? result[0] : result;
+	        };
+
+	        if (useLazy && checkIteratee && typeof iteratee == 'function' && iteratee.length != 1) {
+	          // Avoid lazy use if the iteratee has a "length" value other than `1`.
+	          isLazy = useLazy = false;
+	        }
+	        var chainAll = this.__chain__,
+	            isHybrid = !!this.__actions__.length,
+	            isUnwrapped = retUnwrapped && !chainAll,
+	            onlyLazy = isLazy && !isHybrid;
+
+	        if (!retUnwrapped && useLazy) {
+	          value = onlyLazy ? value : new LazyWrapper(this);
+	          var result = func.apply(value, args);
+	          result.__actions__.push({ 'func': thru, 'args': [interceptor], 'thisArg': undefined });
+	          return new LodashWrapper(result, chainAll);
+	        }
+	        if (isUnwrapped && onlyLazy) {
+	          return func.apply(this, args);
+	        }
+	        result = this.thru(interceptor);
+	        return isUnwrapped ? (isTaker ? result.value()[0] : result.value()) : result;
+	      };
+	    });
+
+	    // Add `Array` methods to `lodash.prototype`.
+	    arrayEach(['pop', 'push', 'shift', 'sort', 'splice', 'unshift'], function(methodName) {
+	      var func = arrayProto[methodName],
+	          chainName = /^(?:push|sort|unshift)$/.test(methodName) ? 'tap' : 'thru',
+	          retUnwrapped = /^(?:pop|shift)$/.test(methodName);
+
+	      lodash.prototype[methodName] = function() {
+	        var args = arguments;
+	        if (retUnwrapped && !this.__chain__) {
+	          var value = this.value();
+	          return func.apply(isArray(value) ? value : [], args);
+	        }
+	        return this[chainName](function(value) {
+	          return func.apply(isArray(value) ? value : [], args);
+	        });
+	      };
+	    });
+
+	    // Map minified method names to their real names.
+	    baseForOwn(LazyWrapper.prototype, function(func, methodName) {
+	      var lodashFunc = lodash[methodName];
+	      if (lodashFunc) {
+	        var key = (lodashFunc.name + ''),
+	            names = realNames[key] || (realNames[key] = []);
+
+	        names.push({ 'name': methodName, 'func': lodashFunc });
+	      }
+	    });
+
+	    realNames[createHybrid(undefined, BIND_KEY_FLAG).name] = [{
+	      'name': 'wrapper',
+	      'func': undefined
+	    }];
+
+	    // Add methods to `LazyWrapper`.
+	    LazyWrapper.prototype.clone = lazyClone;
+	    LazyWrapper.prototype.reverse = lazyReverse;
+	    LazyWrapper.prototype.value = lazyValue;
+
+	    // Add chain sequence methods to the `lodash` wrapper.
+	    lodash.prototype.at = wrapperAt;
+	    lodash.prototype.chain = wrapperChain;
+	    lodash.prototype.commit = wrapperCommit;
+	    lodash.prototype.next = wrapperNext;
+	    lodash.prototype.plant = wrapperPlant;
+	    lodash.prototype.reverse = wrapperReverse;
+	    lodash.prototype.toJSON = lodash.prototype.valueOf = lodash.prototype.value = wrapperValue;
+
+	    // Add lazy aliases.
+	    lodash.prototype.first = lodash.prototype.head;
+
+	    if (iteratorSymbol) {
+	      lodash.prototype[iteratorSymbol] = wrapperToIterator;
+	    }
+	    return lodash;
+	  }
+
+	  /*--------------------------------------------------------------------------*/
+
+	  // Export lodash.
+	  var _ = runInContext();
+
+	  // Some AMD build optimizers, like r.js, check for condition patterns like:
+	  if (true) {
+	    // Expose Lodash on the global object to prevent errors when Lodash is
+	    // loaded by a script tag in the presence of an AMD loader.
+	    // See http://requirejs.org/docs/errors.html#mismatch for more details.
+	    // Use `_.noConflict` to remove Lodash from the global object.
+	    root._ = _;
+
+	    // Define as an anonymous module so, through path mapping, it can be
+	    // referenced as the "underscore" module.
+	    !(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
+	      return _;
+	    }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	  }
+	  // Check for `exports` after `define` in case a build optimizer adds it.
+	  else if (freeModule) {
+	    // Export for Node.js.
+	    (freeModule.exports = _)._ = _;
+	    // Export for CommonJS support.
+	    freeExports._ = _;
+	  }
+	  else {
+	    // Export to the global object.
+	    root._ = _;
+	  }
+	}.call(this));
+
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(493)(module)))
 
 /***/ },
 /* 493 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	module.exports = __webpack_require__(494);
+	module.exports = function(module) {
+		if(!module.webpackPolyfill) {
+			module.deprecate = function() {};
+			module.paths = [];
+			// module.parent = undefined by default
+			module.children = [];
+			module.webpackPolyfill = 1;
+		}
+		return module;
+	}
+
 
 /***/ },
 /* 494 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var utils = __webpack_require__(495);
-	var bind = __webpack_require__(496);
-	var Axios = __webpack_require__(497);
-
-	/**
-	 * Create an instance of Axios
-	 *
-	 * @param {Object} defaultConfig The default config for the instance
-	 * @return {Axios} A new instance of Axios
-	 */
-	function createInstance(defaultConfig) {
-	  var context = new Axios(defaultConfig);
-	  var instance = bind(Axios.prototype.request, context);
-
-	  // Copy axios.prototype to instance
-	  utils.extend(instance, Axios.prototype, context);
-
-	  // Copy context to instance
-	  utils.extend(instance, context);
-
-	  return instance;
-	}
-
-	// Create the default instance to be exported
-	var axios = createInstance();
-
-	// Expose Axios class to allow class inheritance
-	axios.Axios = Axios;
-
-	// Factory for creating new instances
-	axios.create = function create(defaultConfig) {
-	  return createInstance(defaultConfig);
-	};
-
-	// Expose all/spread
-	axios.all = function all(promises) {
-	  return Promise.all(promises);
-	};
-	axios.spread = __webpack_require__(514);
-
-	module.exports = axios;
-
-	// Allow use of default import syntax in TypeScript
-	module.exports.default = axios;
-
-
-/***/ },
-/* 495 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var bind = __webpack_require__(496);
-
-	/*global toString:true*/
-
-	// utils is a library of generic helper functions non-specific to axios
-
-	var toString = Object.prototype.toString;
-
-	/**
-	 * Determine if a value is an Array
-	 *
-	 * @param {Object} val The value to test
-	 * @returns {boolean} True if value is an Array, otherwise false
-	 */
-	function isArray(val) {
-	  return toString.call(val) === '[object Array]';
-	}
-
-	/**
-	 * Determine if a value is an ArrayBuffer
-	 *
-	 * @param {Object} val The value to test
-	 * @returns {boolean} True if value is an ArrayBuffer, otherwise false
-	 */
-	function isArrayBuffer(val) {
-	  return toString.call(val) === '[object ArrayBuffer]';
-	}
-
-	/**
-	 * Determine if a value is a FormData
-	 *
-	 * @param {Object} val The value to test
-	 * @returns {boolean} True if value is an FormData, otherwise false
-	 */
-	function isFormData(val) {
-	  return (typeof FormData !== 'undefined') && (val instanceof FormData);
-	}
-
-	/**
-	 * Determine if a value is a view on an ArrayBuffer
-	 *
-	 * @param {Object} val The value to test
-	 * @returns {boolean} True if value is a view on an ArrayBuffer, otherwise false
-	 */
-	function isArrayBufferView(val) {
-	  var result;
-	  if ((typeof ArrayBuffer !== 'undefined') && (ArrayBuffer.isView)) {
-	    result = ArrayBuffer.isView(val);
-	  } else {
-	    result = (val) && (val.buffer) && (val.buffer instanceof ArrayBuffer);
-	  }
-	  return result;
-	}
-
-	/**
-	 * Determine if a value is a String
-	 *
-	 * @param {Object} val The value to test
-	 * @returns {boolean} True if value is a String, otherwise false
-	 */
-	function isString(val) {
-	  return typeof val === 'string';
-	}
-
-	/**
-	 * Determine if a value is a Number
-	 *
-	 * @param {Object} val The value to test
-	 * @returns {boolean} True if value is a Number, otherwise false
-	 */
-	function isNumber(val) {
-	  return typeof val === 'number';
-	}
-
-	/**
-	 * Determine if a value is undefined
-	 *
-	 * @param {Object} val The value to test
-	 * @returns {boolean} True if the value is undefined, otherwise false
-	 */
-	function isUndefined(val) {
-	  return typeof val === 'undefined';
-	}
-
-	/**
-	 * Determine if a value is an Object
-	 *
-	 * @param {Object} val The value to test
-	 * @returns {boolean} True if value is an Object, otherwise false
-	 */
-	function isObject(val) {
-	  return val !== null && typeof val === 'object';
-	}
-
-	/**
-	 * Determine if a value is a Date
-	 *
-	 * @param {Object} val The value to test
-	 * @returns {boolean} True if value is a Date, otherwise false
-	 */
-	function isDate(val) {
-	  return toString.call(val) === '[object Date]';
-	}
-
-	/**
-	 * Determine if a value is a File
-	 *
-	 * @param {Object} val The value to test
-	 * @returns {boolean} True if value is a File, otherwise false
-	 */
-	function isFile(val) {
-	  return toString.call(val) === '[object File]';
-	}
-
-	/**
-	 * Determine if a value is a Blob
-	 *
-	 * @param {Object} val The value to test
-	 * @returns {boolean} True if value is a Blob, otherwise false
-	 */
-	function isBlob(val) {
-	  return toString.call(val) === '[object Blob]';
-	}
-
-	/**
-	 * Determine if a value is a Function
-	 *
-	 * @param {Object} val The value to test
-	 * @returns {boolean} True if value is a Function, otherwise false
-	 */
-	function isFunction(val) {
-	  return toString.call(val) === '[object Function]';
-	}
-
-	/**
-	 * Determine if a value is a Stream
-	 *
-	 * @param {Object} val The value to test
-	 * @returns {boolean} True if value is a Stream, otherwise false
-	 */
-	function isStream(val) {
-	  return isObject(val) && isFunction(val.pipe);
-	}
-
-	/**
-	 * Determine if a value is a URLSearchParams object
-	 *
-	 * @param {Object} val The value to test
-	 * @returns {boolean} True if value is a URLSearchParams object, otherwise false
-	 */
-	function isURLSearchParams(val) {
-	  return typeof URLSearchParams !== 'undefined' && val instanceof URLSearchParams;
-	}
-
-	/**
-	 * Trim excess whitespace off the beginning and end of a string
-	 *
-	 * @param {String} str The String to trim
-	 * @returns {String} The String freed of excess whitespace
-	 */
-	function trim(str) {
-	  return str.replace(/^\s*/, '').replace(/\s*$/, '');
-	}
-
-	/**
-	 * Determine if we're running in a standard browser environment
-	 *
-	 * This allows axios to run in a web worker, and react-native.
-	 * Both environments support XMLHttpRequest, but not fully standard globals.
-	 *
-	 * web workers:
-	 *  typeof window -> undefined
-	 *  typeof document -> undefined
-	 *
-	 * react-native:
-	 *  typeof document.createElement -> undefined
-	 */
-	function isStandardBrowserEnv() {
-	  return (
-	    typeof window !== 'undefined' &&
-	    typeof document !== 'undefined' &&
-	    typeof document.createElement === 'function'
-	  );
-	}
-
-	/**
-	 * Iterate over an Array or an Object invoking a function for each item.
-	 *
-	 * If `obj` is an Array callback will be called passing
-	 * the value, index, and complete array for each item.
-	 *
-	 * If 'obj' is an Object callback will be called passing
-	 * the value, key, and complete object for each property.
-	 *
-	 * @param {Object|Array} obj The object to iterate
-	 * @param {Function} fn The callback to invoke for each item
-	 */
-	function forEach(obj, fn) {
-	  // Don't bother if no value provided
-	  if (obj === null || typeof obj === 'undefined') {
-	    return;
-	  }
-
-	  // Force an array if not already something iterable
-	  if (typeof obj !== 'object' && !isArray(obj)) {
-	    /*eslint no-param-reassign:0*/
-	    obj = [obj];
-	  }
-
-	  if (isArray(obj)) {
-	    // Iterate over array values
-	    for (var i = 0, l = obj.length; i < l; i++) {
-	      fn.call(null, obj[i], i, obj);
-	    }
-	  } else {
-	    // Iterate over object keys
-	    for (var key in obj) {
-	      if (obj.hasOwnProperty(key)) {
-	        fn.call(null, obj[key], key, obj);
-	      }
-	    }
-	  }
-	}
-
-	/**
-	 * Accepts varargs expecting each argument to be an object, then
-	 * immutably merges the properties of each object and returns result.
-	 *
-	 * When multiple objects contain the same key the later object in
-	 * the arguments list will take precedence.
-	 *
-	 * Example:
-	 *
-	 * ```js
-	 * var result = merge({foo: 123}, {foo: 456});
-	 * console.log(result.foo); // outputs 456
-	 * ```
-	 *
-	 * @param {Object} obj1 Object to merge
-	 * @returns {Object} Result of all merge properties
-	 */
-	function merge(/* obj1, obj2, obj3, ... */) {
-	  var result = {};
-	  function assignValue(val, key) {
-	    if (typeof result[key] === 'object' && typeof val === 'object') {
-	      result[key] = merge(result[key], val);
-	    } else {
-	      result[key] = val;
-	    }
-	  }
-
-	  for (var i = 0, l = arguments.length; i < l; i++) {
-	    forEach(arguments[i], assignValue);
-	  }
-	  return result;
-	}
-
-	/**
-	 * Extends object a by mutably adding to it the properties of object b.
-	 *
-	 * @param {Object} a The object to be extended
-	 * @param {Object} b The object to copy properties from
-	 * @param {Object} thisArg The object to bind function to
-	 * @return {Object} The resulting value of object a
-	 */
-	function extend(a, b, thisArg) {
-	  forEach(b, function assignValue(val, key) {
-	    if (thisArg && typeof val === 'function') {
-	      a[key] = bind(val, thisArg);
-	    } else {
-	      a[key] = val;
-	    }
-	  });
-	  return a;
-	}
-
-	module.exports = {
-	  isArray: isArray,
-	  isArrayBuffer: isArrayBuffer,
-	  isFormData: isFormData,
-	  isArrayBufferView: isArrayBufferView,
-	  isString: isString,
-	  isNumber: isNumber,
-	  isObject: isObject,
-	  isUndefined: isUndefined,
-	  isDate: isDate,
-	  isFile: isFile,
-	  isBlob: isBlob,
-	  isFunction: isFunction,
-	  isStream: isStream,
-	  isURLSearchParams: isURLSearchParams,
-	  isStandardBrowserEnv: isStandardBrowserEnv,
-	  forEach: forEach,
-	  merge: merge,
-	  extend: extend,
-	  trim: trim
-	};
-
-
-/***/ },
-/* 496 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	module.exports = function bind(fn, thisArg) {
-	  return function wrap() {
-	    var args = new Array(arguments.length);
-	    for (var i = 0; i < args.length; i++) {
-	      args[i] = arguments[i];
-	    }
-	    return fn.apply(thisArg, args);
-	  };
-	};
-
-
-/***/ },
-/* 497 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var defaults = __webpack_require__(498);
-	var utils = __webpack_require__(495);
-	var InterceptorManager = __webpack_require__(500);
-	var dispatchRequest = __webpack_require__(501);
-	var isAbsoluteURL = __webpack_require__(512);
-	var combineURLs = __webpack_require__(513);
-
-	/**
-	 * Create a new instance of Axios
-	 *
-	 * @param {Object} defaultConfig The default config for the instance
-	 */
-	function Axios(defaultConfig) {
-	  this.defaults = utils.merge(defaults, defaultConfig);
-	  this.interceptors = {
-	    request: new InterceptorManager(),
-	    response: new InterceptorManager()
-	  };
-	}
-
-	/**
-	 * Dispatch a request
-	 *
-	 * @param {Object} config The config specific for this request (merged with this.defaults)
-	 */
-	Axios.prototype.request = function request(config) {
-	  /*eslint no-param-reassign:0*/
-	  // Allow for axios('example/url'[, config]) a la fetch API
-	  if (typeof config === 'string') {
-	    config = utils.merge({
-	      url: arguments[0]
-	    }, arguments[1]);
-	  }
-
-	  config = utils.merge(defaults, this.defaults, { method: 'get' }, config);
-
-	  // Support baseURL config
-	  if (config.baseURL && !isAbsoluteURL(config.url)) {
-	    config.url = combineURLs(config.baseURL, config.url);
-	  }
-
-	  // Hook up interceptors middleware
-	  var chain = [dispatchRequest, undefined];
-	  var promise = Promise.resolve(config);
-
-	  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
-	    chain.unshift(interceptor.fulfilled, interceptor.rejected);
-	  });
-
-	  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
-	    chain.push(interceptor.fulfilled, interceptor.rejected);
-	  });
-
-	  while (chain.length) {
-	    promise = promise.then(chain.shift(), chain.shift());
-	  }
-
-	  return promise;
-	};
-
-	// Provide aliases for supported request methods
-	utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
-	  /*eslint func-names:0*/
-	  Axios.prototype[method] = function(url, config) {
-	    return this.request(utils.merge(config || {}, {
-	      method: method,
-	      url: url
-	    }));
-	  };
-	});
-
-	utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-	  /*eslint func-names:0*/
-	  Axios.prototype[method] = function(url, data, config) {
-	    return this.request(utils.merge(config || {}, {
-	      method: method,
-	      url: url,
-	      data: data
-	    }));
-	  };
-	});
-
-	module.exports = Axios;
-
-
-/***/ },
-/* 498 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var utils = __webpack_require__(495);
-	var normalizeHeaderName = __webpack_require__(499);
-
-	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
-	var DEFAULT_CONTENT_TYPE = {
-	  'Content-Type': 'application/x-www-form-urlencoded'
-	};
-
-	function setContentTypeIfUnset(headers, value) {
-	  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
-	    headers['Content-Type'] = value;
-	  }
-	}
-
-	module.exports = {
-	  transformRequest: [function transformRequest(data, headers) {
-	    normalizeHeaderName(headers, 'Content-Type');
-	    if (utils.isFormData(data) ||
-	      utils.isArrayBuffer(data) ||
-	      utils.isStream(data) ||
-	      utils.isFile(data) ||
-	      utils.isBlob(data)
-	    ) {
-	      return data;
-	    }
-	    if (utils.isArrayBufferView(data)) {
-	      return data.buffer;
-	    }
-	    if (utils.isURLSearchParams(data)) {
-	      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
-	      return data.toString();
-	    }
-	    if (utils.isObject(data)) {
-	      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
-	      return JSON.stringify(data);
-	    }
-	    return data;
-	  }],
-
-	  transformResponse: [function transformResponse(data) {
-	    /*eslint no-param-reassign:0*/
-	    if (typeof data === 'string') {
-	      data = data.replace(PROTECTION_PREFIX, '');
-	      try {
-	        data = JSON.parse(data);
-	      } catch (e) { /* Ignore */ }
-	    }
-	    return data;
-	  }],
-
-	  headers: {
-	    common: {
-	      'Accept': 'application/json, text/plain, */*'
-	    },
-	    patch: utils.merge(DEFAULT_CONTENT_TYPE),
-	    post: utils.merge(DEFAULT_CONTENT_TYPE),
-	    put: utils.merge(DEFAULT_CONTENT_TYPE)
-	  },
-
-	  timeout: 0,
-
-	  xsrfCookieName: 'XSRF-TOKEN',
-	  xsrfHeaderName: 'X-XSRF-TOKEN',
-
-	  maxContentLength: -1,
-
-	  validateStatus: function validateStatus(status) {
-	    return status >= 200 && status < 300;
-	  }
-	};
-
-
-/***/ },
-/* 499 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var utils = __webpack_require__(495);
-
-	module.exports = function normalizeHeaderName(headers, normalizedName) {
-	  utils.forEach(headers, function processHeader(value, name) {
-	    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
-	      headers[normalizedName] = value;
-	      delete headers[name];
-	    }
-	  });
-	};
-
-
-/***/ },
-/* 500 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var utils = __webpack_require__(495);
-
-	function InterceptorManager() {
-	  this.handlers = [];
-	}
-
-	/**
-	 * Add a new interceptor to the stack
-	 *
-	 * @param {Function} fulfilled The function to handle `then` for a `Promise`
-	 * @param {Function} rejected The function to handle `reject` for a `Promise`
-	 *
-	 * @return {Number} An ID used to remove interceptor later
-	 */
-	InterceptorManager.prototype.use = function use(fulfilled, rejected) {
-	  this.handlers.push({
-	    fulfilled: fulfilled,
-	    rejected: rejected
-	  });
-	  return this.handlers.length - 1;
-	};
-
-	/**
-	 * Remove an interceptor from the stack
-	 *
-	 * @param {Number} id The ID that was returned by `use`
-	 */
-	InterceptorManager.prototype.eject = function eject(id) {
-	  if (this.handlers[id]) {
-	    this.handlers[id] = null;
-	  }
-	};
-
-	/**
-	 * Iterate over all the registered interceptors
-	 *
-	 * This method is particularly useful for skipping over any
-	 * interceptors that may have become `null` calling `eject`.
-	 *
-	 * @param {Function} fn The function to call for each interceptor
-	 */
-	InterceptorManager.prototype.forEach = function forEach(fn) {
-	  utils.forEach(this.handlers, function forEachHandler(h) {
-	    if (h !== null) {
-	      fn(h);
-	    }
-	  });
-	};
-
-	module.exports = InterceptorManager;
-
-
-/***/ },
-/* 501 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
-
-	var utils = __webpack_require__(495);
-	var transformData = __webpack_require__(502);
-
-	/**
-	 * Dispatch a request to the server using whichever adapter
-	 * is supported by the current environment.
-	 *
-	 * @param {object} config The config that is to be used for the request
-	 * @returns {Promise} The Promise to be fulfilled
-	 */
-	module.exports = function dispatchRequest(config) {
-	  // Ensure headers exist
-	  config.headers = config.headers || {};
-
-	  // Transform request data
-	  config.data = transformData(
-	    config.data,
-	    config.headers,
-	    config.transformRequest
-	  );
-
-	  // Flatten headers
-	  config.headers = utils.merge(
-	    config.headers.common || {},
-	    config.headers[config.method] || {},
-	    config.headers || {}
-	  );
-
-	  utils.forEach(
-	    ['delete', 'get', 'head', 'post', 'put', 'patch', 'common'],
-	    function cleanHeaderConfig(method) {
-	      delete config.headers[method];
-	    }
-	  );
-
-	  var adapter;
-
-	  if (typeof config.adapter === 'function') {
-	    // For custom adapter support
-	    adapter = config.adapter;
-	  } else if (typeof XMLHttpRequest !== 'undefined') {
-	    // For browsers use XHR adapter
-	    adapter = __webpack_require__(503);
-	  } else if (typeof process !== 'undefined') {
-	    // For node use HTTP adapter
-	    adapter = __webpack_require__(503);
-	  }
-
-	  return Promise.resolve(config)
-	    // Wrap synchronous adapter errors and pass configuration
-	    .then(adapter)
-	    .then(function onFulfilled(response) {
-	      // Transform response data
-	      response.data = transformData(
-	        response.data,
-	        response.headers,
-	        config.transformResponse
-	      );
-
-	      return response;
-	    }, function onRejected(error) {
-	      // Transform response data
-	      if (error && error.response) {
-	        error.response.data = transformData(
-	          error.response.data,
-	          error.response.headers,
-	          config.transformResponse
-	        );
-	      }
-
-	      return Promise.reject(error);
-	    });
-	};
-
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ },
-/* 502 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var utils = __webpack_require__(495);
-
-	/**
-	 * Transform the data for a request or a response
-	 *
-	 * @param {Object|String} data The data to be transformed
-	 * @param {Array} headers The headers for the request or response
-	 * @param {Array|Function} fns A single function or Array of functions
-	 * @returns {*} The resulting transformed data
-	 */
-	module.exports = function transformData(data, headers, fns) {
-	  /*eslint no-param-reassign:0*/
-	  utils.forEach(fns, function transform(fn) {
-	    data = fn(data, headers);
-	  });
-
-	  return data;
-	};
-
-
-/***/ },
-/* 503 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
-
-	var utils = __webpack_require__(495);
-	var settle = __webpack_require__(504);
-	var buildURL = __webpack_require__(507);
-	var parseHeaders = __webpack_require__(508);
-	var isURLSameOrigin = __webpack_require__(509);
-	var createError = __webpack_require__(505);
-	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(510);
-
-	module.exports = function xhrAdapter(config) {
-	  return new Promise(function dispatchXhrRequest(resolve, reject) {
-	    var requestData = config.data;
-	    var requestHeaders = config.headers;
-
-	    if (utils.isFormData(requestData)) {
-	      delete requestHeaders['Content-Type']; // Let the browser set it
-	    }
-
-	    var request = new XMLHttpRequest();
-	    var loadEvent = 'onreadystatechange';
-	    var xDomain = false;
-
-	    // For IE 8/9 CORS support
-	    // Only supports POST and GET calls and doesn't returns the response headers.
-	    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-	    if (process.env.NODE_ENV !== 'test' &&
-	        typeof window !== 'undefined' &&
-	        window.XDomainRequest && !('withCredentials' in request) &&
-	        !isURLSameOrigin(config.url)) {
-	      request = new window.XDomainRequest();
-	      loadEvent = 'onload';
-	      xDomain = true;
-	      request.onprogress = function handleProgress() {};
-	      request.ontimeout = function handleTimeout() {};
-	    }
-
-	    // HTTP basic authentication
-	    if (config.auth) {
-	      var username = config.auth.username || '';
-	      var password = config.auth.password || '';
-	      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
-	    }
-
-	    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
-
-	    // Set the request timeout in MS
-	    request.timeout = config.timeout;
-
-	    // Listen for ready state
-	    request[loadEvent] = function handleLoad() {
-	      if (!request || (request.readyState !== 4 && !xDomain)) {
-	        return;
-	      }
-
-	      // The request errored out and we didn't get a response, this will be
-	      // handled by onerror instead
-	      if (request.status === 0) {
-	        return;
-	      }
-
-	      // Prepare the response
-	      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
-	      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
-	      var response = {
-	        data: responseData,
-	        // IE sends 1223 instead of 204 (https://github.com/mzabriskie/axios/issues/201)
-	        status: request.status === 1223 ? 204 : request.status,
-	        statusText: request.status === 1223 ? 'No Content' : request.statusText,
-	        headers: responseHeaders,
-	        config: config,
-	        request: request
-	      };
-
-	      settle(resolve, reject, response);
-
-	      // Clean up request
-	      request = null;
-	    };
-
-	    // Handle low level network errors
-	    request.onerror = function handleError() {
-	      // Real errors are hidden from us by the browser
-	      // onerror should only fire if it's a network error
-	      reject(createError('Network Error', config));
-
-	      // Clean up request
-	      request = null;
-	    };
-
-	    // Handle timeout
-	    request.ontimeout = function handleTimeout() {
-	      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED'));
-
-	      // Clean up request
-	      request = null;
-	    };
-
-	    // Add xsrf header
-	    // This is only done if running in a standard browser environment.
-	    // Specifically not if we're in a web worker, or react-native.
-	    if (utils.isStandardBrowserEnv()) {
-	      var cookies = __webpack_require__(511);
-
-	      // Add xsrf header
-	      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
-	          cookies.read(config.xsrfCookieName) :
-	          undefined;
-
-	      if (xsrfValue) {
-	        requestHeaders[config.xsrfHeaderName] = xsrfValue;
-	      }
-	    }
-
-	    // Add headers to the request
-	    if ('setRequestHeader' in request) {
-	      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
-	        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
-	          // Remove Content-Type if data is undefined
-	          delete requestHeaders[key];
-	        } else {
-	          // Otherwise add header to the request
-	          request.setRequestHeader(key, val);
-	        }
-	      });
-	    }
-
-	    // Add withCredentials to request if needed
-	    if (config.withCredentials) {
-	      request.withCredentials = true;
-	    }
-
-	    // Add responseType to request if needed
-	    if (config.responseType) {
-	      try {
-	        request.responseType = config.responseType;
-	      } catch (e) {
-	        if (request.responseType !== 'json') {
-	          throw e;
-	        }
-	      }
-	    }
-
-	    // Handle progress if needed
-	    if (typeof config.onDownloadProgress === 'function') {
-	      request.addEventListener('progress', config.onDownloadProgress);
-	    }
-
-	    // Not all browsers support upload events
-	    if (typeof config.onUploadProgress === 'function' && request.upload) {
-	      request.upload.addEventListener('progress', config.onUploadProgress);
-	    }
-
-
-	    if (requestData === undefined) {
-	      requestData = null;
-	    }
-
-	    // Send the request
-	    request.send(requestData);
-	  });
-	};
-
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ },
-/* 504 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var createError = __webpack_require__(505);
-
-	/**
-	 * Resolve or reject a Promise based on response status.
-	 *
-	 * @param {Function} resolve A function that resolves the promise.
-	 * @param {Function} reject A function that rejects the promise.
-	 * @param {object} response The response.
-	 */
-	module.exports = function settle(resolve, reject, response) {
-	  var validateStatus = response.config.validateStatus;
-	  // Note: status is not exposed by XDomainRequest
-	  if (!response.status || !validateStatus || validateStatus(response.status)) {
-	    resolve(response);
-	  } else {
-	    reject(createError(
-	      'Request failed with status code ' + response.status,
-	      response.config,
-	      null,
-	      response
-	    ));
-	  }
-	};
-
-
-/***/ },
-/* 505 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var enhanceError = __webpack_require__(506);
-
-	/**
-	 * Create an Error with the specified message, config, error code, and response.
-	 *
-	 * @param {string} message The error message.
-	 * @param {Object} config The config.
-	 * @param {string} [code] The error code (for example, 'ECONNABORTED').
-	 @ @param {Object} [response] The response.
-	 * @returns {Error} The created error.
-	 */
-	module.exports = function createError(message, config, code, response) {
-	  var error = new Error(message);
-	  return enhanceError(error, config, code, response);
-	};
-
-
-/***/ },
-/* 506 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	/**
-	 * Update an Error with the specified config, error code, and response.
-	 *
-	 * @param {Error} error The error to update.
-	 * @param {Object} config The config.
-	 * @param {string} [code] The error code (for example, 'ECONNABORTED').
-	 @ @param {Object} [response] The response.
-	 * @returns {Error} The error.
-	 */
-	module.exports = function enhanceError(error, config, code, response) {
-	  error.config = config;
-	  if (code) {
-	    error.code = code;
-	  }
-	  error.response = response;
-	  return error;
-	};
-
-
-/***/ },
-/* 507 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var utils = __webpack_require__(495);
-
-	function encode(val) {
-	  return encodeURIComponent(val).
-	    replace(/%40/gi, '@').
-	    replace(/%3A/gi, ':').
-	    replace(/%24/g, '$').
-	    replace(/%2C/gi, ',').
-	    replace(/%20/g, '+').
-	    replace(/%5B/gi, '[').
-	    replace(/%5D/gi, ']');
-	}
-
-	/**
-	 * Build a URL by appending params to the end
-	 *
-	 * @param {string} url The base of the url (e.g., http://www.google.com)
-	 * @param {object} [params] The params to be appended
-	 * @returns {string} The formatted url
-	 */
-	module.exports = function buildURL(url, params, paramsSerializer) {
-	  /*eslint no-param-reassign:0*/
-	  if (!params) {
-	    return url;
-	  }
-
-	  var serializedParams;
-	  if (paramsSerializer) {
-	    serializedParams = paramsSerializer(params);
-	  } else if (utils.isURLSearchParams(params)) {
-	    serializedParams = params.toString();
-	  } else {
-	    var parts = [];
-
-	    utils.forEach(params, function serialize(val, key) {
-	      if (val === null || typeof val === 'undefined') {
-	        return;
-	      }
-
-	      if (utils.isArray(val)) {
-	        key = key + '[]';
-	      }
-
-	      if (!utils.isArray(val)) {
-	        val = [val];
-	      }
-
-	      utils.forEach(val, function parseValue(v) {
-	        if (utils.isDate(v)) {
-	          v = v.toISOString();
-	        } else if (utils.isObject(v)) {
-	          v = JSON.stringify(v);
-	        }
-	        parts.push(encode(key) + '=' + encode(v));
-	      });
-	    });
-
-	    serializedParams = parts.join('&');
-	  }
-
-	  if (serializedParams) {
-	    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
-	  }
-
-	  return url;
-	};
-
-
-/***/ },
-/* 508 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var utils = __webpack_require__(495);
-
-	/**
-	 * Parse headers into an object
-	 *
-	 * ```
-	 * Date: Wed, 27 Aug 2014 08:58:49 GMT
-	 * Content-Type: application/json
-	 * Connection: keep-alive
-	 * Transfer-Encoding: chunked
-	 * ```
-	 *
-	 * @param {String} headers Headers needing to be parsed
-	 * @returns {Object} Headers parsed into an object
-	 */
-	module.exports = function parseHeaders(headers) {
-	  var parsed = {};
-	  var key;
-	  var val;
-	  var i;
-
-	  if (!headers) { return parsed; }
-
-	  utils.forEach(headers.split('\n'), function parser(line) {
-	    i = line.indexOf(':');
-	    key = utils.trim(line.substr(0, i)).toLowerCase();
-	    val = utils.trim(line.substr(i + 1));
-
-	    if (key) {
-	      parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
-	    }
-	  });
-
-	  return parsed;
-	};
-
-
-/***/ },
-/* 509 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var utils = __webpack_require__(495);
-
-	module.exports = (
-	  utils.isStandardBrowserEnv() ?
-
-	  // Standard browser envs have full support of the APIs needed to test
-	  // whether the request URL is of the same origin as current location.
-	  (function standardBrowserEnv() {
-	    var msie = /(msie|trident)/i.test(navigator.userAgent);
-	    var urlParsingNode = document.createElement('a');
-	    var originURL;
-
-	    /**
-	    * Parse a URL to discover it's components
-	    *
-	    * @param {String} url The URL to be parsed
-	    * @returns {Object}
-	    */
-	    function resolveURL(url) {
-	      var href = url;
-
-	      if (msie) {
-	        // IE needs attribute set twice to normalize properties
-	        urlParsingNode.setAttribute('href', href);
-	        href = urlParsingNode.href;
-	      }
-
-	      urlParsingNode.setAttribute('href', href);
-
-	      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
-	      return {
-	        href: urlParsingNode.href,
-	        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
-	        host: urlParsingNode.host,
-	        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
-	        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
-	        hostname: urlParsingNode.hostname,
-	        port: urlParsingNode.port,
-	        pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
-	                  urlParsingNode.pathname :
-	                  '/' + urlParsingNode.pathname
-	      };
-	    }
-
-	    originURL = resolveURL(window.location.href);
-
-	    /**
-	    * Determine if a URL shares the same origin as the current location
-	    *
-	    * @param {String} requestURL The URL to test
-	    * @returns {boolean} True if URL shares the same origin, otherwise false
-	    */
-	    return function isURLSameOrigin(requestURL) {
-	      var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
-	      return (parsed.protocol === originURL.protocol &&
-	            parsed.host === originURL.host);
-	    };
-	  })() :
-
-	  // Non standard browser envs (web workers, react-native) lack needed support.
-	  (function nonStandardBrowserEnv() {
-	    return function isURLSameOrigin() {
-	      return true;
-	    };
-	  })()
-	);
-
-
-/***/ },
-/* 510 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	// btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
-
-	var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-
-	function E() {
-	  this.message = 'String contains an invalid character';
-	}
-	E.prototype = new Error;
-	E.prototype.code = 5;
-	E.prototype.name = 'InvalidCharacterError';
-
-	function btoa(input) {
-	  var str = String(input);
-	  var output = '';
-	  for (
-	    // initialize result and counter
-	    var block, charCode, idx = 0, map = chars;
-	    // if the next str index does not exist:
-	    //   change the mapping table to "="
-	    //   check if d has no fractional digits
-	    str.charAt(idx | 0) || (map = '=', idx % 1);
-	    // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
-	    output += map.charAt(63 & block >> 8 - idx % 1 * 8)
-	  ) {
-	    charCode = str.charCodeAt(idx += 3 / 4);
-	    if (charCode > 0xFF) {
-	      throw new E();
-	    }
-	    block = block << 8 | charCode;
-	  }
-	  return output;
-	}
-
-	module.exports = btoa;
-
-
-/***/ },
-/* 511 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var utils = __webpack_require__(495);
-
-	module.exports = (
-	  utils.isStandardBrowserEnv() ?
-
-	  // Standard browser envs support document.cookie
-	  (function standardBrowserEnv() {
-	    return {
-	      write: function write(name, value, expires, path, domain, secure) {
-	        var cookie = [];
-	        cookie.push(name + '=' + encodeURIComponent(value));
-
-	        if (utils.isNumber(expires)) {
-	          cookie.push('expires=' + new Date(expires).toGMTString());
-	        }
-
-	        if (utils.isString(path)) {
-	          cookie.push('path=' + path);
-	        }
-
-	        if (utils.isString(domain)) {
-	          cookie.push('domain=' + domain);
-	        }
-
-	        if (secure === true) {
-	          cookie.push('secure');
-	        }
-
-	        document.cookie = cookie.join('; ');
-	      },
-
-	      read: function read(name) {
-	        var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
-	        return (match ? decodeURIComponent(match[3]) : null);
-	      },
-
-	      remove: function remove(name) {
-	        this.write(name, '', Date.now() - 86400000);
-	      }
-	    };
-	  })() :
-
-	  // Non standard browser env (web workers, react-native) lack needed support.
-	  (function nonStandardBrowserEnv() {
-	    return {
-	      write: function write() {},
-	      read: function read() { return null; },
-	      remove: function remove() {}
-	    };
-	  })()
-	);
-
-
-/***/ },
-/* 512 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	/**
-	 * Determines whether the specified URL is absolute
-	 *
-	 * @param {string} url The URL to test
-	 * @returns {boolean} True if the specified URL is absolute, otherwise false
-	 */
-	module.exports = function isAbsoluteURL(url) {
-	  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
-	  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
-	  // by any combination of letters, digits, plus, period, or hyphen.
-	  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
-	};
-
-
-/***/ },
-/* 513 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	/**
-	 * Creates a new URL by combining the specified URLs
-	 *
-	 * @param {string} baseURL The base URL
-	 * @param {string} relativeURL The relative URL
-	 * @returns {string} The combined URL
-	 */
-	module.exports = function combineURLs(baseURL, relativeURL) {
-	  return baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '');
-	};
-
-
-/***/ },
-/* 514 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	/**
-	 * Syntactic sugar for invoking a function and expanding an array for arguments.
-	 *
-	 * Common use case would be to use `Function.prototype.apply`.
-	 *
-	 *  ```js
-	 *  function f(x, y, z) {}
-	 *  var args = [1, 2, 3];
-	 *  f.apply(null, args);
-	 *  ```
-	 *
-	 * With `spread` this example can be re-written.
-	 *
-	 *  ```js
-	 *  spread(function(x, y, z) {})([1, 2, 3]);
-	 *  ```
-	 *
-	 * @param {Function} callback
-	 * @returns {Function}
-	 */
-	module.exports = function spread(callback) {
-	  return function wrap(arr) {
-	    return callback.apply(null, arr);
-	  };
-	};
-
-
-/***/ },
-/* 515 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactBootstrap = __webpack_require__(241);
-
-	var _Player = __webpack_require__(516);
-
-	var _Player2 = _interopRequireDefault(_Player);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Team = function (_Component) {
-	  _inherits(Team, _Component);
-
-	  function Team() {
-	    _classCallCheck(this, Team);
-
-	    return _possibleConstructorReturn(this, (Team.__proto__ || Object.getPrototypeOf(Team)).apply(this, arguments));
-	  }
-
-	  _createClass(Team, [{
-	    key: 'render',
-	    value: function render() {
-	      var _this2 = this;
-
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'team-container' },
-	        this.props.members.map(function (member) {
-	          return _react2.default.createElement(_Player2.default, {
-	            key: member.summonerId,
-	            info: member,
-	            jsonData: _this2.props.jsonData });
-	        })
-	      );
-	    }
-	  }]);
-
-	  return Team;
-	}(_react.Component);
-
-	exports.default = Team;
-
-/***/ },
-/* 516 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactBootstrap = __webpack_require__(241);
-
-	var _GeneralTab = __webpack_require__(517);
-
-	var _GeneralTab2 = _interopRequireDefault(_GeneralTab);
-
-	var _MasteriesTab = __webpack_require__(518);
-
-	var _MasteriesTab2 = _interopRequireDefault(_MasteriesTab);
-
-	var _RunesTab = __webpack_require__(520);
-
-	var _RunesTab2 = _interopRequireDefault(_RunesTab);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Team = function (_Component) {
-	  _inherits(Team, _Component);
-
-	  function Team(props) {
-	    _classCallCheck(this, Team);
-
-	    var _this = _possibleConstructorReturn(this, (Team.__proto__ || Object.getPrototypeOf(Team)).call(this, props));
-
-	    _this.state = {
-	      activeKey: '1',
-	      info: _this.props.info
-	    };
-	    return _this;
-	  }
-
-	  _createClass(Team, [{
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      var info = this.state.info;
-	      var jsonData = this.props.jsonData;
-	      var champions = jsonData.champions;
-	      console.log(champions);
-	      // const summonerIcon = champions.map((champ) => {
-	      //   return champ.key
-	      // })
-
-	      // console.log(summonerIcon)
-	    }
-	  }, {
-	    key: 'handleSelect',
-	    value: function handleSelect(activeKey) {
-	      this.setState({ activeKey: activeKey });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var general = this.state.info;
-	      var masteries = this.state.info.masteries;
-	      var runes = this.state.info.runes;
-
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'col-md-15' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'player' },
-	          _react2.default.createElement(
-	            _reactBootstrap.PanelGroup,
-	            { activeKey: this.state.activeKey, onSelect: this.handleSelect.bind(this), accordion: true },
-	            _react2.default.createElement(
-	              _reactBootstrap.Panel,
-	              { header: general.summonerName, eventKey: '1' },
-	              _react2.default.createElement(_GeneralTab2.default, { fromObserver: general })
-	            ),
-	            _react2.default.createElement(
-	              _reactBootstrap.Panel,
-	              { header: 'Runes', eventKey: '2' },
-	              _react2.default.createElement(_RunesTab2.default, { runes: runes })
-	            ),
-	            _react2.default.createElement(
-	              _reactBootstrap.Panel,
-	              { header: 'Masteries', eventKey: '3' },
-	              _react2.default.createElement(_MasteriesTab2.default, { masteries: masteries })
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return Team;
-	}(_react.Component);
-
-	exports.default = Team;
-
-	// rune : http://ddragon.leagueoflegends.com/cdn/6.18.1/img/rune/8001.png
-	// mastery : http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/6111.png
-	// sum spell : http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/SummonerFlash.png
-
-/***/ },
-/* 517 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactBootstrap = __webpack_require__(241);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var GeneralTab = function (_Component) {
-	  _inherits(GeneralTab, _Component);
-
-	  function GeneralTab(props) {
-	    _classCallCheck(this, GeneralTab);
-
-	    var _this = _possibleConstructorReturn(this, (GeneralTab.__proto__ || Object.getPrototypeOf(GeneralTab)).call(this, props));
-
-	    _this.state = {
-	      data: _this.props.fromObserver
-	    };
-	    return _this;
-	  }
-
-	  _createClass(GeneralTab, [{
-	    key: 'render',
-	    value: function render() {
-	      var data = this.props.fromObserver;
-
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'tab general-tab', style: { backgroundColor: '#fff' } },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'visual-data' },
-	          _react2.default.createElement('img', { className: 'champion-image', src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/Aatrox.png' }),
-	          _react2.default.createElement('img', { className: 'summoner-spell spell1', src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/SummonerDot.png' }),
-	          _react2.default.createElement('img', { className: 'summoner-spell spell2', src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/SummonerFlash.png' }),
-	          _react2.default.createElement('img', { className: 'summoner-keystone', src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/6362.png' })
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'info-data' },
-	          _react2.default.createElement(
-	            _reactBootstrap.Row,
-	            null,
-	            _react2.default.createElement(
-	              _reactBootstrap.Col,
-	              { xs: 6, md: 4 },
-	              _react2.default.createElement(
-	                'div',
-	                null,
-	                'W/L'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                null,
-	                'kills'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                null,
-	                'deaths'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                null,
-	                'assists'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                null,
-	                'cs'
-	              )
-	            ),
-	            _react2.default.createElement(
-	              _reactBootstrap.Col,
-	              { xs: 6, md: 8 },
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'wins-loses' },
-	                '27 / 24 ( 54.7% )'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'kills' },
-	                '200 ( 10.4 )'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'deaths' },
-	                '173 ( 8 )'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'assists' },
-	                '263 ( 14.8 )'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'cs' },
-	                '12000 ( 232 )'
-	              )
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return GeneralTab;
-	}(_react.Component);
-
-	exports.default = GeneralTab;
-
-/***/ },
-/* 518 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactBootstrap = __webpack_require__(241);
-
-	var _MasteriesTree = __webpack_require__(519);
-
-	var _MasteriesTree2 = _interopRequireDefault(_MasteriesTree);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var MasteriesTab = function (_Component) {
-	  _inherits(MasteriesTab, _Component);
-
-	  function MasteriesTab() {
-	    _classCallCheck(this, MasteriesTab);
-
-	    return _possibleConstructorReturn(this, (MasteriesTab.__proto__ || Object.getPrototypeOf(MasteriesTab)).apply(this, arguments));
-	  }
-
-	  _createClass(MasteriesTab, [{
-	    key: 'render',
-	    value: function render() {
-
-	      var ferocity = [11, 14, 21, 22, 23, 31, 34, 41, 42, 51, 54, 61, 62, 64];
-	      var cunning = [11, 12, 21, 22, 23, 31, 32, 42, 43, 51, 52, 61, 62, 63];
-	      var resolve = [11, 12, 21, 23, 31, 32, 41, 42, 32, 51, 52, 61, 62, 63];
-
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'tab masteries-tab' },
-	        _react2.default.createElement(_MasteriesTree2.default, { tree: 'ferocity', talentId: 61, talents: ferocity }),
-	        _react2.default.createElement(_MasteriesTree2.default, { tree: 'cunning', talentId: 63, talents: cunning }),
-	        _react2.default.createElement(_MasteriesTree2.default, { tree: 'resolve', talentId: 62, talents: resolve })
-	      );
-	    }
-	  }]);
-
-	  return MasteriesTab;
-	}(_react.Component);
-
-	exports.default = MasteriesTab;
-
-/***/ },
-/* 519 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var MasteriesTree = function (_Component) {
-	  _inherits(MasteriesTree, _Component);
-
-	  function MasteriesTree() {
-	    _classCallCheck(this, MasteriesTree);
-
-	    return _possibleConstructorReturn(this, (MasteriesTree.__proto__ || Object.getPrototypeOf(MasteriesTree)).apply(this, arguments));
-	  }
-
-	  _createClass(MasteriesTree, [{
-	    key: "getDdragonUrl",
-	    value: function getDdragonUrl(tree, mid) {
-	      if (tree === 61) return "http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/61" + mid + ".png";
-	      if (tree === 63) return "http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/63" + mid + ".png";
-	      if (tree === 62) return "http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/62" + mid + ".png";
-	    }
-	  }, {
-	    key: "render",
-	    value: function render() {
-
-	      var tree = this.props.tree;
-	      var talentId = this.props.talentId;
-	      var talents = this.props.talents;
-
-	      return _react2.default.createElement(
-	        "div",
-	        { className: "masteries-tree " + tree },
-	        _react2.default.createElement(
-	          "div",
-	          { className: "title" },
-	          tree
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          { className: "mrow row-1" },
-	          _react2.default.createElement(
-	            "div",
-	            { className: "m m-" + talents[0] },
-	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[0]) }),
-	            _react2.default.createElement(
-	              "div",
-	              { className: "number-overlay" },
-	              "5"
-	            )
-	          ),
-	          _react2.default.createElement("div", { className: "m m-filler" }),
-	          _react2.default.createElement(
-	            "div",
-	            { className: "m m-" + talents[1] },
-	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[1]) }),
-	            _react2.default.createElement(
-	              "div",
-	              { className: "number-overlay" },
-	              "0"
-	            )
-	          )
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          { className: "mrow row-2" },
-	          _react2.default.createElement(
-	            "div",
-	            { className: "m m-" + talents[2] },
-	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[2]) }),
-	            _react2.default.createElement(
-	              "div",
-	              { className: "number-overlay" },
-	              "1"
-	            )
-	          ),
-	          _react2.default.createElement(
-	            "div",
-	            { className: "m m-" + talents[3] },
-	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[3]) }),
-	            _react2.default.createElement(
-	              "div",
-	              { className: "number-overlay" },
-	              "0"
-	            )
-	          ),
-	          _react2.default.createElement(
-	            "div",
-	            { className: "m m-" + talents[4] },
-	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[4]) }),
-	            _react2.default.createElement(
-	              "div",
-	              { className: "number-overlay" },
-	              "0"
-	            )
-	          )
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          { className: "mrow row-3" },
-	          _react2.default.createElement(
-	            "div",
-	            { className: "m m-" + talents[5] },
-	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[5]) }),
-	            _react2.default.createElement(
-	              "div",
-	              { className: "number-overlay" },
-	              "5"
-	            )
-	          ),
-	          _react2.default.createElement("div", { className: "m m-filler" }),
-	          _react2.default.createElement(
-	            "div",
-	            { className: "m m-" + talents[6] },
-	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[6]) }),
-	            _react2.default.createElement(
-	              "div",
-	              { className: "number-overlay" },
-	              "0"
-	            )
-	          )
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          { className: "mrow row-4" },
-	          _react2.default.createElement(
-	            "div",
-	            { className: "m m-" + talents[7] },
-	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[7]) }),
-	            _react2.default.createElement(
-	              "div",
-	              { className: "number-overlay" },
-	              "0"
-	            )
-	          ),
-	          _react2.default.createElement(
-	            "div",
-	            { className: "m m-" + talents[8] },
-	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[8]) }),
-	            _react2.default.createElement(
-	              "div",
-	              { className: "number-overlay" },
-	              "1"
-	            )
-	          )
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          { className: "mrow row-5" },
-	          _react2.default.createElement(
-	            "div",
-	            { className: "m m-" + talents[9] },
-	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[9]) }),
-	            _react2.default.createElement(
-	              "div",
-	              { className: "number-overlay" },
-	              "5"
-	            )
-	          ),
-	          _react2.default.createElement("div", { className: "m m-filler" }),
-	          _react2.default.createElement(
-	            "div",
-	            { className: "m m-" + talents[10] },
-	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[10]) }),
-	            _react2.default.createElement(
-	              "div",
-	              { className: "number-overlay" },
-	              "0"
-	            )
-	          )
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          { className: "mrow row-6" },
-	          _react2.default.createElement(
-	            "div",
-	            { className: "m m-" + talents[11] },
-	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[11]) }),
-	            _react2.default.createElement(
-	              "div",
-	              { className: "number-overlay" },
-	              "0"
-	            )
-	          ),
-	          _react2.default.createElement(
-	            "div",
-	            { className: "m m-" + talents[12] },
-	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[12]) }),
-	            _react2.default.createElement(
-	              "div",
-	              { className: "number-overlay" },
-	              "1"
-	            )
-	          ),
-	          _react2.default.createElement(
-	            "div",
-	            { className: "m m-" + talents[13] },
-	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[13]) }),
-	            _react2.default.createElement(
-	              "div",
-	              { className: "number-overlay" },
-	              "0"
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return MasteriesTree;
-	}(_react.Component);
-
-	exports.default = MasteriesTree;
-
-/***/ },
-/* 520 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactBootstrap = __webpack_require__(241);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var RunesTab = function (_Component) {
-	  _inherits(RunesTab, _Component);
-
-	  function RunesTab() {
-	    _classCallCheck(this, RunesTab);
-
-	    return _possibleConstructorReturn(this, (RunesTab.__proto__ || Object.getPrototypeOf(RunesTab)).apply(this, arguments));
-	  }
-
-	  _createClass(RunesTab, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'tab runes-tab' },
-	        _react2.default.createElement(
-	          _reactBootstrap.Row,
-	          null,
-	          _react2.default.createElement(
-	            _reactBootstrap.Col,
-	            { xs: 3, sm: 2, md: 4 },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'rune' },
-	              _react2.default.createElement('img', { src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/rune/10002.png' }),
-	              _react2.default.createElement(
-	                'div',
-	                null,
-	                '+1.5% movement speed'
-	              )
-	            )
-	          ),
-	          _react2.default.createElement(
-	            _reactBootstrap.Col,
-	            { xs: 3, sm: 2, md: 4 },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'rune' },
-	              _react2.default.createElement('img', { src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/rune/10002.png' }),
-	              _react2.default.createElement(
-	                'div',
-	                null,
-	                '+1.5% movement speed'
-	              )
-	            )
-	          ),
-	          _react2.default.createElement(
-	            _reactBootstrap.Col,
-	            { xs: 3, sm: 2, md: 4 },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'rune' },
-	              _react2.default.createElement('img', { src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/rune/10002.png' }),
-	              _react2.default.createElement(
-	                'div',
-	                null,
-	                '+1.5% movement speed'
-	              )
-	            )
-	          ),
-	          _react2.default.createElement(
-	            _reactBootstrap.Col,
-	            { xs: 3, sm: 2, md: 4 },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'rune' },
-	              _react2.default.createElement('img', { src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/rune/10002.png' }),
-	              _react2.default.createElement(
-	                'div',
-	                null,
-	                '+1.5% movement speed'
-	              )
-	            )
-	          ),
-	          _react2.default.createElement(
-	            _reactBootstrap.Col,
-	            { xs: 3, sm: 2, md: 4 },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'rune' },
-	              _react2.default.createElement('img', { src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/rune/10002.png' }),
-	              _react2.default.createElement(
-	                'div',
-	                null,
-	                '+1.5% movement speed'
-	              )
-	            )
-	          ),
-	          _react2.default.createElement(
-	            _reactBootstrap.Col,
-	            { xs: 3, sm: 2, md: 4 },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'rune' },
-	              _react2.default.createElement('img', { src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/rune/10002.png' }),
-	              _react2.default.createElement(
-	                'div',
-	                null,
-	                '+1.5% movement speed'
-	              )
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return RunesTab;
-	}(_react.Component);
-
-	exports.default = RunesTab;
-
-/***/ },
-/* 521 */
 /***/ function(module, exports) {
 
 	"use strict";module.exports={"Aatrox":{"version":"6.18.1","id":"Aatrox","key":"266","name":"Aatrox","title":"the Darkin Blade","blurb":"Aatrox is a legendary warrior, one of only five that remain of an ancient race known as the Darkin. He wields his massive blade with grace and poise, slicing through legions in a style that is hypnotic to behold. With each foe felled, Aatrox's ...","info":{"attack":8,"defense":4,"magic":3,"difficulty":4},"image":{"full":"Aatrox.png","sprite":"champion0.png","group":"champion","x":0,"y":0,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"BloodWell","stats":{"hp":537.8,"hpperlevel":85,"mp":105.6,"mpperlevel":45,"movespeed":345,"armor":24.384,"armorperlevel":3.8,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":150,"hpregen":6.59,"hpregenperlevel":0.5,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":60.376,"attackdamageperlevel":3.2,"attackspeedoffset":-0.04,"attackspeedperlevel":3}},"Ahri":{"version":"6.18.1","id":"Ahri","key":"103","name":"Ahri","title":"the Nine-Tailed Fox","blurb":"Unlike other foxes that roamed the woods of southern Ionia, Ahri had always felt a strange connection to the magical world around her; a connection that was somehow incomplete. Deep inside, she felt the skin she had been born into was an ill fit for ...","info":{"attack":3,"defense":4,"magic":8,"difficulty":5},"image":{"full":"Ahri.png","sprite":"champion0.png","group":"champion","x":48,"y":0,"w":48,"h":48},"tags":["Mage","Assassin"],"partype":"MP","stats":{"hp":514.4,"hpperlevel":80,"mp":334,"mpperlevel":50,"movespeed":330,"armor":20.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6.505,"hpregenperlevel":0.6,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":53.04,"attackdamageperlevel":3,"attackspeedoffset":-0.065,"attackspeedperlevel":2}},"Akali":{"version":"6.18.1","id":"Akali","key":"84","name":"Akali","title":"the Fist of Shadow","blurb":"There exists an ancient order originating in the Ionian Isles dedicated to the preservation of balance. Order, chaos, light, darkness -- all things must exist in perfect harmony for such is the way of the universe. This order is known as the Kinkou ...","info":{"attack":5,"defense":3,"magic":8,"difficulty":7},"image":{"full":"Akali.png","sprite":"champion0.png","group":"champion","x":96,"y":0,"w":48,"h":48},"tags":["Assassin"],"partype":"Energy","stats":{"hp":587.8,"hpperlevel":85,"mp":200,"mpperlevel":0,"movespeed":350,"armor":26.38,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.34,"hpregenperlevel":0.65,"mpregen":50,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":58.376,"attackdamageperlevel":3.2,"attackspeedoffset":-0.1,"attackspeedperlevel":3.1}},"Alistar":{"version":"6.18.1","id":"Alistar","key":"12","name":"Alistar","title":"the Minotaur","blurb":"As the mightiest warrior to ever emerge from the Minotaur tribes of the Great Barrier, Alistar defended his tribe from Valoran's many dangers; that is, until the coming of the Noxian army. Alistar was lured from his village by the machinations of ...","info":{"attack":6,"defense":9,"magic":5,"difficulty":7},"image":{"full":"Alistar.png","sprite":"champion0.png","group":"champion","x":144,"y":0,"w":48,"h":48},"tags":["Tank","Support"],"partype":"MP","stats":{"hp":613.36,"hpperlevel":106,"mp":278.84,"mpperlevel":38,"movespeed":330,"armor":24.38,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.675,"hpregenperlevel":0.85,"mpregen":8.5,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":61.1116,"attackdamageperlevel":3.62,"attackspeedoffset":0,"attackspeedperlevel":2.125}},"Amumu":{"version":"6.18.1","id":"Amumu","key":"32","name":"Amumu","title":"the Sad Mummy","blurb":"''Solitude can be lonelier than death.''<br><br>A lonely and melancholy soul from ancient Shurima, Amumu roams the world in search of a friend. Cursed by an ancient spell, he is doomed to remain alone forever, as his touch is death and his affection ...","info":{"attack":2,"defense":6,"magic":8,"difficulty":3},"image":{"full":"Amumu.png","sprite":"champion0.png","group":"champion","x":192,"y":0,"w":48,"h":48},"tags":["Tank","Mage"],"partype":"MP","stats":{"hp":613.12,"hpperlevel":84,"mp":287.2,"mpperlevel":40,"movespeed":335,"armor":23.544,"armorperlevel":3.8,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.875,"hpregenperlevel":0.85,"mpregen":7.38,"mpregenperlevel":0.525,"crit":0,"critperlevel":0,"attackdamage":53.384,"attackdamageperlevel":3.8,"attackspeedoffset":-0.02,"attackspeedperlevel":2.18}},"Anivia":{"version":"6.18.1","id":"Anivia","key":"34","name":"Anivia","title":"the Cryophoenix","blurb":"Anivia is a being of the coldest winter, a mystical embodiment of ice magic, and an ancient protector of the Freljord. She commands all the power and fury of the land itself, calling the snow and bitter wind to defend her home from those who would ...","info":{"attack":1,"defense":4,"magic":10,"difficulty":10},"image":{"full":"Anivia.png","sprite":"champion0.png","group":"champion","x":240,"y":0,"w":48,"h":48},"tags":["Mage","Support"],"partype":"MP","stats":{"hp":467.6,"hpperlevel":70,"mp":396.04,"mpperlevel":50,"movespeed":325,"armor":21.22,"armorperlevel":4,"spellblock":30,"spellblockperlevel":0,"attackrange":600,"hpregen":5.57,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":51.376,"attackdamageperlevel":3.2,"attackspeedoffset":0,"attackspeedperlevel":1.68}},"Annie":{"version":"6.18.1","id":"Annie","key":"1","name":"Annie","title":"the Dark Child","blurb":"There have always been those within Noxus who did not agree with the evils perpetrated by the Noxian High Command. The High Command had just put down a coup attempt from the self-proclaimed Crown Prince Raschallion, and a crackdown on any form of ...","info":{"attack":2,"defense":3,"magic":10,"difficulty":6},"image":{"full":"Annie.png","sprite":"champion0.png","group":"champion","x":288,"y":0,"w":48,"h":48},"tags":["Mage"],"partype":"MP","stats":{"hp":511.68,"hpperlevel":76,"mp":334,"mpperlevel":50,"movespeed":335,"armor":19.22,"armorperlevel":4,"spellblock":30,"spellblockperlevel":0,"attackrange":575,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":50.41,"attackdamageperlevel":2.625,"attackspeedoffset":0.08,"attackspeedperlevel":1.36}},"Ashe":{"version":"6.18.1","id":"Ashe","key":"22","name":"Ashe","title":"the Frost Archer","blurb":"With each arrow she fires from her ancient ice-enchanted bow, Ashe proves she is a master archer. She chooses each target carefully, waits for the right moment, and then strikes with power and precision. It is with this same vision and focus that she ...","info":{"attack":7,"defense":3,"magic":2,"difficulty":4},"image":{"full":"Ashe.png","sprite":"champion0.png","group":"champion","x":336,"y":0,"w":48,"h":48},"tags":["Marksman","Support"],"partype":"MP","stats":{"hp":527.72,"hpperlevel":79,"mp":280,"mpperlevel":32,"movespeed":325,"armor":21.212,"armorperlevel":3.4,"spellblock":30,"spellblockperlevel":0,"attackrange":600,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":6.97,"mpregenperlevel":0.4,"crit":0,"critperlevel":0,"attackdamage":56.508,"attackdamageperlevel":2.26,"attackspeedoffset":-0.05,"attackspeedperlevel":3.33}},"AurelionSol":{"version":"6.18.1","id":"AurelionSol","key":"136","name":"Aurelion Sol","title":"The Star Forger","blurb":"Aurelion SolÂ onceÂ graced the vast emptiness of the cosmos with celestial wonders of his own devising. Now, he is forced to wield his awesome power at the behest of a space-faring empire that tricked him into servitude. Desiring a return to his ...","info":{"attack":2,"defense":3,"magic":8,"difficulty":7},"image":{"full":"AurelionSol.png","sprite":"champion0.png","group":"champion","x":384,"y":0,"w":48,"h":48},"tags":["Mage","Fighter"],"partype":"MP","stats":{"hp":550,"hpperlevel":80,"mp":350,"mpperlevel":50,"movespeed":325,"armor":19,"armorperlevel":3.6,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6.5,"hpregenperlevel":0.6,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":57,"attackdamageperlevel":3.2,"attackspeedoffset":0,"attackspeedperlevel":1.36}},"Azir":{"version":"6.18.1","id":"Azir","key":"268","name":"Azir","title":"the Emperor of the Sands","blurb":"''Shurima was once the glory of Runeterra. I will make it so again.''<br><br>Azir was a mortal emperor of Shurima in a far distant age, a proud man who stood at the cusp of immortality. His hubris saw him betrayed and murdered at the moment of his ...","info":{"attack":6,"defense":3,"magic":8,"difficulty":9},"image":{"full":"Azir.png","sprite":"champion0.png","group":"champion","x":432,"y":0,"w":48,"h":48},"tags":["Mage","Marksman"],"partype":"MP","stats":{"hp":524.4,"hpperlevel":80,"mp":350.56,"mpperlevel":42,"movespeed":325,"armor":19.04,"armorperlevel":3,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":6.92,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":52,"attackdamageperlevel":2.8,"attackspeedoffset":-0.02,"attackspeedperlevel":1.5}},"Bard":{"version":"6.18.1","id":"Bard","key":"432","name":"Bard","title":"the Wandering Caretaker","blurb":"Bard travels through realms beyond the imagination of mortal beings. Some of Valoran's greatest scholars have spent their lives trying to understand the mysteries he embodies. This enigmatic spirit has been given many names throughout the history of ...","info":{"attack":4,"defense":4,"magic":5,"difficulty":9},"image":{"full":"Bard.png","sprite":"champion0.png","group":"champion","x":0,"y":48,"w":48,"h":48},"tags":["Support","Mage"],"partype":"MP","stats":{"hp":535,"hpperlevel":89,"mp":350,"mpperlevel":50,"movespeed":330,"armor":25,"armorperlevel":4,"spellblock":30,"spellblockperlevel":0,"attackrange":500,"hpregen":5.4,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":52,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":2}},"Blitzcrank":{"version":"6.18.1","id":"Blitzcrank","key":"53","name":"Blitzcrank","title":"the Great Steam Golem","blurb":"Zaun is a place where both magic and science have gone awry, and the unchecked nature of experimentation has taken its toll. However, Zaun's lenient restrictions allow their researchers and inventors the leeway to push the bounds of science at an ...","info":{"attack":4,"defense":8,"magic":5,"difficulty":4},"image":{"full":"Blitzcrank.png","sprite":"champion0.png","group":"champion","x":48,"y":48,"w":48,"h":48},"tags":["Tank","Fighter"],"partype":"MP","stats":{"hp":582.6,"hpperlevel":95,"mp":267.2,"mpperlevel":40,"movespeed":325,"armor":24.38,"armorperlevel":4,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.51,"hpregenperlevel":0.75,"mpregen":8.5,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":61.54,"attackdamageperlevel":3.5,"attackspeedoffset":0,"attackspeedperlevel":1.13}},"Brand":{"version":"6.18.1","id":"Brand","key":"63","name":"Brand","title":"the Burning Vengeance","blurb":"In a faraway place known as Lokfar there was a seafaring marauder called Kegan Rodhe. As was his people's way, Kegan sailed far and wide with his fellows, stealing treasures from those unlucky enough to catch their attention. To some, he was a ...","info":{"attack":2,"defense":2,"magic":9,"difficulty":4},"image":{"full":"Brand.png","sprite":"champion0.png","group":"champion","x":96,"y":48,"w":48,"h":48},"tags":["Mage"],"partype":"MP","stats":{"hp":507.68,"hpperlevel":76,"mp":375.6,"mpperlevel":42,"movespeed":340,"armor":21.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":8.005,"mpregenperlevel":0.6,"crit":0,"critperlevel":0,"attackdamage":57.04,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":1.36}},"Braum":{"version":"6.18.1","id":"Braum","key":"201","name":"Braum","title":"the Heart of the Freljord","blurb":"''Would you like a bedtime story?''<br><br>''Grandma, I'm too old for that.''<br><br>''You're never too old to be told a story.''<br><br>The girl reluctantly crawls into bed and waits, knowing she won't win this battle. A bitter wind howls outside, ...","info":{"attack":3,"defense":9,"magic":4,"difficulty":3},"image":{"full":"Braum.png","sprite":"champion0.png","group":"champion","x":144,"y":48,"w":48,"h":48},"tags":["Support","Tank"],"partype":"MP","stats":{"hp":576.16,"hpperlevel":87,"mp":310.6,"mpperlevel":45,"movespeed":335,"armor":26.72,"armorperlevel":4.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.18,"hpregenperlevel":1,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":55.376,"attackdamageperlevel":3.2,"attackspeedoffset":-0.03,"attackspeedperlevel":3.5}},"Caitlyn":{"version":"6.18.1","id":"Caitlyn","key":"51","name":"Caitlyn","title":"the Sheriff of Piltover","blurb":"''Go ahead, run. I'll give you a five minute head start.''<br><br>One of the reasons Piltover is known as the City of Progress is because it has an extraordinarily low crime rate. This hasn't always been the case; brigands and thieves of all sorts ...","info":{"attack":8,"defense":2,"magic":2,"difficulty":6},"image":{"full":"Caitlyn.png","sprite":"champion0.png","group":"champion","x":192,"y":48,"w":48,"h":48},"tags":["Marksman"],"partype":"MP","stats":{"hp":524.4,"hpperlevel":80,"mp":313.7,"mpperlevel":35,"movespeed":325,"armor":22.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":650,"hpregen":5.67,"hpregenperlevel":0.55,"mpregen":7.4,"mpregenperlevel":0.55,"crit":0,"critperlevel":0,"attackdamage":53.66,"attackdamageperlevel":2.18,"attackspeedoffset":0.1,"attackspeedperlevel":4}},"Cassiopeia":{"version":"6.18.1","id":"Cassiopeia","key":"69","name":"Cassiopeia","title":"the Serpent's Embrace","blurb":"Cassiopeia is a terrifying creature - half woman, half snake - whose slightest glance brings death. The youngest daughter of one of Noxus' most influential families, she was once a beautiful and cunning temptress capable of manipulating the hardest ...","info":{"attack":2,"defense":3,"magic":9,"difficulty":10},"image":{"full":"Cassiopeia.png","sprite":"champion0.png","group":"champion","x":240,"y":48,"w":48,"h":48},"tags":["Mage"],"partype":"MP","stats":{"hp":525,"hpperlevel":75,"mp":375,"mpperlevel":60,"movespeed":328,"armor":25,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":5.5,"hpregenperlevel":0.5,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":53,"attackdamageperlevel":3,"attackspeedoffset":-0.034,"attackspeedperlevel":1.5}},"Chogath":{"version":"6.18.1","id":"Chogath","key":"31","name":"Cho'Gath","title":"the Terror of the Void","blurb":"There is a place between dimensions, between worlds. To some it is known as the Outside, to others it is the Unknown. To those that truly know, however, it is called the Void. Despite its name, the Void is not an empty place, but rather the home of ...","info":{"attack":3,"defense":7,"magic":7,"difficulty":5},"image":{"full":"Chogath.png","sprite":"champion0.png","group":"champion","x":288,"y":48,"w":48,"h":48},"tags":["Tank","Mage"],"partype":"MP","stats":{"hp":574.4,"hpperlevel":80,"mp":272.2,"mpperlevel":40,"movespeed":345,"armor":28.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.925,"hpregenperlevel":0.85,"mpregen":7.205,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":61.156,"attackdamageperlevel":4.2,"attackspeedoffset":0,"attackspeedperlevel":1.44}},"Corki":{"version":"6.18.1","id":"Corki","key":"42","name":"Corki","title":"the Daring Bombardier","blurb":"When Heimerdinger and his yordle colleagues migrated to Piltover, they embraced science as a way of life, and they immediately made several groundbreaking contributions to the techmaturgical community. What yordles lack in stature, they make up for ...","info":{"attack":8,"defense":3,"magic":6,"difficulty":6},"image":{"full":"Corki.png","sprite":"champion0.png","group":"champion","x":336,"y":48,"w":48,"h":48},"tags":["Marksman"],"partype":"MP","stats":{"hp":512.76,"hpperlevel":82,"mp":350.16,"mpperlevel":34,"movespeed":325,"armor":23.38,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":7.42,"mpregenperlevel":0.55,"crit":0,"critperlevel":0,"attackdamage":56,"attackdamageperlevel":2.5,"attackspeedoffset":0,"attackspeedperlevel":2.3}},"Darius":{"version":"6.18.1","id":"Darius","key":"122","name":"Darius","title":"the Hand of Noxus","blurb":"There is no greater symbol of Noxian might than Darius, the nation's most feared and battle-hardened warrior. Orphaned at a young age, Darius had to fight to keep himself and his younger brother alive. By the time he joined the military, he had ...","info":{"attack":9,"defense":5,"magic":1,"difficulty":2},"image":{"full":"Darius.png","sprite":"champion0.png","group":"champion","x":384,"y":48,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":582.24,"hpperlevel":100,"mp":263,"mpperlevel":37.5,"movespeed":340,"armor":30,"armorperlevel":4,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":9.845,"hpregenperlevel":0.95,"mpregen":6.585,"mpregenperlevel":0.35,"crit":0,"critperlevel":0,"attackdamage":56,"attackdamageperlevel":5,"attackspeedoffset":0,"attackspeedperlevel":1}},"Diana":{"version":"6.18.1","id":"Diana","key":"131","name":"Diana","title":"Scorn of the Moon","blurb":"''I am the light coursing in the soul of the moon.''<br><br>Bearing her crescent moonblade, Diana fights as a warrior of the Lunari, a faith all but quashed in the lands around Mount Targon. Clad in shimmering armor the color of winter snow at night, ...","info":{"attack":7,"defense":6,"magic":8,"difficulty":4},"image":{"full":"Diana.png","sprite":"champion0.png","group":"champion","x":432,"y":48,"w":48,"h":48},"tags":["Fighter","Mage"],"partype":"MP","stats":{"hp":589.2,"hpperlevel":90,"mp":297.2,"mpperlevel":40,"movespeed":345,"armor":26.048,"armorperlevel":3.6,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":150,"hpregen":7.425,"hpregenperlevel":0.85,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":53.04,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":2.25}},"Draven":{"version":"6.18.1","id":"Draven","key":"119","name":"Draven","title":"the Glorious Executioner","blurb":"Unlike his brother Darius, victory in battle was never enough for Draven. He craved recognition, acclaim, and glory. He first sought greatness in the Noxian military, but his flair for the dramatic went severely underappreciated. Thirsting for a ...","info":{"attack":9,"defense":3,"magic":1,"difficulty":8},"image":{"full":"Draven.png","sprite":"champion0.png","group":"champion","x":0,"y":96,"w":48,"h":48},"tags":["Marksman"],"partype":"MP","stats":{"hp":557.76,"hpperlevel":82,"mp":360.56,"mpperlevel":39,"movespeed":330,"armor":25.544,"armorperlevel":3.3,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6.175,"hpregenperlevel":0.7,"mpregen":8.04,"mpregenperlevel":0.65,"crit":0,"critperlevel":0,"attackdamage":55.8,"attackdamageperlevel":2.91,"attackspeedoffset":-0.08,"attackspeedperlevel":2.7}},"DrMundo":{"version":"6.18.1","id":"DrMundo","key":"36","name":"Dr. Mundo","title":"the Madman of Zaun","blurb":"''Beware the Madman of Zaun. In his eyes, you are already dead''<br><br>It is said that the man now known as Dr. Mundo was born without any sort of conscience. Instead, he had an unquenchable desire to inflict pain through experimentation. By the time ...","info":{"attack":5,"defense":7,"magic":6,"difficulty":5},"image":{"full":"DrMundo.png","sprite":"champion0.png","group":"champion","x":48,"y":96,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"None","stats":{"hp":582.52,"hpperlevel":89,"mp":0,"mpperlevel":0,"movespeed":345,"armor":26.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":7.76,"hpregenperlevel":0.75,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":61.27,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":2.8}},"Ekko":{"version":"6.18.1","id":"Ekko","key":"245","name":"Ekko","title":"the Boy Who Shattered Time","blurb":"A prodigy from the rough streets of Zaun, Ekko manipulates time to spin any situation to his advantage. Using his own invention, the Zero-Drive, he explores the branching possibilities of reality. As well as experimenting with multi-dimensional ...","info":{"attack":5,"defense":3,"magic":7,"difficulty":8},"image":{"full":"Ekko.png","sprite":"champion0.png","group":"champion","x":96,"y":96,"w":48,"h":48},"tags":["Assassin","Fighter"],"partype":"MP","stats":{"hp":580,"hpperlevel":80,"mp":280,"mpperlevel":50,"movespeed":340,"armor":27,"armorperlevel":3,"spellblock":32,"spellblockperlevel":1.25,"attackrange":125,"hpregen":9,"hpregenperlevel":0.9,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":55,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":3.3}},"Elise":{"version":"6.18.1","id":"Elise","key":"60","name":"Elise","title":"the Spider Queen","blurb":"''Beauty is power too, and can strike swifter than any sword.''<br><br>Elise is a deadly predator who dwells in a shuttered, lightless palace, deep in the Immortal Bastion of Noxus. Once she was mortal, the mistress of a once-powerful house, but the ...","info":{"attack":6,"defense":5,"magic":7,"difficulty":9},"image":{"full":"Elise.png","sprite":"champion0.png","group":"champion","x":144,"y":96,"w":48,"h":48},"tags":["Mage","Fighter"],"partype":"MP","stats":{"hp":529.4,"hpperlevel":80,"mp":324,"mpperlevel":50,"movespeed":325,"armor":22.128,"armorperlevel":3.35,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":5.705,"hpregenperlevel":0.6,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":50.54,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":1.75}},"Evelynn":{"version":"6.18.1","id":"Evelynn","key":"28","name":"Evelynn","title":"the Widowmaker","blurb":"Swift and lethal, Evelynn is one of the most deadly - and expensive - assassins in all of Runeterra. Able to merge with the shadows at will, she patiently stalks her prey, waiting for the right moment to strike. While Evelynn is clearly not entirely ...","info":{"attack":4,"defense":2,"magic":7,"difficulty":10},"image":{"full":"Evelynn.png","sprite":"champion0.png","group":"champion","x":192,"y":96,"w":48,"h":48},"tags":["Assassin","Mage"],"partype":"MP","stats":{"hp":531.2,"hpperlevel":90,"mp":315.6,"mpperlevel":42,"movespeed":340,"armor":26.5,"armorperlevel":3.8,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":9.82,"hpregenperlevel":0.55,"mpregen":8.105,"mpregenperlevel":0.6,"crit":0,"critperlevel":0,"attackdamage":53.88,"attackdamageperlevel":3.5,"attackspeedoffset":0,"attackspeedperlevel":3.6}},"Ezreal":{"version":"6.18.1","id":"Ezreal","key":"81","name":"Ezreal","title":"the Prodigal Explorer","blurb":"The intrepid young adventurer Ezreal has explored some of the most remote and abandoned locations on Runeterra. During an expedition to the buried ruins of ancient Shurima, he recovered an amulet of incredible mystical power. Likely constructed to be ...","info":{"attack":7,"defense":2,"magic":6,"difficulty":7},"image":{"full":"Ezreal.png","sprite":"champion0.png","group":"champion","x":240,"y":96,"w":48,"h":48},"tags":["Marksman","Mage"],"partype":"MP","stats":{"hp":484.4,"hpperlevel":80,"mp":360.6,"mpperlevel":42,"movespeed":325,"armor":21.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6.42,"hpregenperlevel":0.55,"mpregen":8.09,"mpregenperlevel":0.65,"crit":0,"critperlevel":0,"attackdamage":55.66,"attackdamageperlevel":2.41,"attackspeedoffset":0,"attackspeedperlevel":2.8}},"FiddleSticks":{"version":"6.18.1","id":"FiddleSticks","key":"9","name":"Fiddlesticks","title":"the Harbinger of Doom","blurb":"For nearly twenty years, Fiddlesticks has stood alone in the easternmost summoning chamber of the Institute of War. Only the burning emerald light of his unearthly gaze pierces the musty darkness of his dust-covered home. It is here that the Harbinger ...","info":{"attack":2,"defense":3,"magic":9,"difficulty":9},"image":{"full":"FiddleSticks.png","sprite":"champion0.png","group":"champion","x":288,"y":96,"w":48,"h":48},"tags":["Mage","Support"],"partype":"MP","stats":{"hp":524.4,"hpperlevel":80,"mp":400.12,"mpperlevel":56,"movespeed":335,"armor":20.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":480,"hpregen":5.605,"hpregenperlevel":0.6,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":48.36,"attackdamageperlevel":2.625,"attackspeedoffset":0,"attackspeedperlevel":2.11}},"Fiora":{"version":"6.18.1","id":"Fiora","key":"114","name":"Fiora","title":"the Grand Duelist","blurb":"''I have come to kill you for the sake of honor. And though you possess none, still you die.''<br>The most feared duelist in all Valoran, Fiora is as renowned for her brusque manner and cunning mind as she is for the speed of her bluesteel rapier. ...","info":{"attack":10,"defense":4,"magic":2,"difficulty":3},"image":{"full":"Fiora.png","sprite":"champion0.png","group":"champion","x":336,"y":96,"w":48,"h":48},"tags":["Fighter","Assassin"],"partype":"MP","stats":{"hp":550,"hpperlevel":85,"mp":300,"mpperlevel":40,"movespeed":345,"armor":24,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":150,"hpregen":8.25,"hpregenperlevel":0.55,"mpregen":8,"mpregenperlevel":0.7,"crit":0,"critperlevel":0,"attackdamage":60,"attackdamageperlevel":3.3,"attackspeedoffset":0,"attackspeedperlevel":3.2}},"Fizz":{"version":"6.18.1","id":"Fizz","key":"105","name":"Fizz","title":"the Tidal Trickster","blurb":"Centuries ago, an ancient water-dwelling race built a hidden city beneath a mountain in the sea. Though these creatures had their enemies, the city was an impenetrable fortress, and, in the safety it provided, they grew complacent. Fizz, however, ...","info":{"attack":6,"defense":4,"magic":7,"difficulty":6},"image":{"full":"Fizz.png","sprite":"champion0.png","group":"champion","x":384,"y":96,"w":48,"h":48},"tags":["Assassin","Fighter"],"partype":"MP","stats":{"hp":558.48,"hpperlevel":86,"mp":317.2,"mpperlevel":37,"movespeed":335,"armor":22.412,"armorperlevel":3.4,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":8.175,"hpregenperlevel":0.7,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":58.04,"attackdamageperlevel":3,"attackspeedoffset":-0.05,"attackspeedperlevel":3.1}},"Galio":{"version":"6.18.1","id":"Galio","key":"3","name":"Galio","title":"the Sentinel's Sorrow","blurb":"''There is no such thing as redemption. Only penance.''<br><br>Long before the regulation of magic, mages experimented with the creation of artificial life. Now forbidden, instilling golems with reason was once not so uncommon a practice amongst the ...","info":{"attack":3,"defense":7,"magic":6,"difficulty":3},"image":{"full":"Galio.png","sprite":"champion0.png","group":"champion","x":432,"y":96,"w":48,"h":48},"tags":["Tank","Mage"],"partype":"MP","stats":{"hp":577.8,"hpperlevel":85,"mp":369,"mpperlevel":47,"movespeed":335,"armor":26.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.71,"hpregenperlevel":0.75,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":61.97,"attackdamageperlevel":3.375,"attackspeedoffset":-0.02,"attackspeedperlevel":1.2}},"Gangplank":{"version":"6.18.1","id":"Gangplank","key":"41","name":"Gangplank","title":"the Saltwater Scourge","blurb":"''I was cutting throats and sinking Noxian war galleys when you were still pissing your britches, boy. You don't want to take me on.''<br><br>As unpredictable as he is brutal, the dethroned reaver king known as Gangplank is feared far and wide. Where ...","info":{"attack":7,"defense":6,"magic":4,"difficulty":9},"image":{"full":"Gangplank.png","sprite":"champion1.png","group":"champion","x":0,"y":0,"w":48,"h":48},"tags":["Fighter"],"partype":"MP","stats":{"hp":540,"hpperlevel":82,"mp":282,"mpperlevel":40,"movespeed":345,"armor":26,"armorperlevel":3,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":6,"hpregenperlevel":0.6,"mpregen":7.5,"mpregenperlevel":0.7,"crit":0,"critperlevel":0,"attackdamage":56,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":3.2}},"Garen":{"version":"6.18.1","id":"Garen","key":"86","name":"Garen","title":"The Might of Demacia","blurb":"Throughout Valoran, the resolve of Demacia's military is alternately celebrated or despised, but always respected. Their ''zero tolerance'' moral code is strictly upheld by civilians and soldiers alike. In combat, this means Demacian troops may not ...","info":{"attack":7,"defense":7,"magic":1,"difficulty":5},"image":{"full":"Garen.png","sprite":"champion1.png","group":"champion","x":48,"y":0,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"None","stats":{"hp":616.28,"hpperlevel":84.25,"mp":0,"mpperlevel":0,"movespeed":340,"armor":27.536,"armorperlevel":3,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":7.84,"hpregenperlevel":0.5,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":57.88,"attackdamageperlevel":4.5,"attackspeedoffset":0,"attackspeedperlevel":2.9}},"Gnar":{"version":"6.18.1","id":"Gnar","key":"150","name":"Gnar","title":"the Missing Link","blurb":"The jungle does not forgive blindness. Every broken branch tells a story.<br><br>I've hunted every creature this jungle has to offer. I was certain there were no challenges left here, but now there is something new. Each track is the size of a ...","info":{"attack":6,"defense":5,"magic":5,"difficulty":8},"image":{"full":"Gnar.png","sprite":"champion1.png","group":"champion","x":96,"y":0,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"Gnarfury","stats":{"hp":540,"hpperlevel":65,"mp":100,"mpperlevel":0,"movespeed":325,"armor":23,"armorperlevel":2.5,"spellblock":30,"spellblockperlevel":0,"attackrange":175,"hpregen":2.5,"hpregenperlevel":0.5,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":51,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":6}},"Gragas":{"version":"6.18.1","id":"Gragas","key":"79","name":"Gragas","title":"the Rabble Rouser","blurb":"The only thing more important to Gragas than fighting is drinking. His unquenchable thirst for stronger ale has led him in search of the most potent and unconventional ingredients to toss in his still. Impulsive and unpredictable, this rowdy carouser ...","info":{"attack":4,"defense":7,"magic":6,"difficulty":5},"image":{"full":"Gragas.png","sprite":"champion1.png","group":"champion","x":144,"y":0,"w":48,"h":48},"tags":["Fighter","Mage"],"partype":"MP","stats":{"hp":583.52,"hpperlevel":89,"mp":400,"mpperlevel":47,"movespeed":330,"armor":26.048,"armorperlevel":3.6,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":5.5,"hpregenperlevel":0.5,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":61.38,"attackdamageperlevel":3.5,"attackspeedoffset":-0.04,"attackspeedperlevel":2.05}},"Graves":{"version":"6.18.1","id":"Graves","key":"104","name":"Graves","title":"the Outlaw","blurb":"Malcolm Graves is a wanted man in every realm, city-state, and empire he has visited. Tough, strong-willed, and above all, relentless, through his life of crime he has amassed (then invariably lost) a small fortune.","info":{"attack":8,"defense":5,"magic":3,"difficulty":3},"image":{"full":"Graves.png","sprite":"champion1.png","group":"champion","x":192,"y":0,"w":48,"h":48},"tags":["Marksman"],"partype":"MP","stats":{"hp":551.12,"hpperlevel":84,"mp":322.2,"mpperlevel":40,"movespeed":340,"armor":24.376,"armorperlevel":3.4,"spellblock":30,"spellblockperlevel":0,"attackrange":425,"hpregen":6.675,"hpregenperlevel":0.7,"mpregen":7.9,"mpregenperlevel":0.7,"crit":0,"critperlevel":0,"attackdamage":60.83,"attackdamageperlevel":2.41,"attackspeedoffset":0.3,"attackspeedperlevel":2.6}},"Hecarim":{"version":"6.18.1","id":"Hecarim","key":"120","name":"Hecarim","title":"the Shadow of War","blurb":"''Break their ranks and ride them down without mercy. Crush the living and feast on their terror.''<br><br>Hecarim is an armored colossus who charges from the Shadow Isles at the head of a deathly host of spectral horsemen to hunt the living. A ...","info":{"attack":8,"defense":6,"magic":4,"difficulty":6},"image":{"full":"Hecarim.png","sprite":"champion1.png","group":"champion","x":240,"y":0,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":580,"hpperlevel":90,"mp":277.2,"mpperlevel":40,"movespeed":345,"armor":26.72,"armorperlevel":4,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":7,"hpregenperlevel":0.75,"mpregen":6.5,"mpregenperlevel":0.6,"crit":0,"critperlevel":0,"attackdamage":58,"attackdamageperlevel":3.2,"attackspeedoffset":-0.0672,"attackspeedperlevel":2.5}},"Heimerdinger":{"version":"6.18.1","id":"Heimerdinger","key":"74","name":"Heimerdinger","title":"the Revered Inventor","blurb":"From the Journal of Professor Cecil B. Heimerdinger<br><br>10.14<br><br>09:15<br><br>Current meteorological conditions in Bandle City seem optimal. Atmospheric pressure is ideal for today's experiments!<br><br>Running a fifth trial for my ...","info":{"attack":2,"defense":6,"magic":8,"difficulty":8},"image":{"full":"Heimerdinger.png","sprite":"champion1.png","group":"champion","x":288,"y":0,"w":48,"h":48},"tags":["Mage","Support"],"partype":"MP","stats":{"hp":476,"hpperlevel":75,"mp":307.2,"mpperlevel":40,"movespeed":340,"armor":19.04,"armorperlevel":3,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":11.005,"hpregenperlevel":1.75,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":55.536,"attackdamageperlevel":2.7,"attackspeedoffset":0,"attackspeedperlevel":1.36}},"Illaoi":{"version":"6.18.1","id":"Illaoi","key":"420","name":"Illaoi","title":"the Kraken Priestess","blurb":"''I'm not big on sermons. Broken bones teach better lessons.''<br>Illaoi's powerful physique is dwarfed only by her indomitable faith. As the prophet of the Great Kraken, she uses a huge, golden idol to rip her foes' spirits from their bodies and ...","info":{"attack":8,"defense":6,"magic":3,"difficulty":4},"image":{"full":"Illaoi.png","sprite":"champion1.png","group":"champion","x":336,"y":0,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":585.6,"hpperlevel":95,"mp":300,"mpperlevel":40,"movespeed":340,"armor":26,"armorperlevel":3.8,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":9.5,"hpregenperlevel":0.8,"mpregen":7.5,"mpregenperlevel":0.75,"crit":0,"critperlevel":0,"attackdamage":60,"attackdamageperlevel":5,"attackspeedoffset":0,"attackspeedperlevel":2.5}},"Irelia":{"version":"6.18.1","id":"Irelia","key":"39","name":"Irelia","title":"the Will of the Blades","blurb":"''The sword flourishes, as though painting with blood.''<br><br>The Ionians have developed some of the most breathtaking and deadly martial arts in all of Runeterra - just one manifestation of their pursuit of enlightenment. The most remarkable blade ...","info":{"attack":7,"defense":4,"magic":5,"difficulty":5},"image":{"full":"Irelia.png","sprite":"champion1.png","group":"champion","x":384,"y":0,"w":48,"h":48},"tags":["Fighter","Assassin"],"partype":"MP","stats":{"hp":607.2,"hpperlevel":90,"mp":338.8,"mpperlevel":32,"movespeed":345,"armor":25.3,"armorperlevel":3.75,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.59,"hpregenperlevel":0.65,"mpregen":8.1,"mpregenperlevel":0.65,"crit":0,"critperlevel":0,"attackdamage":61.544,"attackdamageperlevel":3.3,"attackspeedoffset":-0.06,"attackspeedperlevel":3.2}},"Janna":{"version":"6.18.1","id":"Janna","key":"40","name":"Janna","title":"the Storm's Fury","blurb":"There are those sorcerers who give themselves over to the primal powers of nature, forgoing the learned practice of magic. Such a sorceress is Janna, who first learned magic as an orphan growing up amidst the chaos that is the city-state of Zaun. ...","info":{"attack":3,"defense":5,"magic":7,"difficulty":7},"image":{"full":"Janna.png","sprite":"champion1.png","group":"champion","x":432,"y":0,"w":48,"h":48},"tags":["Support","Mage"],"partype":"MP","stats":{"hp":487.04,"hpperlevel":78,"mp":409.52,"mpperlevel":64,"movespeed":335,"armor":19.384,"armorperlevel":3.8,"spellblock":30,"spellblockperlevel":0,"attackrange":475,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":11.5,"mpregenperlevel":0.4,"crit":0,"critperlevel":0,"attackdamage":51.956,"attackdamageperlevel":2.95,"attackspeedoffset":0,"attackspeedperlevel":2.61}},"JarvanIV":{"version":"6.18.1","id":"JarvanIV","key":"59","name":"Jarvan IV","title":"the Exemplar of Demacia","blurb":"''There is only one truth, and you will find it at the point of my lance.''<br><br>As the royal family of Demacia for centuries, members of the Lightshield line have spent their lives waging war against any who opposed Demacian ethics. It is said that ...","info":{"attack":6,"defense":8,"magic":3,"difficulty":5},"image":{"full":"JarvanIV.png","sprite":"champion1.png","group":"champion","x":0,"y":48,"w":48,"h":48},"tags":["Tank","Fighter"],"partype":"MP","stats":{"hp":571.2,"hpperlevel":90,"mp":302.2,"mpperlevel":40,"movespeed":340,"armor":29,"armorperlevel":3.6,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":8.175,"hpregenperlevel":0.7,"mpregen":6.755,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":55.712,"attackdamageperlevel":3.4,"attackspeedoffset":-0.05,"attackspeedperlevel":2.5}},"Jax":{"version":"6.18.1","id":"Jax","key":"24","name":"Jax","title":"Grandmaster at Arms","blurb":"It is seldom the case where a champion is defined by his actions after joining the League of Legends rather than before. Such is the case with Jax, for whom the argument could be made that he is the most prolific tournament fighter currently at the ...","info":{"attack":7,"defense":5,"magic":7,"difficulty":5},"image":{"full":"Jax.png","sprite":"champion1.png","group":"champion","x":48,"y":48,"w":48,"h":48},"tags":["Fighter","Assassin"],"partype":"MP","stats":{"hp":592.8,"hpperlevel":85,"mp":338.8,"mpperlevel":32,"movespeed":350,"armor":27.04,"armorperlevel":3,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.37,"hpregenperlevel":0.55,"mpregen":7.575,"mpregenperlevel":0.7,"crit":0,"critperlevel":0,"attackdamage":61.97,"attackdamageperlevel":3.375,"attackspeedoffset":-0.02,"attackspeedperlevel":3.4}},"Jayce":{"version":"6.18.1","id":"Jayce","key":"126","name":"Jayce","title":"the Defender of Tomorrow","blurb":"Armed with wit, charm, and his signature transforming hammer, Jayce lives to protect his native Piltover. Long before his nation called him a hero, however, he was a promising young inventor. When Piltover commissioned him to study a rare arcane ...","info":{"attack":8,"defense":4,"magic":3,"difficulty":7},"image":{"full":"Jayce.png","sprite":"champion1.png","group":"champion","x":96,"y":48,"w":48,"h":48},"tags":["Fighter","Marksman"],"partype":"MP","stats":{"hp":571.2,"hpperlevel":90,"mp":357.2,"mpperlevel":37,"movespeed":335,"armor":22.38,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":125,"hpregen":7.34,"hpregenperlevel":0.8,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":50.38,"attackdamageperlevel":3.5,"attackspeedoffset":-0.05,"attackspeedperlevel":3}},"Jhin":{"version":"6.18.1","id":"Jhin","key":"202","name":"Jhin","title":"the Virtuoso","blurb":"''Art requires a certain...cruelty.''<br><br>Jhin is a meticulous criminal psychopath who believes murder is art. Once an Ionian prisoner, but freed by shadowy elements within Ionia's ruling council, the serial killer now works as their cabal's ...","info":{"attack":10,"defense":2,"magic":6,"difficulty":6},"image":{"full":"Jhin.png","sprite":"champion1.png","group":"champion","x":144,"y":48,"w":48,"h":48},"tags":["Marksman","Assassin"],"partype":"MP","stats":{"hp":540,"hpperlevel":85,"mp":300,"mpperlevel":50,"movespeed":330,"armor":20,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":53,"attackdamageperlevel":4,"attackspeedoffset":0,"attackspeedperlevel":0}},"Jinx":{"version":"6.18.1","id":"Jinx","key":"222","name":"Jinx","title":"the Loose Cannon","blurb":"Jinx lives to wreak havoc without a thought for the consequences, leaving a trail of mayhem and panic in her wake. A manic and impulsive criminal, she despises nothing more than boredom, and gleefully brings her own volatile brand of pandemonium to ...","info":{"attack":9,"defense":2,"magic":4,"difficulty":6},"image":{"full":"Jinx.png","sprite":"champion1.png","group":"champion","x":192,"y":48,"w":48,"h":48},"tags":["Marksman"],"partype":"MP","stats":{"hp":517.76,"hpperlevel":82,"mp":245.6,"mpperlevel":45,"movespeed":325,"armor":22.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":5.84,"hpregenperlevel":0.5,"mpregen":6.68,"mpregenperlevel":1,"crit":0,"critperlevel":0,"attackdamage":58.46,"attackdamageperlevel":2.41,"attackspeedoffset":0,"attackspeedperlevel":1}},"Kalista":{"version":"6.18.1","id":"Kalista","key":"429","name":"Kalista","title":"the Spear of Vengeance","blurb":"''When wronged, we seek justice. When hurt, we strike back. When betrayed, the Spear of Vengeance strikes!''<br><br>A specter of wrath and retribution, Kalista is the undying spirit of vengeance, an armored nightmare summoned from the Shadow Isles to ...","info":{"attack":8,"defense":2,"magic":4,"difficulty":7},"image":{"full":"Kalista.png","sprite":"champion1.png","group":"champion","x":240,"y":48,"w":48,"h":48},"tags":["Marksman"],"partype":"MP","stats":{"hp":517.76,"hpperlevel":83,"mp":231.8,"mpperlevel":35,"movespeed":325,"armor":19.012,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6,"hpregenperlevel":0.55,"mpregen":6.3,"mpregenperlevel":0.4,"crit":0,"critperlevel":0,"attackdamage":63,"attackdamageperlevel":2.9,"attackspeedoffset":-0.03,"attackspeedperlevel":2.5}},"Karma":{"version":"6.18.1","id":"Karma","key":"43","name":"Karma","title":"the Enlightened One","blurb":"Karma is a woman of indomitable will and unbound spiritual power. She is the soul of Ionia made manifest and an inspiring presence on the battlefield, shielding her allies and turning back her foes. A strong leader torn between tradition and ...","info":{"attack":1,"defense":7,"magic":8,"difficulty":5},"image":{"full":"Karma.png","sprite":"champion1.png","group":"champion","x":288,"y":48,"w":48,"h":48},"tags":["Mage","Support"],"partype":"MP","stats":{"hp":522.44,"hpperlevel":83,"mp":374,"mpperlevel":50,"movespeed":335,"armor":20.384,"armorperlevel":3.8,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":5.62,"hpregenperlevel":0.55,"mpregen":8.5,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":53.544,"attackdamageperlevel":3.3,"attackspeedoffset":0,"attackspeedperlevel":2.3}},"Karthus":{"version":"6.18.1","id":"Karthus","key":"30","name":"Karthus","title":"the Deathsinger","blurb":"''Death is not the end of the journey, it is just the beginning...''<br><br>The harbinger of oblivion, Karthus is an undying spirit whose haunting songs are a prelude to the horror of his nightmarish appearance. The living fear the eternity of undeath,...","info":{"attack":2,"defense":2,"magic":10,"difficulty":7},"image":{"full":"Karthus.png","sprite":"champion1.png","group":"champion","x":336,"y":48,"w":48,"h":48},"tags":["Mage"],"partype":"MP","stats":{"hp":516,"hpperlevel":75,"mp":372.48,"mpperlevel":61,"movespeed":335,"armor":20.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":450,"hpregen":6.42,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":45.66,"attackdamageperlevel":3.25,"attackspeedoffset":0,"attackspeedperlevel":2.11}},"Kassadin":{"version":"6.18.1","id":"Kassadin","key":"38","name":"Kassadin","title":"the Void Walker","blurb":"There is a place between dimensions and between worlds. To some it is known as the Outside, to others it is the Unknown. To most, however, it is called the Void. Despite its name, the Void is not an empty place, but rather the home of unspeakable ...","info":{"attack":3,"defense":5,"magic":8,"difficulty":8},"image":{"full":"Kassadin.png","sprite":"champion1.png","group":"champion","x":384,"y":48,"w":48,"h":48},"tags":["Assassin","Mage"],"partype":"MP","stats":{"hp":564.04,"hpperlevel":78,"mp":397.6,"mpperlevel":67,"movespeed":340,"armor":23.376,"armorperlevel":3.2,"spellblock":30,"spellblockperlevel":0,"attackrange":150,"hpregen":7.79,"hpregenperlevel":0.5,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":58.852,"attackdamageperlevel":3.9,"attackspeedoffset":-0.023,"attackspeedperlevel":3.7}},"Katarina":{"version":"6.18.1","id":"Katarina","key":"55","name":"Katarina","title":"the Sinister Blade","blurb":"Driven by an intense killer instinct, Katarina uses her talents as an assassin for the glory of Noxus, and the continued elevation of her family. While her fervor drives her to ever-greater feats, it can sometimes lead her astray.<br><br>From ...","info":{"attack":4,"defense":3,"magic":9,"difficulty":8},"image":{"full":"Katarina.png","sprite":"champion1.png","group":"champion","x":432,"y":48,"w":48,"h":48},"tags":["Assassin","Mage"],"partype":"None","stats":{"hp":510,"hpperlevel":83,"mp":0,"mpperlevel":0,"movespeed":345,"armor":26.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":4.5,"hpregenperlevel":0.55,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":58,"attackdamageperlevel":3.2,"attackspeedoffset":-0.05,"attackspeedperlevel":2.74}},"Kayle":{"version":"6.18.1","id":"Kayle","key":"10","name":"Kayle","title":"The Judicator","blurb":"In a world far away where an ancient war still rages, Kayle was a great hero - the strongest of an immortal race committed to destroying evil wherever it could be found. For ten thousand years, Kayle fought tirelessly for her people, wielding her ...","info":{"attack":6,"defense":6,"magic":7,"difficulty":7},"image":{"full":"Kayle.png","sprite":"champion1.png","group":"champion","x":0,"y":96,"w":48,"h":48},"tags":["Fighter","Support"],"partype":"MP","stats":{"hp":574.24,"hpperlevel":93,"mp":322.2,"mpperlevel":40,"movespeed":335,"armor":26.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":125,"hpregen":8.26,"hpregenperlevel":0.75,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":51,"attackdamageperlevel":2.8,"attackspeedoffset":-0.02,"attackspeedperlevel":2.2}},"Kennen":{"version":"6.18.1","id":"Kennen","key":"85","name":"Kennen","title":"the Heart of the Tempest","blurb":"There exists an ancient order originating in the Ionian Isles dedicated to the preservation of balance. Order, chaos, light, darkness -- all things must exist in perfect harmony for such is the way of the universe. This order is known as the Kinkou ...","info":{"attack":6,"defense":4,"magic":7,"difficulty":4},"image":{"full":"Kennen.png","sprite":"champion1.png","group":"champion","x":48,"y":96,"w":48,"h":48},"tags":["Mage","Marksman"],"partype":"Energy","stats":{"hp":535.72,"hpperlevel":79,"mp":200,"mpperlevel":0,"movespeed":335,"armor":24.3,"armorperlevel":3.75,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":5.59,"hpregenperlevel":0.65,"mpregen":50,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":50.544,"attackdamageperlevel":3.3,"attackspeedoffset":-0.0947,"attackspeedperlevel":3.4}},"Khazix":{"version":"6.18.1","id":"Khazix","key":"121","name":"Kha'Zix","title":"the Voidreaver","blurb":"A vicious Void predator, Kha'Zix infiltrated Valoran to devour the land's most promising creatures. With each kill he absorbs his prey's strength, evolving to grow more powerful. Kha'Zix hungers most to conquer and consume Rengar, the one beast he ...","info":{"attack":9,"defense":4,"magic":3,"difficulty":6},"image":{"full":"Khazix.png","sprite":"champion1.png","group":"champion","x":96,"y":96,"w":48,"h":48},"tags":["Assassin","Fighter"],"partype":"MP","stats":{"hp":572.8,"hpperlevel":85,"mp":327.2,"mpperlevel":40,"movespeed":350,"armor":27,"armorperlevel":3,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":7.51,"hpregenperlevel":0.75,"mpregen":7.59,"mpregenperlevel":0.5,"crit":0,"critperlevel":0,"attackdamage":55.208,"attackdamageperlevel":3.1,"attackspeedoffset":-0.065,"attackspeedperlevel":2.7}},"Kindred":{"version":"6.18.1","id":"Kindred","key":"203","name":"Kindred","title":"The Eternal Hunters","blurb":"''Tell me again, little Lamb, which things are ours to take?''<br>''All things, Dear Wolf.''<br>Separate, but never parted, Kindred represents the twin essences of death. Lamb's arrow offers a swift release for those who accept their fate. Wolf hunts ...","info":{"attack":8,"defense":2,"magic":2,"difficulty":4},"image":{"full":"Kindred.png","sprite":"champion1.png","group":"champion","x":144,"y":96,"w":48,"h":48},"tags":["Marksman"],"partype":"MP","stats":{"hp":540,"hpperlevel":85,"mp":300,"mpperlevel":35,"movespeed":325,"armor":20,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":500,"hpregen":7,"hpregenperlevel":0.55,"mpregen":6.97,"mpregenperlevel":0.4,"crit":0,"critperlevel":0,"attackdamage":54,"attackdamageperlevel":1.7,"attackspeedoffset":0,"attackspeedperlevel":2.5}},"Kled":{"version":"6.18.1","id":"Kled","key":"240","name":"Kled","title":"the Cantankerous Cavalier","blurb":"''A sane man would run . . . but I ain't the runnin' kind!''<br><br>A warrior as fearless as he is ornery, Kled is a popular folk hero in Noxus. Embodying the furious bravado of his nation, he is an icon beloved by the empire's soldiers, distrusted by ...","info":{"attack":8,"defense":2,"magic":2,"difficulty":7},"image":{"full":"Kled.png","sprite":"champion4.png","group":"champion","x":48,"y":48,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"Gnarfury","stats":{"hp":340,"hpperlevel":70,"mp":100,"mpperlevel":0,"movespeed":345,"armor":26,"armorperlevel":4,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":6,"hpregenperlevel":0.75,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":55,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":3.5}},"KogMaw":{"version":"6.18.1","id":"KogMaw","key":"96","name":"Kog'Maw","title":"the Mouth of the Abyss","blurb":"''If that's just hungry, I don't want to see angry.''<br><br>When the prophet Malzahar was reborn in Icathia, he was led there by an ominous voice which thereafter anchored itself to his psyche. From within, this voice bestowed upon him terrible ...","info":{"attack":8,"defense":2,"magic":5,"difficulty":6},"image":{"full":"KogMaw.png","sprite":"champion1.png","group":"champion","x":192,"y":96,"w":48,"h":48},"tags":["Marksman","Mage"],"partype":"MP","stats":{"hp":517.76,"hpperlevel":82,"mp":322.2,"mpperlevel":40,"movespeed":325,"armor":19.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":500,"hpregen":5.92,"hpregenperlevel":0.55,"mpregen":8.675,"mpregenperlevel":0.7,"crit":0,"critperlevel":0,"attackdamage":57.46,"attackdamageperlevel":2.41,"attackspeedoffset":0,"attackspeedperlevel":3.5}},"Leblanc":{"version":"6.18.1","id":"Leblanc","key":"7","name":"LeBlanc","title":"the Deceiver","blurb":"Every city has its dark side, even one whose reputation is already of a questionable hue. Noxus - though its name is already invoked with a mixture of reverence and revulsion - is no exception to this simple truth. Deep within the winding dungeons ...","info":{"attack":1,"defense":4,"magic":10,"difficulty":9},"image":{"full":"Leblanc.png","sprite":"champion1.png","group":"champion","x":240,"y":96,"w":48,"h":48},"tags":["Assassin","Mage"],"partype":"MP","stats":{"hp":516,"hpperlevel":75,"mp":334,"mpperlevel":50,"movespeed":335,"armor":21.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":7.42,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":54.88,"attackdamageperlevel":3.5,"attackspeedoffset":0,"attackspeedperlevel":1.4}},"LeeSin":{"version":"6.18.1","id":"LeeSin","key":"64","name":"Lee Sin","title":"the Blind Monk","blurb":"As a young teen, Lee Sin was intent on becoming a summoner. His will and dedication were unmatched by any of his peers, and his skill drew the attention of Reginald Ashram, the League's High Councilor at the time. While studying at the Arcanum Majoris,...","info":{"attack":8,"defense":5,"magic":3,"difficulty":6},"image":{"full":"LeeSin.png","sprite":"champion1.png","group":"champion","x":288,"y":96,"w":48,"h":48},"tags":["Fighter","Assassin"],"partype":"Energy","stats":{"hp":570.8,"hpperlevel":85,"mp":200,"mpperlevel":0,"movespeed":350,"armor":24.216,"armorperlevel":3.7,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":7.425,"hpregenperlevel":0.7,"mpregen":50,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":61.176,"attackdamageperlevel":3.2,"attackspeedoffset":-0.04,"attackspeedperlevel":3}},"Leona":{"version":"6.18.1","id":"Leona","key":"89","name":"Leona","title":"the Radiant Dawn","blurb":"''If you would shine like a sun, first you must burn like one.''<br><br>Imbued with the fire of the sun, Leona is a warrior templar of the Solari who defends Mount Targon with her Zenith Blade and Shield of Daybreak. Her skin shimmers with starfire ...","info":{"attack":4,"defense":8,"magic":3,"difficulty":4},"image":{"full":"Leona.png","sprite":"champion1.png","group":"champion","x":336,"y":96,"w":48,"h":48},"tags":["Tank","Support"],"partype":"MP","stats":{"hp":576.16,"hpperlevel":87,"mp":302.2,"mpperlevel":40,"movespeed":335,"armor":27.208,"armorperlevel":3.6,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.425,"hpregenperlevel":0.85,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":60.04,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":2.9}},"Lissandra":{"version":"6.18.1","id":"Lissandra","key":"127","name":"Lissandra","title":"the Ice Witch","blurb":"Lissandra's magic twists the pure power of ice into something dark and terrible. With the force of her black ice, she does more than freeze - she impales and crushes those who oppose her. To the terrified denizens of the north, she is known only as ...","info":{"attack":2,"defense":5,"magic":8,"difficulty":6},"image":{"full":"Lissandra.png","sprite":"champion1.png","group":"champion","x":384,"y":96,"w":48,"h":48},"tags":["Mage"],"partype":"MP","stats":{"hp":506.12,"hpperlevel":75,"mp":304,"mpperlevel":50,"movespeed":325,"armor":20.216,"armorperlevel":3.7,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6.92,"hpregenperlevel":0.55,"mpregen":5.67,"mpregenperlevel":0.4,"crit":0,"critperlevel":0,"attackdamage":50.536,"attackdamageperlevel":2.7,"attackspeedoffset":0,"attackspeedperlevel":1.36}},"Lucian":{"version":"6.18.1","id":"Lucian","key":"236","name":"Lucian","title":"the Purifier","blurb":"Lucian wields relic weapons imbued with ancient power and stands a stalwart guardian against the undead. His cold conviction never wavers, even in the face of the maddening horrors he destroys beneath his hail of purifying fire. Lucian walks alone on ...","info":{"attack":8,"defense":5,"magic":3,"difficulty":6},"image":{"full":"Lucian.png","sprite":"champion1.png","group":"champion","x":432,"y":96,"w":48,"h":48},"tags":["Marksman"],"partype":"MP","stats":{"hp":554.4,"hpperlevel":80,"mp":348.88,"mpperlevel":38,"movespeed":335,"armor":24.04,"armorperlevel":3,"spellblock":30,"spellblockperlevel":0,"attackrange":500,"hpregen":6.19,"hpregenperlevel":0.65,"mpregen":8.175,"mpregenperlevel":0.7,"crit":0,"critperlevel":0,"attackdamage":57.46,"attackdamageperlevel":2.41,"attackspeedoffset":-0.02,"attackspeedperlevel":3.3}},"Lulu":{"version":"6.18.1","id":"Lulu","key":"117","name":"Lulu","title":"the Fae Sorceress","blurb":"Perhaps more than any other champion in the League, Lulu marches to the beat of her own drum. During her youth in Bandle City, she spent most of her time wandering alone in the forest or lost in a daydream. It wasn't that she was antisocial; the ...","info":{"attack":4,"defense":5,"magic":7,"difficulty":5},"image":{"full":"Lulu.png","sprite":"champion2.png","group":"champion","x":0,"y":0,"w":48,"h":48},"tags":["Support","Mage"],"partype":"MP","stats":{"hp":552.76,"hpperlevel":74,"mp":350,"mpperlevel":55,"movespeed":330,"armor":19.216,"armorperlevel":3.7,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6.005,"hpregenperlevel":0.6,"mpregen":11,"mpregenperlevel":0.6,"crit":0,"critperlevel":0,"attackdamage":46.368,"attackdamageperlevel":2.6,"attackspeedoffset":0,"attackspeedperlevel":2.25}},"Lux":{"version":"6.18.1","id":"Lux","key":"99","name":"Lux","title":"the Lady of Luminosity","blurb":"Born to the prestigious Crownguards, the paragon family of Demacian service, Luxanna was destined for greatness. She grew up as the family's only daughter, and she immediately took to the advanced education and lavish parties required of families as ...","info":{"attack":2,"defense":4,"magic":9,"difficulty":5},"image":{"full":"Lux.png","sprite":"champion2.png","group":"champion","x":48,"y":0,"w":48,"h":48},"tags":["Mage","Support"],"partype":"MP","stats":{"hp":477.72,"hpperlevel":79,"mp":384,"mpperlevel":47,"movespeed":330,"armor":18.72,"armorperlevel":4,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":53.544,"attackdamageperlevel":3.3,"attackspeedoffset":0,"attackspeedperlevel":1.36}},"Malphite":{"version":"6.18.1","id":"Malphite","key":"54","name":"Malphite","title":"Shard of the Monolith","blurb":"There is a world of perfect harmony, where all are part of the whole. The Monolith is the essence of all creation, and its denizens are but singular pieces of it. It is beautiful in its symmetry, and in its almost complete lack of uncertainty. The ...","info":{"attack":5,"defense":9,"magic":7,"difficulty":2},"image":{"full":"Malphite.png","sprite":"champion2.png","group":"champion","x":96,"y":0,"w":48,"h":48},"tags":["Tank","Fighter"],"partype":"MP","stats":{"hp":574.2,"hpperlevel":90,"mp":282.2,"mpperlevel":40,"movespeed":335,"armor":28.3,"armorperlevel":3.75,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":7,"hpregenperlevel":0.55,"mpregen":7.32,"mpregenperlevel":0.55,"crit":0,"critperlevel":0,"attackdamage":61.97,"attackdamageperlevel":3.375,"attackspeedoffset":-0.02,"attackspeedperlevel":3.4}},"Malzahar":{"version":"6.18.1","id":"Malzahar","key":"90","name":"Malzahar","title":"the Prophet of the Void","blurb":"Many men have gone mad beneath the glare of the Shurima sun, but it was during the night's chilling embrace that Malzahar relinquished his sanity. Malzahar was born a seer, blessed with the gift of prophecy. His talent, though unrefined, promised to ...","info":{"attack":2,"defense":2,"magic":9,"difficulty":6},"image":{"full":"Malzahar.png","sprite":"champion2.png","group":"champion","x":144,"y":0,"w":48,"h":48},"tags":["Mage","Assassin"],"partype":"MP","stats":{"hp":525,"hpperlevel":75,"mp":300,"mpperlevel":55,"movespeed":335,"armor":20,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":500,"hpregen":6,"hpregenperlevel":0.6,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":55,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":1.5}},"Maokai":{"version":"6.18.1","id":"Maokai","key":"57","name":"Maokai","title":"the Twisted Treant","blurb":"''All around me are empty husks, soulless and unafraid... but I will bring them fear.''<br><br>Maokai is a rageful, towering treant who fights the unnatural horrors of the Shadow Isles. He was twisted into a force of vengeance after a magical ...","info":{"attack":3,"defense":8,"magic":6,"difficulty":3},"image":{"full":"Maokai.png","sprite":"champion2.png","group":"champion","x":192,"y":0,"w":48,"h":48},"tags":["Tank","Mage"],"partype":"MP","stats":{"hp":572.2,"hpperlevel":90,"mp":377.28,"mpperlevel":43,"movespeed":335,"armor":28.72,"armorperlevel":4,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":7,"hpregenperlevel":0.75,"mpregen":7.205,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":63.544,"attackdamageperlevel":3.3,"attackspeedoffset":-0.1,"attackspeedperlevel":2.125}},"MasterYi":{"version":"6.18.1","id":"MasterYi","key":"11","name":"Master Yi","title":"the Wuju Bladesman","blurb":"Through the ancient martial art of Wuju, Master Yi has tempered his body and sharpened his mind until thought and action have become one. Though he chooses to enter into violence as a last resort, the grace and speed with which he wields his blade ...","info":{"attack":10,"defense":4,"magic":2,"difficulty":4},"image":{"full":"MasterYi.png","sprite":"champion2.png","group":"champion","x":240,"y":0,"w":48,"h":48},"tags":["Assassin","Fighter"],"partype":"MP","stats":{"hp":598.56,"hpperlevel":92,"mp":250.56,"mpperlevel":42,"movespeed":355,"armor":24.04,"armorperlevel":3,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":7.59,"hpregenperlevel":0.65,"mpregen":7.255,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":60.04,"attackdamageperlevel":3,"attackspeedoffset":-0.08,"attackspeedperlevel":2}},"MissFortune":{"version":"6.18.1","id":"MissFortune","key":"21","name":"Miss Fortune","title":"the Bounty Hunter","blurb":"''The bigger the risk, the bigger the bounty.''<br><br>Beauty and danger: There are few who can match Miss Fortune in either. One of Bilgewater's most infamous bounty hunters, she built her legend upon a swathe of bullet-riddled corpses and captured ...","info":{"attack":8,"defense":2,"magic":5,"difficulty":1},"image":{"full":"MissFortune.png","sprite":"champion2.png","group":"champion","x":288,"y":0,"w":48,"h":48},"tags":["Marksman"],"partype":"MP","stats":{"hp":530,"hpperlevel":85,"mp":325.84,"mpperlevel":35,"movespeed":325,"armor":24.04,"armorperlevel":3,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6.19,"hpregenperlevel":0.65,"mpregen":8.04,"mpregenperlevel":0.65,"crit":0,"critperlevel":0,"attackdamage":46,"attackdamageperlevel":1,"attackspeedoffset":-0.04734,"attackspeedperlevel":3}},"MonkeyKing":{"version":"6.18.1","id":"MonkeyKing","key":"62","name":"Wukong","title":"the Monkey King","blurb":"During the chaos of the Rune Wars, an enormous runestone was lost deep within the Plague Jungles. It remained there, untouched for centuries, emanating a potent magic which infused nearby wildlife with sentience and vitality. A group of monkeys who ...","info":{"attack":8,"defense":5,"magic":2,"difficulty":3},"image":{"full":"MonkeyKing.png","sprite":"champion2.png","group":"champion","x":336,"y":0,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":577.8,"hpperlevel":85,"mp":265.84,"mpperlevel":38,"movespeed":345,"armor":24.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":6.19,"hpregenperlevel":0.65,"mpregen":8.04,"mpregenperlevel":0.65,"crit":0,"critperlevel":0,"attackdamage":59.876,"attackdamageperlevel":3.2,"attackspeedoffset":-0.05,"attackspeedperlevel":3}},"Mordekaiser":{"version":"6.18.1","id":"Mordekaiser","key":"82","name":"Mordekaiser","title":"the Iron Revenant","blurb":"''All things must die... and yet I live on.''<br><br>The baleful revenant Mordekaiser is among the most terrifying and hateful spirits haunting the Shadow Isles. He has existed for countless centuries, shielded from true death by necromantic sorcery ...","info":{"attack":4,"defense":6,"magic":7,"difficulty":4},"image":{"full":"Mordekaiser.png","sprite":"champion2.png","group":"champion","x":384,"y":0,"w":48,"h":48},"tags":["Fighter"],"partype":"None","stats":{"hp":525,"hpperlevel":73,"mp":0,"mpperlevel":0,"movespeed":325,"armor":20,"armorperlevel":3.75,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":4,"hpregenperlevel":0.3,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":61,"attackdamageperlevel":5,"attackspeedoffset":0.04,"attackspeedperlevel":2.2}},"Morgana":{"version":"6.18.1","id":"Morgana","key":"25","name":"Morgana","title":"Fallen Angel","blurb":"There is a world far away populated by graceful and beautiful winged beings gifted with immortality, where an ancient conflict still rages. Like so many conflicts, this war split families. One side proclaimed themselves as beings of perfect order and ...","info":{"attack":1,"defense":6,"magic":8,"difficulty":1},"image":{"full":"Morgana.png","sprite":"champion2.png","group":"champion","x":432,"y":0,"w":48,"h":48},"tags":["Mage","Support"],"partype":"MP","stats":{"hp":547.48,"hpperlevel":86,"mp":340.8,"mpperlevel":60,"movespeed":335,"armor":25.384,"armorperlevel":3.8,"spellblock":30,"spellblockperlevel":0,"attackrange":450,"hpregen":5.705,"hpregenperlevel":0.6,"mpregen":8.5,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":55.46,"attackdamageperlevel":3.5,"attackspeedoffset":0,"attackspeedperlevel":1.53}},"Nami":{"version":"6.18.1","id":"Nami","key":"267","name":"Nami","title":"the Tidecaller","blurb":"Nami channels the primal energies of the ocean, harnessing its mystical restorative properties and commanding the raw power of the tides themselves. Though many doubted her, Nami had the bravery and determination to take on a dangerous quest when no ...","info":{"attack":4,"defense":3,"magic":7,"difficulty":5},"image":{"full":"Nami.png","sprite":"champion2.png","group":"champion","x":0,"y":48,"w":48,"h":48},"tags":["Support","Mage"],"partype":"MP","stats":{"hp":489.32,"hpperlevel":74,"mp":377.24,"mpperlevel":43,"movespeed":335,"armor":19.72,"armorperlevel":4,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":11.5,"mpregenperlevel":0.4,"crit":0,"critperlevel":0,"attackdamage":51.208,"attackdamageperlevel":3.1,"attackspeedoffset":-0.03,"attackspeedperlevel":2.61}},"Nasus":{"version":"6.18.1","id":"Nasus","key":"75","name":"Nasus","title":"the Curator of the Sands","blurb":"''What was fallen will be great again.''<br><br>Nasus is an imposing, jackal-headed Ascended being from ancient Shurima, a heroic figure regarded as a demigod by the people of the desert. Fiercely intelligent, he was a guardian of knowledge and ...","info":{"attack":7,"defense":5,"magic":6,"difficulty":6},"image":{"full":"Nasus.png","sprite":"champion2.png","group":"champion","x":48,"y":48,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":561.2,"hpperlevel":90,"mp":325.6,"mpperlevel":42,"movespeed":350,"armor":24.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":9.01,"hpregenperlevel":0.9,"mpregen":7.44,"mpregenperlevel":0.5,"crit":0,"critperlevel":0,"attackdamage":59.18,"attackdamageperlevel":3.5,"attackspeedoffset":-0.02,"attackspeedperlevel":3.48}},"Nautilus":{"version":"6.18.1","id":"Nautilus","key":"111","name":"Nautilus","title":"the Titan of the Depths","blurb":"Once, Nautilus was a sailor commissioned by the Institute of War to explore the uncharted reaches of the Guardian's Sea. This expedition took him deep into unknown waters where he and his crew found a vast section of black oozing liquid that none of ...","info":{"attack":4,"defense":6,"magic":6,"difficulty":6},"image":{"full":"Nautilus.png","sprite":"champion2.png","group":"champion","x":96,"y":48,"w":48,"h":48},"tags":["Tank","Fighter"],"partype":"MP","stats":{"hp":576.48,"hpperlevel":86,"mp":334,"mpperlevel":47,"movespeed":325,"armor":26.46,"armorperlevel":3.75,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":8.37,"hpregenperlevel":0.55,"mpregen":8.625,"mpregenperlevel":0.7,"crit":0,"critperlevel":0,"attackdamage":57.544,"attackdamageperlevel":3.3,"attackspeedoffset":0.02,"attackspeedperlevel":1}},"Nidalee":{"version":"6.18.1","id":"Nidalee","key":"76","name":"Nidalee","title":"the Bestial Huntress","blurb":"There are few dwellers, let alone champions, residing in the blasted and dangerous lands that lie south of the Great Barrier. Much of that world still bears the scars of past Runes Wars, especially the mysterious Kumungu Jungle. There are ...","info":{"attack":5,"defense":4,"magic":7,"difficulty":8},"image":{"full":"Nidalee.png","sprite":"champion2.png","group":"champion","x":144,"y":48,"w":48,"h":48},"tags":["Assassin","Fighter"],"partype":"MP","stats":{"hp":511.2,"hpperlevel":80,"mp":295.6,"mpperlevel":45,"movespeed":335,"armor":22.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":6.005,"hpregenperlevel":0.6,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":47.88,"attackdamageperlevel":3.5,"attackspeedoffset":-0.02,"attackspeedperlevel":3.22}},"Nocturne":{"version":"6.18.1","id":"Nocturne","key":"56","name":"Nocturne","title":"the Eternal Nightmare","blurb":"Before Nocturne, people believed that dreams were figments of their imagination, meaningless images that flashed through the mind when one slept. This belief was put to the test when a rash of sleep-related incidents started afflicting summoners of ...","info":{"attack":9,"defense":5,"magic":2,"difficulty":4},"image":{"full":"Nocturne.png","sprite":"champion2.png","group":"champion","x":192,"y":48,"w":48,"h":48},"tags":["Assassin","Fighter"],"partype":"MP","stats":{"hp":582.8,"hpperlevel":85,"mp":273.8,"mpperlevel":35,"movespeed":345,"armor":26.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.26,"hpregenperlevel":0.75,"mpregen":6.755,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":59.208,"attackdamageperlevel":3.1,"attackspeedoffset":-0.065,"attackspeedperlevel":2.7}},"Nunu":{"version":"6.18.1","id":"Nunu","key":"20","name":"Nunu","title":"the Yeti Rider","blurb":"Sometimes bonds of friendship become stronger than even bonds of blood. When those bonds link a fearless boy to a fearsome Yeti, the bond becomes a force to be reckoned with. Given the responsibility of taming a terrifying beast, Nunu forged a ...","info":{"attack":4,"defense":6,"magic":7,"difficulty":4},"image":{"full":"Nunu.png","sprite":"champion2.png","group":"champion","x":240,"y":48,"w":48,"h":48},"tags":["Support","Fighter"],"partype":"MP","stats":{"hp":598.28,"hpperlevel":90,"mp":283.56,"mpperlevel":42,"movespeed":350,"armor":26.38,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.39,"hpregenperlevel":0.8,"mpregen":7.44,"mpregenperlevel":0.5,"crit":0,"critperlevel":0,"attackdamage":56.856,"attackdamageperlevel":3.45,"attackspeedoffset":0,"attackspeedperlevel":2.25}},"Olaf":{"version":"6.18.1","id":"Olaf","key":"2","name":"Olaf","title":"the Berserker","blurb":"Most men would say that death is a thing to be feared; none of those men would be Olaf. The Berserker lives only for the roar of a battle cry and the clash of steel. Spurred on by his hunger for glory and the looming curse of a forgettable death, Olaf ...","info":{"attack":9,"defense":5,"magic":3,"difficulty":3},"image":{"full":"Olaf.png","sprite":"champion2.png","group":"champion","x":288,"y":48,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":597.24,"hpperlevel":93,"mp":315.6,"mpperlevel":42,"movespeed":350,"armor":26.04,"armorperlevel":3,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.51,"hpregenperlevel":0.9,"mpregen":7.465,"mpregenperlevel":0.575,"crit":0,"critperlevel":0,"attackdamage":59.98,"attackdamageperlevel":3.5,"attackspeedoffset":-0.1,"attackspeedperlevel":2.7}},"Orianna":{"version":"6.18.1","id":"Orianna","key":"61","name":"Orianna","title":"the Lady of Clockwork","blurb":"There once was a Piltovian man named Corin Reveck who had a daughter named Orianna, whom he loved more than anything else in the world. Though Orianna had incredible talent for dancing, she was deeply fascinated by the champions of the League of ...","info":{"attack":4,"defense":3,"magic":9,"difficulty":7},"image":{"full":"Orianna.png","sprite":"champion2.png","group":"champion","x":336,"y":48,"w":48,"h":48},"tags":["Mage","Support"],"partype":"MP","stats":{"hp":517.72,"hpperlevel":79,"mp":334,"mpperlevel":50,"movespeed":325,"armor":17.04,"armorperlevel":3,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":6.87,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":40.368,"attackdamageperlevel":2.6,"attackspeedoffset":-0.05,"attackspeedperlevel":3.5}},"Pantheon":{"version":"6.18.1","id":"Pantheon","key":"80","name":"Pantheon","title":"the Artisan of War","blurb":"''Bring forth one true champion, or a hundred more like you, and then we shall have a battle that will be spoken of until the end of time.''<br><br>The peerless warrior known as Pantheon is a nigh-unstoppable paragon of battle. He was born among the ...","info":{"attack":9,"defense":4,"magic":3,"difficulty":4},"image":{"full":"Pantheon.png","sprite":"champion2.png","group":"champion","x":384,"y":48,"w":48,"h":48},"tags":["Fighter","Assassin"],"partype":"MP","stats":{"hp":579.16,"hpperlevel":87,"mp":317.12,"mpperlevel":31,"movespeed":355,"armor":27.652,"armorperlevel":3.9,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":150,"hpregen":7.84,"hpregenperlevel":0.65,"mpregen":7.355,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":55.572,"attackdamageperlevel":2.9,"attackspeedoffset":-0.03,"attackspeedperlevel":2.95}},"Poppy":{"version":"6.18.1","id":"Poppy","key":"78","name":"Poppy","title":"Keeper of the Hammer","blurb":"''I'm no hero. Just a yordle with a hammer.''<br><br>Runeterra has no shortage of valiant champions, but few are as tenacious as Poppy. Bearing a hammer twice the length of her body, this determined yordle has spent untold years searching for the ...","info":{"attack":6,"defense":7,"magic":2,"difficulty":6},"image":{"full":"Poppy.png","sprite":"champion2.png","group":"champion","x":432,"y":48,"w":48,"h":48},"tags":["Tank","Fighter"],"partype":"MP","stats":{"hp":540,"hpperlevel":90,"mp":280,"mpperlevel":40,"movespeed":345,"armor":29,"armorperlevel":3.5,"spellblock":32,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8,"hpregenperlevel":0.8,"mpregen":7,"mpregenperlevel":0.7,"crit":0,"critperlevel":0,"attackdamage":56,"attackdamageperlevel":4,"attackspeedoffset":0,"attackspeedperlevel":2.5}},"Quinn":{"version":"6.18.1","id":"Quinn","key":"133","name":"Quinn","title":"Demacia's Wings","blurb":"Quinn and Valor are an elite ranger team. With crossbow and claw, they undertake their nation's most dangerous missions deep within enemy territory, from swift reconnaissance to lethal strikes. The pair's unbreakable bond is deadly on the battlefield, ...","info":{"attack":9,"defense":4,"magic":2,"difficulty":5},"image":{"full":"Quinn.png","sprite":"champion2.png","group":"champion","x":0,"y":96,"w":48,"h":48},"tags":["Marksman","Fighter"],"partype":"MP","stats":{"hp":532.8,"hpperlevel":85,"mp":268.8,"mpperlevel":35,"movespeed":335,"armor":23.38,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":6.97,"mpregenperlevel":0.4,"crit":0,"critperlevel":0,"attackdamage":54.46,"attackdamageperlevel":2.41,"attackspeedoffset":-0.065,"attackspeedperlevel":3.1}},"Rammus":{"version":"6.18.1","id":"Rammus","key":"33","name":"Rammus","title":"the Armordillo","blurb":"''OK.''<br><br>Idolized by many, dismissed by some, mystifying to all, the curious being, Rammus, is an enigma. Protected by a spiked shell, Rammus inspires increasingly disparate theories on his origin wherever he goes - from demigod, to sacred ...","info":{"attack":4,"defense":10,"magic":5,"difficulty":5},"image":{"full":"Rammus.png","sprite":"champion2.png","group":"champion","x":48,"y":96,"w":48,"h":48},"tags":["Tank","Fighter"],"partype":"MP","stats":{"hp":564.48,"hpperlevel":86,"mp":310.44,"mpperlevel":33,"movespeed":335,"armor":31.384,"armorperlevel":4.3,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":7.92,"hpregenperlevel":0.55,"mpregen":7.84,"mpregenperlevel":0.5,"crit":0,"critperlevel":0,"attackdamage":55.88,"attackdamageperlevel":3.5,"attackspeedoffset":0,"attackspeedperlevel":2.215}},"RekSai":{"version":"6.18.1","id":"RekSai","key":"421","name":"Rek'Sai","title":"the Void Burrower","blurb":"The largest and fiercest of her species, Rek'Sai is a merciless predator that tunnels through the earth to ambush and devour her prey. Her insatiable hunger has laid waste to entire regions of the once-great Shuriman empire. Merchants, traders and ...","info":{"attack":8,"defense":5,"magic":2,"difficulty":3},"image":{"full":"RekSai.png","sprite":"champion2.png","group":"champion","x":96,"y":96,"w":48,"h":48},"tags":["Fighter"],"partype":"Battlefury","stats":{"hp":570,"hpperlevel":90,"mp":100,"mpperlevel":0,"movespeed":335,"armor":24,"armorperlevel":3.4,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":7.34,"hpregenperlevel":0.65,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":55.628,"attackdamageperlevel":3.35,"attackspeedoffset":0,"attackspeedperlevel":2}},"Renekton":{"version":"6.18.1","id":"Renekton","key":"58","name":"Renekton","title":"the Butcher of the Sands","blurb":"''Blood and vengeance.''<br><br>Renekton is a terrifying, rage-fueled Ascended being from the scorched deserts of Shurima. Once, he was his empire's most esteemed warrior, leading the armies of Shurima to countless victories. However, after the ...","info":{"attack":8,"defense":5,"magic":2,"difficulty":3},"image":{"full":"Renekton.png","sprite":"champion2.png","group":"champion","x":144,"y":96,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"Rage","stats":{"hp":572.16,"hpperlevel":87,"mp":100,"mpperlevel":0,"movespeed":345,"armor":25.584,"armorperlevel":3.8,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":7.96,"hpregenperlevel":0.75,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":58.328,"attackdamageperlevel":3.1,"attackspeedoffset":-0.06,"attackspeedperlevel":2.65}},"Rengar":{"version":"6.18.1","id":"Rengar","key":"107","name":"Rengar","title":"the Pridestalker","blurb":"On every wall of his den, the trophy hunter Rengar mounts the heads, horns, claws, and fangs of the most lethal creatures in Valoran. Though his collection is extensive, he remains unsatisfied, tirelessly seeking greater game. He takes time with every ...","info":{"attack":7,"defense":4,"magic":2,"difficulty":8},"image":{"full":"Rengar.png","sprite":"champion2.png","group":"champion","x":192,"y":96,"w":48,"h":48},"tags":["Assassin","Fighter"],"partype":"Ferocity","stats":{"hp":586.2,"hpperlevel":90,"mp":5,"mpperlevel":0,"movespeed":345,"armor":25.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":4.27,"hpregenperlevel":0.4,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":60.04,"attackdamageperlevel":3,"attackspeedoffset":-0.08,"attackspeedperlevel":2.85}},"Riven":{"version":"6.18.1","id":"Riven","key":"92","name":"Riven","title":"the Exile","blurb":"''There is a place between war and murder in which our demons lurk.''<br><br>In Noxus, any citizen may rise to power regardless of race, gender, or social standing - strength is all that matters. It was with committed faith in this ideal that Riven ...","info":{"attack":8,"defense":5,"magic":1,"difficulty":8},"image":{"full":"Riven.png","sprite":"champion2.png","group":"champion","x":240,"y":96,"w":48,"h":48},"tags":["Fighter","Assassin"],"partype":"None","stats":{"hp":558.48,"hpperlevel":86,"mp":0,"mpperlevel":0,"movespeed":340,"armor":24.376,"armorperlevel":3.2,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":5.34,"hpregenperlevel":0.5,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":56.04,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":3.5}},"Rumble":{"version":"6.18.1","id":"Rumble","key":"68","name":"Rumble","title":"the Mechanized Menace","blurb":"''Ugh, it's gonna take forever to scrape your face off my suit!''<br><br>Even amongst yordles, Rumble was always the runt of the litter. As such, he was used to being bullied. In order to survive, he had to be scrappier and more resourceful than his ...","info":{"attack":3,"defense":6,"magic":8,"difficulty":10},"image":{"full":"Rumble.png","sprite":"champion2.png","group":"champion","x":288,"y":96,"w":48,"h":48},"tags":["Fighter","Mage"],"partype":"Heat","stats":{"hp":584.4,"hpperlevel":80,"mp":100,"mpperlevel":0,"movespeed":345,"armor":25.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.005,"hpregenperlevel":0.6,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":61.036,"attackdamageperlevel":3.2,"attackspeedoffset":-0.03,"attackspeedperlevel":1.85}},"Ryze":{"version":"6.18.1","id":"Ryze","key":"13","name":"Ryze","title":"the Rune Mage","blurb":"''Take care with this world. What is made can be unmade.''<br><br>Widely considered one of the most adept sorcerers on Runeterra, Ryze is an ancient, hard-bitten archmage with an impossibly heavy burden to bear. Armed with a boundless constitution and ...","info":{"attack":2,"defense":2,"magic":10,"difficulty":7},"image":{"full":"Ryze.png","sprite":"champion2.png","group":"champion","x":336,"y":96,"w":48,"h":48},"tags":["Mage","Fighter"],"partype":"MP","stats":{"hp":558.48,"hpperlevel":86,"mp":400,"mpperlevel":50,"movespeed":340,"armor":21.552,"armorperlevel":3,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":7,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":55.04,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":2.112}},"Sejuani":{"version":"6.18.1","id":"Sejuani","key":"113","name":"Sejuani","title":"the Winter's Wrath","blurb":"Sejuani was weaned on hardship and reared on barbarity. Where others succumbed to the harshness of the Freljord, she was tempered by it until pain became power, hunger an encouragement, and frost an ally in culling the weak. Through her ordeals, she ...","info":{"attack":5,"defense":7,"magic":6,"difficulty":4},"image":{"full":"Sejuani.png","sprite":"champion2.png","group":"champion","x":384,"y":96,"w":48,"h":48},"tags":["Tank","Fighter"],"partype":"MP","stats":{"hp":600,"hpperlevel":95,"mp":400,"mpperlevel":40,"movespeed":340,"armor":29.54,"armorperlevel":3,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.675,"hpregenperlevel":0.85,"mpregen":7.205,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":57.544,"attackdamageperlevel":3.3,"attackspeedoffset":-0.0672,"attackspeedperlevel":1.44}},"Shaco":{"version":"6.18.1","id":"Shaco","key":"35","name":"Shaco","title":"the Demon Jester","blurb":"Most would say that death isn't funny. It isn't, unless you're Shaco - then it's hysterical. He is Valoran's first fully functioning homicidal comic; he jests until someone dies, and then he laughs. The figure that has come to be known as the Demon ...","info":{"attack":8,"defense":4,"magic":6,"difficulty":9},"image":{"full":"Shaco.png","sprite":"champion2.png","group":"champion","x":432,"y":96,"w":48,"h":48},"tags":["Assassin"],"partype":"MP","stats":{"hp":582.12,"hpperlevel":84,"mp":297.2,"mpperlevel":40,"movespeed":350,"armor":24.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.37,"hpregenperlevel":0.55,"mpregen":7.155,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":57.58,"attackdamageperlevel":3.5,"attackspeedoffset":-0.1,"attackspeedperlevel":3}},"Shen":{"version":"6.18.1","id":"Shen","key":"98","name":"Shen","title":"the Eye of Twilight","blurb":"''The Eye is blind to fear, to hate, to love - to all things that would sway equilibrium.''<br><br>Leader of a secret clan of mystic warriors, Shen serves as the Eye of Twilight, entrusted to enforce equilibrium in the world. Longing to remain free ...","info":{"attack":3,"defense":9,"magic":3,"difficulty":4},"image":{"full":"Shen.png","sprite":"champion3.png","group":"champion","x":0,"y":0,"w":48,"h":48},"tags":["Tank","Melee"],"partype":"Energy","stats":{"hp":540,"hpperlevel":73,"mp":400,"mpperlevel":0,"movespeed":340,"armor":25,"armorperlevel":2.6,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.5,"hpregenperlevel":0.75,"mpregen":50,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":60,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":2}},"Shyvana":{"version":"6.18.1","id":"Shyvana","key":"102","name":"Shyvana","title":"the Half-Dragon","blurb":"A half-breed born from the union between dragon and human, Shyvana searched all her life for belonging. Persecution forged her into a brutal warrior, and those who dare stand against Shyvana face the fiery beast lurking just beneath her skin....","info":{"attack":8,"defense":6,"magic":3,"difficulty":4},"image":{"full":"Shyvana.png","sprite":"champion3.png","group":"champion","x":48,"y":0,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"Dragonfury","stats":{"hp":594.6,"hpperlevel":95,"mp":100,"mpperlevel":0,"movespeed":350,"armor":27.628,"armorperlevel":3.35,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.59,"hpregenperlevel":0.8,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":60.712,"attackdamageperlevel":3.4,"attackspeedoffset":-0.05,"attackspeedperlevel":2.5}},"Singed":{"version":"6.18.1","id":"Singed","key":"27","name":"Singed","title":"the Mad Chemist","blurb":"Singed descended from a long line of Zaun's revered chemists. Even in his youth, his talent for concocting potions far outstripped that of his peers, and he quickly distinguished himself from his less extraordinary chemist compatriots. It came as no ...","info":{"attack":4,"defense":8,"magic":7,"difficulty":5},"image":{"full":"Singed.png","sprite":"champion3.png","group":"champion","x":96,"y":0,"w":48,"h":48},"tags":["Tank","Fighter"],"partype":"MP","stats":{"hp":542.76,"hpperlevel":82,"mp":290.6,"mpperlevel":45,"movespeed":345,"armor":27.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.02,"hpregenperlevel":0.55,"mpregen":7.52,"mpregenperlevel":0.55,"crit":0,"critperlevel":0,"attackdamage":62.32,"attackdamageperlevel":3.375,"attackspeedoffset":0.02,"attackspeedperlevel":1.81}},"Sion":{"version":"6.18.1","id":"Sion","key":"14","name":"Sion","title":"The Undead Juggernaut","blurb":"BLOOD.<br><br>SMELL IT.<br><br>WANT. ACHING. NEED!<br><br>CLOSE NOW. THEY COME.<br><br>NO CHAINS? FREE! KILL!<br><br>IN REACH. YES! DIE! DIE!<br><br>Gone. Too quick. No fight. More. I want... more.<br><br>A voice? Unfamiliar. I see him. The Grand ...","info":{"attack":5,"defense":9,"magic":3,"difficulty":5},"image":{"full":"Sion.png","sprite":"champion3.png","group":"champion","x":144,"y":0,"w":48,"h":48},"tags":["Tank","Fighter"],"partype":"MP","stats":{"hp":542.64,"hpperlevel":73,"mp":325.6,"mpperlevel":42,"movespeed":345,"armor":23.04,"armorperlevel":3,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":10.18,"hpregenperlevel":0.8,"mpregen":8.005,"mpregenperlevel":0.6,"crit":0,"critperlevel":0,"attackdamage":59.72,"attackdamageperlevel":4,"attackspeedoffset":-0.08,"attackspeedperlevel":1.3}},"Sivir":{"version":"6.18.1","id":"Sivir","key":"15","name":"Sivir","title":"the Battle Mistress","blurb":"''I don't care what face is on your coin, as long as it pays.''<br><br>Sivir is a renowned fortune hunter and mercenary captain who plies her trade in the deserts of Shurima. Armed with her legendary jeweled crossblade, she has fought and won ...","info":{"attack":9,"defense":3,"magic":1,"difficulty":4},"image":{"full":"Sivir.png","sprite":"champion3.png","group":"champion","x":192,"y":0,"w":48,"h":48},"tags":["Marksman"],"partype":"MP","stats":{"hp":515.76,"hpperlevel":82,"mp":284,"mpperlevel":50,"movespeed":335,"armor":22.21,"armorperlevel":3.25,"spellblock":30,"spellblockperlevel":0,"attackrange":500,"hpregen":5.17,"hpregenperlevel":0.55,"mpregen":8.01,"mpregenperlevel":0.9,"crit":0,"critperlevel":0,"attackdamage":57.46,"attackdamageperlevel":2.41,"attackspeedoffset":0,"attackspeedperlevel":1.6}},"Skarner":{"version":"6.18.1","id":"Skarner","key":"72","name":"Skarner","title":"the Crystal Vanguard","blurb":"''We are one. We cannot be shattered.''<br><br>Skarner is an immense crystalline scorpion from a hidden valley in Shurima. Part of the ancient Brackern race, Skarner and his kin are known for their great wisdom and deep connection to the land, as ...","info":{"attack":7,"defense":6,"magic":5,"difficulty":5},"image":{"full":"Skarner.png","sprite":"champion3.png","group":"champion","x":240,"y":0,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":601.28,"hpperlevel":90,"mp":272.2,"mpperlevel":40,"movespeed":335,"armor":29.384,"armorperlevel":3.8,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.925,"hpregenperlevel":0.85,"mpregen":7.205,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":57.156,"attackdamageperlevel":4.5,"attackspeedoffset":0,"attackspeedperlevel":2.1}},"Sona":{"version":"6.18.1","id":"Sona","key":"37","name":"Sona","title":"Maven of the Strings","blurb":"Sona has no memories of her true parents. As an infant, she was found abandoned on the doorstep of an Ionian adoption house, nestled atop an ancient instrument in an exquisite case of unknown origins. She was an unusually well-behaved child, always ...","info":{"attack":5,"defense":2,"magic":8,"difficulty":4},"image":{"full":"Sona.png","sprite":"champion3.png","group":"champion","x":288,"y":0,"w":48,"h":48},"tags":["Support","Mage"],"partype":"MP","stats":{"hp":482.36,"hpperlevel":77,"mp":340.6,"mpperlevel":45,"movespeed":325,"armor":20.544,"armorperlevel":3.3,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":11.5,"mpregenperlevel":0.4,"crit":0,"critperlevel":0,"attackdamage":50.04,"attackdamageperlevel":3,"attackspeedoffset":-0.03,"attackspeedperlevel":2.3}},"Soraka":{"version":"6.18.1","id":"Soraka","key":"16","name":"Soraka","title":"the Starchild","blurb":"A healer gifted with the magic of the stars, Soraka holds all living creatures close to her heart. She was once a celestial being, but she sacrificed her immortality and entered the world of mortals. So long as evil threatens life in Valoran, Soraka ...","info":{"attack":2,"defense":5,"magic":7,"difficulty":3},"image":{"full":"Soraka.png","sprite":"champion3.png","group":"champion","x":336,"y":0,"w":48,"h":48},"tags":["Support","Mage"],"partype":"MP","stats":{"hp":529.04,"hpperlevel":78,"mp":350.8,"mpperlevel":60,"movespeed":325,"armor":23.384,"armorperlevel":3.8,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":2.5,"hpregenperlevel":0.5,"mpregen":11.5,"mpregenperlevel":0.4,"crit":0,"critperlevel":0,"attackdamage":50.04,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":2.14}},"Swain":{"version":"6.18.1","id":"Swain","key":"50","name":"Swain","title":"the Master Tactician","blurb":"The earliest account of Swain's existence comes from a Noxian infirmary doctor's notes. According to them, Swain limped into the ward without cry or complaint; his right leg was snapped in half, with bone protruding from the skin. A small, scowling ...","info":{"attack":2,"defense":6,"magic":9,"difficulty":8},"image":{"full":"Swain.png","sprite":"champion3.png","group":"champion","x":384,"y":0,"w":48,"h":48},"tags":["Mage","Fighter"],"partype":"MP","stats":{"hp":516.04,"hpperlevel":90,"mp":374,"mpperlevel":47,"movespeed":335,"armor":22.72,"armorperlevel":4,"spellblock":30,"spellblockperlevel":0,"attackrange":500,"hpregen":7.84,"hpregenperlevel":0.65,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":52.04,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":2.11}},"Syndra":{"version":"6.18.1","id":"Syndra","key":"134","name":"Syndra","title":"the Dark Sovereign","blurb":"Born with immense magical potential, Syndra loves nothing more than exercising the incredible power at her command. With each passing day, her mastery of magical force grows more potent and devastating. Refusing any notion of balance or restraint, ...","info":{"attack":2,"defense":3,"magic":9,"difficulty":8},"image":{"full":"Syndra.png","sprite":"champion3.png","group":"champion","x":432,"y":0,"w":48,"h":48},"tags":["Mage","Support"],"partype":"MP","stats":{"hp":511.04,"hpperlevel":78,"mp":384,"mpperlevel":60,"movespeed":330,"armor":24.712,"armorperlevel":3.4,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6.505,"hpregenperlevel":0.6,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":53.872,"attackdamageperlevel":2.9,"attackspeedoffset":0,"attackspeedperlevel":2}},"TahmKench":{"version":"6.18.1","id":"TahmKench","key":"223","name":"Tahm Kench","title":"the River King","blurb":"''The whole world's a river, and I'm its king.''<br>Tahm Kench travels Runeterra's waterways, feeding his insatiable appetite with the misery of the unsuspecting. The singularly charming gourmand savors every moment of his victims' suffering.  A deal ...","info":{"attack":3,"defense":9,"magic":6,"difficulty":5},"image":{"full":"TahmKench.png","sprite":"champion3.png","group":"champion","x":0,"y":48,"w":48,"h":48},"tags":["Support","Tank"],"partype":"MP","stats":{"hp":610,"hpperlevel":95,"mp":325,"mpperlevel":40,"movespeed":335,"armor":27,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":6.5,"hpregenperlevel":0.55,"mpregen":8,"mpregenperlevel":1,"crit":0,"critperlevel":0,"attackdamage":56,"attackdamageperlevel":3.2,"attackspeedoffset":0,"attackspeedperlevel":2.5}},"Taliyah":{"version":"6.18.1","id":"Taliyah","key":"163","name":"Taliyah","title":"the Stoneweaver","blurb":"Taliyah is a nomadic mage from Shurima who weaves stone with energetic enthusiasm and raw determination. Torn between teenage wonder and adult responsibility, she has crossed nearly all of Valoran on a journey to learn the true nature of her growing ...","info":{"attack":1,"defense":7,"magic":8,"difficulty":5},"image":{"full":"Taliyah.png","sprite":"champion3.png","group":"champion","x":48,"y":48,"w":48,"h":48},"tags":["Mage","Support"],"partype":"MP","stats":{"hp":520,"hpperlevel":75,"mp":340,"mpperlevel":60,"movespeed":325,"armor":20,"armorperlevel":3,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":6,"hpregenperlevel":0.7,"mpregen":7,"mpregenperlevel":0.85,"crit":0,"critperlevel":0,"attackdamage":56,"attackdamageperlevel":3.3,"attackspeedoffset":0,"attackspeedperlevel":1.36}},"Talon":{"version":"6.18.1","id":"Talon","key":"91","name":"Talon","title":"the Blade's Shadow","blurb":"''The three deadliest blademasters in all of Valoran are bound to the house of Du Couteau: my father, myself, and Talon. Challenge us, if you dare.''<br>-- Katarina Du Couteau<br><br>Talon's earliest memories are the darkness of Noxus' underground ...","info":{"attack":9,"defense":3,"magic":1,"difficulty":7},"image":{"full":"Talon.png","sprite":"champion3.png","group":"champion","x":96,"y":48,"w":48,"h":48},"tags":["Assassin","Fighter"],"partype":"MP","stats":{"hp":582.8,"hpperlevel":85,"mp":377.2,"mpperlevel":37,"movespeed":350,"armor":26.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.51,"hpregenperlevel":0.75,"mpregen":7.59,"mpregenperlevel":0.5,"crit":0,"critperlevel":0,"attackdamage":55.208,"attackdamageperlevel":3.1,"attackspeedoffset":-0.065,"attackspeedperlevel":2.7}},"Taric":{"version":"6.18.1","id":"Taric","key":"44","name":"Taric","title":"the Shield of Valoran","blurb":"''The best weapons are beautiful.''<br><br>Taric is the Aspect of the Protector, wielding incredible power as Runeterra's guardian of life, love, and beauty. Shamed by a dereliction of duty and exiled from his homeland Demacia, Taric ascended Mount ...","info":{"attack":4,"defense":8,"magic":5,"difficulty":3},"image":{"full":"Taric.png","sprite":"champion3.png","group":"champion","x":144,"y":48,"w":48,"h":48},"tags":["Support","Fighter"],"partype":"MP","stats":{"hp":575,"hpperlevel":90,"mp":300,"mpperlevel":60,"movespeed":340,"armor":25,"armorperlevel":3.4,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":150,"hpregen":6,"hpregenperlevel":0.5,"mpregen":5,"mpregenperlevel":1,"crit":0,"critperlevel":0,"attackdamage":55,"attackdamageperlevel":3.5,"attackspeedoffset":0,"attackspeedperlevel":2}},"Teemo":{"version":"6.18.1","id":"Teemo","key":"17","name":"Teemo","title":"the Swift Scout","blurb":"Teemo is a legend among his yordle brothers and sisters in Bandle City. As far as yordles are concerned, there is something just slightly off about him. While Teemo enjoys the companionship of other yordles, he also insists on frequent solo missions ...","info":{"attack":5,"defense":3,"magic":7,"difficulty":6},"image":{"full":"Teemo.png","sprite":"champion3.png","group":"champion","x":192,"y":48,"w":48,"h":48},"tags":["Marksman","Assassin"],"partype":"MP","stats":{"hp":515.76,"hpperlevel":82,"mp":267.2,"mpperlevel":40,"movespeed":330,"armor":24.3,"armorperlevel":3.75,"spellblock":30,"spellblockperlevel":0,"attackrange":500,"hpregen":5.74,"hpregenperlevel":0.65,"mpregen":7.205,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":49.54,"attackdamageperlevel":3,"attackspeedoffset":-0.0947,"attackspeedperlevel":3.38}},"Thresh":{"version":"6.18.1","id":"Thresh","key":"412","name":"Thresh","title":"the Chain Warden","blurb":"''The mind is a wondrous thing to tear apart.''<br><br>Sadistic and cunning, Thresh is a restless spirit who prides himself on tormenting mortals and breaking them with slow, excruciating inventiveness. His victims suffer far beyond the point of death,...","info":{"attack":5,"defense":6,"magic":6,"difficulty":7},"image":{"full":"Thresh.png","sprite":"champion3.png","group":"champion","x":240,"y":48,"w":48,"h":48},"tags":["Support","Fighter"],"partype":"MP","stats":{"hp":560.52,"hpperlevel":93,"mp":273.92,"mpperlevel":44,"movespeed":335,"armor":16,"armorperlevel":0,"spellblock":30,"spellblockperlevel":0,"attackrange":450,"hpregen":6.92,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":47.696,"attackdamageperlevel":2.2,"attackspeedoffset":0,"attackspeedperlevel":3.5}},"Tristana":{"version":"6.18.1","id":"Tristana","key":"18","name":"Tristana","title":"the Yordle Gunner","blurb":"Greatness comes in all shapes and sizes, as proven by this diminutive, cannon-wieldingÂ yordle. In a world fraught with turmoil, Tristana refuses to back down from any challenge. She represents the pinnacle of martial proficiency, unwavering courage, ...","info":{"attack":9,"defense":3,"magic":5,"difficulty":4},"image":{"full":"Tristana.png","sprite":"champion3.png","group":"champion","x":288,"y":48,"w":48,"h":48},"tags":["Marksman","Assassin"],"partype":"MP","stats":{"hp":542.76,"hpperlevel":82,"mp":246.76,"mpperlevel":32,"movespeed":325,"armor":22,"armorperlevel":3,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6.19,"hpregenperlevel":0.65,"mpregen":7.205,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":56.96,"attackdamageperlevel":2.41,"attackspeedoffset":-0.04734,"attackspeedperlevel":1.5}},"Trundle":{"version":"6.18.1","id":"Trundle","key":"48","name":"Trundle","title":"the Troll King","blurb":"Trundle is a hulking and devious troll with a mischievous streak. There is nothing he can't beat into submission and bend to his will, not even the ice itself. With his massive, frozen club, he chills his enemies to the core and runs them through with ...","info":{"attack":7,"defense":6,"magic":2,"difficulty":5},"image":{"full":"Trundle.png","sprite":"champion3.png","group":"champion","x":336,"y":48,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":616.28,"hpperlevel":96,"mp":281.6,"mpperlevel":45,"movespeed":350,"armor":27.536,"armorperlevel":2.7,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":6,"hpregenperlevel":0.75,"mpregen":7.505,"mpregenperlevel":0.6,"crit":0,"critperlevel":0,"attackdamage":60.04,"attackdamageperlevel":3,"attackspeedoffset":-0.0672,"attackspeedperlevel":2.9}},"Tryndamere":{"version":"6.18.1","id":"Tryndamere","key":"23","name":"Tryndamere","title":"the Barbarian King","blurb":"Fueled by his unbridled fury and rage, Tryndamere cuts his way through the tundra, mastering the art of battle by challenging the Freljord's greatest warriors. The wrathful barbarian seeks revenge on the one who decimated his clan and strikes down all ...","info":{"attack":10,"defense":5,"magic":2,"difficulty":5},"image":{"full":"Tryndamere.png","sprite":"champion3.png","group":"champion","x":384,"y":48,"w":48,"h":48},"tags":["Fighter","Assassin"],"partype":"Battlefury","stats":{"hp":625.64,"hpperlevel":98,"mp":100,"mpperlevel":0,"movespeed":345,"armor":24.108,"armorperlevel":3.1,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.51,"hpregenperlevel":0.9,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":61.376,"attackdamageperlevel":3.2,"attackspeedoffset":-0.0672,"attackspeedperlevel":2.9}},"TwistedFate":{"version":"6.18.1","id":"TwistedFate","key":"4","name":"Twisted Fate","title":"the Card Master","blurb":"Twisted Fate is an infamous card sharp and swindler who has gambled and charmed his way across much of the known world, earning the enmity and admiration of the rich and foolish alike. He rarely takes things seriously, greeting each day with a mocking ...","info":{"attack":6,"defense":2,"magic":6,"difficulty":9},"image":{"full":"TwistedFate.png","sprite":"champion3.png","group":"champion","x":432,"y":48,"w":48,"h":48},"tags":["Mage"],"partype":"MP","stats":{"hp":521.76,"hpperlevel":82,"mp":265.84,"mpperlevel":38,"movespeed":330,"armor":20.542,"armorperlevel":3.15,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":5.505,"hpregenperlevel":0.6,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":49.954,"attackdamageperlevel":3.3,"attackspeedoffset":-0.04,"attackspeedperlevel":3.22}},"Twitch":{"version":"6.18.1","id":"Twitch","key":"29","name":"Twitch","title":"the Plague Rat","blurb":"H.I.V.E. Incident Report<br>Code Violation: Industrial Homicide<br>Casefile Status: Unsolved<br>Investigating Agent: Rol, P.<br><br>Team responded to report of suspicious character, criminal activity; proceeded to Sump Works, Sector 90TZ. Sector 90TZ ...","info":{"attack":9,"defense":2,"magic":3,"difficulty":6},"image":{"full":"Twitch.png","sprite":"champion3.png","group":"champion","x":0,"y":96,"w":48,"h":48},"tags":["Marksman","Assassin"],"partype":"MP","stats":{"hp":525.08,"hpperlevel":81,"mp":287.2,"mpperlevel":40,"movespeed":330,"armor":23.04,"armorperlevel":3,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6.005,"hpregenperlevel":0.6,"mpregen":7.255,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":55.46,"attackdamageperlevel":2.41,"attackspeedoffset":-0.08,"attackspeedperlevel":3.38}},"Udyr":{"version":"6.18.1","id":"Udyr","key":"77","name":"Udyr","title":"the Spirit Walker","blurb":"Udyr is more than a man; he is a vessel for the untamed power of four primal animal spirits. When tapping into the spirits' bestial natures, Udyr can harness their unique strengths: the tiger grants him speed and ferocity, the turtle resilience, the ...","info":{"attack":8,"defense":7,"magic":4,"difficulty":7},"image":{"full":"Udyr.png","sprite":"champion3.png","group":"champion","x":48,"y":96,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":593.32,"hpperlevel":99,"mp":270.4,"mpperlevel":30,"movespeed":345,"armor":25.47,"armorperlevel":4,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":6,"hpregenperlevel":0.75,"mpregen":7.505,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":58.286,"attackdamageperlevel":3.2,"attackspeedoffset":-0.05,"attackspeedperlevel":2.67}},"Urgot":{"version":"6.18.1","id":"Urgot","key":"6","name":"Urgot","title":"the Headsman's Pride","blurb":"There are warriors who become great for their strength, cunning, or skill with arms. Others simply refuse to die. Urgot, once a great soldier of Noxus, may constitute a case in support of the latter. Prone to diving headlong into enemy battle lines, ...","info":{"attack":8,"defense":5,"magic":3,"difficulty":8},"image":{"full":"Urgot.png","sprite":"champion3.png","group":"champion","x":96,"y":96,"w":48,"h":48},"tags":["Marksman","Fighter"],"partype":"MP","stats":{"hp":586.52,"hpperlevel":89,"mp":312.4,"mpperlevel":55,"movespeed":335,"armor":24.544,"armorperlevel":3.3,"spellblock":30,"spellblockperlevel":0,"attackrange":425,"hpregen":6.505,"hpregenperlevel":0.6,"mpregen":8.59,"mpregenperlevel":0.65,"crit":0,"critperlevel":0,"attackdamage":54.05,"attackdamageperlevel":3.6,"attackspeedoffset":-0.03,"attackspeedperlevel":2.9}},"Varus":{"version":"6.18.1","id":"Varus","key":"110","name":"Varus","title":"the Arrow of Retribution","blurb":"''The life of an arrow is fleeting, built of nothing but direction and intent.''<br><br>For his incomparable skill with the bow and his unquestioned sense of honor, Varus was chosen to be the warden of a sacred Ionian temple. The temple was built to ...","info":{"attack":7,"defense":3,"magic":4,"difficulty":2},"image":{"full":"Varus.png","sprite":"champion3.png","group":"champion","x":144,"y":96,"w":48,"h":48},"tags":["Marksman","Mage"],"partype":"MP","stats":{"hp":537.76,"hpperlevel":82,"mp":360.48,"mpperlevel":33,"movespeed":330,"armor":23.212,"armorperlevel":3.4,"spellblock":30,"spellblockperlevel":0,"attackrange":575,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":7.34,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":54.66,"attackdamageperlevel":2.41,"attackspeedoffset":-0.05,"attackspeedperlevel":3}},"Vayne":{"version":"6.18.1","id":"Vayne","key":"67","name":"Vayne","title":"the Night Hunter","blurb":"The world is not always as civilized as people might think. There are still those who would follow the blackest paths of magic and become corrupted by the darker powers that flow through Runeterra. Shauna Vayne knows this fact well.<br><br>As a young ...","info":{"attack":10,"defense":1,"magic":1,"difficulty":8},"image":{"full":"Vayne.png","sprite":"champion3.png","group":"champion","x":192,"y":96,"w":48,"h":48},"tags":["Marksman","Assassin"],"partype":"MP","stats":{"hp":498.44,"hpperlevel":83,"mp":231.8,"mpperlevel":35,"movespeed":330,"armor":19.012,"armorperlevel":3.4,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":6.97,"mpregenperlevel":0.4,"crit":0,"critperlevel":0,"attackdamage":55.88,"attackdamageperlevel":1.66,"attackspeedoffset":-0.05,"attackspeedperlevel":4}},"Veigar":{"version":"6.18.1","id":"Veigar","key":"45","name":"Veigar","title":"the Tiny Master of Evil","blurb":"To most, thoughts of yordles do not conjure images to be feared. The easygoing half-pint race, though fierce, is often regarded with some degree of joviality. Their high-pitched voices and naturally cute forms inspire something of a protective ...","info":{"attack":2,"defense":2,"magic":10,"difficulty":7},"image":{"full":"Veigar.png","sprite":"champion3.png","group":"champion","x":240,"y":96,"w":48,"h":48},"tags":["Mage"],"partype":"MP","stats":{"hp":492.76,"hpperlevel":82,"mp":392.4,"mpperlevel":52,"movespeed":340,"armor":22.55,"armorperlevel":3.75,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":50.71,"attackdamageperlevel":2.625,"attackspeedoffset":0,"attackspeedperlevel":2.24}},"Velkoz":{"version":"6.18.1","id":"Velkoz","key":"161","name":"Vel'Koz","title":"the Eye of the Void","blurb":"I pass into the sudden glare. Blink. Blink, blink, blink. My eyes adjust and evaluate the landscape before me.<br><br>There's a scurrying. I look down to find a small, white creature standing on its hind legs, sniffing at my body. It intrigues me....","info":{"attack":2,"defense":2,"magic":10,"difficulty":8},"image":{"full":"Velkoz.png","sprite":"champion3.png","group":"champion","x":288,"y":96,"w":48,"h":48},"tags":["Mage"],"partype":"MP","stats":{"hp":507.68,"hpperlevel":76,"mp":375.6,"mpperlevel":42,"movespeed":340,"armor":21.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":54.9379,"attackdamageperlevel":3.14159,"attackspeedoffset":0,"attackspeedperlevel":1.36}},"Vi":{"version":"6.18.1","id":"Vi","key":"254","name":"Vi","title":"the Piltover Enforcer","blurb":"To Vi, every problem is just another brick wall to punch through with her gigantic hextech gauntlets. Though she grew up on the wrong side of the law, Vi now uses her criminal know-how to serve Piltover's police force. Vi's brash attitude, abrasive ...","info":{"attack":8,"defense":5,"magic":3,"difficulty":4},"image":{"full":"Vi.png","sprite":"champion3.png","group":"champion","x":336,"y":96,"w":48,"h":48},"tags":["Fighter","Assassin"],"partype":"MP","stats":{"hp":582.8,"hpperlevel":85,"mp":295.6,"mpperlevel":45,"movespeed":345,"armor":25.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":9.01,"hpregenperlevel":0.9,"mpregen":8.09,"mpregenperlevel":0.65,"crit":0,"critperlevel":0,"attackdamage":55.88,"attackdamageperlevel":3.5,"attackspeedoffset":-0.03,"attackspeedperlevel":2.5}},"Viktor":{"version":"6.18.1","id":"Viktor","key":"112","name":"Viktor","title":"the Machine Herald","blurb":"Early in life, Viktor discovered his passion for science and invention, particularly in the field of mechanical automation. He attended Zaun's prestigious College of Techmaturgy and led the team that constructed Blitzcrank - a scientific breakthrough ...","info":{"attack":2,"defense":4,"magic":10,"difficulty":9},"image":{"full":"Viktor.png","sprite":"champion3.png","group":"champion","x":384,"y":96,"w":48,"h":48},"tags":["Mage"],"partype":"MP","stats":{"hp":516.04,"hpperlevel":78,"mp":324,"mpperlevel":50,"movespeed":335,"armor":22.72,"armorperlevel":4,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":7.84,"hpregenperlevel":0.65,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":52.04,"attackdamageperlevel":3,"attackspeedoffset":-0.05,"attackspeedperlevel":2.11}},"Vladimir":{"version":"6.18.1","id":"Vladimir","key":"8","name":"Vladimir","title":"the Crimson Reaper","blurb":"There is a temple hidden in the mountains between Noxus and the Tempest Flats, where the secrets of an ancient and terrifying sorcery are kept. The area surrounding the temple is littered with the exsanguinated corpses of those who have mistakenly ...","info":{"attack":2,"defense":6,"magic":8,"difficulty":7},"image":{"full":"Vladimir.png","sprite":"champion3.png","group":"champion","x":432,"y":96,"w":48,"h":48},"tags":["Mage","Tank"],"partype":"Gnarfury","stats":{"hp":525,"hpperlevel":84,"mp":2,"mpperlevel":0,"movespeed":330,"armor":23,"armorperlevel":3.3,"spellblock":30,"spellblockperlevel":0,"attackrange":450,"hpregen":7.005,"hpregenperlevel":0.6,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":52,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":2}},"Volibear":{"version":"6.18.1","id":"Volibear","key":"106","name":"Volibear","title":"the Thunder's Roar","blurb":"The unforgiving northern reaches of the Freljord are home to the Ursine, a fierce and warlike race that has endured the barren tundra for thousands of years. Their leader is a furious adversary who commands the force of lightning to strike fear within ...","info":{"attack":7,"defense":7,"magic":4,"difficulty":3},"image":{"full":"Volibear.png","sprite":"champion4.png","group":"champion","x":0,"y":0,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":584.48,"hpperlevel":86,"mp":270.4,"mpperlevel":30,"movespeed":345,"armor":26.38,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.09,"hpregenperlevel":0.65,"mpregen":8.09,"mpregenperlevel":0.65,"crit":0,"critperlevel":0,"attackdamage":59.544,"attackdamageperlevel":3.3,"attackspeedoffset":-0.05,"attackspeedperlevel":2.67}},"Warwick":{"version":"6.18.1","id":"Warwick","key":"19","name":"Warwick","title":"the Blood Hunter","blurb":"Warwick was once a man revered for his ability to track down human specimens for the darkest types of scientific research. When his ambitions exceeded his physical limits, he drank a dangerous elixir to transform himself into an unstoppable manhunter. ...","info":{"attack":7,"defense":4,"magic":4,"difficulty":3},"image":{"full":"Warwick.png","sprite":"champion4.png","group":"champion","x":48,"y":0,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":592.64,"hpperlevel":98,"mp":240.4,"mpperlevel":30,"movespeed":345,"armor":25.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.39,"hpregenperlevel":0.8,"mpregen":8.105,"mpregenperlevel":0.6,"crit":0,"critperlevel":0,"attackdamage":62.43,"attackdamageperlevel":3.375,"attackspeedoffset":-0.08,"attackspeedperlevel":2.88}},"Xerath":{"version":"6.18.1","id":"Xerath","key":"101","name":"Xerath","title":"the Magus Ascendant","blurb":"''A lifetime as a slave has prepared me for eternity as your master.''<br><br>Xerath is an Ascended Magus of ancient Shurima, a being of arcane energy writhing in the broken shards of a magical sarcophagus. For millennia, he was trapped beneath the ...","info":{"attack":1,"defense":3,"magic":10,"difficulty":8},"image":{"full":"Xerath.png","sprite":"champion4.png","group":"champion","x":96,"y":0,"w":48,"h":48},"tags":["Mage","Assassin"],"partype":"MP","stats":{"hp":514.4,"hpperlevel":80,"mp":366.96,"mpperlevel":44,"movespeed":340,"armor":21.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":54.7,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":1.36}},"XinZhao":{"version":"6.18.1","id":"XinZhao","key":"5","name":"Xin Zhao","title":"the Seneschal of Demacia","blurb":"''Death is inevitable, one can only avoid defeat.''<br><br>Whenever Jarvan III, the king of Demacia, delivers one of his rallying speeches from the glinting marble balcony atop the Royal Palace, Xin Zhao is at his side. Coined the Seneschal of Demacia,...","info":{"attack":8,"defense":6,"magic":3,"difficulty":2},"image":{"full":"XinZhao.png","sprite":"champion4.png","group":"champion","x":144,"y":0,"w":48,"h":48},"tags":["Fighter","Assassin"],"partype":"MP","stats":{"hp":600,"hpperlevel":92,"mp":273.8,"mpperlevel":35,"movespeed":345,"armor":25.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":8.175,"hpregenperlevel":0.7,"mpregen":7.255,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":57.544,"attackdamageperlevel":3.3,"attackspeedoffset":0,"attackspeedperlevel":2.6}},"Yasuo":{"version":"6.18.1","id":"Yasuo","key":"157","name":"Yasuo","title":"the Unforgiven","blurb":"Yasuo is a man of resolve, an agile swordsman who wields the wind itself to cut down his foes. This once-proud warrior has been disgraced by a false accusation and forced into a desperate fight for survival. With the world turned against him, he will ...","info":{"attack":8,"defense":4,"magic":4,"difficulty":10},"image":{"full":"Yasuo.png","sprite":"champion4.png","group":"champion","x":192,"y":0,"w":48,"h":48},"tags":["Fighter","Assassin"],"partype":"Wind","stats":{"hp":517.76,"hpperlevel":82,"mp":100,"mpperlevel":0,"movespeed":345,"armor":24.712,"armorperlevel":3.4,"spellblock":30,"spellblockperlevel":0,"attackrange":175,"hpregen":6.51,"hpregenperlevel":0.9,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":55.376,"attackdamageperlevel":3.2,"attackspeedoffset":-0.067,"attackspeedperlevel":2.5}},"Yorick":{"version":"6.18.1","id":"Yorick","key":"83","name":"Yorick","title":"Shepherd of Souls","blurb":"''These islesâ€¦ How they scream.''<br>The last survivor of a long-forgotten religious order, Yorick is both blessed and cursed with power over the dead. Trapped on the Shadow Isles, his only companions are the rotting corpses and shrieking spirits that ...","info":{"attack":6,"defense":6,"magic":4,"difficulty":6},"image":{"full":"Yorick.png","sprite":"champion4.png","group":"champion","x":240,"y":0,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":580,"hpperlevel":100,"mp":300,"mpperlevel":40,"movespeed":340,"armor":30,"armorperlevel":4,"spellblock":32,"spellblockperlevel":1.25,"attackrange":175,"hpregen":8,"hpregenperlevel":0.8,"mpregen":7.5,"mpregenperlevel":0.75,"crit":0,"critperlevel":0,"attackdamage":57,"attackdamageperlevel":5,"attackspeedoffset":0,"attackspeedperlevel":2}},"Zac":{"version":"6.18.1","id":"Zac","key":"154","name":"Zac","title":"the Secret Weapon","blurb":"Zac is the product of a Zaun experiment to manufacture a hexchem-engineered supersoldier - the Zaun Amorphous Combatant. Combining brute strength with limitless flexibility, he is a versatile juggernaut: a creative fighter who bounces over obstacles ...","info":{"attack":3,"defense":7,"magic":7,"difficulty":8},"image":{"full":"Zac.png","sprite":"champion4.png","group":"champion","x":288,"y":0,"w":48,"h":48},"tags":["Tank","Fighter"],"partype":"None","stats":{"hp":614.6,"hpperlevel":95,"mp":0,"mpperlevel":0,"movespeed":340,"armor":23.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":7.92,"hpregenperlevel":0.55,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":59.67,"attackdamageperlevel":3.375,"attackspeedoffset":-0.02,"attackspeedperlevel":1.6}},"Zed":{"version":"6.18.1","id":"Zed","key":"238","name":"Zed","title":"the Master of Shadows","blurb":"Zed is the first ninja in 200 years to unlock the ancient, forbidden ways. He defied his clan and master, casting off the balance and discipline that had shackled him all his life. Zed now offers power to those who embrace knowledge of the shadows, ...","info":{"attack":9,"defense":2,"magic":1,"difficulty":7},"image":{"full":"Zed.png","sprite":"champion4.png","group":"champion","x":336,"y":0,"w":48,"h":48},"tags":["Assassin","Fighter"],"partype":"Energy","stats":{"hp":579.4,"hpperlevel":80,"mp":200,"mpperlevel":0,"movespeed":345,"armor":26.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":7.09,"hpregenperlevel":0.65,"mpregen":50,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":54.712,"attackdamageperlevel":3.4,"attackspeedoffset":-0.03,"attackspeedperlevel":2.1}},"Ziggs":{"version":"6.18.1","id":"Ziggs","key":"115","name":"Ziggs","title":"the Hexplosives Expert","blurb":"Ziggs was born with a talent for tinkering, but his chaotic, hyperactive nature was unusual among yordle scientists. Aspiring to be a revered inventor like Heimerdinger, he rattled through ambitious projects with manic zeal, emboldened by both his ...","info":{"attack":2,"defense":4,"magic":9,"difficulty":4},"image":{"full":"Ziggs.png","sprite":"champion4.png","group":"champion","x":384,"y":0,"w":48,"h":48},"tags":["Mage"],"partype":"MP","stats":{"hp":524.4,"hpperlevel":80,"mp":384,"mpperlevel":47,"movespeed":325,"armor":21.544,"armorperlevel":3.3,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6.255,"hpregenperlevel":0.6,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":54.208,"attackdamageperlevel":3.1,"attackspeedoffset":-0.04734,"attackspeedperlevel":2}},"Zilean":{"version":"6.18.1","id":"Zilean","key":"26","name":"Zilean","title":"the Chronokeeper","blurb":"In the wastelands of Urtistan, there was once a great city. It perished long ago in a terrible Rune War, like most of the lands below the Great Barrier. Nevertheless, one man survived: a sorcerer named Zilean. Being obsessed with time, it was only ...","info":{"attack":2,"defense":5,"magic":8,"difficulty":6},"image":{"full":"Zilean.png","sprite":"champion4.png","group":"champion","x":432,"y":0,"w":48,"h":48},"tags":["Support","Mage"],"partype":"MP","stats":{"hp":499.28,"hpperlevel":77,"mp":360.8,"mpperlevel":60,"movespeed":335,"armor":19.134,"armorperlevel":3.8,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":5.44,"hpregenperlevel":0.5,"mpregen":8.5,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":51.64,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":2.13}},"Zyra":{"version":"6.18.1","id":"Zyra","key":"143","name":"Zyra","title":"Rise of the Thorns","blurb":"Longing to take control of her fate, the ancient, dying plant Zyra transferred her consciousness into a human body for a second chance at life. Centuries ago, she and her kind dominated the Kumungu Jungle, using thorns and vines to consume any animal ...","info":{"attack":4,"defense":3,"magic":8,"difficulty":7},"image":{"full":"Zyra.png","sprite":"champion4.png","group":"champion","x":0,"y":48,"w":48,"h":48},"tags":["Mage","Support"],"partype":"MP","stats":{"hp":499.32,"hpperlevel":74,"mp":334,"mpperlevel":50,"movespeed":340,"armor":20.04,"armorperlevel":3,"spellblock":30,"spellblockperlevel":0,"attackrange":575,"hpregen":5.69,"hpregenperlevel":0.5,"mpregen":8.5,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":53.376,"attackdamageperlevel":3.2,"attackspeedoffset":0,"attackspeedperlevel":2.11}}};
 
 /***/ },
-/* 522 */
+/* 495 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -48971,7 +63515,7 @@
 	};
 
 /***/ },
-/* 523 */
+/* 496 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -49764,13 +64308,2234 @@
 	};
 
 /***/ },
-/* 524 */
+/* 497 */
 /***/ function(module, exports) {
 
 	"use strict";module.exports={"5001":{"colloq":null,"description":"+0.53 attack damage","image":{"full":"r_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":0},"name":"Lesser Mark of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"FlatPhysicalDamageMod":0.525},"tags":["physicalAttack","flat","mark"]},"5002":{"colloq":null,"description":"+0.08 attack damage per level (+1.35 at champion level 18)","image":{"full":"r_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":0},"name":"Lesser Mark of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"rFlatPhysicalDamageModPerLevel":0.075},"tags":["physicalAttack","perLevel","mark"]},"5003":{"colloq":null,"description":"+0.94% attack speed","image":{"full":"r_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":0},"name":"Lesser Mark of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"PercentAttackSpeedMod":0.009434},"tags":["physicalAttack","percent","mark"]},"5005":{"colloq":null,"description":"+1.24% critical damage","image":{"full":"r_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":0},"name":"Lesser Mark of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"FlatCritDamageMod":0.012397},"tags":["physicalAttack","flat","mark"]},"5007":{"colloq":null,"description":"+0.52% critical chance","image":{"full":"r_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":0},"name":"Lesser Mark of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"FlatCritChanceMod":0.005155},"tags":["physicalAttack","flat","mark"]},"5009":{"colloq":null,"description":"+0.72 armor penetration","image":{"full":"r_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":0},"name":"Lesser Mark of Armor Penetration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"rFlatArmorPenetrationMod":0.72},"tags":["physicalAttack","flat","mark"]},"5011":{"colloq":null,"description":"+1.93 health","image":{"full":"r_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":0},"name":"Lesser Mark of Health","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"FlatHPPoolMod":1.9305},"tags":["defense","flat","mark"]},"5012":{"colloq":null,"description":"+0.3 health per level (+5.4 at champion level 18)","image":{"full":"r_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":0},"name":"Lesser Mark of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"rFlatHPModPerLevel":0.3005},"tags":["defense","perLevel","mark"]},"5013":{"colloq":null,"description":"+0.51 armor","image":{"full":"r_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":0},"name":"Lesser Mark of Armor","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"FlatArmorMod":0.508},"tags":["defense","flat","mark"]},"5015":{"colloq":null,"description":"+0.43 magic resist","image":{"full":"r_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":0},"name":"Lesser Mark of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"FlatSpellBlockMod":0.43},"tags":["defense","flat","mark"]},"5016":{"colloq":null,"description":"+0.04 magic resist per level (+0.72 at champion level 18)","image":{"full":"r_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":0},"name":"Lesser Mark of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"rFlatSpellBlockModPerLevel":0.0412},"tags":["defense","perLevel","mark"]},"5021":{"colloq":null,"description":"-0.11% cooldowns","image":{"full":"r_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":0},"name":"Lesser Mark of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"rPercentCooldownMod":-0.001112},"tags":["mark"]},"5023":{"colloq":null,"description":"+0.33 ability power","image":{"full":"r_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":0},"name":"Lesser Mark of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"FlatMagicDamageMod":0.33},"tags":["magic","flat","mark"]},"5024":{"colloq":null,"description":"+0.06 ability power per level (+1.08 at champion level 18)","image":{"full":"r_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":0},"name":"Lesser Mark of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"rFlatMagicDamageModPerLevel":0.0577},"tags":["magic","perLevel","mark"]},"5025":{"colloq":null,"description":"+3.28 mana","image":{"full":"r_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":0},"name":"Lesser Mark of Mana","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"FlatMPPoolMod":3.2813},"tags":["magic","flat","mark"]},"5026":{"colloq":null,"description":"+0.65 mana per level (+11.7 at champion level 18)","image":{"full":"r_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":0},"name":"Lesser Mark of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"rFlatMPModPerLevel":0.6481},"tags":["magic","perLevel","mark"]},"5027":{"colloq":null,"description":"+0.15 mana regen / 5 sec.","image":{"full":"r_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":0},"name":"Lesser Mark of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"FlatMPRegenMod":0.02916},"tags":["magic","flat","mark"]},"5029":{"colloq":null,"description":"+0.49 magic penetration","image":{"full":"r_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":0},"name":"Lesser Mark of Magic Penetration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"rFlatMagicPenetrationMod":0.49},"tags":["magic","flat","mark"]},"5031":{"colloq":null,"description":"+0.16 attack damage","image":{"full":"b_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":0},"name":"Lesser Glyph of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"FlatPhysicalDamageMod":0.1575},"tags":["physicalAttack","flat","glyph"]},"5032":{"colloq":null,"description":"+0.02 attack damage per level (+0.36 at champion level 18)","image":{"full":"b_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":0},"name":"Lesser Glyph of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"rFlatPhysicalDamageModPerLevel":0.0225},"tags":["physicalAttack","perLevel","glyph"]},"5033":{"colloq":null,"description":"+0.35% attack speed","image":{"full":"b_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":0},"name":"Lesser Glyph of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"PercentAttackSpeedMod":0.003538},"tags":["physicalAttack","percent","glyph"]},"5035":{"colloq":null,"description":"+0.31% critical damage","image":{"full":"b_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":0},"name":"Lesser Glyph of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"FlatCritDamageMod":0.003099},"tags":["physicalAttack","flat","glyph"]},"5037":{"colloq":null,"description":"+0.15% critical chance","image":{"full":"b_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":0},"name":"Lesser Glyph of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"FlatCritChanceMod":0.001546},"tags":["physicalAttack","flat","glyph"]},"5041":{"colloq":null,"description":"+1.49 health","image":{"full":"b_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":0},"name":"Lesser Glyph of Health","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"FlatHPPoolMod":1.485},"tags":["defense","flat","glyph"]},"5042":{"colloq":null,"description":"+0.3 health per level (+5.4 at champion level 18)","image":{"full":"b_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":0},"name":"Lesser Glyph of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"rFlatHPModPerLevel":0.3005},"tags":["defense","perLevel","glyph"]},"5043":{"colloq":null,"description":"+0.39 armor","image":{"full":"b_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":0},"name":"Lesser Glyph of Armor","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"FlatArmorMod":0.3908},"tags":["defense","flat","glyph"]},"5045":{"colloq":null,"description":"+0.74 magic resist","image":{"full":"b_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":0},"name":"Lesser Glyph of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"FlatSpellBlockMod":0.74},"tags":["defense","flat","glyph"]},"5046":{"colloq":null,"description":"+0.09 magic resist per level (+1.68 at champion level 18)","image":{"full":"b_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":0},"name":"Lesser Glyph of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"rFlatSpellBlockModPerLevel":0.09333},"tags":["defense","perLevel","glyph"]},"5047":{"colloq":null,"description":"+0.15 health regen / 5 sec.","image":{"full":"b_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":0},"name":"Lesser Glyph of Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"FlatHPRegenMod":0.03},"tags":["defense","flat","glyph"]},"5051":{"colloq":null,"description":"-0.47% cooldowns","image":{"full":"b_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":0},"name":"Lesser Glyph of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"rPercentCooldownMod":-0.0047},"tags":["glyph"]},"5052":{"colloq":null,"description":"-0.05% cooldowns per level (-0.93% at champion level 18)","image":{"full":"b_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":0},"name":"Lesser Glyph of Scaling Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"rPercentCooldownModPerLevel":-0.00051667},"tags":["glyph"]},"5053":{"colloq":null,"description":"+0.66 ability power","image":{"full":"b_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":0},"name":"Lesser Glyph of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"FlatMagicDamageMod":0.66},"tags":["magic","flat","glyph"]},"5054":{"colloq":null,"description":"+0.1 ability power per level (+1.8 at champion level 18)","image":{"full":"b_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":0},"name":"Lesser Glyph of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"rFlatMagicDamageModPerLevel":0.0962},"tags":["magic","perLevel","glyph"]},"5055":{"colloq":null,"description":"+6.25 mana","image":{"full":"b_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":0},"name":"Lesser Glyph of Mana","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"FlatMPPoolMod":6.25},"tags":["magic","flat","glyph"]},"5056":{"colloq":null,"description":"+0.79 mana per level (+14.22 at champion level 18)","image":{"full":"b_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":0},"name":"Lesser Glyph of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"rFlatMPModPerLevel":0.787},"tags":["magic","perLevel","glyph"]},"5057":{"colloq":null,"description":"+0.19 mana regen / 5 sec.","image":{"full":"b_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":0},"name":"Lesser Glyph of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"FlatMPRegenMod":0.038},"tags":["magic","flat","glyph"]},"5058":{"colloq":null,"description":"+0.04 mana regen / 5 sec. per level (+0.67 at champion level 18)","image":{"full":"b_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":0},"name":"Lesser Glyph of Scaling Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"rFlatMPRegenModPerLevel":0.007444},"tags":["magic","perLevel","glyph"]},"5059":{"colloq":null,"description":"+0.35 magic penetration","image":{"full":"b_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":0},"name":"Lesser Glyph of Magic Penetration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"rFlatMagicPenetrationMod":0.35},"tags":["magic","flat","glyph"]},"5061":{"colloq":null,"description":"+0.24 attack damage","image":{"full":"y_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":48},"name":"Lesser Seal of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"FlatPhysicalDamageMod":0.2364},"tags":["physicalAttack","flat","seal"]},"5062":{"colloq":null,"description":"+0.03 attack damage per level (+0.61 at champion level 18)","image":{"full":"y_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":48},"name":"Lesser Seal of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"rFlatPhysicalDamageModPerLevel":0.0338},"tags":["physicalAttack","perLevel","seal"]},"5063":{"colloq":null,"description":"+0.42% attack speed","image":{"full":"y_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":48},"name":"Lesser Seal of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"PercentAttackSpeedMod":0.004245},"tags":["physicalAttack","percent","seal"]},"5065":{"colloq":null,"description":"+0.43% critical damage","image":{"full":"y_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":48},"name":"Lesser Seal of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"FlatCritDamageMod":0.004339},"tags":["physicalAttack","flat","seal"]},"5067":{"colloq":null,"description":"+0.23% critical chance","image":{"full":"y_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":48},"name":"Lesser Seal of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"FlatCritChanceMod":0.00232},"tags":["physicalAttack","flat","seal"]},"5071":{"colloq":null,"description":"+4.48 health","image":{"full":"y_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":48},"name":"Lesser Seal of Health","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"FlatHPPoolMod":4.48},"tags":["defense","flat","seal"]},"5072":{"colloq":null,"description":"+0.75 health per level (+13.44 at champion level 18)","image":{"full":"y_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":48},"name":"Lesser Seal of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"rFlatHPModPerLevel":0.74667},"tags":["defense","perLevel","seal"]},"5073":{"colloq":null,"description":"+0.56 armor","image":{"full":"y_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":48},"name":"Lesser Seal of Armor","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"FlatArmorMod":0.56},"tags":["defense","flat","seal"]},"5074":{"colloq":null,"description":"+0.09 armor per level (+1.68 at champion level 18)","image":{"full":"y_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":48},"name":"Lesser Seal of Scaling Armor","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"rFlatArmorModPerLevel":0.09333},"tags":["defense","perLevel","seal"]},"5075":{"colloq":null,"description":"+0.41 magic resist","image":{"full":"y_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":48},"name":"Lesser Seal of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"FlatSpellBlockMod":0.4125},"tags":["defense","flat","seal"]},"5076":{"colloq":null,"description":"+0.05 magic resist per level (+0.9 at champion level 18)","image":{"full":"y_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":48},"name":"Lesser Seal of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"rFlatSpellBlockModPerLevel":0.0536},"tags":["defense","perLevel","seal"]},"5077":{"colloq":null,"description":"+0.31 health regen / 5 sec.","image":{"full":"y_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":48},"name":"Lesser Seal of Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"FlatHPRegenMod":0.062},"tags":["defense","flat","seal"]},"5078":{"colloq":null,"description":"+0.06 health regen / 5 sec. per level (+1.08 at champion level 18)","image":{"full":"y_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":48},"name":"Lesser Seal of Scaling Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"rFlatHPRegenModPerLevel":0.0125},"tags":["defense","perLevel","seal"]},"5081":{"colloq":null,"description":"-0.2% cooldowns","image":{"full":"y_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":48},"name":"Lesser Seal of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"rPercentCooldownMod":-0.002},"tags":["seal"]},"5083":{"colloq":null,"description":"+0.33 ability power","image":{"full":"y_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":48},"name":"Lesser Seal of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"FlatMagicDamageMod":0.33},"tags":["magic","flat","seal"]},"5084":{"colloq":null,"description":"+0.06 ability power per level (+1.08 at champion level 18)","image":{"full":"y_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":48},"name":"Lesser Seal of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"rFlatMagicDamageModPerLevel":0.0577},"tags":["magic","perLevel","seal"]},"5085":{"colloq":null,"description":"+3.83 mana","image":{"full":"y_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":48},"name":"Lesser Seal of Mana","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"FlatMPPoolMod":3.8281},"tags":["magic","flat","seal"]},"5086":{"colloq":null,"description":"+0.65 mana per level (+11.7 at champion level 18)","image":{"full":"y_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":48},"name":"Lesser Seal of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"rFlatMPModPerLevel":0.6481},"tags":["magic","perLevel","seal"]},"5087":{"colloq":null,"description":"+0.23 mana regen / 5 sec.","image":{"full":"y_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":48},"name":"Lesser Seal of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"FlatMPRegenMod":0.04514},"tags":["magic","flat","seal"]},"5088":{"colloq":null,"description":"+0.036 mana regen / 5 sec. per level (+0.65 at champion level 18)","image":{"full":"y_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":48},"name":"Lesser Seal of Scaling Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"rFlatMPRegenModPerLevel":0.0072},"tags":["magic","perLevel","seal"]},"5091":{"colloq":null,"description":"+1.25 attack damage","image":{"full":"bl_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":48},"name":"Lesser Quintessence of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"FlatPhysicalDamageMod":1.25},"tags":["physicalAttack","flat","quintessence"]},"5092":{"colloq":null,"description":"+0.14 attack damage per level (+2.52 at champion level 18)","image":{"full":"bl_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":48},"name":"Lesser Quintessence of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rFlatPhysicalDamageModPerLevel":0.1389},"tags":["physicalAttack","perLevel","quintessence"]},"5093":{"colloq":null,"description":"+2.52% attack speed","image":{"full":"bl_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":48},"name":"Lesser Quintessence of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"PercentAttackSpeedMod":0.0252},"tags":["physicalAttack","percent","quintessence"]},"5095":{"colloq":null,"description":"+2.48% critical damage","image":{"full":"bl_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":48},"name":"Lesser Quintessence of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"FlatCritDamageMod":0.024793},"tags":["physicalAttack","flat","quintessence"]},"5097":{"colloq":null,"description":"+1.03% critical chance","image":{"full":"bl_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":48},"name":"Lesser Quintessence of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"FlatCritChanceMod":0.010309},"tags":["physicalAttack","flat","quintessence"]},"5099":{"colloq":null,"description":"+1.42 armor penetration","image":{"full":"bl_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":48},"name":"Lesser Quintessence of Armor Penetration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rFlatArmorPenetrationMod":1.42},"tags":["physicalAttack","flat","quintessence"]},"5101":{"colloq":null,"description":"+14.5 health","image":{"full":"bl_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":48},"name":"Lesser Quintessence of Health","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"FlatHPPoolMod":14.5},"tags":["defense","flat","quintessence"]},"5102":{"colloq":null,"description":"+1.5 health per level (+27 at champion level 18)","image":{"full":"bl_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":48},"name":"Lesser Quintessence of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rFlatHPModPerLevel":1.5024},"tags":["defense","perLevel","quintessence"]},"5103":{"colloq":null,"description":"+2.37 armor","image":{"full":"bl_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":48},"name":"Lesser Quintessence of Armor","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"FlatArmorMod":2.3684},"tags":["defense","flat","quintessence"]},"5104":{"colloq":null,"description":"+0.21 armor per level (+3.78 at champion level 18)","image":{"full":"bl_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":48},"name":"Lesser Quintessence of Scaling Armor","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rFlatArmorModPerLevel":0.2083},"tags":["defense","perLevel","quintessence"]},"5105":{"colloq":null,"description":"+2.22 magic resist","image":{"full":"bl_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":48},"name":"Lesser Quintessence of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"FlatSpellBlockMod":2.22},"tags":["defense","flat","quintessence"]},"5106":{"colloq":null,"description":"+0.21 magic resist per level (+3.78 at champion level 18)","image":{"full":"bl_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":48},"name":"Lesser Quintessence of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rFlatSpellBlockModPerLevel":0.2062},"tags":["defense","perLevel","quintessence"]},"5107":{"colloq":null,"description":"+1.5 health regen / 5 sec.","image":{"full":"bl_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":48},"name":"Lesser Quintessence of Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"FlatHPRegenMod":0.3},"tags":["defense","flat","quintessence"]},"5108":{"colloq":null,"description":"+0.16 health regen / 5 sec. per level (+2.88 at champion level 18)","image":{"full":"bl_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":48},"name":"Lesser Quintessence of Scaling Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rFlatHPRegenModPerLevel":0.03126},"tags":["defense","perLevel","quintessence"]},"5111":{"colloq":null,"description":"-1.4% cooldowns","image":{"full":"bl_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":48},"name":"Lesser Quintessence of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rPercentCooldownMod":-0.014},"tags":["quintessence"]},"5112":{"colloq":null,"description":"-0.15% cooldowns per level (-2.8% at champion level 18)","image":{"full":"bl_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":48},"name":"Lesser Quintessence of Scaling Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rPercentCooldownModPerLevel":-0.0015556},"tags":["quintessence"]},"5113":{"colloq":null,"description":"+2.75 ability power","image":{"full":"bl_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":48},"name":"Lesser Quintessence of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"FlatMagicDamageMod":2.75},"tags":["magic","flat","quintessence"]},"5114":{"colloq":null,"description":"+0.24 ability power per level (+4.32 at champion level 18)","image":{"full":"bl_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":48},"name":"Lesser Quintessence of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rFlatMagicDamageModPerLevel":0.2404},"tags":["magic","perLevel","quintessence"]},"5115":{"colloq":null,"description":"+20.83 mana","image":{"full":"bl_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":48},"name":"Lesser Quintessence of Mana","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"FlatMPPoolMod":20.8333},"tags":["magic","flat","quintessence"]},"5116":{"colloq":null,"description":"+2.31 mana per level (+41.58 at champion level 18)","image":{"full":"bl_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":48},"name":"Lesser Quintessence of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rFlatMPModPerLevel":2.3148},"tags":["magic","perLevel","quintessence"]},"5117":{"colloq":null,"description":"+0.69 mana regen / 5 sec.","image":{"full":"bl_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":48},"name":"Lesser Quintessence of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"FlatMPRegenMod":0.13888},"tags":["magic","flat","quintessence"]},"5118":{"colloq":null,"description":"+0.14 mana regen / 5 sec. per level (+2.52 at champion level 18)","image":{"full":"bl_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":48},"name":"Lesser Quintessence of Scaling Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rFlatMPRegenModPerLevel":0.02712},"tags":["magic","perLevel","quintessence"]},"5119":{"colloq":null,"description":"+1.11 magic penetration","image":{"full":"bl_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":48},"name":"Lesser Quintessence of Magic Penetration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rFlatMagicPenetrationMod":1.11},"tags":["magic","flat","quintessence"]},"5121":{"colloq":null,"description":"+0.83% movement speed","image":{"full":"bl_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":48},"name":"Lesser Quintessence of Movement Speed","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"PercentMovementSpeedMod":0.008333},"tags":["utility","percent","quintessence"]},"5123":{"colloq":null,"description":"+0.74 attack damage","image":{"full":"r_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":48},"name":"Mark of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"FlatPhysicalDamageMod":0.735},"tags":["physicalAttack","flat","mark"]},"5124":{"colloq":null,"description":"+0.1 attack damage per level (+1.89 at champion level 18)","image":{"full":"r_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":48},"name":"Mark of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"rFlatPhysicalDamageModPerLevel":0.105},"tags":["physicalAttack","perLevel","mark"]},"5125":{"colloq":null,"description":"+1.32% attack speed","image":{"full":"r_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":96},"name":"Mark of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"PercentAttackSpeedMod":0.013208},"tags":["physicalAttack","percent","mark"]},"5127":{"colloq":null,"description":"+1.74% critical damage","image":{"full":"r_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":48},"name":"Mark of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"FlatCritDamageMod":0.017355},"tags":["physicalAttack","flat","mark"]},"5129":{"colloq":null,"description":"+0.72% critical chance","image":{"full":"r_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":96},"name":"Mark of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"FlatCritChanceMod":0.007216},"tags":["physicalAttack","flat","mark"]},"5131":{"colloq":null,"description":"+1 armor penetration","image":{"full":"r_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":48},"name":"Mark of Armor Penetration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"rFlatArmorPenetrationMod":1},"tags":["physicalAttack","flat","mark"]},"5133":{"colloq":null,"description":"+2.7 health","image":{"full":"r_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":96},"name":"Mark of Health","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"FlatHPPoolMod":2.7027},"tags":["defense","flat","mark"]},"5134":{"colloq":null,"description":"+0.42 health per level (+7.56 at champion level 18)","image":{"full":"r_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":96},"name":"Mark of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"rFlatHPModPerLevel":0.4207},"tags":["defense","perLevel","mark"]},"5135":{"colloq":null,"description":"+0.71 armor","image":{"full":"r_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":48},"name":"Mark of Armor","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"FlatArmorMod":0.7112},"tags":["defense","flat","mark"]},"5137":{"colloq":null,"description":"+0.6 magic resist","image":{"full":"r_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":96},"name":"Mark of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"FlatSpellBlockMod":0.6},"tags":["defense","flat","mark"]},"5138":{"colloq":null,"description":"+0.06 magic resist per level (+1.08 at champion level 18)","image":{"full":"r_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":96},"name":"Mark of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"rFlatSpellBlockModPerLevel":0.0577},"tags":["defense","perLevel","mark"]},"5143":{"colloq":null,"description":"-0.16% cooldowns","image":{"full":"r_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":48},"name":"Mark of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"rPercentCooldownMod":-0.001556},"tags":["mark"]},"5145":{"colloq":null,"description":"+0.46 ability power","image":{"full":"r_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":96},"name":"Mark of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"FlatMagicDamageMod":0.462},"tags":["magic","flat","mark"]},"5146":{"colloq":null,"description":"+0.08 ability power per level (+1.44 at champion level 18)","image":{"full":"r_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":96},"name":"Mark of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"rFlatMagicDamageModPerLevel":0.0808},"tags":["magic","perLevel","mark"]},"5147":{"colloq":null,"description":"+4.59 mana","image":{"full":"r_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":48},"name":"Mark of Mana","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"FlatMPPoolMod":4.5938},"tags":["magic","flat","mark"]},"5148":{"colloq":null,"description":"+0.91 mana per level (+16.38 at champion level 18)","image":{"full":"r_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":48},"name":"Mark of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"rFlatMPModPerLevel":0.9074},"tags":["magic","perLevel","mark"]},"5149":{"colloq":null,"description":"+0.2 mana regen / 5 sec.","image":{"full":"r_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":96},"name":"Mark of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"FlatMPRegenMod":0.04084},"tags":["magic","flat","mark"]},"5151":{"colloq":null,"description":"+0.68 magic penetration","image":{"full":"r_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":48},"name":"Mark of Magic Penetration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"rFlatMagicPenetrationMod":0.68},"tags":["magic","flat","mark"]},"5153":{"colloq":null,"description":"+0.22 attack damage","image":{"full":"b_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":96},"name":"Glyph of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"FlatPhysicalDamageMod":0.2205},"tags":["physicalAttack","flat","glyph"]},"5154":{"colloq":null,"description":"+0.03 attack damage per level (+0.57 at champion level 18)","image":{"full":"b_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":96},"name":"Glyph of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"rFlatPhysicalDamageModPerLevel":0.0315},"tags":["physicalAttack","perLevel","glyph"]},"5155":{"colloq":null,"description":"+0.5% attack speed","image":{"full":"b_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":96},"name":"Glyph of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"PercentAttackSpeedMod":0.004953},"tags":["physicalAttack","percent","glyph"]},"5157":{"colloq":null,"description":"+0.43% critical damage","image":{"full":"b_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":96},"name":"Glyph of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"FlatCritDamageMod":0.004339},"tags":["physicalAttack","flat","glyph"]},"5159":{"colloq":null,"description":"+0.22% critical chance","image":{"full":"b_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":96},"name":"Glyph of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"FlatCritChanceMod":0.002165},"tags":["physicalAttack","flat","glyph"]},"5163":{"colloq":null,"description":"+2.08 health","image":{"full":"b_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":96},"name":"Glyph of Health","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"FlatHPPoolMod":2.079},"tags":["defense","flat","glyph"]},"5164":{"colloq":null,"description":"+0.42 health per level (+7.56 at champion level 18)","image":{"full":"b_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":96},"name":"Glyph of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"rFlatHPModPerLevel":0.4207},"tags":["defense","perLevel","glyph"]},"5165":{"colloq":null,"description":"+0.55 armor","image":{"full":"b_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":96},"name":"Glyph of Armor","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"FlatArmorMod":0.5471},"tags":["defense","flat","glyph"]},"5167":{"colloq":null,"description":"+1.04 magic resist","image":{"full":"b_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":96},"name":"Glyph of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"FlatSpellBlockMod":1.04},"tags":["defense","flat","glyph"]},"5168":{"colloq":null,"description":"+0.13 magic resist per level (+2.34 at champion level 18)","image":{"full":"b_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":96},"name":"Glyph of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"rFlatSpellBlockModPerLevel":0.13},"tags":["defense","perLevel","glyph"]},"5169":{"colloq":null,"description":"+0.21 health regen / 5 sec.","image":{"full":"b_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":96},"name":"Glyph of Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"FlatHPRegenMod":0.042},"tags":["defense","flat","glyph"]},"5173":{"colloq":null,"description":"-0.67% cooldowns","image":{"full":"b_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":96},"name":"Glyph of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"rPercentCooldownMod":-0.00667},"tags":["glyph"]},"5174":{"colloq":null,"description":"-0.07% cooldowns per level (-1.3% at champion level 18)","image":{"full":"b_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":96},"name":"Glyph of Scaling Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"rPercentCooldownModPerLevel":-0.0007223},"tags":["glyph"]},"5175":{"colloq":null,"description":"+0.92 ability power","image":{"full":"b_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":96},"name":"Glyph of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"FlatMagicDamageMod":0.92},"tags":["magic","flat","glyph"]},"5176":{"colloq":null,"description":"+0.13 ability power per level (+2.34 at champion level 18)","image":{"full":"b_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":96},"name":"Glyph of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"rFlatMagicDamageModPerLevel":0.1346},"tags":["magic","perLevel","glyph"]},"5177":{"colloq":null,"description":"+8.75 mana","image":{"full":"b_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":96},"name":"Glyph of Mana","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"FlatMPPoolMod":8.75},"tags":["magic","flat","glyph"]},"5178":{"colloq":null,"description":"+1.1 mana per level (+19.8 at champion level 18)","image":{"full":"b_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":96},"name":"Glyph of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"rFlatMPModPerLevel":1.1019},"tags":["magic","perLevel","glyph"]},"5179":{"colloq":null,"description":"+0.26 mana regen / 5 sec.","image":{"full":"b_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":96},"name":"Glyph of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"FlatMPRegenMod":0.052},"tags":["magic","flat","glyph"]},"5180":{"colloq":null,"description":"+0.05 mana regen / 5 sec. per level (+0.94 at champion level 18)","image":{"full":"b_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":96},"name":"Glyph of Scaling Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"rFlatMPRegenModPerLevel":0.01044},"tags":["magic","perLevel","glyph"]},"5181":{"colloq":null,"description":"+0.49 magic penetration","image":{"full":"b_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":96},"name":"Glyph of Magic Penetration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"rFlatMagicPenetrationMod":0.49},"tags":["magic","flat","glyph"]},"5183":{"colloq":null,"description":"+0.33 attack damage","image":{"full":"y_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":96},"name":"Seal of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"FlatPhysicalDamageMod":0.3309},"tags":["physicalAttack","flat","seal"]},"5184":{"colloq":null,"description":"+0.05 attack damage per level (+0.85 at champion level 18)","image":{"full":"y_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":96},"name":"Seal of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"rFlatPhysicalDamageModPerLevel":0.0473},"tags":["physicalAttack","perLevel","seal"]},"5185":{"colloq":null,"description":"+0.59% attack speed","image":{"full":"y_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":96},"name":"Seal of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"PercentAttackSpeedMod":0.005943},"tags":["physicalAttack","percent","seal"]},"5187":{"colloq":null,"description":"+0.61% critical damage","image":{"full":"y_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":96},"name":"Seal of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"FlatCritDamageMod":0.006074},"tags":["physicalAttack","flat","seal"]},"5189":{"colloq":null,"description":"+0.32% critical chance","image":{"full":"y_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":96},"name":"Seal of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"FlatCritChanceMod":0.003247},"tags":["physicalAttack","flat","seal"]},"5193":{"colloq":null,"description":"+6.24 health","image":{"full":"y_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":96},"name":"Seal of Health","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"FlatHPPoolMod":6.24},"tags":["defense","flat","seal"]},"5194":{"colloq":null,"description":"+1.04 health per level (+18.72 at champion level 18)","image":{"full":"y_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":96},"name":"Seal of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"rFlatHPModPerLevel":1.04},"tags":["defense","perLevel","seal"]},"5195":{"colloq":null,"description":"+0.78 armor","image":{"full":"y_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":96},"name":"Seal of Armor","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"FlatArmorMod":0.78},"tags":["defense","flat","seal"]},"5196":{"colloq":null,"description":"+0.13 armor per level (+2.34 at champion level 18)","image":{"full":"y_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":96},"name":"Seal of Scaling Armor","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"rFlatArmorModPerLevel":0.13},"tags":["defense","perLevel","seal"]},"5197":{"colloq":null,"description":"+0.58 magic resist","image":{"full":"y_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":96},"name":"Seal of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"FlatSpellBlockMod":0.5775},"tags":["defense","flat","seal"]},"5198":{"colloq":null,"description":"+0.08 magic resist per level (+1.44 at champion level 18)","image":{"full":"y_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":96},"name":"Seal of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"rFlatSpellBlockModPerLevel":0.075},"tags":["defense","perLevel","seal"]},"5199":{"colloq":null,"description":"+0.43 health regen / 5 sec.","image":{"full":"y_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":96},"name":"Seal of Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"FlatHPRegenMod":0.086},"tags":["defense","flat","seal"]},"5200":{"colloq":null,"description":"+0.09 health regen / 5 sec. per level (+1.62 at champion level 18)","image":{"full":"y_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":96},"name":"Seal of Scaling Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"rFlatHPRegenModPerLevel":0.0175},"tags":["defense","perLevel","seal"]},"5203":{"colloq":null,"description":"-0.29% cooldowns","image":{"full":"y_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":96},"name":"Seal of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"rPercentCooldownMod":-0.002889},"tags":["seal"]},"5205":{"colloq":null,"description":"+0.46 ability power","image":{"full":"y_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":96},"name":"Seal of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"FlatMagicDamageMod":0.462},"tags":["magic","flat","seal"]},"5206":{"colloq":null,"description":"+0.08 ability power per level (+1.44 at champion level 18)","image":{"full":"y_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":96},"name":"Seal of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"rFlatMagicDamageModPerLevel":0.0808},"tags":["magic","perLevel","seal"]},"5207":{"colloq":null,"description":"+5.36 mana","image":{"full":"y_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":96},"name":"Seal of Mana","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"FlatMPPoolMod":5.3594},"tags":["magic","flat","seal"]},"5208":{"colloq":null,"description":"+0.91 mana per level (+16.38 at champion level 18)","image":{"full":"y_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":96},"name":"Seal of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"rFlatMPModPerLevel":0.9074},"tags":["magic","perLevel","seal"]},"5209":{"colloq":null,"description":"+0.32 mana regen / 5 sec.","image":{"full":"y_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":96},"name":"Seal of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"FlatMPRegenMod":0.0632},"tags":["magic","flat","seal"]},"5210":{"colloq":null,"description":"+0.05 mana regen / 5 sec. per level (+0.9 at champion level 18)","image":{"full":"y_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":96},"name":"Seal of Scaling Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"rFlatMPRegenModPerLevel":0.01},"tags":["magic","perLevel","seal"]},"5213":{"colloq":null,"description":"+1.75 attack damage","image":{"full":"bl_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":144},"name":"Quintessence of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatPhysicalDamageMod":1.75},"tags":["physicalAttack","flat","quintessence"]},"5214":{"colloq":null,"description":"+0.19 attack damage per level (+3.42 at champion level 18)","image":{"full":"bl_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":144},"name":"Quintessence of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatPhysicalDamageModPerLevel":0.1944},"tags":["physicalAttack","perLevel","quintessence"]},"5215":{"colloq":null,"description":"+3.51% attack speed","image":{"full":"bl_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":144},"name":"Quintessence of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"PercentAttackSpeedMod":0.0351},"tags":["physicalAttack","percent","quintessence"]},"5217":{"colloq":null,"description":"+3.47% critical damage","image":{"full":"bl_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":144},"name":"Quintessence of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatCritDamageMod":0.034711},"tags":["physicalAttack","flat","quintessence"]},"5219":{"colloq":null,"description":"+1.44% critical chance","image":{"full":"bl_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":144},"name":"Quintessence of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatCritChanceMod":0.014433},"tags":["physicalAttack","flat","quintessence"]},"5221":{"colloq":null,"description":"+1.99 armor penetration","image":{"full":"bl_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":144},"name":"Quintessence of Armor Penetration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatArmorPenetrationMod":1.99},"tags":["physicalAttack","flat","quintessence"]},"5223":{"colloq":null,"description":"+20 health","image":{"full":"bl_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":144},"name":"Quintessence of Health","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatHPPoolMod":20},"tags":["defense","flat","quintessence"]},"5224":{"colloq":null,"description":"+2.1 health per level (+37.8 at champion level 18)","image":{"full":"bl_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":144},"name":"Quintessence of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatHPModPerLevel":2.1034},"tags":["defense","perLevel","quintessence"]},"5225":{"colloq":null,"description":"+3.32 armor","image":{"full":"bl_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":144},"name":"Quintessence of Armor","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatArmorMod":3.3158},"tags":["defense","flat","quintessence"]},"5226":{"colloq":null,"description":"+0.29 armor per level (+5.22 at champion level 18)","image":{"full":"bl_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":144},"name":"Quintessence of Scaling Armor","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatArmorModPerLevel":0.2917},"tags":["defense","perLevel","quintessence"]},"5227":{"colloq":null,"description":"+3.11 magic resist","image":{"full":"bl_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":144},"name":"Quintessence of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatSpellBlockMod":3.11},"tags":["defense","flat","quintessence"]},"5228":{"colloq":null,"description":"+0.29 magic resist per level (+5.22 at champion level 18)","image":{"full":"bl_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":144},"name":"Quintessence of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatSpellBlockModPerLevel":0.2886},"tags":["defense","perLevel","quintessence"]},"5229":{"colloq":null,"description":"+2.1 health regen / 5 sec.","image":{"full":"bl_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":144},"name":"Quintessence of Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatHPRegenMod":0.42},"tags":["defense","flat","quintessence"]},"5230":{"colloq":null,"description":"+0.22 health regen / 5 sec. per level (+3.96 at champion level 18)","image":{"full":"bl_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":144},"name":"Quintessence of Scaling Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatHPRegenModPerLevel":0.04376},"tags":["defense","perLevel","quintessence"]},"5233":{"colloq":null,"description":"-1.95% cooldowns","image":{"full":"bl_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":144},"name":"Quintessence of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rPercentCooldownMod":-0.0195},"tags":["quintessence"]},"5234":{"colloq":null,"description":"-0.21% cooldowns per level (-3.9% at champion level 18)","image":{"full":"bl_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":144},"name":"Quintessence of Scaling Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rPercentCooldownModPerLevel":-0.002167},"tags":["quintessence"]},"5235":{"colloq":null,"description":"+3.85 ability power","image":{"full":"bl_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":144},"name":"Quintessence of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatMagicDamageMod":3.85},"tags":["magic","flat","quintessence"]},"5236":{"colloq":null,"description":"+0.34 ability power per level (+6.12 at champion level 18)","image":{"full":"bl_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":144},"name":"Quintessence of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatMagicDamageModPerLevel":0.3365},"tags":["magic","perLevel","quintessence"]},"5237":{"colloq":null,"description":"+29.17 mana","image":{"full":"bl_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":144},"name":"Quintessence of Mana","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatMPPoolMod":29.1667},"tags":["magic","flat","quintessence"]},"5238":{"colloq":null,"description":"+3.24 mana per level (+58.32 at champion level 18)","image":{"full":"bl_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":144},"name":"Quintessence of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatMPModPerLevel":3.2407},"tags":["magic","perLevel","quintessence"]},"5239":{"colloq":null,"description":"+0.97 mana regen / 5 sec.","image":{"full":"bl_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":144},"name":"Quintessence of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatMPRegenMod":0.19444},"tags":["magic","flat","quintessence"]},"5240":{"colloq":null,"description":"+0.19 mana regen / 5 sec. per level (+3.42 at champion level 18)","image":{"full":"bl_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":144},"name":"Quintessence of Scaling Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatMPRegenModPerLevel":0.03798},"tags":["magic","perLevel","quintessence"]},"5241":{"colloq":null,"description":"+1.56 magic penetration","image":{"full":"bl_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":144},"name":"Quintessence of Magic Penetration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatMagicPenetrationMod":1.56},"tags":["magic","flat","quintessence"]},"5243":{"colloq":null,"description":"+1.17% movement speed","image":{"full":"bl_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":144},"name":"Quintessence of Movement Speed","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"PercentMovementSpeedMod":0.011667},"tags":["utility","percent","quintessence"]},"5245":{"colloq":null,"description":"+0.95 attack damage","image":{"full":"r_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":144},"name":"Greater Mark of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"FlatPhysicalDamageMod":0.945},"tags":["physicalAttack","flat","mark"]},"5246":{"colloq":null,"description":"+0.13 attack damage per level (+2.43 at champion level 18)","image":{"full":"r_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":144},"name":"Greater Mark of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"rFlatPhysicalDamageModPerLevel":0.135},"tags":["physicalAttack","perLevel","mark"]},"5247":{"colloq":null,"description":"+1.7% attack speed","image":{"full":"r_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":144},"name":"Greater Mark of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"PercentAttackSpeedMod":0.016981},"tags":["physicalAttack","percent","mark"]},"5249":{"colloq":null,"description":"+2.23% critical damage","image":{"full":"r_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":144},"name":"Greater Mark of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"FlatCritDamageMod":0.022314},"tags":["physicalAttack","flat","mark"]},"5251":{"colloq":null,"description":"+0.93% critical chance","image":{"full":"r_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":144},"name":"Greater Mark of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"FlatCritChanceMod":0.009278},"tags":["physicalAttack","flat","mark"]},"5253":{"colloq":null,"description":"+1.28 armor penetration","image":{"full":"r_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":144},"name":"Greater Mark of Armor Penetration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"rFlatArmorPenetrationMod":1.28},"tags":["physicalAttack","flat","mark"]},"5255":{"colloq":null,"description":"+3.47 health","image":{"full":"r_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":144},"name":"Greater Mark of Health","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"FlatHPPoolMod":3.4749},"tags":["defense","flat","mark"]},"5256":{"colloq":null,"description":"+0.54 health per level (+9.72 at champion level 18)","image":{"full":"r_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":144},"name":"Greater Mark of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"rFlatHPModPerLevel":0.5409},"tags":["defense","perLevel","mark"]},"5257":{"colloq":null,"description":"+0.91 armor","image":{"full":"r_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":144},"name":"Greater Mark of Armor","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"FlatArmorMod":0.9144},"tags":["defense","flat","mark"]},"5259":{"colloq":null,"description":"+0.77 magic resist","image":{"full":"r_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":144},"name":"Greater Mark of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"FlatSpellBlockMod":0.77},"tags":["defense","flat","mark"]},"5260":{"colloq":null,"description":"+0.07 magic resist per level (+1.26 at champion level 18)","image":{"full":"r_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":144},"name":"Greater Mark of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"rFlatSpellBlockModPerLevel":0.0742},"tags":["defense","perLevel","mark"]},"5265":{"colloq":null,"description":"-0.2% cooldowns","image":{"full":"r_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":144},"name":"Greater Mark of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"rPercentCooldownMod":-0.002},"tags":["mark"]},"5267":{"colloq":null,"description":"+0.59 ability power","image":{"full":"r_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":144},"name":"Greater Mark of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"FlatMagicDamageMod":0.594},"tags":["magic","flat","mark"]},"5268":{"colloq":null,"description":"+0.1 ability power per level (+1.8 at champion level 18)","image":{"full":"r_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":144},"name":"Greater Mark of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"rFlatMagicDamageModPerLevel":0.1038},"tags":["magic","perLevel","mark"]},"5269":{"colloq":null,"description":"+5.91 mana","image":{"full":"r_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":144},"name":"Greater Mark of Mana","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"FlatMPPoolMod":5.9063},"tags":["magic","flat","mark"]},"5270":{"colloq":null,"description":"+1.17 mana per level (+21.06 at champion level 18)","image":{"full":"r_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":144},"name":"Greater Mark of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"rFlatMPModPerLevel":1.1667},"tags":["magic","perLevel","mark"]},"5271":{"colloq":null,"description":"+0.26 mana regen / 5 sec.","image":{"full":"r_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":144},"name":"Greater Mark of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"FlatMPRegenMod":0.0525},"tags":["magic","flat","mark"]},"5273":{"colloq":null,"description":"+0.87 magic penetration","image":{"full":"r_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":144},"name":"Greater Mark of Magic Penetration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"rFlatMagicPenetrationMod":0.87},"tags":["magic","flat","mark"]},"5275":{"colloq":null,"description":"+0.28 attack damage","image":{"full":"b_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":144},"name":"Greater Glyph of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"FlatPhysicalDamageMod":0.2835},"tags":["physicalAttack","flat","glyph"]},"5276":{"colloq":null,"description":"+0.04 attack damage per level (+0.73 at champion level 18)","image":{"full":"b_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":144},"name":"Greater Glyph of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"rFlatPhysicalDamageModPerLevel":0.0405},"tags":["physicalAttack","perLevel","glyph"]},"5277":{"colloq":null,"description":"+0.64% attack speed","image":{"full":"b_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":192},"name":"Greater Glyph of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"PercentAttackSpeedMod":0.006368},"tags":["physicalAttack","percent","glyph"]},"5279":{"colloq":null,"description":"+0.56% critical damage","image":{"full":"b_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":144},"name":"Greater Glyph of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"FlatCritDamageMod":0.005579},"tags":["physicalAttack","flat","glyph"]},"5281":{"colloq":null,"description":"+0.28% critical chance","image":{"full":"b_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":192},"name":"Greater Glyph of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"FlatCritChanceMod":0.002784},"tags":["physicalAttack","flat","glyph"]},"5285":{"colloq":null,"description":"+2.67 health","image":{"full":"b_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":192},"name":"Greater Glyph of Health","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"FlatHPPoolMod":2.673},"tags":["defense","flat","glyph"]},"5286":{"colloq":null,"description":"+0.54 health per level (+9.72 at champion level 18)","image":{"full":"b_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":192},"name":"Greater Glyph of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"rFlatHPModPerLevel":0.5409},"tags":["defense","perLevel","glyph"]},"5287":{"colloq":null,"description":"+0.7 armor","image":{"full":"b_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":144},"name":"Greater Glyph of Armor","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"FlatArmorMod":0.7034},"tags":["defense","flat","glyph"]},"5289":{"colloq":null,"description":"+1.34 magic resist","image":{"full":"b_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":192},"name":"Greater Glyph of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"FlatSpellBlockMod":1.34},"tags":["defense","flat","glyph"]},"5290":{"colloq":null,"description":"+0.16 magic resist per level (+3 at champion level 18)","image":{"full":"b_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":192},"name":"Greater Glyph of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"rFlatSpellBlockModPerLevel":0.16667},"tags":["defense","perLevel","glyph"]},"5291":{"colloq":null,"description":"+0.27 health regen / 5 sec.","image":{"full":"b_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":144},"name":"Greater Glyph of Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"FlatHPRegenMod":0.054},"tags":["defense","flat","glyph"]},"5295":{"colloq":null,"description":"-0.83% cooldowns","image":{"full":"b_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":144},"name":"Greater Glyph of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"rPercentCooldownMod":-0.008334},"tags":["glyph"]},"5296":{"colloq":null,"description":"-0.09% cooldowns per level (-1.67% at champion level 18)","image":{"full":"b_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":144},"name":"Greater Glyph of Scaling Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"rPercentCooldownModPerLevel":-0.0009278},"tags":["glyph"]},"5297":{"colloq":null,"description":"+1.19 ability power","image":{"full":"b_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":192},"name":"Greater Glyph of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"FlatMagicDamageMod":1.19},"tags":["magic","flat","glyph"]},"5298":{"colloq":null,"description":"+0.17 ability power per level (+3.06 at champion level 18)","image":{"full":"b_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":192},"name":"Greater Glyph of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"rFlatMagicDamageModPerLevel":0.1731},"tags":["magic","perLevel","glyph"]},"5299":{"colloq":null,"description":"+11.25 mana","image":{"full":"b_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":144},"name":"Greater Glyph of Mana","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"FlatMPPoolMod":11.25},"tags":["magic","flat","glyph"]},"5300":{"colloq":null,"description":"+1.42 mana per level (+25.56 at champion level 18)","image":{"full":"b_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":144},"name":"Greater Glyph of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"rFlatMPModPerLevel":1.4167},"tags":["magic","perLevel","glyph"]},"5301":{"colloq":null,"description":"+0.33 mana regen / 5 sec.","image":{"full":"b_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":192},"name":"Greater Glyph of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"FlatMPRegenMod":0.066},"tags":["magic","flat","glyph"]},"5302":{"colloq":null,"description":"+0.06 mana regen / 5 sec. per level (+1.2 at champion level 18)","image":{"full":"b_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":192},"name":"Greater Glyph of Scaling Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"rFlatMPRegenModPerLevel":0.01334},"tags":["magic","perLevel","glyph"]},"5303":{"colloq":null,"description":"+0.63 magic penetration","image":{"full":"b_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":144},"name":"Greater Glyph of Magic Penetration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"rFlatMagicPenetrationMod":0.63},"tags":["magic","flat","glyph"]},"5305":{"colloq":null,"description":"+0.43 attack damage","image":{"full":"y_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":192},"name":"Greater Seal of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"FlatPhysicalDamageMod":0.4254},"tags":["physicalAttack","flat","seal"]},"5306":{"colloq":null,"description":"+0.06 attack damage per level (+1.09 at champion level 18)","image":{"full":"y_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":192},"name":"Greater Seal of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"rFlatPhysicalDamageModPerLevel":0.0608},"tags":["physicalAttack","perLevel","seal"]},"5307":{"colloq":null,"description":"+0.76% attack speed","image":{"full":"y_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":192},"name":"Greater Seal of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"PercentAttackSpeedMod":0.007642},"tags":["physicalAttack","percent","seal"]},"5309":{"colloq":null,"description":"+0.78% critical damage","image":{"full":"y_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":192},"name":"Greater Seal of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"FlatCritDamageMod":0.00781},"tags":["physicalAttack","flat","seal"]},"5311":{"colloq":null,"description":"+0.42% critical chance","image":{"full":"y_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":192},"name":"Greater Seal of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"FlatCritChanceMod":0.004175},"tags":["physicalAttack","flat","seal"]},"5315":{"colloq":null,"description":"+8 health","image":{"full":"y_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":192},"name":"Greater Seal of Health","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"FlatHPPoolMod":8},"tags":["defense","flat","seal"]},"5316":{"colloq":null,"description":"+1.33 health per level (+24 at champion level 18)","image":{"full":"y_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":192},"name":"Greater Seal of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"rFlatHPModPerLevel":1.3334},"tags":["defense","perLevel","seal"]},"5317":{"colloq":null,"description":"+1 armor","image":{"full":"y_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":192},"name":"Greater Seal of Armor","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"FlatArmorMod":1},"tags":["defense","flat","seal"]},"5318":{"colloq":null,"description":"+0.16 armor per level (+3 at champion level 18)","image":{"full":"y_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":192},"name":"Greater Seal of Scaling Armor","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"rFlatArmorModPerLevel":0.16667},"tags":["defense","perLevel","seal"]},"5319":{"colloq":null,"description":"+0.74 magic resist","image":{"full":"y_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":192},"name":"Greater Seal of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"FlatSpellBlockMod":0.7425},"tags":["defense","flat","seal"]},"5320":{"colloq":null,"description":"+0.1 magic resist per level (+1.8 at champion level 18)","image":{"full":"y_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":192},"name":"Greater Seal of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"rFlatSpellBlockModPerLevel":0.0965},"tags":["defense","perLevel","seal"]},"5321":{"colloq":null,"description":"+0.56 health regen / 5 sec.","image":{"full":"y_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":192},"name":"Greater Seal of Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"FlatHPRegenMod":0.1112},"tags":["defense","flat","seal"]},"5322":{"colloq":null,"description":"+0.11 health regen / 5 sec. per level (+1.98 at champion level 18)","image":{"full":"y_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":192},"name":"Greater Seal of Scaling Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"rFlatHPRegenModPerLevel":0.0225},"tags":["defense","perLevel","seal"]},"5325":{"colloq":null,"description":"-0.36% cooldowns","image":{"full":"y_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":192},"name":"Greater Seal of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"rPercentCooldownMod":-0.003556},"tags":["seal"]},"5327":{"colloq":null,"description":"+0.59 ability power","image":{"full":"y_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":192},"name":"Greater Seal of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"FlatMagicDamageMod":0.594},"tags":["magic","flat","seal"]},"5328":{"colloq":null,"description":"+0.1 ability power per level (+1.8 at champion level 18)","image":{"full":"y_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":192},"name":"Greater Seal of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"rFlatMagicDamageModPerLevel":0.1038},"tags":["magic","perLevel","seal"]},"5329":{"colloq":null,"description":"+6.89 mana","image":{"full":"y_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":192},"name":"Greater Seal of Mana","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"FlatMPPoolMod":6.8906},"tags":["magic","flat","seal"]},"5330":{"colloq":null,"description":"+1.17 mana per level (+21.06 at champion level 18)","image":{"full":"y_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":192},"name":"Greater Seal of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"rFlatMPModPerLevel":1.1667},"tags":["magic","perLevel","seal"]},"5331":{"colloq":null,"description":"+0.41 mana regen / 5 sec.","image":{"full":"y_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":192},"name":"Greater Seal of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"FlatMPRegenMod":0.08126},"tags":["magic","flat","seal"]},"5332":{"colloq":null,"description":"+0.065 mana regen / 5 sec. per level (+1.17 at champion level 18)","image":{"full":"y_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":192},"name":"Greater Seal of Scaling Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"rFlatMPRegenModPerLevel":0.013},"tags":["magic","perLevel","seal"]},"5335":{"colloq":null,"description":"+2.25 attack damage","image":{"full":"bl_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":192},"name":"Greater Quintessence of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatPhysicalDamageMod":2.25},"tags":["physicalAttack","flat","quintessence"]},"5336":{"colloq":null,"description":"+0.25 attack damage per level (+4.5 at champion level 18)","image":{"full":"bl_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":192},"name":"Greater Quintessence of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatPhysicalDamageModPerLevel":0.25},"tags":["physicalAttack","perLevel","quintessence"]},"5337":{"colloq":null,"description":"+4.5% attack speed","image":{"full":"bl_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":192},"name":"Greater Quintessence of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"PercentAttackSpeedMod":0.045},"tags":["physicalAttack","percent","quintessence"]},"5339":{"colloq":null,"description":"+4.46% critical damage","image":{"full":"bl_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":192},"name":"Greater Quintessence of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatCritDamageMod":0.044628},"tags":["physicalAttack","flat","quintessence"]},"5341":{"colloq":null,"description":"+1.86% critical chance","image":{"full":"bl_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":192},"name":"Greater Quintessence of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatCritChanceMod":0.018557},"tags":["physicalAttack","flat","quintessence"]},"5343":{"colloq":null,"description":"+2.56 armor penetration","image":{"full":"bl_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":192},"name":"Greater Quintessence of Armor Penetration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatArmorPenetrationMod":2.56},"tags":["physicalAttack","flat","quintessence"]},"5345":{"colloq":null,"description":"+26 health","image":{"full":"bl_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":192},"name":"Greater Quintessence of Health","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatHPPoolMod":26},"tags":["defense","flat","quintessence"]},"5346":{"colloq":null,"description":"+2.7 health per level (+48.6 at champion level 18)","image":{"full":"bl_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":192},"name":"Greater Quintessence of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatHPModPerLevel":2.7043},"tags":["defense","perLevel","quintessence"]},"5347":{"colloq":null,"description":"+4.26 armor","image":{"full":"bl_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":192},"name":"Greater Quintessence of Armor","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatArmorMod":4.2632},"tags":["defense","flat","quintessence"]},"5348":{"colloq":null,"description":"+0.38 armor per level (+6.84 at champion level 18)","image":{"full":"bl_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":192},"name":"Greater Quintessence of Scaling Armor","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatArmorModPerLevel":0.375},"tags":["defense","perLevel","quintessence"]},"5349":{"colloq":null,"description":"+4 magic resist","image":{"full":"bl_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":192},"name":"Greater Quintessence of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatSpellBlockMod":4},"tags":["defense","flat","quintessence"]},"5350":{"colloq":null,"description":"+0.37 magic resist per level (+6.66 at champion level 18)","image":{"full":"bl_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":192},"name":"Greater Quintessence of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatSpellBlockModPerLevel":0.3711},"tags":["defense","perLevel","quintessence"]},"5351":{"colloq":null,"description":"+2.7 health regen / 5 sec.","image":{"full":"bl_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":192},"name":"Greater Quintessence of Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatHPRegenMod":0.54},"tags":["defense","flat","quintessence"]},"5352":{"colloq":null,"description":"+0.28 health regen / 5 sec. per level (+5.04 at champion level 18)","image":{"full":"bl_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":192},"name":"Greater Quintessence of Scaling Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatHPRegenModPerLevel":0.05626},"tags":["defense","perLevel","quintessence"]},"5355":{"colloq":null,"description":"-2.5% cooldowns","image":{"full":"bl_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":192},"name":"Greater Quintessence of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rPercentCooldownMod":-0.025},"tags":["quintessence"]},"5356":{"colloq":null,"description":"-0.28% cooldowns per level (-5% at champion level 18)","image":{"full":"bl_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":192},"name":"Greater Quintessence of Scaling Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rPercentCooldownModPerLevel":-0.002778},"tags":["quintessence"]},"5357":{"colloq":null,"description":"+4.95 ability power","image":{"full":"bl_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":192},"name":"Greater Quintessence of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatMagicDamageMod":4.95},"tags":["magic","flat","quintessence"]},"5358":{"colloq":null,"description":"+0.43 ability power per level (+7.74 at champion level 18)","image":{"full":"bl_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":192},"name":"Greater Quintessence of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatMagicDamageModPerLevel":0.4327},"tags":["magic","perLevel","quintessence"]},"5359":{"colloq":null,"description":"+37.5 mana","image":{"full":"bl_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":192},"name":"Greater Quintessence of Mana","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatMPPoolMod":37.5},"tags":["magic","flat","quintessence"]},"5360":{"colloq":null,"description":"+4.17 mana per level (+75.06 at champion level 18)","image":{"full":"bl_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":192},"name":"Greater Quintessence of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatMPModPerLevel":4.1667},"tags":["magic","perLevel","quintessence"]},"5361":{"colloq":null,"description":"+1.25 mana regen / 5 sec.","image":{"full":"bl_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":192},"name":"Greater Quintessence of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatMPRegenMod":0.25},"tags":["magic","flat","quintessence"]},"5362":{"colloq":null,"description":"+0.24 mana regen / 5 sec. per level (+4.32 at champion level 18)","image":{"full":"bl_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":192},"name":"Greater Quintessence of Scaling Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatMPRegenModPerLevel":0.04882},"tags":["magic","perLevel","quintessence"]},"5363":{"colloq":null,"description":"+2.01 magic penetration","image":{"full":"bl_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":192},"name":"Greater Quintessence of Magic Penetration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatMagicPenetrationMod":2.01},"tags":["magic","flat","quintessence"]},"5365":{"colloq":null,"description":"+1.5% movement speed","image":{"full":"bl_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":192},"name":"Greater Quintessence of Movement Speed","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"PercentMovementSpeedMod":0.015},"tags":["utility","percent","quintessence"]},"5366":{"colloq":null,"description":"-5% time dead","image":{"full":"bl_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":192},"name":"Greater Quintessence of Revival","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rPercentTimeDeadMod":0.05},"tags":["utility","percent","quintessence"]},"5367":{"colloq":null,"description":"+1 gold / 10 sec.","image":{"full":"bl_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":192},"name":"Greater Quintessence of Gold","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatGoldPer10Mod":1},"tags":["utility","quintessence"]},"5368":{"colloq":null,"description":"+2% experience gained","image":{"full":"bl_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":192},"name":"Greater Quintessence of Experience","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"PercentEXPBonus":0.02},"tags":["utility","percent","quintessence"]},"5369":{"colloq":null,"description":"+0.63 Energy regen/5 sec","image":{"full":"y_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":192},"name":"Greater Seal of Energy Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"FlatEnergyRegenMod":0.126},"tags":["seal"]},"5370":{"colloq":null,"description":"+0.064 Energy regen/5 sec per level (+1.15 at champion level 18)","image":{"full":"y_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":192},"name":"Greater Seal of Scaling Energy Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"rFlatEnergyRegenModPerLevel":0.01283},"tags":["seal"]},"5371":{"colloq":null,"description":"+2.2 Energy","image":{"full":"b_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":192},"name":"Greater Glyph of Energy","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"FlatEnergyPoolMod":2.2},"tags":["glyph"]},"5372":{"colloq":null,"description":"+0.161 Energy/level (+2.89 at level 18)","image":{"full":"b_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":144},"name":"Greater Glyph of Scaling Energy","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"rFlatEnergyModPerLevel":0.161},"tags":["glyph"]},"5373":{"colloq":null,"description":"+1.575 Energy regen/5 sec","image":{"full":"bl_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":192},"name":"Greater Quintessence of Energy Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatEnergyRegenMod":0.315},"tags":["quintessence"]},"5374":{"colloq":null,"description":"+5.4 Energy","image":{"full":"bl_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":192},"name":"Greater Quintessence of Energy","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatEnergyPoolMod":5.4},"tags":["quintessence"]},"5400":{"colloq":null,"description":"+0.5 Armor Penetration / +0.34 Magic Penetration","image":{"full":"r_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":0},"name":"Lesser Mark of Hybrid Penetration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"rFlatArmorPenetrationMod":0.5,"rFlatMagicPenetrationMod":0.34},"tags":["physicalAttack","flat","magic","mark"]},"5401":{"colloq":null,"description":"+0.7 AMP / +0.48 MP","image":{"full":"r_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":48},"name":"Mark of Hybrid Penetration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"rFlatArmorPenetrationMod":0.7,"rFlatMagicPenetrationMod":0.48},"tags":["physicalAttack","flat","magic","mark"]},"5402":{"colloq":null,"description":"+0.9 Armor Penetration / +0.62 Magic Penetration","image":{"full":"r_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":144},"name":"Greater Mark of Hybrid Penetration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"rFlatArmorPenetrationMod":0.9,"rFlatMagicPenetrationMod":0.61},"tags":["physicalAttack","flat","magic","mark"]},"5403":{"colloq":null,"description":"+0.25 gold / 10 sec.","image":{"full":"y_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":192},"name":"Greater Seal of Gold","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"rFlatGoldPer10Mod":0.25},"tags":["utility","seal"]},"5404":{"colloq":null,"description":"+0.84% increased health.","image":{"full":"bl_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":48},"name":"Lesser Quintessence of Percent Health","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"PercentHPPoolMod":0.0084},"tags":["defense","percent","quintessence"]},"5405":{"colloq":null,"description":"+1.17% increased health.","image":{"full":"bl_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":144},"name":"Quintessence of Percent Health","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"PercentHPPoolMod":0.0117},"tags":["defense","percent","quintessence"]},"5406":{"colloq":null,"description":"+1.5% increased health.","image":{"full":"bl_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":192},"name":"Greater Quintessence of Percent Health","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"PercentHPPoolMod":0.015},"tags":["defense","percent","quintessence"]},"5407":{"colloq":null,"description":"+1.12% Spellvamp.","image":{"full":"bl_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":48},"name":"Lesser Quintessence of Spell Vamp","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"PercentSpellVampMod":0.0112},"tags":["quintessence"]},"5408":{"colloq":null,"description":"+1.56% Spellvamp.","image":{"full":"bl_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":144},"name":"Quintessence of Spell Vamp","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"PercentSpellVampMod":0.0156},"tags":["quintessence"]},"5409":{"colloq":null,"description":"+2% Spellvamp.","image":{"full":"bl_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":192},"name":"Greater Quintessence of Spell Vamp","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"PercentSpellVampMod":0.02},"tags":["quintessence"]},"5410":{"colloq":null,"description":"+0.84% Life Steal","image":{"full":"bl_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":48},"name":"Lesser Quintessence of Life Steal","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"PercentLifeStealMod":0.0084},"tags":["quintessence"]},"5411":{"colloq":null,"description":"+1.17% Life Steal","image":{"full":"bl_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":144},"name":"Quintessence of Life Steal","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"PercentLifeStealMod":0.0117},"tags":["quintessence"]},"5412":{"colloq":null,"description":"+1.5% Life Steal.","image":{"full":"bl_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":192},"name":"Greater Quintessence of Life Steal","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"PercentLifeStealMod":0.015},"tags":["quintessence"]},"5413":{"colloq":null,"description":"+0.28% Health.","image":{"full":"y_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":48},"name":"Lesser Seal of Percent Health","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"PercentHPPoolMod":0.0028},"tags":["defense","percent","seal"]},"5414":{"colloq":null,"description":"+0.39% Health.","image":{"full":"y_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":96},"name":"Seal of Percent Health","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"PercentHPPoolMod":0.0039},"tags":["defense","percent","seal"]},"5415":{"colloq":null,"description":"+0.5% Health.","image":{"full":"y_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":192},"name":"Greater Seal of Percent Health","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"PercentHPPoolMod":0.005},"tags":["defense","percent","seal"]},"5416":{"colloq":null,"description":"+0.99 Armor Penetration / +0.78 Magic Penetration","image":{"full":"bl_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":48},"name":"Lesser Quintessence of Hybrid Penetration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rFlatArmorPenetrationMod":0.99,"rFlatMagicPenetrationMod":0.78},"tags":["physicalAttack","flat","magic","quintessence"]},"5417":{"colloq":null,"description":"+1.39 Armor Penetration / +1.09 Magic Penetration","image":{"full":"bl_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":144},"name":"Quintessence of Hybrid Penetration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatArmorPenetrationMod":1.39,"rFlatMagicPenetrationMod":1.09},"tags":["physicalAttack","flat","magic","quintessence"]},"5418":{"colloq":null,"description":"+1.79 Armor Penetration / +1.4 Magic Penetration","image":{"full":"bl_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":192},"name":"Greater Quintessence of Hybrid Penetration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatArmorPenetrationMod":1.79,"rFlatMagicPenetrationMod":1.4},"tags":["physicalAttack","flat","magic","quintessence"]},"8001":{"colloq":null,"description":"+2% critical damage","image":{"full":"8001.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":240},"name":"Mark of the Crippling Candy Cane","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"FlatCritDamageMod":0.019835},"tags":["physicalAttack","flat","mark"]},"8002":{"colloq":null,"description":"+0.62% critical chance","image":{"full":"8002.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":240},"name":"Lesser Mark of the Yuletide Tannenbaum ","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"FlatCritChanceMod":0.0061855},"tags":["physicalAttack","flat","mark"]},"8003":{"colloq":null,"description":"-0.75% cooldowns","image":{"full":"8003.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":240},"name":"Glyph of the Special Stocking","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"rPercentCooldownMod":-0.0075},"tags":["glyph"]},"8005":{"colloq":null,"description":"+0.12 ability power per level (+2.16 at champion level 18)","image":{"full":"8005.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":240},"name":"Lesser Glyph of the Gracious Gift","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"rFlatMagicDamageModPerLevel":0.1154},"tags":["magic","perLevel","glyph"]},"8006":{"colloq":null,"description":"+0.72 health per level (+12.96 at champion level 18)","image":{"full":"8006.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":240},"name":"Lesser Seal of the Stout Snowman","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"rFlatHPModPerLevel":0.72115},"tags":["defense","perLevel","seal"]},"8007":{"colloq":null,"description":"+1.13% attack speed","image":{"full":"8007.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":240},"name":"Lesser Mark of Alpine Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"PercentAttackSpeedMod":0.011321},"tags":["physicalAttack","percent","mark"]},"8008":{"colloq":null,"description":"+2% critical damage","image":{"full":"8008.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":240},"name":"Mark of the Combatant","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"FlatCritDamageMod":0.019835},"tags":["physicalAttack","flat","mark"]},"8009":{"colloq":null,"description":"+3.56 health","image":{"full":"8009.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":240},"name":"Lesser Seal of the Medalist","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"FlatHPPoolMod":3.564},"tags":["defense","flat","seal"]},"8011":{"colloq":null,"description":"+0.66 ability power","image":{"full":"8011.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":240},"name":"Lesser Glyph of the Challenger","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"FlatMagicDamageMod":0.66},"tags":["magic","flat","glyph"]},"8012":{"colloq":null,"description":"-0.75% cooldowns","image":{"full":"8012.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":240},"name":"Glyph of the Soaring Slalom","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"rPercentCooldownMod":-0.0075},"tags":["glyph"]},"8013":{"colloq":null,"description":"+2.37 armor penetration","image":{"full":"8013.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":288},"name":"Quintessence of the Headless Horseman","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatArmorPenetrationMod":2.37},"tags":["physicalAttack","flat","quintessence"]},"8014":{"colloq":null,"description":"+1.85 magic penetration","image":{"full":"8014.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":288},"name":"Quintessence of the Piercing Screech","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatMagicPenetrationMod":1.85},"tags":["magic","flat","quintessence"]},"8015":{"colloq":null,"description":"+24 health","image":{"full":"8015.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":288},"name":"Quintessence of Bountiful Treats","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatHPPoolMod":24},"tags":["defense","flat","quintessence"]},"8016":{"colloq":null,"description":"+1.39% movement speed","image":{"full":"8016.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":288},"name":"Quintessence of the Speedy Specter","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"PercentMovementSpeedMod":0.0139},"tags":["utility","percent","quintessence"]},"8017":{"colloq":null,"description":"+4.56 ability power","image":{"full":"8017.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":288},"name":"Quintessence of the Witches Brew","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatMagicDamageMod":4.56},"tags":["magic","flat","quintessence"]},"8019":{"colloq":null,"description":"+2.01 magic penetration","image":{"full":"8019.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":288},"name":"Greater Quintessence of the Piercing Present","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatMagicPenetrationMod":2.01},"tags":["magic","flat","quintessence"]},"8020":{"colloq":null,"description":"+2.56 armor penetration","image":{"full":"8020.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":288},"name":"Greater Quintessence of the Deadly Wreath","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatArmorPenetrationMod":2.56},"tags":["physicalAttack","flat","quintessence"]},"8021":{"colloq":null,"description":"+26 health","image":{"full":"8021.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":288},"name":"Greater Quintessence of Frosty Health","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatHPPoolMod":26},"tags":["defense","flat","quintessence"]},"8022":{"colloq":null,"description":"+1.5% movement speed","image":{"full":"8022.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":288},"name":"Greater Quintessence of Sugar Rush","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"PercentMovementSpeedMod":0.015},"tags":["utility","percent","quintessence"]},"8035":{"colloq":null,"description":"+1.5% movement speed","image":{"full":"8035.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":384},"name":"Greater Quintessence of Studio Rumble","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"PercentMovementSpeedMod":0.015},"tags":["utility","percent","quintessence"]},"10001":{"colloq":null,"description":"+2.23% critical damage","image":{"full":"10001.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":0},"name":"Razer Mark of Precision","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"FlatCritDamageMod":0.022314},"tags":["physicalAttack","flat","mark"]},"10002":{"colloq":null,"description":"+1.5% movement speed","image":{"full":"10002.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":0},"name":"Razer Quintessence of Speed","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"PercentMovementSpeedMod":0.015},"tags":["utility","percent","quintessence"]}};
 
 /***/ },
+/* 498 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactBootstrap = __webpack_require__(241);
+
+	var _axios = __webpack_require__(499);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _reactRouter = __webpack_require__(177);
+
+	var _Team = __webpack_require__(521);
+
+	var _Team2 = _interopRequireDefault(_Team);
+
+	var _champions = __webpack_require__(494);
+
+	var _champions2 = _interopRequireDefault(_champions);
+
+	var _summonerSpells = __webpack_require__(495);
+
+	var _summonerSpells2 = _interopRequireDefault(_summonerSpells);
+
+	var _masteries = __webpack_require__(496);
+
+	var _masteries2 = _interopRequireDefault(_masteries);
+
+	var _runes = __webpack_require__(497);
+
+	var _runes2 = _interopRequireDefault(_runes);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var apiKey = 'a85d0753-6824-4725-a76f-23be84110e08';
+
+	var Match = function (_Component) {
+	  _inherits(Match, _Component);
+
+	  function Match(props) {
+	    _classCallCheck(this, Match);
+
+	    var _this = _possibleConstructorReturn(this, (Match.__proto__ || Object.getPrototypeOf(Match)).call(this, props));
+
+	    _this.state = {
+	      summonerName: _this.props.location.query.summonerName,
+	      players: []
+	    };
+	    return _this;
+	  }
+
+	  _createClass(Match, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      var summonerName = this.state.summonerName;
+	      var serverRequest = this.getMatchData(summonerName);
+	    }
+
+	    // https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/unclerodgers?api_key=a85d0753-6824-4725-a76f-23be84110e08
+	    // https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/39774795?api_key=a85d0753-6824-4725-a76f-23be84110e08
+
+	  }, {
+	    key: 'getMatchData',
+	    value: function getMatchData(summonerName) {
+	      var _this2 = this;
+
+	      // request the summonerObject which requests a string (the name)
+	      _axios2.default.get('https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/' + summonerName + '?api_key=' + apiKey).then(function (response) {
+	        // response.data = { yolomcbrolo: { ... } } so had to get the first prop
+	        var summonerKey = Object.keys(response.data)[0];
+	        var summonerObj = response.data[summonerKey];
+	        console.log('summonerName: ' + summonerObj.name + ' // summonerId: ' + summonerObj.id);
+	        // since if you search a playerName and they are not in a current game it
+	        // will throw 404, use a static.json file for the time being
+	        // axios.get(`https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/${summonerId}?api_key=${apiKey}`)
+	        _axios2.default.get('./jsonData/spectatorInformation.json').then(function (response) {
+	          var matchData = response.data;
+	          _this2.setState({
+	            players: [].concat(_toConsumableArray(matchData.participants))
+	          });
+	        }).catch(function (err) {
+	          console.log('error getting spectator info', err);
+	        });
+	      }).catch(function (err) {
+	        console.log('error!', err);
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var players = this.state.players;
+	      var teamA = players.slice(0, 5);
+	      var teamB = players.slice(5, 10);
+	      var jsonData = {
+	        champions: _champions2.default,
+	        masteries: _masteries2.default,
+	        runes: _runes2.default,
+	        summonerSpells: _summonerSpells2.default
+	      };
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'container-fluid' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'top-section' },
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/', className: 'btn btn-link' },
+	            'Back to Search'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'pull-right' },
+	            _react2.default.createElement(
+	              'b',
+	              null,
+	              'Current search: ',
+	              this.state.summonerName
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(_Team2.default, { members: teamA, jsonData: jsonData }),
+	        _react2.default.createElement(_Team2.default, { members: teamB, jsonData: jsonData })
+	      );
+	    }
+	  }]);
+
+	  return Match;
+	}(_react.Component);
+
+	// https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/47682701/ranked?api_key=a85d0753-6824-4725-a76f-23be84110e08
+	// https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/unclerodgers?api_key=a85d0753-6824-4725-a76f-23be84110e08
+	// https://na.api.pvp.net/api/lol/na/v2.4/team/by-summoner/42733402,21066307,67169698,59667857,70520692,65529523,52609925,52315500,49639860,64099838?api_key=a85d0753-6824-4725-a76f-23be84110e08
+	// https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/47682701?api_key=a85d0753-6824-4725-a76f-23be84110e08
+
+	exports.default = Match;
+
+/***/ },
+/* 499 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(500);
+
+/***/ },
+/* 500 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(501);
+	var bind = __webpack_require__(502);
+	var Axios = __webpack_require__(503);
+
+	/**
+	 * Create an instance of Axios
+	 *
+	 * @param {Object} defaultConfig The default config for the instance
+	 * @return {Axios} A new instance of Axios
+	 */
+	function createInstance(defaultConfig) {
+	  var context = new Axios(defaultConfig);
+	  var instance = bind(Axios.prototype.request, context);
+
+	  // Copy axios.prototype to instance
+	  utils.extend(instance, Axios.prototype, context);
+
+	  // Copy context to instance
+	  utils.extend(instance, context);
+
+	  return instance;
+	}
+
+	// Create the default instance to be exported
+	var axios = createInstance();
+
+	// Expose Axios class to allow class inheritance
+	axios.Axios = Axios;
+
+	// Factory for creating new instances
+	axios.create = function create(defaultConfig) {
+	  return createInstance(defaultConfig);
+	};
+
+	// Expose all/spread
+	axios.all = function all(promises) {
+	  return Promise.all(promises);
+	};
+	axios.spread = __webpack_require__(520);
+
+	module.exports = axios;
+
+	// Allow use of default import syntax in TypeScript
+	module.exports.default = axios;
+
+
+/***/ },
+/* 501 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var bind = __webpack_require__(502);
+
+	/*global toString:true*/
+
+	// utils is a library of generic helper functions non-specific to axios
+
+	var toString = Object.prototype.toString;
+
+	/**
+	 * Determine if a value is an Array
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is an Array, otherwise false
+	 */
+	function isArray(val) {
+	  return toString.call(val) === '[object Array]';
+	}
+
+	/**
+	 * Determine if a value is an ArrayBuffer
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is an ArrayBuffer, otherwise false
+	 */
+	function isArrayBuffer(val) {
+	  return toString.call(val) === '[object ArrayBuffer]';
+	}
+
+	/**
+	 * Determine if a value is a FormData
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is an FormData, otherwise false
+	 */
+	function isFormData(val) {
+	  return (typeof FormData !== 'undefined') && (val instanceof FormData);
+	}
+
+	/**
+	 * Determine if a value is a view on an ArrayBuffer
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a view on an ArrayBuffer, otherwise false
+	 */
+	function isArrayBufferView(val) {
+	  var result;
+	  if ((typeof ArrayBuffer !== 'undefined') && (ArrayBuffer.isView)) {
+	    result = ArrayBuffer.isView(val);
+	  } else {
+	    result = (val) && (val.buffer) && (val.buffer instanceof ArrayBuffer);
+	  }
+	  return result;
+	}
+
+	/**
+	 * Determine if a value is a String
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a String, otherwise false
+	 */
+	function isString(val) {
+	  return typeof val === 'string';
+	}
+
+	/**
+	 * Determine if a value is a Number
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a Number, otherwise false
+	 */
+	function isNumber(val) {
+	  return typeof val === 'number';
+	}
+
+	/**
+	 * Determine if a value is undefined
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if the value is undefined, otherwise false
+	 */
+	function isUndefined(val) {
+	  return typeof val === 'undefined';
+	}
+
+	/**
+	 * Determine if a value is an Object
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is an Object, otherwise false
+	 */
+	function isObject(val) {
+	  return val !== null && typeof val === 'object';
+	}
+
+	/**
+	 * Determine if a value is a Date
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a Date, otherwise false
+	 */
+	function isDate(val) {
+	  return toString.call(val) === '[object Date]';
+	}
+
+	/**
+	 * Determine if a value is a File
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a File, otherwise false
+	 */
+	function isFile(val) {
+	  return toString.call(val) === '[object File]';
+	}
+
+	/**
+	 * Determine if a value is a Blob
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a Blob, otherwise false
+	 */
+	function isBlob(val) {
+	  return toString.call(val) === '[object Blob]';
+	}
+
+	/**
+	 * Determine if a value is a Function
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a Function, otherwise false
+	 */
+	function isFunction(val) {
+	  return toString.call(val) === '[object Function]';
+	}
+
+	/**
+	 * Determine if a value is a Stream
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a Stream, otherwise false
+	 */
+	function isStream(val) {
+	  return isObject(val) && isFunction(val.pipe);
+	}
+
+	/**
+	 * Determine if a value is a URLSearchParams object
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a URLSearchParams object, otherwise false
+	 */
+	function isURLSearchParams(val) {
+	  return typeof URLSearchParams !== 'undefined' && val instanceof URLSearchParams;
+	}
+
+	/**
+	 * Trim excess whitespace off the beginning and end of a string
+	 *
+	 * @param {String} str The String to trim
+	 * @returns {String} The String freed of excess whitespace
+	 */
+	function trim(str) {
+	  return str.replace(/^\s*/, '').replace(/\s*$/, '');
+	}
+
+	/**
+	 * Determine if we're running in a standard browser environment
+	 *
+	 * This allows axios to run in a web worker, and react-native.
+	 * Both environments support XMLHttpRequest, but not fully standard globals.
+	 *
+	 * web workers:
+	 *  typeof window -> undefined
+	 *  typeof document -> undefined
+	 *
+	 * react-native:
+	 *  typeof document.createElement -> undefined
+	 */
+	function isStandardBrowserEnv() {
+	  return (
+	    typeof window !== 'undefined' &&
+	    typeof document !== 'undefined' &&
+	    typeof document.createElement === 'function'
+	  );
+	}
+
+	/**
+	 * Iterate over an Array or an Object invoking a function for each item.
+	 *
+	 * If `obj` is an Array callback will be called passing
+	 * the value, index, and complete array for each item.
+	 *
+	 * If 'obj' is an Object callback will be called passing
+	 * the value, key, and complete object for each property.
+	 *
+	 * @param {Object|Array} obj The object to iterate
+	 * @param {Function} fn The callback to invoke for each item
+	 */
+	function forEach(obj, fn) {
+	  // Don't bother if no value provided
+	  if (obj === null || typeof obj === 'undefined') {
+	    return;
+	  }
+
+	  // Force an array if not already something iterable
+	  if (typeof obj !== 'object' && !isArray(obj)) {
+	    /*eslint no-param-reassign:0*/
+	    obj = [obj];
+	  }
+
+	  if (isArray(obj)) {
+	    // Iterate over array values
+	    for (var i = 0, l = obj.length; i < l; i++) {
+	      fn.call(null, obj[i], i, obj);
+	    }
+	  } else {
+	    // Iterate over object keys
+	    for (var key in obj) {
+	      if (obj.hasOwnProperty(key)) {
+	        fn.call(null, obj[key], key, obj);
+	      }
+	    }
+	  }
+	}
+
+	/**
+	 * Accepts varargs expecting each argument to be an object, then
+	 * immutably merges the properties of each object and returns result.
+	 *
+	 * When multiple objects contain the same key the later object in
+	 * the arguments list will take precedence.
+	 *
+	 * Example:
+	 *
+	 * ```js
+	 * var result = merge({foo: 123}, {foo: 456});
+	 * console.log(result.foo); // outputs 456
+	 * ```
+	 *
+	 * @param {Object} obj1 Object to merge
+	 * @returns {Object} Result of all merge properties
+	 */
+	function merge(/* obj1, obj2, obj3, ... */) {
+	  var result = {};
+	  function assignValue(val, key) {
+	    if (typeof result[key] === 'object' && typeof val === 'object') {
+	      result[key] = merge(result[key], val);
+	    } else {
+	      result[key] = val;
+	    }
+	  }
+
+	  for (var i = 0, l = arguments.length; i < l; i++) {
+	    forEach(arguments[i], assignValue);
+	  }
+	  return result;
+	}
+
+	/**
+	 * Extends object a by mutably adding to it the properties of object b.
+	 *
+	 * @param {Object} a The object to be extended
+	 * @param {Object} b The object to copy properties from
+	 * @param {Object} thisArg The object to bind function to
+	 * @return {Object} The resulting value of object a
+	 */
+	function extend(a, b, thisArg) {
+	  forEach(b, function assignValue(val, key) {
+	    if (thisArg && typeof val === 'function') {
+	      a[key] = bind(val, thisArg);
+	    } else {
+	      a[key] = val;
+	    }
+	  });
+	  return a;
+	}
+
+	module.exports = {
+	  isArray: isArray,
+	  isArrayBuffer: isArrayBuffer,
+	  isFormData: isFormData,
+	  isArrayBufferView: isArrayBufferView,
+	  isString: isString,
+	  isNumber: isNumber,
+	  isObject: isObject,
+	  isUndefined: isUndefined,
+	  isDate: isDate,
+	  isFile: isFile,
+	  isBlob: isBlob,
+	  isFunction: isFunction,
+	  isStream: isStream,
+	  isURLSearchParams: isURLSearchParams,
+	  isStandardBrowserEnv: isStandardBrowserEnv,
+	  forEach: forEach,
+	  merge: merge,
+	  extend: extend,
+	  trim: trim
+	};
+
+
+/***/ },
+/* 502 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function bind(fn, thisArg) {
+	  return function wrap() {
+	    var args = new Array(arguments.length);
+	    for (var i = 0; i < args.length; i++) {
+	      args[i] = arguments[i];
+	    }
+	    return fn.apply(thisArg, args);
+	  };
+	};
+
+
+/***/ },
+/* 503 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var defaults = __webpack_require__(504);
+	var utils = __webpack_require__(501);
+	var InterceptorManager = __webpack_require__(506);
+	var dispatchRequest = __webpack_require__(507);
+	var isAbsoluteURL = __webpack_require__(518);
+	var combineURLs = __webpack_require__(519);
+
+	/**
+	 * Create a new instance of Axios
+	 *
+	 * @param {Object} defaultConfig The default config for the instance
+	 */
+	function Axios(defaultConfig) {
+	  this.defaults = utils.merge(defaults, defaultConfig);
+	  this.interceptors = {
+	    request: new InterceptorManager(),
+	    response: new InterceptorManager()
+	  };
+	}
+
+	/**
+	 * Dispatch a request
+	 *
+	 * @param {Object} config The config specific for this request (merged with this.defaults)
+	 */
+	Axios.prototype.request = function request(config) {
+	  /*eslint no-param-reassign:0*/
+	  // Allow for axios('example/url'[, config]) a la fetch API
+	  if (typeof config === 'string') {
+	    config = utils.merge({
+	      url: arguments[0]
+	    }, arguments[1]);
+	  }
+
+	  config = utils.merge(defaults, this.defaults, { method: 'get' }, config);
+
+	  // Support baseURL config
+	  if (config.baseURL && !isAbsoluteURL(config.url)) {
+	    config.url = combineURLs(config.baseURL, config.url);
+	  }
+
+	  // Hook up interceptors middleware
+	  var chain = [dispatchRequest, undefined];
+	  var promise = Promise.resolve(config);
+
+	  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
+	    chain.unshift(interceptor.fulfilled, interceptor.rejected);
+	  });
+
+	  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
+	    chain.push(interceptor.fulfilled, interceptor.rejected);
+	  });
+
+	  while (chain.length) {
+	    promise = promise.then(chain.shift(), chain.shift());
+	  }
+
+	  return promise;
+	};
+
+	// Provide aliases for supported request methods
+	utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+	  /*eslint func-names:0*/
+	  Axios.prototype[method] = function(url, config) {
+	    return this.request(utils.merge(config || {}, {
+	      method: method,
+	      url: url
+	    }));
+	  };
+	});
+
+	utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+	  /*eslint func-names:0*/
+	  Axios.prototype[method] = function(url, data, config) {
+	    return this.request(utils.merge(config || {}, {
+	      method: method,
+	      url: url,
+	      data: data
+	    }));
+	  };
+	});
+
+	module.exports = Axios;
+
+
+/***/ },
+/* 504 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(501);
+	var normalizeHeaderName = __webpack_require__(505);
+
+	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
+	var DEFAULT_CONTENT_TYPE = {
+	  'Content-Type': 'application/x-www-form-urlencoded'
+	};
+
+	function setContentTypeIfUnset(headers, value) {
+	  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+	    headers['Content-Type'] = value;
+	  }
+	}
+
+	module.exports = {
+	  transformRequest: [function transformRequest(data, headers) {
+	    normalizeHeaderName(headers, 'Content-Type');
+	    if (utils.isFormData(data) ||
+	      utils.isArrayBuffer(data) ||
+	      utils.isStream(data) ||
+	      utils.isFile(data) ||
+	      utils.isBlob(data)
+	    ) {
+	      return data;
+	    }
+	    if (utils.isArrayBufferView(data)) {
+	      return data.buffer;
+	    }
+	    if (utils.isURLSearchParams(data)) {
+	      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+	      return data.toString();
+	    }
+	    if (utils.isObject(data)) {
+	      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+	      return JSON.stringify(data);
+	    }
+	    return data;
+	  }],
+
+	  transformResponse: [function transformResponse(data) {
+	    /*eslint no-param-reassign:0*/
+	    if (typeof data === 'string') {
+	      data = data.replace(PROTECTION_PREFIX, '');
+	      try {
+	        data = JSON.parse(data);
+	      } catch (e) { /* Ignore */ }
+	    }
+	    return data;
+	  }],
+
+	  headers: {
+	    common: {
+	      'Accept': 'application/json, text/plain, */*'
+	    },
+	    patch: utils.merge(DEFAULT_CONTENT_TYPE),
+	    post: utils.merge(DEFAULT_CONTENT_TYPE),
+	    put: utils.merge(DEFAULT_CONTENT_TYPE)
+	  },
+
+	  timeout: 0,
+
+	  xsrfCookieName: 'XSRF-TOKEN',
+	  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+	  maxContentLength: -1,
+
+	  validateStatus: function validateStatus(status) {
+	    return status >= 200 && status < 300;
+	  }
+	};
+
+
+/***/ },
+/* 505 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(501);
+
+	module.exports = function normalizeHeaderName(headers, normalizedName) {
+	  utils.forEach(headers, function processHeader(value, name) {
+	    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
+	      headers[normalizedName] = value;
+	      delete headers[name];
+	    }
+	  });
+	};
+
+
+/***/ },
+/* 506 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(501);
+
+	function InterceptorManager() {
+	  this.handlers = [];
+	}
+
+	/**
+	 * Add a new interceptor to the stack
+	 *
+	 * @param {Function} fulfilled The function to handle `then` for a `Promise`
+	 * @param {Function} rejected The function to handle `reject` for a `Promise`
+	 *
+	 * @return {Number} An ID used to remove interceptor later
+	 */
+	InterceptorManager.prototype.use = function use(fulfilled, rejected) {
+	  this.handlers.push({
+	    fulfilled: fulfilled,
+	    rejected: rejected
+	  });
+	  return this.handlers.length - 1;
+	};
+
+	/**
+	 * Remove an interceptor from the stack
+	 *
+	 * @param {Number} id The ID that was returned by `use`
+	 */
+	InterceptorManager.prototype.eject = function eject(id) {
+	  if (this.handlers[id]) {
+	    this.handlers[id] = null;
+	  }
+	};
+
+	/**
+	 * Iterate over all the registered interceptors
+	 *
+	 * This method is particularly useful for skipping over any
+	 * interceptors that may have become `null` calling `eject`.
+	 *
+	 * @param {Function} fn The function to call for each interceptor
+	 */
+	InterceptorManager.prototype.forEach = function forEach(fn) {
+	  utils.forEach(this.handlers, function forEachHandler(h) {
+	    if (h !== null) {
+	      fn(h);
+	    }
+	  });
+	};
+
+	module.exports = InterceptorManager;
+
+
+/***/ },
+/* 507 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+
+	var utils = __webpack_require__(501);
+	var transformData = __webpack_require__(508);
+
+	/**
+	 * Dispatch a request to the server using whichever adapter
+	 * is supported by the current environment.
+	 *
+	 * @param {object} config The config that is to be used for the request
+	 * @returns {Promise} The Promise to be fulfilled
+	 */
+	module.exports = function dispatchRequest(config) {
+	  // Ensure headers exist
+	  config.headers = config.headers || {};
+
+	  // Transform request data
+	  config.data = transformData(
+	    config.data,
+	    config.headers,
+	    config.transformRequest
+	  );
+
+	  // Flatten headers
+	  config.headers = utils.merge(
+	    config.headers.common || {},
+	    config.headers[config.method] || {},
+	    config.headers || {}
+	  );
+
+	  utils.forEach(
+	    ['delete', 'get', 'head', 'post', 'put', 'patch', 'common'],
+	    function cleanHeaderConfig(method) {
+	      delete config.headers[method];
+	    }
+	  );
+
+	  var adapter;
+
+	  if (typeof config.adapter === 'function') {
+	    // For custom adapter support
+	    adapter = config.adapter;
+	  } else if (typeof XMLHttpRequest !== 'undefined') {
+	    // For browsers use XHR adapter
+	    adapter = __webpack_require__(509);
+	  } else if (typeof process !== 'undefined') {
+	    // For node use HTTP adapter
+	    adapter = __webpack_require__(509);
+	  }
+
+	  return Promise.resolve(config)
+	    // Wrap synchronous adapter errors and pass configuration
+	    .then(adapter)
+	    .then(function onFulfilled(response) {
+	      // Transform response data
+	      response.data = transformData(
+	        response.data,
+	        response.headers,
+	        config.transformResponse
+	      );
+
+	      return response;
+	    }, function onRejected(error) {
+	      // Transform response data
+	      if (error && error.response) {
+	        error.response.data = transformData(
+	          error.response.data,
+	          error.response.headers,
+	          config.transformResponse
+	        );
+	      }
+
+	      return Promise.reject(error);
+	    });
+	};
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ },
+/* 508 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(501);
+
+	/**
+	 * Transform the data for a request or a response
+	 *
+	 * @param {Object|String} data The data to be transformed
+	 * @param {Array} headers The headers for the request or response
+	 * @param {Array|Function} fns A single function or Array of functions
+	 * @returns {*} The resulting transformed data
+	 */
+	module.exports = function transformData(data, headers, fns) {
+	  /*eslint no-param-reassign:0*/
+	  utils.forEach(fns, function transform(fn) {
+	    data = fn(data, headers);
+	  });
+
+	  return data;
+	};
+
+
+/***/ },
+/* 509 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+
+	var utils = __webpack_require__(501);
+	var settle = __webpack_require__(510);
+	var buildURL = __webpack_require__(513);
+	var parseHeaders = __webpack_require__(514);
+	var isURLSameOrigin = __webpack_require__(515);
+	var createError = __webpack_require__(511);
+	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(516);
+
+	module.exports = function xhrAdapter(config) {
+	  return new Promise(function dispatchXhrRequest(resolve, reject) {
+	    var requestData = config.data;
+	    var requestHeaders = config.headers;
+
+	    if (utils.isFormData(requestData)) {
+	      delete requestHeaders['Content-Type']; // Let the browser set it
+	    }
+
+	    var request = new XMLHttpRequest();
+	    var loadEvent = 'onreadystatechange';
+	    var xDomain = false;
+
+	    // For IE 8/9 CORS support
+	    // Only supports POST and GET calls and doesn't returns the response headers.
+	    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
+	    if (process.env.NODE_ENV !== 'test' &&
+	        typeof window !== 'undefined' &&
+	        window.XDomainRequest && !('withCredentials' in request) &&
+	        !isURLSameOrigin(config.url)) {
+	      request = new window.XDomainRequest();
+	      loadEvent = 'onload';
+	      xDomain = true;
+	      request.onprogress = function handleProgress() {};
+	      request.ontimeout = function handleTimeout() {};
+	    }
+
+	    // HTTP basic authentication
+	    if (config.auth) {
+	      var username = config.auth.username || '';
+	      var password = config.auth.password || '';
+	      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
+	    }
+
+	    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
+
+	    // Set the request timeout in MS
+	    request.timeout = config.timeout;
+
+	    // Listen for ready state
+	    request[loadEvent] = function handleLoad() {
+	      if (!request || (request.readyState !== 4 && !xDomain)) {
+	        return;
+	      }
+
+	      // The request errored out and we didn't get a response, this will be
+	      // handled by onerror instead
+	      if (request.status === 0) {
+	        return;
+	      }
+
+	      // Prepare the response
+	      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
+	      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
+	      var response = {
+	        data: responseData,
+	        // IE sends 1223 instead of 204 (https://github.com/mzabriskie/axios/issues/201)
+	        status: request.status === 1223 ? 204 : request.status,
+	        statusText: request.status === 1223 ? 'No Content' : request.statusText,
+	        headers: responseHeaders,
+	        config: config,
+	        request: request
+	      };
+
+	      settle(resolve, reject, response);
+
+	      // Clean up request
+	      request = null;
+	    };
+
+	    // Handle low level network errors
+	    request.onerror = function handleError() {
+	      // Real errors are hidden from us by the browser
+	      // onerror should only fire if it's a network error
+	      reject(createError('Network Error', config));
+
+	      // Clean up request
+	      request = null;
+	    };
+
+	    // Handle timeout
+	    request.ontimeout = function handleTimeout() {
+	      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED'));
+
+	      // Clean up request
+	      request = null;
+	    };
+
+	    // Add xsrf header
+	    // This is only done if running in a standard browser environment.
+	    // Specifically not if we're in a web worker, or react-native.
+	    if (utils.isStandardBrowserEnv()) {
+	      var cookies = __webpack_require__(517);
+
+	      // Add xsrf header
+	      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
+	          cookies.read(config.xsrfCookieName) :
+	          undefined;
+
+	      if (xsrfValue) {
+	        requestHeaders[config.xsrfHeaderName] = xsrfValue;
+	      }
+	    }
+
+	    // Add headers to the request
+	    if ('setRequestHeader' in request) {
+	      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
+	        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
+	          // Remove Content-Type if data is undefined
+	          delete requestHeaders[key];
+	        } else {
+	          // Otherwise add header to the request
+	          request.setRequestHeader(key, val);
+	        }
+	      });
+	    }
+
+	    // Add withCredentials to request if needed
+	    if (config.withCredentials) {
+	      request.withCredentials = true;
+	    }
+
+	    // Add responseType to request if needed
+	    if (config.responseType) {
+	      try {
+	        request.responseType = config.responseType;
+	      } catch (e) {
+	        if (request.responseType !== 'json') {
+	          throw e;
+	        }
+	      }
+	    }
+
+	    // Handle progress if needed
+	    if (typeof config.onDownloadProgress === 'function') {
+	      request.addEventListener('progress', config.onDownloadProgress);
+	    }
+
+	    // Not all browsers support upload events
+	    if (typeof config.onUploadProgress === 'function' && request.upload) {
+	      request.upload.addEventListener('progress', config.onUploadProgress);
+	    }
+
+
+	    if (requestData === undefined) {
+	      requestData = null;
+	    }
+
+	    // Send the request
+	    request.send(requestData);
+	  });
+	};
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ },
+/* 510 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var createError = __webpack_require__(511);
+
+	/**
+	 * Resolve or reject a Promise based on response status.
+	 *
+	 * @param {Function} resolve A function that resolves the promise.
+	 * @param {Function} reject A function that rejects the promise.
+	 * @param {object} response The response.
+	 */
+	module.exports = function settle(resolve, reject, response) {
+	  var validateStatus = response.config.validateStatus;
+	  // Note: status is not exposed by XDomainRequest
+	  if (!response.status || !validateStatus || validateStatus(response.status)) {
+	    resolve(response);
+	  } else {
+	    reject(createError(
+	      'Request failed with status code ' + response.status,
+	      response.config,
+	      null,
+	      response
+	    ));
+	  }
+	};
+
+
+/***/ },
+/* 511 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var enhanceError = __webpack_require__(512);
+
+	/**
+	 * Create an Error with the specified message, config, error code, and response.
+	 *
+	 * @param {string} message The error message.
+	 * @param {Object} config The config.
+	 * @param {string} [code] The error code (for example, 'ECONNABORTED').
+	 @ @param {Object} [response] The response.
+	 * @returns {Error} The created error.
+	 */
+	module.exports = function createError(message, config, code, response) {
+	  var error = new Error(message);
+	  return enhanceError(error, config, code, response);
+	};
+
+
+/***/ },
+/* 512 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * Update an Error with the specified config, error code, and response.
+	 *
+	 * @param {Error} error The error to update.
+	 * @param {Object} config The config.
+	 * @param {string} [code] The error code (for example, 'ECONNABORTED').
+	 @ @param {Object} [response] The response.
+	 * @returns {Error} The error.
+	 */
+	module.exports = function enhanceError(error, config, code, response) {
+	  error.config = config;
+	  if (code) {
+	    error.code = code;
+	  }
+	  error.response = response;
+	  return error;
+	};
+
+
+/***/ },
+/* 513 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(501);
+
+	function encode(val) {
+	  return encodeURIComponent(val).
+	    replace(/%40/gi, '@').
+	    replace(/%3A/gi, ':').
+	    replace(/%24/g, '$').
+	    replace(/%2C/gi, ',').
+	    replace(/%20/g, '+').
+	    replace(/%5B/gi, '[').
+	    replace(/%5D/gi, ']');
+	}
+
+	/**
+	 * Build a URL by appending params to the end
+	 *
+	 * @param {string} url The base of the url (e.g., http://www.google.com)
+	 * @param {object} [params] The params to be appended
+	 * @returns {string} The formatted url
+	 */
+	module.exports = function buildURL(url, params, paramsSerializer) {
+	  /*eslint no-param-reassign:0*/
+	  if (!params) {
+	    return url;
+	  }
+
+	  var serializedParams;
+	  if (paramsSerializer) {
+	    serializedParams = paramsSerializer(params);
+	  } else if (utils.isURLSearchParams(params)) {
+	    serializedParams = params.toString();
+	  } else {
+	    var parts = [];
+
+	    utils.forEach(params, function serialize(val, key) {
+	      if (val === null || typeof val === 'undefined') {
+	        return;
+	      }
+
+	      if (utils.isArray(val)) {
+	        key = key + '[]';
+	      }
+
+	      if (!utils.isArray(val)) {
+	        val = [val];
+	      }
+
+	      utils.forEach(val, function parseValue(v) {
+	        if (utils.isDate(v)) {
+	          v = v.toISOString();
+	        } else if (utils.isObject(v)) {
+	          v = JSON.stringify(v);
+	        }
+	        parts.push(encode(key) + '=' + encode(v));
+	      });
+	    });
+
+	    serializedParams = parts.join('&');
+	  }
+
+	  if (serializedParams) {
+	    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
+	  }
+
+	  return url;
+	};
+
+
+/***/ },
+/* 514 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(501);
+
+	/**
+	 * Parse headers into an object
+	 *
+	 * ```
+	 * Date: Wed, 27 Aug 2014 08:58:49 GMT
+	 * Content-Type: application/json
+	 * Connection: keep-alive
+	 * Transfer-Encoding: chunked
+	 * ```
+	 *
+	 * @param {String} headers Headers needing to be parsed
+	 * @returns {Object} Headers parsed into an object
+	 */
+	module.exports = function parseHeaders(headers) {
+	  var parsed = {};
+	  var key;
+	  var val;
+	  var i;
+
+	  if (!headers) { return parsed; }
+
+	  utils.forEach(headers.split('\n'), function parser(line) {
+	    i = line.indexOf(':');
+	    key = utils.trim(line.substr(0, i)).toLowerCase();
+	    val = utils.trim(line.substr(i + 1));
+
+	    if (key) {
+	      parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
+	    }
+	  });
+
+	  return parsed;
+	};
+
+
+/***/ },
+/* 515 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(501);
+
+	module.exports = (
+	  utils.isStandardBrowserEnv() ?
+
+	  // Standard browser envs have full support of the APIs needed to test
+	  // whether the request URL is of the same origin as current location.
+	  (function standardBrowserEnv() {
+	    var msie = /(msie|trident)/i.test(navigator.userAgent);
+	    var urlParsingNode = document.createElement('a');
+	    var originURL;
+
+	    /**
+	    * Parse a URL to discover it's components
+	    *
+	    * @param {String} url The URL to be parsed
+	    * @returns {Object}
+	    */
+	    function resolveURL(url) {
+	      var href = url;
+
+	      if (msie) {
+	        // IE needs attribute set twice to normalize properties
+	        urlParsingNode.setAttribute('href', href);
+	        href = urlParsingNode.href;
+	      }
+
+	      urlParsingNode.setAttribute('href', href);
+
+	      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
+	      return {
+	        href: urlParsingNode.href,
+	        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
+	        host: urlParsingNode.host,
+	        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
+	        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
+	        hostname: urlParsingNode.hostname,
+	        port: urlParsingNode.port,
+	        pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
+	                  urlParsingNode.pathname :
+	                  '/' + urlParsingNode.pathname
+	      };
+	    }
+
+	    originURL = resolveURL(window.location.href);
+
+	    /**
+	    * Determine if a URL shares the same origin as the current location
+	    *
+	    * @param {String} requestURL The URL to test
+	    * @returns {boolean} True if URL shares the same origin, otherwise false
+	    */
+	    return function isURLSameOrigin(requestURL) {
+	      var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
+	      return (parsed.protocol === originURL.protocol &&
+	            parsed.host === originURL.host);
+	    };
+	  })() :
+
+	  // Non standard browser envs (web workers, react-native) lack needed support.
+	  (function nonStandardBrowserEnv() {
+	    return function isURLSameOrigin() {
+	      return true;
+	    };
+	  })()
+	);
+
+
+/***/ },
+/* 516 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	// btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
+
+	var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+
+	function E() {
+	  this.message = 'String contains an invalid character';
+	}
+	E.prototype = new Error;
+	E.prototype.code = 5;
+	E.prototype.name = 'InvalidCharacterError';
+
+	function btoa(input) {
+	  var str = String(input);
+	  var output = '';
+	  for (
+	    // initialize result and counter
+	    var block, charCode, idx = 0, map = chars;
+	    // if the next str index does not exist:
+	    //   change the mapping table to "="
+	    //   check if d has no fractional digits
+	    str.charAt(idx | 0) || (map = '=', idx % 1);
+	    // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
+	    output += map.charAt(63 & block >> 8 - idx % 1 * 8)
+	  ) {
+	    charCode = str.charCodeAt(idx += 3 / 4);
+	    if (charCode > 0xFF) {
+	      throw new E();
+	    }
+	    block = block << 8 | charCode;
+	  }
+	  return output;
+	}
+
+	module.exports = btoa;
+
+
+/***/ },
+/* 517 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var utils = __webpack_require__(501);
+
+	module.exports = (
+	  utils.isStandardBrowserEnv() ?
+
+	  // Standard browser envs support document.cookie
+	  (function standardBrowserEnv() {
+	    return {
+	      write: function write(name, value, expires, path, domain, secure) {
+	        var cookie = [];
+	        cookie.push(name + '=' + encodeURIComponent(value));
+
+	        if (utils.isNumber(expires)) {
+	          cookie.push('expires=' + new Date(expires).toGMTString());
+	        }
+
+	        if (utils.isString(path)) {
+	          cookie.push('path=' + path);
+	        }
+
+	        if (utils.isString(domain)) {
+	          cookie.push('domain=' + domain);
+	        }
+
+	        if (secure === true) {
+	          cookie.push('secure');
+	        }
+
+	        document.cookie = cookie.join('; ');
+	      },
+
+	      read: function read(name) {
+	        var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+	        return (match ? decodeURIComponent(match[3]) : null);
+	      },
+
+	      remove: function remove(name) {
+	        this.write(name, '', Date.now() - 86400000);
+	      }
+	    };
+	  })() :
+
+	  // Non standard browser env (web workers, react-native) lack needed support.
+	  (function nonStandardBrowserEnv() {
+	    return {
+	      write: function write() {},
+	      read: function read() { return null; },
+	      remove: function remove() {}
+	    };
+	  })()
+	);
+
+
+/***/ },
+/* 518 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * Determines whether the specified URL is absolute
+	 *
+	 * @param {string} url The URL to test
+	 * @returns {boolean} True if the specified URL is absolute, otherwise false
+	 */
+	module.exports = function isAbsoluteURL(url) {
+	  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
+	  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
+	  // by any combination of letters, digits, plus, period, or hyphen.
+	  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+	};
+
+
+/***/ },
+/* 519 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * Creates a new URL by combining the specified URLs
+	 *
+	 * @param {string} baseURL The base URL
+	 * @param {string} relativeURL The relative URL
+	 * @returns {string} The combined URL
+	 */
+	module.exports = function combineURLs(baseURL, relativeURL) {
+	  return baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '');
+	};
+
+
+/***/ },
+/* 520 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * Syntactic sugar for invoking a function and expanding an array for arguments.
+	 *
+	 * Common use case would be to use `Function.prototype.apply`.
+	 *
+	 *  ```js
+	 *  function f(x, y, z) {}
+	 *  var args = [1, 2, 3];
+	 *  f.apply(null, args);
+	 *  ```
+	 *
+	 * With `spread` this example can be re-written.
+	 *
+	 *  ```js
+	 *  spread(function(x, y, z) {})([1, 2, 3]);
+	 *  ```
+	 *
+	 * @param {Function} callback
+	 * @returns {Function}
+	 */
+	module.exports = function spread(callback) {
+	  return function wrap(arr) {
+	    return callback.apply(null, arr);
+	  };
+	};
+
+
+/***/ },
+/* 521 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactBootstrap = __webpack_require__(241);
+
+	var _Player = __webpack_require__(522);
+
+	var _Player2 = _interopRequireDefault(_Player);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Team = function (_Component) {
+	  _inherits(Team, _Component);
+
+	  function Team() {
+	    _classCallCheck(this, Team);
+
+	    return _possibleConstructorReturn(this, (Team.__proto__ || Object.getPrototypeOf(Team)).apply(this, arguments));
+	  }
+
+	  _createClass(Team, [{
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'team-container' },
+	        this.props.members.map(function (member) {
+	          return _react2.default.createElement(_Player2.default, {
+	            key: member.summonerId,
+	            info: member,
+	            jsonData: _this2.props.jsonData });
+	        })
+	      );
+	    }
+	  }]);
+
+	  return Team;
+	}(_react.Component);
+
+	exports.default = Team;
+
+/***/ },
+/* 522 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactBootstrap = __webpack_require__(241);
+
+	var _lodash = __webpack_require__(492);
+
+	var _ = _interopRequireWildcard(_lodash);
+
+	var _GeneralTab = __webpack_require__(523);
+
+	var _GeneralTab2 = _interopRequireDefault(_GeneralTab);
+
+	var _MasteriesTab = __webpack_require__(524);
+
+	var _MasteriesTab2 = _interopRequireDefault(_MasteriesTab);
+
+	var _RunesTab = __webpack_require__(526);
+
+	var _RunesTab2 = _interopRequireDefault(_RunesTab);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Team = function (_Component) {
+	  _inherits(Team, _Component);
+
+	  function Team(props) {
+	    _classCallCheck(this, Team);
+
+	    var _this = _possibleConstructorReturn(this, (Team.__proto__ || Object.getPrototypeOf(Team)).call(this, props));
+
+	    _this.state = {
+	      activeKey: '1',
+	      info: _this.props.info
+	    };
+	    return _this;
+	  }
+
+	  _createClass(Team, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      var info = this.state.info;
+	      var jsonData = this.props.jsonData;
+	      // http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/Aatrox.png
+
+	      /*
+	      GET CHAMPION ICON URL
+	       */
+	      var champion = _.find(jsonData.champions, function (champ) {
+	        if (champ.key == info.championId) {
+	          return champ;
+	        }
+	      });
+	      var championImage = 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/' + champion.name.replace(' ', '') + '.png';
+
+	      /*
+	      GET BOTH SUMMONER SPELL ICONS
+	       */
+	      var spell1 = _.find(jsonData.summonerSpells, function (spell) {
+	        if (spell.key == info.spell1Id) return spell;
+	      });
+
+	      var spell2 = _.find(jsonData.summonerSpells, function (spell) {
+	        if (spell.key == info.spell2Id) return spell;
+	      });
+
+	      var sumSpellImg1 = 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/' + spell1.id + '.png';
+	      var sumSpellImg2 = 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/' + spell2.id + '.png';
+
+	      // console.log(sumSpellImg1, sumSpellImg2)
+
+	      this.setState({
+	        championImage: championImage,
+	        summonerSpell1Url: sumSpellImg1,
+	        summonerSpell2Url: sumSpellImg2
+	      });
+	    }
+	  }, {
+	    key: 'handleSelect',
+	    value: function handleSelect(activeKey) {
+	      this.setState({ activeKey: activeKey });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var general = this.state.info;
+	      var masteries = this.state.info.masteries;
+	      var runes = this.state.info.runes;
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'col-md-15' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'player' },
+	          _react2.default.createElement(
+	            _reactBootstrap.PanelGroup,
+	            { activeKey: this.state.activeKey, onSelect: this.handleSelect.bind(this), accordion: true },
+	            _react2.default.createElement(
+	              _reactBootstrap.Panel,
+	              { header: general.summonerName, eventKey: '1' },
+	              _react2.default.createElement(_GeneralTab2.default, {
+	                fromObserver: general,
+	                championImage: this.state.championImage,
+	                spell1: this.state.summonerSpell1Url,
+	                spell2: this.state.summonerSpell2Url })
+	            ),
+	            _react2.default.createElement(
+	              _reactBootstrap.Panel,
+	              { header: 'Runes', eventKey: '2' },
+	              _react2.default.createElement(_RunesTab2.default, { runes: runes, runesJson: this.props.jsonData.runes })
+	            ),
+	            _react2.default.createElement(
+	              _reactBootstrap.Panel,
+	              { header: 'Masteries', eventKey: '3' },
+	              _react2.default.createElement(_MasteriesTab2.default, { masteries: masteries })
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Team;
+	}(_react.Component);
+
+	exports.default = Team;
+
+	// rune : http://ddragon.leagueoflegends.com/cdn/6.18.1/img/rune/8001.png
+	// mastery : http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/6111.png
+	// sum spell : http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/SummonerFlash.png
+
+/***/ },
+/* 523 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactBootstrap = __webpack_require__(241);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var GeneralTab = function (_Component) {
+	  _inherits(GeneralTab, _Component);
+
+	  function GeneralTab(props) {
+	    _classCallCheck(this, GeneralTab);
+
+	    var _this = _possibleConstructorReturn(this, (GeneralTab.__proto__ || Object.getPrototypeOf(GeneralTab)).call(this, props));
+
+	    _this.state = {
+	      data: _this.props.fromObserver
+	    };
+	    return _this;
+	  }
+
+	  _createClass(GeneralTab, [{
+	    key: 'render',
+	    value: function render() {
+	      var data = this.props.fromObserver;
+	      var championImage = this.props.championImage;
+	      var summSpell1url = this.props.spell1;
+	      var summSpell2url = this.props.spell2;
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'tab general-tab', style: { backgroundColor: '#fff' } },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'visual-data' },
+	          _react2.default.createElement('img', { className: 'champion-image', src: championImage }),
+	          _react2.default.createElement('img', { className: 'summoner-spell spell1', src: summSpell1url }),
+	          _react2.default.createElement('img', { className: 'summoner-spell spell2', src: summSpell2url }),
+	          _react2.default.createElement('img', { className: 'summoner-keystone', src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/6362.png' })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'info-data' },
+	          _react2.default.createElement(
+	            _reactBootstrap.Row,
+	            null,
+	            _react2.default.createElement(
+	              _reactBootstrap.Col,
+	              { xs: 6, md: 4 },
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                'W/L'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                'kills'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                'deaths'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                'assists'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                'cs'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              _reactBootstrap.Col,
+	              { xs: 6, md: 8 },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'wins-loses' },
+	                '27 / 24 ( 54.7% )'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'kills' },
+	                '200 ( 10.4 )'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'deaths' },
+	                '173 ( 8 )'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'assists' },
+	                '263 ( 14.8 )'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'cs' },
+	                '12000 ( 232 )'
+	              )
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return GeneralTab;
+	}(_react.Component);
+
+	exports.default = GeneralTab;
+
+/***/ },
+/* 524 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactBootstrap = __webpack_require__(241);
+
+	var _MasteriesTree = __webpack_require__(525);
+
+	var _MasteriesTree2 = _interopRequireDefault(_MasteriesTree);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var MasteriesTab = function (_Component) {
+	  _inherits(MasteriesTab, _Component);
+
+	  function MasteriesTab() {
+	    _classCallCheck(this, MasteriesTab);
+
+	    return _possibleConstructorReturn(this, (MasteriesTab.__proto__ || Object.getPrototypeOf(MasteriesTab)).apply(this, arguments));
+	  }
+
+	  _createClass(MasteriesTab, [{
+	    key: 'render',
+	    value: function render() {
+
+	      var ferocity = [11, 14, 21, 22, 23, 31, 34, 41, 42, 51, 54, 61, 62, 64];
+	      var cunning = [11, 12, 21, 22, 23, 31, 32, 42, 43, 51, 52, 61, 62, 63];
+	      var resolve = [11, 12, 21, 23, 31, 32, 41, 42, 32, 51, 52, 61, 62, 63];
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'tab masteries-tab' },
+	        _react2.default.createElement(_MasteriesTree2.default, { tree: 'ferocity', talentId: 61, talents: ferocity }),
+	        _react2.default.createElement(_MasteriesTree2.default, { tree: 'cunning', talentId: 63, talents: cunning }),
+	        _react2.default.createElement(_MasteriesTree2.default, { tree: 'resolve', talentId: 62, talents: resolve })
+	      );
+	    }
+	  }]);
+
+	  return MasteriesTab;
+	}(_react.Component);
+
+	exports.default = MasteriesTab;
+
+/***/ },
 /* 525 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var MasteriesTree = function (_Component) {
+	  _inherits(MasteriesTree, _Component);
+
+	  function MasteriesTree() {
+	    _classCallCheck(this, MasteriesTree);
+
+	    return _possibleConstructorReturn(this, (MasteriesTree.__proto__ || Object.getPrototypeOf(MasteriesTree)).apply(this, arguments));
+	  }
+
+	  _createClass(MasteriesTree, [{
+	    key: "getDdragonUrl",
+	    value: function getDdragonUrl(tree, mid) {
+	      if (tree === 61) return "http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/61" + mid + ".png";
+	      if (tree === 63) return "http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/63" + mid + ".png";
+	      if (tree === 62) return "http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/62" + mid + ".png";
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+
+	      var tree = this.props.tree;
+	      var talentId = this.props.talentId;
+	      var talents = this.props.talents;
+
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "masteries-tree " + tree },
+	        _react2.default.createElement(
+	          "div",
+	          { className: "title" },
+	          tree
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "mrow row-1" },
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[0] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[0]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "5"
+	            )
+	          ),
+	          _react2.default.createElement("div", { className: "m m-filler" }),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[1] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[1]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "0"
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "mrow row-2" },
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[2] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[2]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "1"
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[3] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[3]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "0"
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[4] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[4]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "0"
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "mrow row-3" },
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[5] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[5]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "5"
+	            )
+	          ),
+	          _react2.default.createElement("div", { className: "m m-filler" }),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[6] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[6]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "0"
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "mrow row-4" },
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[7] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[7]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "0"
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[8] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[8]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "1"
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "mrow row-5" },
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[9] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[9]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "5"
+	            )
+	          ),
+	          _react2.default.createElement("div", { className: "m m-filler" }),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[10] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[10]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "0"
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "mrow row-6" },
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[11] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[11]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "0"
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[12] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[12]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "1"
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "m m-" + talents[13] },
+	            _react2.default.createElement("img", { src: this.getDdragonUrl(talentId, talents[13]) }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "number-overlay" },
+	              "0"
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return MasteriesTree;
+	}(_react.Component);
+
+	exports.default = MasteriesTree;
+
+/***/ },
+/* 526 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactBootstrap = __webpack_require__(241);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var RunesTab = function (_Component) {
+	  _inherits(RunesTab, _Component);
+
+	  function RunesTab() {
+	    _classCallCheck(this, RunesTab);
+
+	    return _possibleConstructorReturn(this, (RunesTab.__proto__ || Object.getPrototypeOf(RunesTab)).apply(this, arguments));
+	  }
+
+	  _createClass(RunesTab, [{
+	    key: 'render',
+	    value: function render() {
+	      var runesJson = this.props.runesJson;
+	      var runes = this.props.runes;
+
+	      // console.log('summoners runes: ', runes)
+	      // console.log('runes.json: ', runesJson)
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'tab runes-tab' },
+	        _react2.default.createElement(
+	          _reactBootstrap.Row,
+	          null,
+	          this.props.runes.map(function (rune) {
+	            return _react2.default.createElement(
+	              _reactBootstrap.Col,
+	              { xs: 3, sm: 2, md: 4, key: rune.runeId },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'rune' },
+	                _react2.default.createElement('img', { src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/rune/' + runesJson[rune.runeId].image.full }),
+	                _react2.default.createElement(
+	                  'div',
+	                  null,
+	                  runesJson[rune.runeId].description
+	                )
+	              )
+	            );
+	          })
+	        )
+	      );
+	    }
+	  }]);
+
+	  return RunesTab;
+	}(_react.Component);
+
+	exports.default = RunesTab;
+
+/***/ },
+/* 527 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

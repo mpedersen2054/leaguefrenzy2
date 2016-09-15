@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
 import { Row, Col, Accordian, Panel, PanelGroup } from 'react-bootstrap'
-
+import * as _ from 'lodash'
 
 import GeneralTab from './GeneralTab'
 import MasteriesTab from './MasteriesTab'
@@ -21,14 +21,39 @@ class Team extends Component {
   componentWillMount() {
     const info = this.state.info
     const jsonData = this.props.jsonData
-    const champions = jsonData.champions
-    console.log(champions)
-    // const summonerIcon = champions.map((champ) => {
-    //   return champ.key
-    // })
+    // http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/Aatrox.png
 
-    // console.log(summonerIcon)
+    /*
+    GET CHAMPION ICON URL
+     */
+    const champion = _.find(jsonData.champions, (champ) => {
+      if (champ.key == info.championId) {
+        return champ
+      }
+    })
+    const championImage = `http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/${champion.name.replace(' ', '')}.png`
 
+    /*
+    GET BOTH SUMMONER SPELL ICONS
+     */
+    const spell1 = _.find(jsonData.summonerSpells, (spell) => {
+      if (spell.key == info.spell1Id) return spell
+    })
+
+    const spell2 = _.find(jsonData.summonerSpells, (spell) => {
+      if (spell.key == info.spell2Id) return spell
+    })
+
+    const sumSpellImg1 = `http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/${spell1.id}.png`
+    const sumSpellImg2 = `http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/${spell2.id}.png`
+
+    // console.log(sumSpellImg1, sumSpellImg2)
+
+    this.setState({
+      championImage: championImage,
+      summonerSpell1Url: sumSpellImg1,
+      summonerSpell2Url: sumSpellImg2
+    })
   }
 
   handleSelect(activeKey) {
@@ -45,10 +70,14 @@ class Team extends Component {
         <div className="player">
           <PanelGroup activeKey={this.state.activeKey} onSelect={this.handleSelect.bind(this)} accordion>
             <Panel header={general.summonerName} eventKey="1">
-              <GeneralTab fromObserver={general} />
+              <GeneralTab
+                fromObserver={general}
+                championImage={this.state.championImage}
+                spell1={this.state.summonerSpell1Url}
+                spell2={this.state.summonerSpell2Url} />
             </Panel>
             <Panel header="Runes" eventKey="2">
-              <RunesTab runes={runes} />
+              <RunesTab runes={runes} runesJson={this.props.jsonData.runes} />
             </Panel>
             <Panel header="Masteries" eventKey="3">
               <MasteriesTab masteries={masteries} />

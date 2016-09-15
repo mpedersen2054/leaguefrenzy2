@@ -2,6 +2,12 @@
 import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
 import { Alert } from 'react-bootstrap'
+import * as _ from 'lodash'
+
+import $champions from '../jsonData/champions.json'
+import $summonerSpells from '../jsonData/summonerSpells.json'
+import $masteries from '../jsonData/masteries.json'
+import $runes from '../jsonData/runes.json'
 
 class App extends Component {
 
@@ -9,11 +15,21 @@ class App extends Component {
     console.log('hello there...', msg)
   }
 
+  // getChampionImage(championId) {
+  //   const champion = _.find($champions, (champ) => {
+  //     if (champ.key == championId) {
+  //       return champ
+  //     }
+  //   })
+  //   return `http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/${champion.name.replace(' ', '')}.png`
+  // }
+
   render() {
     return(
       <div>
         {React.cloneElement(this.props.children, {
-          sendToRootWithMessage: this.sendToRootWithMessage
+          sendToRootWithMessage: this.sendToRootWithMessage,
+          // getChampionImage: this.getChampionImage
         })}
       </div>
     )
