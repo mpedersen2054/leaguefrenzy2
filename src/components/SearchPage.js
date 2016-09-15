@@ -17,7 +17,7 @@ class SearchPage extends Component {
 
   handleSubmit(e) {
     e.preventDefault()
-    const summonerName = this.state.summonerNameValue
+    const summonerName = this.state.summonerNameValue.replace(/\s+/g, '')
     if (summonerName.length <= 0) {
       console.log('throw error!')
     } else {

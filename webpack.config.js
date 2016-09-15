@@ -11,10 +11,11 @@ module.exports = {
   module: {
     loaders: [
       { exclude: /node_modules/, loader: 'babel' },
-      { test: /\.styl$/, loader: 'style-loader!css-loader!stylus-loader' }
+      { test: /\.styl$/, loader: 'style-loader!css-loader!stylus-loader' },
+      { test: /\.json$/, loader: 'json' }
     ]
   },
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx', '.json']
   }
 }

@@ -71,11 +71,11 @@
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _Match = __webpack_require__(241);
+	var _Match = __webpack_require__(492);
 
 	var _Match2 = _interopRequireDefault(_Match);
 
-	var _SearchPage = __webpack_require__(522);
+	var _SearchPage = __webpack_require__(525);
 
 	var _SearchPage2 = _interopRequireDefault(_SearchPage);
 
@@ -27489,6 +27489,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactRouter = __webpack_require__(177);
+
+	var _reactBootstrap = __webpack_require__(241);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27507,12 +27511,19 @@
 	  }
 
 	  _createClass(App, [{
+	    key: 'sendToRootWithMessage',
+	    value: function sendToRootWithMessage(msg) {
+	      console.log('hello there...', msg);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        this.props.children
+	        _react2.default.cloneElement(this.props.children, {
+	          sendToRootWithMessage: this.sendToRootWithMessage
+	        })
 	      );
 	    }
 	  }]);
@@ -27533,377 +27544,274 @@
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactBootstrap = __webpack_require__(242);
-
-	var _axios = __webpack_require__(493);
-
-	var _axios2 = _interopRequireDefault(_axios);
-
-	var _Team = __webpack_require__(515);
-
-	var _Team2 = _interopRequireDefault(_Team);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var apiKey = 'a85d0753-6824-4725-a76f-23be84110e08';
-
-	var Match = function (_Component) {
-	  _inherits(Match, _Component);
-
-	  function Match() {
-	    _classCallCheck(this, Match);
-
-	    return _possibleConstructorReturn(this, (Match.__proto__ || Object.getPrototypeOf(Match)).apply(this, arguments));
-	  }
-
-	  _createClass(Match, [{
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      var serverRequest = this.getMatchData('yolomcbrolo');
-	    }
-
-	    // https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/unclerodgers?api_key=a85d0753-6824-4725-a76f-23be84110e08
-	    // https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/39774795?api_key=a85d0753-6824-4725-a76f-23be84110e08
-
-	  }, {
-	    key: 'getMatchData',
-	    value: function getMatchData(summonerName) {
-	      // request the summonerObject which requests a string (the name)
-	      _axios2.default.get('https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/' + summonerName + '?api_key=' + apiKey).then(function (response) {
-	        // response.data = { yolomcbrolo: { ... } } so had to get the first prop
-	        var summonerObj = Object.keys(response.data)[0];
-	        var summonerId = summonerObj.id;
-	        // request spectator information, will fail if the user isnt currently in a game
-	        _axios2.default.get('https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/' + summonerId + '?api_key=' + apiKey).then(function (response2) {
-	          console.log('from response2: ', response2);
-	        }).catch(function (err2) {
-	          // is being called because the summoner being searched
-	          // for isnt currently in a game
-	          console.log('from err2: ', err2);
-	        });
-	      }).catch(function (err) {
-	        console.log('error!', err);
-	      });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var sid = this.props.location.query.summonerName;
-
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'container-fluid' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'top-section' },
-	          'hello there friends!!!'
-	        ),
-	        _react2.default.createElement(_Team2.default, { members: [1, 2, 3, 4, 5] }),
-	        _react2.default.createElement(_Team2.default, { members: [6, 7, 8, 9, 10] })
-	      );
-	    }
-	  }]);
-
-	  return Match;
-	}(_react.Component);
-
-	// https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/47682701/ranked?api_key=a85d0753-6824-4725-a76f-23be84110e08
-	// https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/unclerodgers?api_key=a85d0753-6824-4725-a76f-23be84110e08
-	// https://na.api.pvp.net/api/lol/na/v2.4/team/by-summoner/42733402,21066307,67169698,59667857,70520692,65529523,52609925,52315500,49639860,64099838?api_key=a85d0753-6824-4725-a76f-23be84110e08
-	// https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/47682701?api_key=a85d0753-6824-4725-a76f-23be84110e08
-
-	exports.default = Match;
-
-/***/ },
-/* 242 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
 	exports.__esModule = true;
 	exports.utils = exports.Well = exports.Tooltip = exports.Thumbnail = exports.Tabs = exports.TabPane = exports.Table = exports.TabContent = exports.TabContainer = exports.Tab = exports.SplitButton = exports.SafeAnchor = exports.Row = exports.ResponsiveEmbed = exports.Radio = exports.ProgressBar = exports.Popover = exports.PanelGroup = exports.Panel = exports.Pagination = exports.Pager = exports.PageItem = exports.PageHeader = exports.OverlayTrigger = exports.Overlay = exports.NavItem = exports.NavDropdown = exports.NavbarBrand = exports.Navbar = exports.Nav = exports.ModalTitle = exports.ModalHeader = exports.ModalFooter = exports.ModalBody = exports.Modal = exports.MenuItem = exports.Media = exports.ListGroupItem = exports.ListGroup = exports.Label = exports.Jumbotron = exports.InputGroup = exports.Image = exports.HelpBlock = exports.Grid = exports.Glyphicon = exports.FormGroup = exports.FormControl = exports.Form = exports.Fade = exports.DropdownButton = exports.Dropdown = exports.Collapse = exports.Col = exports.ControlLabel = exports.Clearfix = exports.Checkbox = exports.CarouselItem = exports.Carousel = exports.ButtonToolbar = exports.ButtonGroup = exports.Button = exports.BreadcrumbItem = exports.Breadcrumb = exports.Badge = exports.Alert = exports.Accordion = undefined;
 
-	var _Accordion2 = __webpack_require__(243);
+	var _Accordion2 = __webpack_require__(242);
 
 	var _Accordion3 = _interopRequireDefault(_Accordion2);
 
-	var _Alert2 = __webpack_require__(338);
+	var _Alert2 = __webpack_require__(337);
 
 	var _Alert3 = _interopRequireDefault(_Alert2);
 
-	var _Badge2 = __webpack_require__(342);
+	var _Badge2 = __webpack_require__(341);
 
 	var _Badge3 = _interopRequireDefault(_Badge2);
 
-	var _Breadcrumb2 = __webpack_require__(343);
+	var _Breadcrumb2 = __webpack_require__(342);
 
 	var _Breadcrumb3 = _interopRequireDefault(_Breadcrumb2);
 
-	var _BreadcrumbItem2 = __webpack_require__(344);
+	var _BreadcrumbItem2 = __webpack_require__(343);
 
 	var _BreadcrumbItem3 = _interopRequireDefault(_BreadcrumbItem2);
 
-	var _Button2 = __webpack_require__(348);
+	var _Button2 = __webpack_require__(347);
 
 	var _Button3 = _interopRequireDefault(_Button2);
 
-	var _ButtonGroup2 = __webpack_require__(349);
+	var _ButtonGroup2 = __webpack_require__(348);
 
 	var _ButtonGroup3 = _interopRequireDefault(_ButtonGroup2);
 
-	var _ButtonToolbar2 = __webpack_require__(351);
+	var _ButtonToolbar2 = __webpack_require__(350);
 
 	var _ButtonToolbar3 = _interopRequireDefault(_ButtonToolbar2);
 
-	var _Carousel2 = __webpack_require__(352);
+	var _Carousel2 = __webpack_require__(351);
 
 	var _Carousel3 = _interopRequireDefault(_Carousel2);
 
-	var _CarouselItem2 = __webpack_require__(354);
+	var _CarouselItem2 = __webpack_require__(353);
 
 	var _CarouselItem3 = _interopRequireDefault(_CarouselItem2);
 
-	var _Checkbox2 = __webpack_require__(357);
+	var _Checkbox2 = __webpack_require__(356);
 
 	var _Checkbox3 = _interopRequireDefault(_Checkbox2);
 
-	var _Clearfix2 = __webpack_require__(358);
+	var _Clearfix2 = __webpack_require__(357);
 
 	var _Clearfix3 = _interopRequireDefault(_Clearfix2);
 
-	var _ControlLabel2 = __webpack_require__(360);
+	var _ControlLabel2 = __webpack_require__(359);
 
 	var _ControlLabel3 = _interopRequireDefault(_ControlLabel2);
 
-	var _Col2 = __webpack_require__(361);
+	var _Col2 = __webpack_require__(360);
 
 	var _Col3 = _interopRequireDefault(_Col2);
 
-	var _Collapse2 = __webpack_require__(362);
+	var _Collapse2 = __webpack_require__(361);
 
 	var _Collapse3 = _interopRequireDefault(_Collapse2);
 
-	var _Dropdown2 = __webpack_require__(375);
+	var _Dropdown2 = __webpack_require__(374);
 
 	var _Dropdown3 = _interopRequireDefault(_Dropdown2);
 
-	var _DropdownButton2 = __webpack_require__(401);
+	var _DropdownButton2 = __webpack_require__(400);
 
 	var _DropdownButton3 = _interopRequireDefault(_DropdownButton2);
 
-	var _Fade2 = __webpack_require__(403);
+	var _Fade2 = __webpack_require__(402);
 
 	var _Fade3 = _interopRequireDefault(_Fade2);
 
-	var _Form2 = __webpack_require__(404);
+	var _Form2 = __webpack_require__(403);
 
 	var _Form3 = _interopRequireDefault(_Form2);
 
-	var _FormControl2 = __webpack_require__(405);
+	var _FormControl2 = __webpack_require__(404);
 
 	var _FormControl3 = _interopRequireDefault(_FormControl2);
 
-	var _FormGroup2 = __webpack_require__(408);
+	var _FormGroup2 = __webpack_require__(407);
 
 	var _FormGroup3 = _interopRequireDefault(_FormGroup2);
 
-	var _Glyphicon2 = __webpack_require__(356);
+	var _Glyphicon2 = __webpack_require__(355);
 
 	var _Glyphicon3 = _interopRequireDefault(_Glyphicon2);
 
-	var _Grid2 = __webpack_require__(409);
+	var _Grid2 = __webpack_require__(408);
 
 	var _Grid3 = _interopRequireDefault(_Grid2);
 
-	var _HelpBlock2 = __webpack_require__(410);
+	var _HelpBlock2 = __webpack_require__(409);
 
 	var _HelpBlock3 = _interopRequireDefault(_HelpBlock2);
 
-	var _Image2 = __webpack_require__(411);
+	var _Image2 = __webpack_require__(410);
 
 	var _Image3 = _interopRequireDefault(_Image2);
 
-	var _InputGroup2 = __webpack_require__(412);
+	var _InputGroup2 = __webpack_require__(411);
 
 	var _InputGroup3 = _interopRequireDefault(_InputGroup2);
 
-	var _Jumbotron2 = __webpack_require__(415);
+	var _Jumbotron2 = __webpack_require__(414);
 
 	var _Jumbotron3 = _interopRequireDefault(_Jumbotron2);
 
-	var _Label2 = __webpack_require__(416);
+	var _Label2 = __webpack_require__(415);
 
 	var _Label3 = _interopRequireDefault(_Label2);
 
-	var _ListGroup2 = __webpack_require__(417);
+	var _ListGroup2 = __webpack_require__(416);
 
 	var _ListGroup3 = _interopRequireDefault(_ListGroup2);
 
-	var _ListGroupItem2 = __webpack_require__(418);
+	var _ListGroupItem2 = __webpack_require__(417);
 
 	var _ListGroupItem3 = _interopRequireDefault(_ListGroupItem2);
 
-	var _Media2 = __webpack_require__(419);
+	var _Media2 = __webpack_require__(418);
 
 	var _Media3 = _interopRequireDefault(_Media2);
 
-	var _MenuItem2 = __webpack_require__(426);
+	var _MenuItem2 = __webpack_require__(425);
 
 	var _MenuItem3 = _interopRequireDefault(_MenuItem2);
 
-	var _Modal2 = __webpack_require__(427);
+	var _Modal2 = __webpack_require__(426);
 
 	var _Modal3 = _interopRequireDefault(_Modal2);
 
-	var _ModalBody2 = __webpack_require__(445);
+	var _ModalBody2 = __webpack_require__(444);
 
 	var _ModalBody3 = _interopRequireDefault(_ModalBody2);
 
-	var _ModalFooter2 = __webpack_require__(447);
+	var _ModalFooter2 = __webpack_require__(446);
 
 	var _ModalFooter3 = _interopRequireDefault(_ModalFooter2);
 
-	var _ModalHeader2 = __webpack_require__(448);
+	var _ModalHeader2 = __webpack_require__(447);
 
 	var _ModalHeader3 = _interopRequireDefault(_ModalHeader2);
 
-	var _ModalTitle2 = __webpack_require__(449);
+	var _ModalTitle2 = __webpack_require__(448);
 
 	var _ModalTitle3 = _interopRequireDefault(_ModalTitle2);
 
-	var _Nav2 = __webpack_require__(450);
+	var _Nav2 = __webpack_require__(449);
 
 	var _Nav3 = _interopRequireDefault(_Nav2);
 
-	var _Navbar2 = __webpack_require__(451);
+	var _Navbar2 = __webpack_require__(450);
 
 	var _Navbar3 = _interopRequireDefault(_Navbar2);
 
-	var _NavbarBrand2 = __webpack_require__(452);
+	var _NavbarBrand2 = __webpack_require__(451);
 
 	var _NavbarBrand3 = _interopRequireDefault(_NavbarBrand2);
 
-	var _NavDropdown2 = __webpack_require__(456);
+	var _NavDropdown2 = __webpack_require__(455);
 
 	var _NavDropdown3 = _interopRequireDefault(_NavDropdown2);
 
-	var _NavItem2 = __webpack_require__(457);
+	var _NavItem2 = __webpack_require__(456);
 
 	var _NavItem3 = _interopRequireDefault(_NavItem2);
 
-	var _Overlay2 = __webpack_require__(458);
+	var _Overlay2 = __webpack_require__(457);
 
 	var _Overlay3 = _interopRequireDefault(_Overlay2);
 
-	var _OverlayTrigger2 = __webpack_require__(467);
+	var _OverlayTrigger2 = __webpack_require__(466);
 
 	var _OverlayTrigger3 = _interopRequireDefault(_OverlayTrigger2);
 
-	var _PageHeader2 = __webpack_require__(468);
+	var _PageHeader2 = __webpack_require__(467);
 
 	var _PageHeader3 = _interopRequireDefault(_PageHeader2);
 
-	var _PageItem2 = __webpack_require__(469);
+	var _PageItem2 = __webpack_require__(468);
 
 	var _PageItem3 = _interopRequireDefault(_PageItem2);
 
-	var _Pager2 = __webpack_require__(472);
+	var _Pager2 = __webpack_require__(471);
 
 	var _Pager3 = _interopRequireDefault(_Pager2);
 
-	var _Pagination2 = __webpack_require__(473);
+	var _Pagination2 = __webpack_require__(472);
 
 	var _Pagination3 = _interopRequireDefault(_Pagination2);
 
-	var _Panel2 = __webpack_require__(475);
+	var _Panel2 = __webpack_require__(474);
 
 	var _Panel3 = _interopRequireDefault(_Panel2);
 
-	var _PanelGroup2 = __webpack_require__(327);
+	var _PanelGroup2 = __webpack_require__(326);
 
 	var _PanelGroup3 = _interopRequireDefault(_PanelGroup2);
 
-	var _Popover2 = __webpack_require__(476);
+	var _Popover2 = __webpack_require__(475);
 
 	var _Popover3 = _interopRequireDefault(_Popover2);
 
-	var _ProgressBar2 = __webpack_require__(477);
+	var _ProgressBar2 = __webpack_require__(476);
 
 	var _ProgressBar3 = _interopRequireDefault(_ProgressBar2);
 
-	var _Radio2 = __webpack_require__(478);
+	var _Radio2 = __webpack_require__(477);
 
 	var _Radio3 = _interopRequireDefault(_Radio2);
 
-	var _ResponsiveEmbed2 = __webpack_require__(479);
+	var _ResponsiveEmbed2 = __webpack_require__(478);
 
 	var _ResponsiveEmbed3 = _interopRequireDefault(_ResponsiveEmbed2);
 
-	var _Row2 = __webpack_require__(480);
+	var _Row2 = __webpack_require__(479);
 
 	var _Row3 = _interopRequireDefault(_Row2);
 
-	var _SafeAnchor2 = __webpack_require__(345);
+	var _SafeAnchor2 = __webpack_require__(344);
 
 	var _SafeAnchor3 = _interopRequireDefault(_SafeAnchor2);
 
-	var _SplitButton2 = __webpack_require__(481);
+	var _SplitButton2 = __webpack_require__(480);
 
 	var _SplitButton3 = _interopRequireDefault(_SplitButton2);
 
-	var _Tab2 = __webpack_require__(483);
+	var _Tab2 = __webpack_require__(482);
 
 	var _Tab3 = _interopRequireDefault(_Tab2);
 
-	var _TabContainer2 = __webpack_require__(484);
+	var _TabContainer2 = __webpack_require__(483);
 
 	var _TabContainer3 = _interopRequireDefault(_TabContainer2);
 
-	var _TabContent2 = __webpack_require__(485);
+	var _TabContent2 = __webpack_require__(484);
 
 	var _TabContent3 = _interopRequireDefault(_TabContent2);
 
-	var _Table2 = __webpack_require__(487);
+	var _Table2 = __webpack_require__(486);
 
 	var _Table3 = _interopRequireDefault(_Table2);
 
-	var _TabPane2 = __webpack_require__(486);
+	var _TabPane2 = __webpack_require__(485);
 
 	var _TabPane3 = _interopRequireDefault(_TabPane2);
 
-	var _Tabs2 = __webpack_require__(488);
+	var _Tabs2 = __webpack_require__(487);
 
 	var _Tabs3 = _interopRequireDefault(_Tabs2);
 
-	var _Thumbnail2 = __webpack_require__(489);
+	var _Thumbnail2 = __webpack_require__(488);
 
 	var _Thumbnail3 = _interopRequireDefault(_Thumbnail2);
 
-	var _Tooltip2 = __webpack_require__(490);
+	var _Tooltip2 = __webpack_require__(489);
 
 	var _Tooltip3 = _interopRequireDefault(_Tooltip2);
 
-	var _Well2 = __webpack_require__(491);
+	var _Well2 = __webpack_require__(490);
 
 	var _Well3 = _interopRequireDefault(_Well2);
 
-	var _utils2 = __webpack_require__(492);
+	var _utils2 = __webpack_require__(491);
 
 	var _utils = _interopRequireWildcard(_utils2);
 
@@ -27980,26 +27888,26 @@
 	exports.utils = _utils;
 
 /***/ },
-/* 243 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -28007,7 +27915,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _PanelGroup = __webpack_require__(327);
+	var _PanelGroup = __webpack_require__(326);
 
 	var _PanelGroup2 = _interopRequireDefault(_PanelGroup);
 
@@ -28036,14 +27944,14 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 244 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	exports.__esModule = true;
 
-	var _assign = __webpack_require__(245);
+	var _assign = __webpack_require__(244);
 
 	var _assign2 = _interopRequireDefault(_assign);
 
@@ -28064,35 +27972,35 @@
 	};
 
 /***/ },
+/* 244 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(245), __esModule: true };
+
+/***/ },
 /* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(246), __esModule: true };
+	__webpack_require__(246);
+	module.exports = __webpack_require__(249).Object.assign;
 
 /***/ },
 /* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(247);
-	module.exports = __webpack_require__(250).Object.assign;
+	// 19.1.3.1 Object.assign(target, source)
+	var $export = __webpack_require__(247);
+
+	$export($export.S + $export.F, 'Object', {assign: __webpack_require__(262)});
 
 /***/ },
 /* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// 19.1.3.1 Object.assign(target, source)
-	var $export = __webpack_require__(248);
-
-	$export($export.S + $export.F, 'Object', {assign: __webpack_require__(263)});
-
-/***/ },
-/* 248 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var global    = __webpack_require__(249)
-	  , core      = __webpack_require__(250)
-	  , ctx       = __webpack_require__(251)
-	  , hide      = __webpack_require__(253)
+	var global    = __webpack_require__(248)
+	  , core      = __webpack_require__(249)
+	  , ctx       = __webpack_require__(250)
+	  , hide      = __webpack_require__(252)
 	  , PROTOTYPE = 'prototype';
 
 	var $export = function(type, name, source){
@@ -28152,7 +28060,7 @@
 	module.exports = $export;
 
 /***/ },
-/* 249 */
+/* 248 */
 /***/ function(module, exports) {
 
 	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
@@ -28161,18 +28069,18 @@
 	if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 
 /***/ },
-/* 250 */
+/* 249 */
 /***/ function(module, exports) {
 
 	var core = module.exports = {version: '2.4.0'};
 	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 
 /***/ },
-/* 251 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// optional / simple context binding
-	var aFunction = __webpack_require__(252);
+	var aFunction = __webpack_require__(251);
 	module.exports = function(fn, that, length){
 	  aFunction(fn);
 	  if(that === undefined)return fn;
@@ -28193,7 +28101,7 @@
 	};
 
 /***/ },
-/* 252 */
+/* 251 */
 /***/ function(module, exports) {
 
 	module.exports = function(it){
@@ -28202,12 +28110,12 @@
 	};
 
 /***/ },
-/* 253 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var dP         = __webpack_require__(254)
-	  , createDesc = __webpack_require__(262);
-	module.exports = __webpack_require__(258) ? function(object, key, value){
+	var dP         = __webpack_require__(253)
+	  , createDesc = __webpack_require__(261);
+	module.exports = __webpack_require__(257) ? function(object, key, value){
 	  return dP.f(object, key, createDesc(1, value));
 	} : function(object, key, value){
 	  object[key] = value;
@@ -28215,15 +28123,15 @@
 	};
 
 /***/ },
-/* 254 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var anObject       = __webpack_require__(255)
-	  , IE8_DOM_DEFINE = __webpack_require__(257)
-	  , toPrimitive    = __webpack_require__(261)
+	var anObject       = __webpack_require__(254)
+	  , IE8_DOM_DEFINE = __webpack_require__(256)
+	  , toPrimitive    = __webpack_require__(260)
 	  , dP             = Object.defineProperty;
 
-	exports.f = __webpack_require__(258) ? Object.defineProperty : function defineProperty(O, P, Attributes){
+	exports.f = __webpack_require__(257) ? Object.defineProperty : function defineProperty(O, P, Attributes){
 	  anObject(O);
 	  P = toPrimitive(P, true);
 	  anObject(Attributes);
@@ -28236,17 +28144,17 @@
 	};
 
 /***/ },
-/* 255 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(256);
+	var isObject = __webpack_require__(255);
 	module.exports = function(it){
 	  if(!isObject(it))throw TypeError(it + ' is not an object!');
 	  return it;
 	};
 
 /***/ },
-/* 256 */
+/* 255 */
 /***/ function(module, exports) {
 
 	module.exports = function(it){
@@ -28254,24 +28162,24 @@
 	};
 
 /***/ },
-/* 257 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = !__webpack_require__(258) && !__webpack_require__(259)(function(){
-	  return Object.defineProperty(__webpack_require__(260)('div'), 'a', {get: function(){ return 7; }}).a != 7;
+	module.exports = !__webpack_require__(257) && !__webpack_require__(258)(function(){
+	  return Object.defineProperty(__webpack_require__(259)('div'), 'a', {get: function(){ return 7; }}).a != 7;
 	});
 
 /***/ },
-/* 258 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Thank's IE8 for his funny defineProperty
-	module.exports = !__webpack_require__(259)(function(){
+	module.exports = !__webpack_require__(258)(function(){
 	  return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
 	});
 
 /***/ },
-/* 259 */
+/* 258 */
 /***/ function(module, exports) {
 
 	module.exports = function(exec){
@@ -28283,11 +28191,11 @@
 	};
 
 /***/ },
-/* 260 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(256)
-	  , document = __webpack_require__(249).document
+	var isObject = __webpack_require__(255)
+	  , document = __webpack_require__(248).document
 	  // in old IE typeof document.createElement is 'object'
 	  , is = isObject(document) && isObject(document.createElement);
 	module.exports = function(it){
@@ -28295,11 +28203,11 @@
 	};
 
 /***/ },
-/* 261 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 7.1.1 ToPrimitive(input [, PreferredType])
-	var isObject = __webpack_require__(256);
+	var isObject = __webpack_require__(255);
 	// instead of the ES6 spec version, we didn't implement @@toPrimitive case
 	// and the second argument - flag - preferred type is a string
 	module.exports = function(it, S){
@@ -28312,7 +28220,7 @@
 	};
 
 /***/ },
-/* 262 */
+/* 261 */
 /***/ function(module, exports) {
 
 	module.exports = function(bitmap, value){
@@ -28325,20 +28233,20 @@
 	};
 
 /***/ },
-/* 263 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	// 19.1.2.1 Object.assign(target, source, ...)
-	var getKeys  = __webpack_require__(264)
-	  , gOPS     = __webpack_require__(279)
-	  , pIE      = __webpack_require__(280)
-	  , toObject = __webpack_require__(281)
-	  , IObject  = __webpack_require__(268)
+	var getKeys  = __webpack_require__(263)
+	  , gOPS     = __webpack_require__(278)
+	  , pIE      = __webpack_require__(279)
+	  , toObject = __webpack_require__(280)
+	  , IObject  = __webpack_require__(267)
 	  , $assign  = Object.assign;
 
 	// should work with symbols and should have deterministic property order (V8 bug)
-	module.exports = !$assign || __webpack_require__(259)(function(){
+	module.exports = !$assign || __webpack_require__(258)(function(){
 	  var A = {}
 	    , B = {}
 	    , S = Symbol()
@@ -28363,25 +28271,25 @@
 	} : $assign;
 
 /***/ },
-/* 264 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 19.1.2.14 / 15.2.3.14 Object.keys(O)
-	var $keys       = __webpack_require__(265)
-	  , enumBugKeys = __webpack_require__(278);
+	var $keys       = __webpack_require__(264)
+	  , enumBugKeys = __webpack_require__(277);
 
 	module.exports = Object.keys || function keys(O){
 	  return $keys(O, enumBugKeys);
 	};
 
 /***/ },
-/* 265 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var has          = __webpack_require__(266)
-	  , toIObject    = __webpack_require__(267)
-	  , arrayIndexOf = __webpack_require__(271)(false)
-	  , IE_PROTO     = __webpack_require__(275)('IE_PROTO');
+	var has          = __webpack_require__(265)
+	  , toIObject    = __webpack_require__(266)
+	  , arrayIndexOf = __webpack_require__(270)(false)
+	  , IE_PROTO     = __webpack_require__(274)('IE_PROTO');
 
 	module.exports = function(object, names){
 	  var O      = toIObject(object)
@@ -28397,7 +28305,7 @@
 	};
 
 /***/ },
-/* 266 */
+/* 265 */
 /***/ function(module, exports) {
 
 	var hasOwnProperty = {}.hasOwnProperty;
@@ -28406,28 +28314,28 @@
 	};
 
 /***/ },
-/* 267 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// to indexed object, toObject with fallback for non-array-like ES3 strings
-	var IObject = __webpack_require__(268)
-	  , defined = __webpack_require__(270);
+	var IObject = __webpack_require__(267)
+	  , defined = __webpack_require__(269);
 	module.exports = function(it){
 	  return IObject(defined(it));
 	};
 
 /***/ },
-/* 268 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// fallback for non-array-like ES3 and non-enumerable old V8 strings
-	var cof = __webpack_require__(269);
+	var cof = __webpack_require__(268);
 	module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
 	  return cof(it) == 'String' ? it.split('') : Object(it);
 	};
 
 /***/ },
-/* 269 */
+/* 268 */
 /***/ function(module, exports) {
 
 	var toString = {}.toString;
@@ -28437,7 +28345,7 @@
 	};
 
 /***/ },
-/* 270 */
+/* 269 */
 /***/ function(module, exports) {
 
 	// 7.2.1 RequireObjectCoercible(argument)
@@ -28447,14 +28355,14 @@
 	};
 
 /***/ },
-/* 271 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// false -> Array#indexOf
 	// true  -> Array#includes
-	var toIObject = __webpack_require__(267)
-	  , toLength  = __webpack_require__(272)
-	  , toIndex   = __webpack_require__(274);
+	var toIObject = __webpack_require__(266)
+	  , toLength  = __webpack_require__(271)
+	  , toIndex   = __webpack_require__(273);
 	module.exports = function(IS_INCLUDES){
 	  return function($this, el, fromIndex){
 	    var O      = toIObject($this)
@@ -28473,18 +28381,18 @@
 	};
 
 /***/ },
-/* 272 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 7.1.15 ToLength
-	var toInteger = __webpack_require__(273)
+	var toInteger = __webpack_require__(272)
 	  , min       = Math.min;
 	module.exports = function(it){
 	  return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
 	};
 
 /***/ },
-/* 273 */
+/* 272 */
 /***/ function(module, exports) {
 
 	// 7.1.4 ToInteger
@@ -28495,10 +28403,10 @@
 	};
 
 /***/ },
-/* 274 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var toInteger = __webpack_require__(273)
+	var toInteger = __webpack_require__(272)
 	  , max       = Math.max
 	  , min       = Math.min;
 	module.exports = function(index, length){
@@ -28507,20 +28415,20 @@
 	};
 
 /***/ },
-/* 275 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var shared = __webpack_require__(276)('keys')
-	  , uid    = __webpack_require__(277);
+	var shared = __webpack_require__(275)('keys')
+	  , uid    = __webpack_require__(276);
 	module.exports = function(key){
 	  return shared[key] || (shared[key] = uid(key));
 	};
 
 /***/ },
-/* 276 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var global = __webpack_require__(249)
+	var global = __webpack_require__(248)
 	  , SHARED = '__core-js_shared__'
 	  , store  = global[SHARED] || (global[SHARED] = {});
 	module.exports = function(key){
@@ -28528,7 +28436,7 @@
 	};
 
 /***/ },
-/* 277 */
+/* 276 */
 /***/ function(module, exports) {
 
 	var id = 0
@@ -28538,7 +28446,7 @@
 	};
 
 /***/ },
-/* 278 */
+/* 277 */
 /***/ function(module, exports) {
 
 	// IE 8- don't enum bug keys
@@ -28547,29 +28455,29 @@
 	).split(',');
 
 /***/ },
-/* 279 */
+/* 278 */
 /***/ function(module, exports) {
 
 	exports.f = Object.getOwnPropertySymbols;
 
 /***/ },
-/* 280 */
+/* 279 */
 /***/ function(module, exports) {
 
 	exports.f = {}.propertyIsEnumerable;
 
 /***/ },
-/* 281 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 7.1.13 ToObject(argument)
-	var defined = __webpack_require__(270);
+	var defined = __webpack_require__(269);
 	module.exports = function(it){
 	  return Object(defined(it));
 	};
 
 /***/ },
-/* 282 */
+/* 281 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -28583,14 +28491,14 @@
 	};
 
 /***/ },
-/* 283 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	exports.__esModule = true;
 
-	var _typeof2 = __webpack_require__(284);
+	var _typeof2 = __webpack_require__(283);
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -28605,18 +28513,18 @@
 	};
 
 /***/ },
-/* 284 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	exports.__esModule = true;
 
-	var _iterator = __webpack_require__(285);
+	var _iterator = __webpack_require__(284);
 
 	var _iterator2 = _interopRequireDefault(_iterator);
 
-	var _symbol = __webpack_require__(305);
+	var _symbol = __webpack_require__(304);
 
 	var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -28631,28 +28539,28 @@
 	};
 
 /***/ },
+/* 284 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(285), __esModule: true };
+
+/***/ },
 /* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(286), __esModule: true };
+	__webpack_require__(286);
+	__webpack_require__(299);
+	module.exports = __webpack_require__(303).f('iterator');
 
 /***/ },
 /* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(287);
-	__webpack_require__(300);
-	module.exports = __webpack_require__(304).f('iterator');
-
-/***/ },
-/* 287 */
-/***/ function(module, exports, __webpack_require__) {
-
 	'use strict';
-	var $at  = __webpack_require__(288)(true);
+	var $at  = __webpack_require__(287)(true);
 
 	// 21.1.3.27 String.prototype[@@iterator]()
-	__webpack_require__(289)(String, 'String', function(iterated){
+	__webpack_require__(288)(String, 'String', function(iterated){
 	  this._t = String(iterated); // target
 	  this._i = 0;                // next index
 	// 21.1.5.2.1 %StringIteratorPrototype%.next()
@@ -28667,11 +28575,11 @@
 	});
 
 /***/ },
-/* 288 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var toInteger = __webpack_require__(273)
-	  , defined   = __webpack_require__(270);
+	var toInteger = __webpack_require__(272)
+	  , defined   = __webpack_require__(269);
 	// true  -> String#at
 	// false -> String#codePointAt
 	module.exports = function(TO_STRING){
@@ -28689,20 +28597,20 @@
 	};
 
 /***/ },
-/* 289 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var LIBRARY        = __webpack_require__(290)
-	  , $export        = __webpack_require__(248)
-	  , redefine       = __webpack_require__(291)
-	  , hide           = __webpack_require__(253)
-	  , has            = __webpack_require__(266)
-	  , Iterators      = __webpack_require__(292)
-	  , $iterCreate    = __webpack_require__(293)
-	  , setToStringTag = __webpack_require__(297)
-	  , getPrototypeOf = __webpack_require__(299)
-	  , ITERATOR       = __webpack_require__(298)('iterator')
+	var LIBRARY        = __webpack_require__(289)
+	  , $export        = __webpack_require__(247)
+	  , redefine       = __webpack_require__(290)
+	  , hide           = __webpack_require__(252)
+	  , has            = __webpack_require__(265)
+	  , Iterators      = __webpack_require__(291)
+	  , $iterCreate    = __webpack_require__(292)
+	  , setToStringTag = __webpack_require__(296)
+	  , getPrototypeOf = __webpack_require__(298)
+	  , ITERATOR       = __webpack_require__(297)('iterator')
 	  , BUGGY          = !([].keys && 'next' in [].keys()) // Safari has buggy iterators w/o `next`
 	  , FF_ITERATOR    = '@@iterator'
 	  , KEYS           = 'keys'
@@ -28764,35 +28672,35 @@
 	};
 
 /***/ },
-/* 290 */
+/* 289 */
 /***/ function(module, exports) {
 
 	module.exports = true;
 
 /***/ },
-/* 291 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(253);
+	module.exports = __webpack_require__(252);
 
 /***/ },
-/* 292 */
+/* 291 */
 /***/ function(module, exports) {
 
 	module.exports = {};
 
 /***/ },
-/* 293 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var create         = __webpack_require__(294)
-	  , descriptor     = __webpack_require__(262)
-	  , setToStringTag = __webpack_require__(297)
+	var create         = __webpack_require__(293)
+	  , descriptor     = __webpack_require__(261)
+	  , setToStringTag = __webpack_require__(296)
 	  , IteratorPrototype = {};
 
 	// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
-	__webpack_require__(253)(IteratorPrototype, __webpack_require__(298)('iterator'), function(){ return this; });
+	__webpack_require__(252)(IteratorPrototype, __webpack_require__(297)('iterator'), function(){ return this; });
 
 	module.exports = function(Constructor, NAME, next){
 	  Constructor.prototype = create(IteratorPrototype, {next: descriptor(1, next)});
@@ -28800,27 +28708,27 @@
 	};
 
 /***/ },
-/* 294 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-	var anObject    = __webpack_require__(255)
-	  , dPs         = __webpack_require__(295)
-	  , enumBugKeys = __webpack_require__(278)
-	  , IE_PROTO    = __webpack_require__(275)('IE_PROTO')
+	var anObject    = __webpack_require__(254)
+	  , dPs         = __webpack_require__(294)
+	  , enumBugKeys = __webpack_require__(277)
+	  , IE_PROTO    = __webpack_require__(274)('IE_PROTO')
 	  , Empty       = function(){ /* empty */ }
 	  , PROTOTYPE   = 'prototype';
 
 	// Create object with fake `null` prototype: use iframe Object with cleared prototype
 	var createDict = function(){
 	  // Thrash, waste and sodomy: IE GC bug
-	  var iframe = __webpack_require__(260)('iframe')
+	  var iframe = __webpack_require__(259)('iframe')
 	    , i      = enumBugKeys.length
 	    , lt     = '<'
 	    , gt     = '>'
 	    , iframeDocument;
 	  iframe.style.display = 'none';
-	  __webpack_require__(296).appendChild(iframe);
+	  __webpack_require__(295).appendChild(iframe);
 	  iframe.src = 'javascript:'; // eslint-disable-line no-script-url
 	  // createDict = iframe.contentWindow.Object;
 	  // html.removeChild(iframe);
@@ -28847,14 +28755,14 @@
 
 
 /***/ },
-/* 295 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var dP       = __webpack_require__(254)
-	  , anObject = __webpack_require__(255)
-	  , getKeys  = __webpack_require__(264);
+	var dP       = __webpack_require__(253)
+	  , anObject = __webpack_require__(254)
+	  , getKeys  = __webpack_require__(263);
 
-	module.exports = __webpack_require__(258) ? Object.defineProperties : function defineProperties(O, Properties){
+	module.exports = __webpack_require__(257) ? Object.defineProperties : function defineProperties(O, Properties){
 	  anObject(O);
 	  var keys   = getKeys(Properties)
 	    , length = keys.length
@@ -28865,30 +28773,30 @@
 	};
 
 /***/ },
+/* 295 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(248).document && document.documentElement;
+
+/***/ },
 /* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(249).document && document.documentElement;
-
-/***/ },
-/* 297 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var def = __webpack_require__(254).f
-	  , has = __webpack_require__(266)
-	  , TAG = __webpack_require__(298)('toStringTag');
+	var def = __webpack_require__(253).f
+	  , has = __webpack_require__(265)
+	  , TAG = __webpack_require__(297)('toStringTag');
 
 	module.exports = function(it, tag, stat){
 	  if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
 	};
 
 /***/ },
-/* 298 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var store      = __webpack_require__(276)('wks')
-	  , uid        = __webpack_require__(277)
-	  , Symbol     = __webpack_require__(249).Symbol
+	var store      = __webpack_require__(275)('wks')
+	  , uid        = __webpack_require__(276)
+	  , Symbol     = __webpack_require__(248).Symbol
 	  , USE_SYMBOL = typeof Symbol == 'function';
 
 	var $exports = module.exports = function(name){
@@ -28899,13 +28807,13 @@
 	$exports.store = store;
 
 /***/ },
-/* 299 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
-	var has         = __webpack_require__(266)
-	  , toObject    = __webpack_require__(281)
-	  , IE_PROTO    = __webpack_require__(275)('IE_PROTO')
+	var has         = __webpack_require__(265)
+	  , toObject    = __webpack_require__(280)
+	  , IE_PROTO    = __webpack_require__(274)('IE_PROTO')
 	  , ObjectProto = Object.prototype;
 
 	module.exports = Object.getPrototypeOf || function(O){
@@ -28917,14 +28825,14 @@
 	};
 
 /***/ },
-/* 300 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(301);
-	var global        = __webpack_require__(249)
-	  , hide          = __webpack_require__(253)
-	  , Iterators     = __webpack_require__(292)
-	  , TO_STRING_TAG = __webpack_require__(298)('toStringTag');
+	__webpack_require__(300);
+	var global        = __webpack_require__(248)
+	  , hide          = __webpack_require__(252)
+	  , Iterators     = __webpack_require__(291)
+	  , TO_STRING_TAG = __webpack_require__(297)('toStringTag');
 
 	for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList', 'CSSRuleList'], i = 0; i < 5; i++){
 	  var NAME       = collections[i]
@@ -28935,20 +28843,20 @@
 	}
 
 /***/ },
-/* 301 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var addToUnscopables = __webpack_require__(302)
-	  , step             = __webpack_require__(303)
-	  , Iterators        = __webpack_require__(292)
-	  , toIObject        = __webpack_require__(267);
+	var addToUnscopables = __webpack_require__(301)
+	  , step             = __webpack_require__(302)
+	  , Iterators        = __webpack_require__(291)
+	  , toIObject        = __webpack_require__(266);
 
 	// 22.1.3.4 Array.prototype.entries()
 	// 22.1.3.13 Array.prototype.keys()
 	// 22.1.3.29 Array.prototype.values()
 	// 22.1.3.30 Array.prototype[@@iterator]()
-	module.exports = __webpack_require__(289)(Array, 'Array', function(iterated, kind){
+	module.exports = __webpack_require__(288)(Array, 'Array', function(iterated, kind){
 	  this._t = toIObject(iterated); // target
 	  this._i = 0;                   // next index
 	  this._k = kind;                // kind
@@ -28974,13 +28882,13 @@
 	addToUnscopables('entries');
 
 /***/ },
-/* 302 */
+/* 301 */
 /***/ function(module, exports) {
 
 	module.exports = function(){ /* empty */ };
 
 /***/ },
-/* 303 */
+/* 302 */
 /***/ function(module, exports) {
 
 	module.exports = function(done, value){
@@ -28988,58 +28896,58 @@
 	};
 
 /***/ },
+/* 303 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports.f = __webpack_require__(297);
+
+/***/ },
 /* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports.f = __webpack_require__(298);
+	module.exports = { "default": __webpack_require__(305), __esModule: true };
 
 /***/ },
 /* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(306), __esModule: true };
+	__webpack_require__(306);
+	__webpack_require__(315);
+	__webpack_require__(316);
+	__webpack_require__(317);
+	module.exports = __webpack_require__(249).Symbol;
 
 /***/ },
 /* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(307);
-	__webpack_require__(316);
-	__webpack_require__(317);
-	__webpack_require__(318);
-	module.exports = __webpack_require__(250).Symbol;
-
-/***/ },
-/* 307 */
-/***/ function(module, exports, __webpack_require__) {
-
 	'use strict';
 	// ECMAScript 6 symbols shim
-	var global         = __webpack_require__(249)
-	  , has            = __webpack_require__(266)
-	  , DESCRIPTORS    = __webpack_require__(258)
-	  , $export        = __webpack_require__(248)
-	  , redefine       = __webpack_require__(291)
-	  , META           = __webpack_require__(308).KEY
-	  , $fails         = __webpack_require__(259)
-	  , shared         = __webpack_require__(276)
-	  , setToStringTag = __webpack_require__(297)
-	  , uid            = __webpack_require__(277)
-	  , wks            = __webpack_require__(298)
-	  , wksExt         = __webpack_require__(304)
-	  , wksDefine      = __webpack_require__(309)
-	  , keyOf          = __webpack_require__(310)
-	  , enumKeys       = __webpack_require__(311)
-	  , isArray        = __webpack_require__(312)
-	  , anObject       = __webpack_require__(255)
-	  , toIObject      = __webpack_require__(267)
-	  , toPrimitive    = __webpack_require__(261)
-	  , createDesc     = __webpack_require__(262)
-	  , _create        = __webpack_require__(294)
-	  , gOPNExt        = __webpack_require__(313)
-	  , $GOPD          = __webpack_require__(315)
-	  , $DP            = __webpack_require__(254)
-	  , $keys          = __webpack_require__(264)
+	var global         = __webpack_require__(248)
+	  , has            = __webpack_require__(265)
+	  , DESCRIPTORS    = __webpack_require__(257)
+	  , $export        = __webpack_require__(247)
+	  , redefine       = __webpack_require__(290)
+	  , META           = __webpack_require__(307).KEY
+	  , $fails         = __webpack_require__(258)
+	  , shared         = __webpack_require__(275)
+	  , setToStringTag = __webpack_require__(296)
+	  , uid            = __webpack_require__(276)
+	  , wks            = __webpack_require__(297)
+	  , wksExt         = __webpack_require__(303)
+	  , wksDefine      = __webpack_require__(308)
+	  , keyOf          = __webpack_require__(309)
+	  , enumKeys       = __webpack_require__(310)
+	  , isArray        = __webpack_require__(311)
+	  , anObject       = __webpack_require__(254)
+	  , toIObject      = __webpack_require__(266)
+	  , toPrimitive    = __webpack_require__(260)
+	  , createDesc     = __webpack_require__(261)
+	  , _create        = __webpack_require__(293)
+	  , gOPNExt        = __webpack_require__(312)
+	  , $GOPD          = __webpack_require__(314)
+	  , $DP            = __webpack_require__(253)
+	  , $keys          = __webpack_require__(263)
 	  , gOPD           = $GOPD.f
 	  , dP             = $DP.f
 	  , gOPN           = gOPNExt.f
@@ -29162,11 +29070,11 @@
 
 	  $GOPD.f = $getOwnPropertyDescriptor;
 	  $DP.f   = $defineProperty;
-	  __webpack_require__(314).f = gOPNExt.f = $getOwnPropertyNames;
-	  __webpack_require__(280).f  = $propertyIsEnumerable;
-	  __webpack_require__(279).f = $getOwnPropertySymbols;
+	  __webpack_require__(313).f = gOPNExt.f = $getOwnPropertyNames;
+	  __webpack_require__(279).f  = $propertyIsEnumerable;
+	  __webpack_require__(278).f = $getOwnPropertySymbols;
 
-	  if(DESCRIPTORS && !__webpack_require__(290)){
+	  if(DESCRIPTORS && !__webpack_require__(289)){
 	    redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
 	  }
 
@@ -29241,7 +29149,7 @@
 	});
 
 	// 19.4.3.4 Symbol.prototype[@@toPrimitive](hint)
-	$Symbol[PROTOTYPE][TO_PRIMITIVE] || __webpack_require__(253)($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
+	$Symbol[PROTOTYPE][TO_PRIMITIVE] || __webpack_require__(252)($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
 	// 19.4.3.5 Symbol.prototype[@@toStringTag]
 	setToStringTag($Symbol, 'Symbol');
 	// 20.2.1.9 Math[@@toStringTag]
@@ -29250,18 +29158,18 @@
 	setToStringTag(global.JSON, 'JSON', true);
 
 /***/ },
-/* 308 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var META     = __webpack_require__(277)('meta')
-	  , isObject = __webpack_require__(256)
-	  , has      = __webpack_require__(266)
-	  , setDesc  = __webpack_require__(254).f
+	var META     = __webpack_require__(276)('meta')
+	  , isObject = __webpack_require__(255)
+	  , has      = __webpack_require__(265)
+	  , setDesc  = __webpack_require__(253).f
 	  , id       = 0;
 	var isExtensible = Object.isExtensible || function(){
 	  return true;
 	};
-	var FREEZE = !__webpack_require__(259)(function(){
+	var FREEZE = !__webpack_require__(258)(function(){
 	  return isExtensible(Object.preventExtensions({}));
 	});
 	var setMeta = function(it){
@@ -29308,25 +29216,25 @@
 	};
 
 /***/ },
-/* 309 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var global         = __webpack_require__(249)
-	  , core           = __webpack_require__(250)
-	  , LIBRARY        = __webpack_require__(290)
-	  , wksExt         = __webpack_require__(304)
-	  , defineProperty = __webpack_require__(254).f;
+	var global         = __webpack_require__(248)
+	  , core           = __webpack_require__(249)
+	  , LIBRARY        = __webpack_require__(289)
+	  , wksExt         = __webpack_require__(303)
+	  , defineProperty = __webpack_require__(253).f;
 	module.exports = function(name){
 	  var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
 	  if(name.charAt(0) != '_' && !(name in $Symbol))defineProperty($Symbol, name, {value: wksExt.f(name)});
 	};
 
 /***/ },
-/* 310 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getKeys   = __webpack_require__(264)
-	  , toIObject = __webpack_require__(267);
+	var getKeys   = __webpack_require__(263)
+	  , toIObject = __webpack_require__(266);
 	module.exports = function(object, el){
 	  var O      = toIObject(object)
 	    , keys   = getKeys(O)
@@ -29337,13 +29245,13 @@
 	};
 
 /***/ },
-/* 311 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// all enumerable object keys, includes symbols
-	var getKeys = __webpack_require__(264)
-	  , gOPS    = __webpack_require__(279)
-	  , pIE     = __webpack_require__(280);
+	var getKeys = __webpack_require__(263)
+	  , gOPS    = __webpack_require__(278)
+	  , pIE     = __webpack_require__(279);
 	module.exports = function(it){
 	  var result     = getKeys(it)
 	    , getSymbols = gOPS.f;
@@ -29357,22 +29265,22 @@
 	};
 
 /***/ },
-/* 312 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 7.2.2 IsArray(argument)
-	var cof = __webpack_require__(269);
+	var cof = __webpack_require__(268);
 	module.exports = Array.isArray || function isArray(arg){
 	  return cof(arg) == 'Array';
 	};
 
 /***/ },
-/* 313 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
-	var toIObject = __webpack_require__(267)
-	  , gOPN      = __webpack_require__(314).f
+	var toIObject = __webpack_require__(266)
+	  , gOPN      = __webpack_require__(313).f
 	  , toString  = {}.toString;
 
 	var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
@@ -29392,30 +29300,30 @@
 
 
 /***/ },
-/* 314 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-	var $keys      = __webpack_require__(265)
-	  , hiddenKeys = __webpack_require__(278).concat('length', 'prototype');
+	var $keys      = __webpack_require__(264)
+	  , hiddenKeys = __webpack_require__(277).concat('length', 'prototype');
 
 	exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
 	  return $keys(O, hiddenKeys);
 	};
 
 /***/ },
-/* 315 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var pIE            = __webpack_require__(280)
-	  , createDesc     = __webpack_require__(262)
-	  , toIObject      = __webpack_require__(267)
-	  , toPrimitive    = __webpack_require__(261)
-	  , has            = __webpack_require__(266)
-	  , IE8_DOM_DEFINE = __webpack_require__(257)
+	var pIE            = __webpack_require__(279)
+	  , createDesc     = __webpack_require__(261)
+	  , toIObject      = __webpack_require__(266)
+	  , toPrimitive    = __webpack_require__(260)
+	  , has            = __webpack_require__(265)
+	  , IE8_DOM_DEFINE = __webpack_require__(256)
 	  , gOPD           = Object.getOwnPropertyDescriptor;
 
-	exports.f = __webpack_require__(258) ? gOPD : function getOwnPropertyDescriptor(O, P){
+	exports.f = __webpack_require__(257) ? gOPD : function getOwnPropertyDescriptor(O, P){
 	  O = toIObject(O);
 	  P = toPrimitive(P, true);
 	  if(IE8_DOM_DEFINE)try {
@@ -29425,40 +29333,40 @@
 	};
 
 /***/ },
-/* 316 */
+/* 315 */
 /***/ function(module, exports) {
 
 	
 
 /***/ },
+/* 316 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(308)('asyncIterator');
+
+/***/ },
 /* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(309)('asyncIterator');
+	__webpack_require__(308)('observable');
 
 /***/ },
 /* 318 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(309)('observable');
-
-/***/ },
-/* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	exports.__esModule = true;
 
-	var _setPrototypeOf = __webpack_require__(320);
+	var _setPrototypeOf = __webpack_require__(319);
 
 	var _setPrototypeOf2 = _interopRequireDefault(_setPrototypeOf);
 
-	var _create = __webpack_require__(324);
+	var _create = __webpack_require__(323);
 
 	var _create2 = _interopRequireDefault(_create);
 
-	var _typeof2 = __webpack_require__(284);
+	var _typeof2 = __webpack_require__(283);
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -29481,34 +29389,34 @@
 	};
 
 /***/ },
+/* 319 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(320), __esModule: true };
+
+/***/ },
 /* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(321), __esModule: true };
+	__webpack_require__(321);
+	module.exports = __webpack_require__(249).Object.setPrototypeOf;
 
 /***/ },
 /* 321 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(322);
-	module.exports = __webpack_require__(250).Object.setPrototypeOf;
+	// 19.1.3.19 Object.setPrototypeOf(O, proto)
+	var $export = __webpack_require__(247);
+	$export($export.S, 'Object', {setPrototypeOf: __webpack_require__(322).set});
 
 /***/ },
 /* 322 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// 19.1.3.19 Object.setPrototypeOf(O, proto)
-	var $export = __webpack_require__(248);
-	$export($export.S, 'Object', {setPrototypeOf: __webpack_require__(323).set});
-
-/***/ },
-/* 323 */
-/***/ function(module, exports, __webpack_require__) {
-
 	// Works with __proto__ only. Old v8 can't work with null proto objects.
 	/* eslint-disable no-proto */
-	var isObject = __webpack_require__(256)
-	  , anObject = __webpack_require__(255);
+	var isObject = __webpack_require__(255)
+	  , anObject = __webpack_require__(254);
 	var check = function(O, proto){
 	  anObject(O);
 	  if(!isObject(proto) && proto !== null)throw TypeError(proto + ": can't set as prototype!");
@@ -29517,7 +29425,7 @@
 	  set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
 	    function(test, buggy, set){
 	      try {
-	        set = __webpack_require__(251)(Function.call, __webpack_require__(315).f(Object.prototype, '__proto__').set, 2);
+	        set = __webpack_require__(250)(Function.call, __webpack_require__(314).f(Object.prototype, '__proto__').set, 2);
 	        set(test, []);
 	        buggy = !(test instanceof Array);
 	      } catch(e){ buggy = true; }
@@ -29532,62 +29440,62 @@
 	};
 
 /***/ },
+/* 323 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(324), __esModule: true };
+
+/***/ },
 /* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(325), __esModule: true };
-
-/***/ },
-/* 325 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(326);
-	var $Object = __webpack_require__(250).Object;
+	__webpack_require__(325);
+	var $Object = __webpack_require__(249).Object;
 	module.exports = function create(P, D){
 	  return $Object.create(P, D);
 	};
 
 /***/ },
-/* 326 */
+/* 325 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $export = __webpack_require__(248)
+	var $export = __webpack_require__(247)
 	// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-	$export($export.S, 'Object', {create: __webpack_require__(294)});
+	$export($export.S, 'Object', {create: __webpack_require__(293)});
 
 /***/ },
-/* 327 */
+/* 326 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _assign = __webpack_require__(245);
+	var _assign = __webpack_require__(244);
 
 	var _assign2 = _interopRequireDefault(_assign);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -29595,13 +29503,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _createChainedFunction = __webpack_require__(336);
+	var _createChainedFunction = __webpack_require__(335);
 
 	var _createChainedFunction2 = _interopRequireDefault(_createChainedFunction);
 
-	var _ValidComponentChildren = __webpack_require__(337);
+	var _ValidComponentChildren = __webpack_require__(336);
 
 	var _ValidComponentChildren2 = _interopRequireDefault(_ValidComponentChildren);
 
@@ -29710,7 +29618,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 328 */
+/* 327 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -29730,7 +29638,7 @@
 	};
 
 /***/ },
-/* 329 */
+/* 328 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -29784,7 +29692,7 @@
 
 
 /***/ },
-/* 330 */
+/* 329 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -29792,11 +29700,11 @@
 	exports.__esModule = true;
 	exports._curry = exports.bsSizes = exports.bsStyles = exports.bsClass = undefined;
 
-	var _entries = __webpack_require__(331);
+	var _entries = __webpack_require__(330);
 
 	var _entries2 = _interopRequireDefault(_entries);
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
@@ -29812,7 +29720,7 @@
 
 	var _react = __webpack_require__(2);
 
-	var _StyleConfig = __webpack_require__(335);
+	var _StyleConfig = __webpack_require__(334);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -30003,25 +29911,25 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
+/* 330 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(331), __esModule: true };
+
+/***/ },
 /* 331 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(332), __esModule: true };
+	__webpack_require__(332);
+	module.exports = __webpack_require__(249).Object.entries;
 
 /***/ },
 /* 332 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(333);
-	module.exports = __webpack_require__(250).Object.entries;
-
-/***/ },
-/* 333 */
-/***/ function(module, exports, __webpack_require__) {
-
 	// https://github.com/tc39/proposal-object-values-entries
-	var $export  = __webpack_require__(248)
-	  , $entries = __webpack_require__(334)(true);
+	var $export  = __webpack_require__(247)
+	  , $entries = __webpack_require__(333)(true);
 
 	$export($export.S, 'Object', {
 	  entries: function entries(it){
@@ -30030,12 +29938,12 @@
 	});
 
 /***/ },
-/* 334 */
+/* 333 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getKeys   = __webpack_require__(264)
-	  , toIObject = __webpack_require__(267)
-	  , isEnum    = __webpack_require__(280).f;
+	var getKeys   = __webpack_require__(263)
+	  , toIObject = __webpack_require__(266)
+	  , isEnum    = __webpack_require__(279).f;
 	module.exports = function(isEntries){
 	  return function(it){
 	    var O      = toIObject(it)
@@ -30051,7 +29959,7 @@
 	};
 
 /***/ },
-/* 335 */
+/* 334 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30091,7 +29999,7 @@
 	};
 
 /***/ },
-/* 336 */
+/* 335 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30137,7 +30045,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 337 */
+/* 336 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30334,38 +30242,38 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 338 */
+/* 337 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _values = __webpack_require__(339);
+	var _values = __webpack_require__(338);
 
 	var _values2 = _interopRequireDefault(_values);
 
-	var _extends3 = __webpack_require__(244);
+	var _extends3 = __webpack_require__(243);
 
 	var _extends4 = _interopRequireDefault(_extends3);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -30373,9 +30281,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _StyleConfig = __webpack_require__(335);
+	var _StyleConfig = __webpack_require__(334);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -30467,25 +30375,25 @@
 	module.exports = exports['default'];
 
 /***/ },
+/* 338 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(339), __esModule: true };
+
+/***/ },
 /* 339 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(340), __esModule: true };
+	__webpack_require__(340);
+	module.exports = __webpack_require__(249).Object.values;
 
 /***/ },
 /* 340 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(341);
-	module.exports = __webpack_require__(250).Object.values;
-
-/***/ },
-/* 341 */
-/***/ function(module, exports, __webpack_require__) {
-
 	// https://github.com/tc39/proposal-object-values-entries
-	var $export = __webpack_require__(248)
-	  , $values = __webpack_require__(334)(false);
+	var $export = __webpack_require__(247)
+	  , $values = __webpack_require__(333)(false);
 
 	$export($export.S, 'Object', {
 	  values: function values(it){
@@ -30494,34 +30402,34 @@
 	});
 
 /***/ },
-/* 342 */
+/* 341 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -30529,7 +30437,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -30606,34 +30514,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 343 */
+/* 342 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -30641,11 +30549,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _BreadcrumbItem = __webpack_require__(344);
+	var _BreadcrumbItem = __webpack_require__(343);
 
 	var _BreadcrumbItem2 = _interopRequireDefault(_BreadcrumbItem);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -30686,34 +30594,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 344 */
+/* 343 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -30721,7 +30629,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _SafeAnchor = __webpack_require__(345);
+	var _SafeAnchor = __webpack_require__(344);
 
 	var _SafeAnchor2 = _interopRequireDefault(_SafeAnchor);
 
@@ -30788,30 +30696,30 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 345 */
+/* 344 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -30819,7 +30727,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
@@ -30920,7 +30828,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 346 */
+/* 345 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30933,7 +30841,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _createChainableTypeChecker = __webpack_require__(347);
+	var _createChainableTypeChecker = __webpack_require__(346);
 
 	var _createChainableTypeChecker2 = _interopRequireDefault(_createChainableTypeChecker);
 
@@ -30957,7 +30865,7 @@
 	exports.default = (0, _createChainableTypeChecker2.default)(elementType);
 
 /***/ },
-/* 347 */
+/* 346 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31002,38 +30910,38 @@
 	}
 
 /***/ },
-/* 348 */
+/* 347 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _values = __webpack_require__(339);
+	var _values = __webpack_require__(338);
 
 	var _values2 = _interopRequireDefault(_values);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _extends3 = __webpack_require__(244);
+	var _extends3 = __webpack_require__(243);
 
 	var _extends4 = _interopRequireDefault(_extends3);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -31041,15 +30949,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _StyleConfig = __webpack_require__(335);
+	var _StyleConfig = __webpack_require__(334);
 
-	var _SafeAnchor = __webpack_require__(345);
+	var _SafeAnchor = __webpack_require__(344);
 
 	var _SafeAnchor2 = _interopRequireDefault(_SafeAnchor);
 
@@ -31138,34 +31046,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 349 */
+/* 348 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends3 = __webpack_require__(244);
+	var _extends3 = __webpack_require__(243);
 
 	var _extends4 = _interopRequireDefault(_extends3);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -31173,15 +31081,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _all = __webpack_require__(350);
+	var _all = __webpack_require__(349);
 
 	var _all2 = _interopRequireDefault(_all);
 
-	var _Button = __webpack_require__(348);
+	var _Button = __webpack_require__(347);
 
 	var _Button2 = _interopRequireDefault(_Button);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -31247,7 +31155,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 350 */
+/* 349 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31255,7 +31163,7 @@
 	exports.__esModule = true;
 	exports.default = all;
 
-	var _createChainableTypeChecker = __webpack_require__(347);
+	var _createChainableTypeChecker = __webpack_require__(346);
 
 	var _createChainableTypeChecker2 = _interopRequireDefault(_createChainableTypeChecker);
 
@@ -31291,34 +31199,34 @@
 	}
 
 /***/ },
-/* 351 */
+/* 350 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -31326,11 +31234,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Button = __webpack_require__(348);
+	var _Button = __webpack_require__(347);
 
 	var _Button2 = _interopRequireDefault(_Button);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -31368,34 +31276,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 352 */
+/* 351 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -31403,25 +31311,25 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _CarouselCaption = __webpack_require__(353);
+	var _CarouselCaption = __webpack_require__(352);
 
 	var _CarouselCaption2 = _interopRequireDefault(_CarouselCaption);
 
-	var _CarouselItem = __webpack_require__(354);
+	var _CarouselItem = __webpack_require__(353);
 
 	var _CarouselItem2 = _interopRequireDefault(_CarouselItem);
 
-	var _Glyphicon = __webpack_require__(356);
+	var _Glyphicon = __webpack_require__(355);
 
 	var _Glyphicon2 = _interopRequireDefault(_Glyphicon);
 
-	var _SafeAnchor = __webpack_require__(345);
+	var _SafeAnchor = __webpack_require__(344);
 
 	var _SafeAnchor2 = _interopRequireDefault(_SafeAnchor);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _ValidComponentChildren = __webpack_require__(337);
+	var _ValidComponentChildren = __webpack_require__(336);
 
 	var _ValidComponentChildren2 = _interopRequireDefault(_ValidComponentChildren);
 
@@ -31784,34 +31692,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 353 */
+/* 352 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -31819,11 +31727,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -31872,34 +31780,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 354 */
+/* 353 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -31911,7 +31819,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _TransitionEvents = __webpack_require__(355);
+	var _TransitionEvents = __webpack_require__(354);
 
 	var _TransitionEvents2 = _interopRequireDefault(_TransitionEvents);
 
@@ -32040,7 +31948,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 355 */
+/* 354 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -32158,34 +32066,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 356 */
+/* 355 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends3 = __webpack_require__(244);
+	var _extends3 = __webpack_require__(243);
 
 	var _extends4 = _interopRequireDefault(_extends3);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -32193,7 +32101,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -32242,34 +32150,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 357 */
+/* 356 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -32281,7 +32189,7 @@
 
 	var _warning2 = _interopRequireDefault(_warning);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -32385,34 +32293,34 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 358 */
+/* 357 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -32420,17 +32328,17 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _capitalize = __webpack_require__(359);
+	var _capitalize = __webpack_require__(358);
 
 	var _capitalize2 = _interopRequireDefault(_capitalize);
 
-	var _StyleConfig = __webpack_require__(335);
+	var _StyleConfig = __webpack_require__(334);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -32521,7 +32429,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 359 */
+/* 358 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -32534,34 +32442,34 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 360 */
+/* 359 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -32573,7 +32481,7 @@
 
 	var _warning2 = _interopRequireDefault(_warning);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -32642,34 +32550,34 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 361 */
+/* 360 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -32677,13 +32585,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _StyleConfig = __webpack_require__(335);
+	var _StyleConfig = __webpack_require__(334);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -32917,38 +32825,38 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 362 */
+/* 361 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _style = __webpack_require__(363);
+	var _style = __webpack_require__(362);
 
 	var _style2 = _interopRequireDefault(_style);
 
@@ -32956,15 +32864,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Transition = __webpack_require__(371);
+	var _Transition = __webpack_require__(370);
 
 	var _Transition2 = _interopRequireDefault(_Transition);
 
-	var _capitalize = __webpack_require__(359);
+	var _capitalize = __webpack_require__(358);
 
 	var _capitalize2 = _interopRequireDefault(_capitalize);
 
-	var _createChainedFunction = __webpack_require__(336);
+	var _createChainedFunction = __webpack_require__(335);
 
 	var _createChainedFunction2 = _interopRequireDefault(_createChainedFunction);
 
@@ -33180,15 +33088,15 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 363 */
+/* 362 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var camelize = __webpack_require__(364),
-	    hyphenate = __webpack_require__(366),
-	    _getComputedStyle = __webpack_require__(368),
-	    removeStyle = __webpack_require__(370);
+	var camelize = __webpack_require__(363),
+	    hyphenate = __webpack_require__(365),
+	    _getComputedStyle = __webpack_require__(367),
+	    removeStyle = __webpack_require__(369);
 
 	var has = Object.prototype.hasOwnProperty;
 
@@ -33209,7 +33117,7 @@
 	};
 
 /***/ },
-/* 364 */
+/* 363 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33219,7 +33127,7 @@
 	 */
 
 	'use strict';
-	var camelize = __webpack_require__(365);
+	var camelize = __webpack_require__(364);
 	var msPattern = /^-ms-/;
 
 	module.exports = function camelizeStyleName(string) {
@@ -33227,7 +33135,7 @@
 	};
 
 /***/ },
-/* 365 */
+/* 364 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -33241,7 +33149,7 @@
 	};
 
 /***/ },
-/* 366 */
+/* 365 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33252,7 +33160,7 @@
 
 	"use strict";
 
-	var hyphenate = __webpack_require__(367);
+	var hyphenate = __webpack_require__(366);
 	var msPattern = /^ms-/;
 
 	module.exports = function hyphenateStyleName(string) {
@@ -33260,7 +33168,7 @@
 	};
 
 /***/ },
-/* 367 */
+/* 366 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -33272,14 +33180,14 @@
 	};
 
 /***/ },
-/* 368 */
+/* 367 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var babelHelpers = __webpack_require__(369);
+	var babelHelpers = __webpack_require__(368);
 
-	var _utilCamelizeStyle = __webpack_require__(364);
+	var _utilCamelizeStyle = __webpack_require__(363);
 
 	var _utilCamelizeStyle2 = babelHelpers.interopRequireDefault(_utilCamelizeStyle);
 
@@ -33325,7 +33233,7 @@
 	};
 
 /***/ },
-/* 369 */
+/* 368 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (root, factory) {
@@ -33361,7 +33269,7 @@
 	})
 
 /***/ },
-/* 370 */
+/* 369 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -33371,7 +33279,7 @@
 	};
 
 /***/ },
-/* 371 */
+/* 370 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33393,15 +33301,15 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _properties = __webpack_require__(372);
+	var _properties = __webpack_require__(371);
 
 	var _properties2 = _interopRequireDefault(_properties);
 
-	var _on = __webpack_require__(374);
+	var _on = __webpack_require__(373);
 
 	var _on2 = _interopRequireDefault(_on);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -33739,11 +33647,11 @@
 	exports.default = Transition;
 
 /***/ },
-/* 372 */
+/* 371 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var canUseDOM = __webpack_require__(373);
+	var canUseDOM = __webpack_require__(372);
 
 	var has = Object.prototype.hasOwnProperty,
 	    transform = 'transform',
@@ -33799,18 +33707,18 @@
 	}
 
 /***/ },
-/* 373 */
+/* 372 */
 /***/ function(module, exports) {
 
 	'use strict';
 	module.exports = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
 
 /***/ },
-/* 374 */
+/* 373 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var canUseDOM = __webpack_require__(373);
+	var canUseDOM = __webpack_require__(372);
 	var on = function on() {};
 
 	if (canUseDOM) {
@@ -33827,46 +33735,46 @@
 	module.exports = on;
 
 /***/ },
-/* 375 */
+/* 374 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
 	exports.__esModule = true;
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _activeElement = __webpack_require__(376);
+	var _activeElement = __webpack_require__(375);
 
 	var _activeElement2 = _interopRequireDefault(_activeElement);
 
-	var _contains = __webpack_require__(378);
+	var _contains = __webpack_require__(377);
 
 	var _contains2 = _interopRequireDefault(_contains);
 
-	var _keycode = __webpack_require__(379);
+	var _keycode = __webpack_require__(378);
 
 	var _keycode2 = _interopRequireDefault(_keycode);
 
@@ -33878,19 +33786,19 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _all = __webpack_require__(350);
+	var _all = __webpack_require__(349);
 
 	var _all2 = _interopRequireDefault(_all);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
-	var _isRequiredForA11y = __webpack_require__(380);
+	var _isRequiredForA11y = __webpack_require__(379);
 
 	var _isRequiredForA11y2 = _interopRequireDefault(_isRequiredForA11y);
 
-	var _uncontrollable = __webpack_require__(381);
+	var _uncontrollable = __webpack_require__(380);
 
 	var _uncontrollable2 = _interopRequireDefault(_uncontrollable);
 
@@ -33898,27 +33806,27 @@
 
 	var _warning2 = _interopRequireDefault(_warning);
 
-	var _ButtonGroup = __webpack_require__(349);
+	var _ButtonGroup = __webpack_require__(348);
 
 	var _ButtonGroup2 = _interopRequireDefault(_ButtonGroup);
 
-	var _DropdownMenu = __webpack_require__(384);
+	var _DropdownMenu = __webpack_require__(383);
 
 	var _DropdownMenu2 = _interopRequireDefault(_DropdownMenu);
 
-	var _DropdownToggle = __webpack_require__(399);
+	var _DropdownToggle = __webpack_require__(398);
 
 	var _DropdownToggle2 = _interopRequireDefault(_DropdownToggle);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _createChainedFunction = __webpack_require__(336);
+	var _createChainedFunction = __webpack_require__(335);
 
 	var _createChainedFunction2 = _interopRequireDefault(_createChainedFunction);
 
-	var _PropTypes = __webpack_require__(400);
+	var _PropTypes = __webpack_require__(399);
 
-	var _ValidComponentChildren = __webpack_require__(337);
+	var _ValidComponentChildren = __webpack_require__(336);
 
 	var _ValidComponentChildren2 = _interopRequireDefault(_ValidComponentChildren);
 
@@ -34237,12 +34145,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 376 */
+/* 375 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var babelHelpers = __webpack_require__(369);
+	var babelHelpers = __webpack_require__(368);
 
 	exports.__esModule = true;
 
@@ -34251,7 +34159,7 @@
 	 */
 	exports['default'] = activeElement;
 
-	var _ownerDocument = __webpack_require__(377);
+	var _ownerDocument = __webpack_require__(376);
 
 	var _ownerDocument2 = babelHelpers.interopRequireDefault(_ownerDocument);
 
@@ -34266,7 +34174,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 377 */
+/* 376 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -34281,11 +34189,11 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 378 */
+/* 377 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var canUseDOM = __webpack_require__(373);
+	var canUseDOM = __webpack_require__(372);
 
 	var contains = (function () {
 	  var root = canUseDOM && document.documentElement;
@@ -34306,7 +34214,7 @@
 	module.exports = contains;
 
 /***/ },
-/* 379 */
+/* 378 */
 /***/ function(module, exports) {
 
 	// Source: http://jsfiddle.net/vWx8V/
@@ -34458,7 +34366,7 @@
 
 
 /***/ },
-/* 380 */
+/* 379 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34483,14 +34391,14 @@
 	}
 
 /***/ },
-/* 381 */
+/* 380 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _createUncontrollable = __webpack_require__(382);
+	var _createUncontrollable = __webpack_require__(381);
 
 	var _createUncontrollable2 = _interopRequireDefault(_createUncontrollable);
 
@@ -34519,7 +34427,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 382 */
+/* 381 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34538,7 +34446,7 @@
 
 	var _invariant2 = _interopRequireDefault(_invariant);
 
-	var _utils = __webpack_require__(383);
+	var _utils = __webpack_require__(382);
 
 	var utils = _interopRequireWildcard(_utils);
 
@@ -34688,7 +34596,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 383 */
+/* 382 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -34810,42 +34718,42 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 384 */
+/* 383 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends3 = __webpack_require__(244);
+	var _extends3 = __webpack_require__(243);
 
 	var _extends4 = _interopRequireDefault(_extends3);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _from = __webpack_require__(385);
+	var _from = __webpack_require__(384);
 
 	var _from2 = _interopRequireDefault(_from);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _keycode = __webpack_require__(379);
+	var _keycode = __webpack_require__(378);
 
 	var _keycode2 = _interopRequireDefault(_keycode);
 
@@ -34857,17 +34765,17 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _RootCloseWrapper = __webpack_require__(394);
+	var _RootCloseWrapper = __webpack_require__(393);
 
 	var _RootCloseWrapper2 = _interopRequireDefault(_RootCloseWrapper);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _createChainedFunction = __webpack_require__(336);
+	var _createChainedFunction = __webpack_require__(335);
 
 	var _createChainedFunction2 = _interopRequireDefault(_createChainedFunction);
 
-	var _ValidComponentChildren = __webpack_require__(337);
+	var _ValidComponentChildren = __webpack_require__(336);
 
 	var _ValidComponentChildren2 = _interopRequireDefault(_ValidComponentChildren);
 
@@ -35018,34 +34926,34 @@
 	module.exports = exports['default'];
 
 /***/ },
+/* 384 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(385), __esModule: true };
+
+/***/ },
 /* 385 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(386), __esModule: true };
+	__webpack_require__(286);
+	__webpack_require__(386);
+	module.exports = __webpack_require__(249).Array.from;
 
 /***/ },
 /* 386 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(287);
-	__webpack_require__(387);
-	module.exports = __webpack_require__(250).Array.from;
-
-/***/ },
-/* 387 */
-/***/ function(module, exports, __webpack_require__) {
-
 	'use strict';
-	var ctx            = __webpack_require__(251)
-	  , $export        = __webpack_require__(248)
-	  , toObject       = __webpack_require__(281)
-	  , call           = __webpack_require__(388)
-	  , isArrayIter    = __webpack_require__(389)
-	  , toLength       = __webpack_require__(272)
-	  , createProperty = __webpack_require__(390)
-	  , getIterFn      = __webpack_require__(391);
+	var ctx            = __webpack_require__(250)
+	  , $export        = __webpack_require__(247)
+	  , toObject       = __webpack_require__(280)
+	  , call           = __webpack_require__(387)
+	  , isArrayIter    = __webpack_require__(388)
+	  , toLength       = __webpack_require__(271)
+	  , createProperty = __webpack_require__(389)
+	  , getIterFn      = __webpack_require__(390);
 
-	$export($export.S + $export.F * !__webpack_require__(393)(function(iter){ Array.from(iter); }), 'Array', {
+	$export($export.S + $export.F * !__webpack_require__(392)(function(iter){ Array.from(iter); }), 'Array', {
 	  // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
 	  from: function from(arrayLike/*, mapfn = undefined, thisArg = undefined*/){
 	    var O       = toObject(arrayLike)
@@ -35075,11 +34983,11 @@
 
 
 /***/ },
-/* 388 */
+/* 387 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// call something on iterator step with safe closing on error
-	var anObject = __webpack_require__(255);
+	var anObject = __webpack_require__(254);
 	module.exports = function(iterator, fn, value, entries){
 	  try {
 	    return entries ? fn(anObject(value)[0], value[1]) : fn(value);
@@ -35092,12 +35000,12 @@
 	};
 
 /***/ },
-/* 389 */
+/* 388 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// check on default Array iterator
-	var Iterators  = __webpack_require__(292)
-	  , ITERATOR   = __webpack_require__(298)('iterator')
+	var Iterators  = __webpack_require__(291)
+	  , ITERATOR   = __webpack_require__(297)('iterator')
 	  , ArrayProto = Array.prototype;
 
 	module.exports = function(it){
@@ -35105,12 +35013,12 @@
 	};
 
 /***/ },
-/* 390 */
+/* 389 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var $defineProperty = __webpack_require__(254)
-	  , createDesc      = __webpack_require__(262);
+	var $defineProperty = __webpack_require__(253)
+	  , createDesc      = __webpack_require__(261);
 
 	module.exports = function(object, index, value){
 	  if(index in object)$defineProperty.f(object, index, createDesc(0, value));
@@ -35118,25 +35026,25 @@
 	};
 
 /***/ },
-/* 391 */
+/* 390 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var classof   = __webpack_require__(392)
-	  , ITERATOR  = __webpack_require__(298)('iterator')
-	  , Iterators = __webpack_require__(292);
-	module.exports = __webpack_require__(250).getIteratorMethod = function(it){
+	var classof   = __webpack_require__(391)
+	  , ITERATOR  = __webpack_require__(297)('iterator')
+	  , Iterators = __webpack_require__(291);
+	module.exports = __webpack_require__(249).getIteratorMethod = function(it){
 	  if(it != undefined)return it[ITERATOR]
 	    || it['@@iterator']
 	    || Iterators[classof(it)];
 	};
 
 /***/ },
-/* 392 */
+/* 391 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// getting tag from 19.1.3.6 Object.prototype.toString()
-	var cof = __webpack_require__(269)
-	  , TAG = __webpack_require__(298)('toStringTag')
+	var cof = __webpack_require__(268)
+	  , TAG = __webpack_require__(297)('toStringTag')
 	  // ES3 wrong here
 	  , ARG = cof(function(){ return arguments; }()) == 'Arguments';
 
@@ -35159,10 +35067,10 @@
 	};
 
 /***/ },
-/* 393 */
+/* 392 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ITERATOR     = __webpack_require__(298)('iterator')
+	var ITERATOR     = __webpack_require__(297)('iterator')
 	  , SAFE_CLOSING = false;
 
 	try {
@@ -35185,7 +35093,7 @@
 	};
 
 /***/ },
-/* 394 */
+/* 393 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35204,15 +35112,15 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _addEventListener = __webpack_require__(395);
+	var _addEventListener = __webpack_require__(394);
 
 	var _addEventListener2 = _interopRequireDefault(_addEventListener);
 
-	var _createChainedFunction = __webpack_require__(397);
+	var _createChainedFunction = __webpack_require__(396);
 
 	var _createChainedFunction2 = _interopRequireDefault(_createChainedFunction);
 
-	var _ownerDocument = __webpack_require__(398);
+	var _ownerDocument = __webpack_require__(397);
 
 	var _ownerDocument2 = _interopRequireDefault(_ownerDocument);
 
@@ -35396,7 +35304,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 395 */
+/* 394 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35414,11 +35322,11 @@
 	  };
 	};
 
-	var _on = __webpack_require__(374);
+	var _on = __webpack_require__(373);
 
 	var _on2 = _interopRequireDefault(_on);
 
-	var _off = __webpack_require__(396);
+	var _off = __webpack_require__(395);
 
 	var _off2 = _interopRequireDefault(_off);
 
@@ -35427,11 +35335,11 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 396 */
+/* 395 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var canUseDOM = __webpack_require__(373);
+	var canUseDOM = __webpack_require__(372);
 	var off = function off() {};
 
 	if (canUseDOM) {
@@ -35449,7 +35357,7 @@
 	module.exports = off;
 
 /***/ },
-/* 397 */
+/* 396 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -35497,7 +35405,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 398 */
+/* 397 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35514,7 +35422,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _ownerDocument = __webpack_require__(377);
+	var _ownerDocument = __webpack_require__(376);
 
 	var _ownerDocument2 = _interopRequireDefault(_ownerDocument);
 
@@ -35523,30 +35431,30 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 399 */
+/* 398 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -35554,19 +35462,19 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _Button = __webpack_require__(348);
+	var _Button = __webpack_require__(347);
 
 	var _Button2 = _interopRequireDefault(_Button);
 
-	var _SafeAnchor = __webpack_require__(345);
+	var _SafeAnchor = __webpack_require__(344);
 
 	var _SafeAnchor2 = _interopRequireDefault(_SafeAnchor);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -35636,7 +35544,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 400 */
+/* 399 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35645,11 +35553,11 @@
 	exports.requiredRoles = requiredRoles;
 	exports.exclusiveRoles = exclusiveRoles;
 
-	var _createChainableTypeChecker = __webpack_require__(347);
+	var _createChainableTypeChecker = __webpack_require__(346);
 
 	var _createChainableTypeChecker2 = _interopRequireDefault(_createChainableTypeChecker);
 
-	var _ValidComponentChildren = __webpack_require__(337);
+	var _ValidComponentChildren = __webpack_require__(336);
 
 	var _ValidComponentChildren2 = _interopRequireDefault(_ValidComponentChildren);
 
@@ -35712,30 +35620,30 @@
 	}
 
 /***/ },
-/* 401 */
+/* 400 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
@@ -35743,11 +35651,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Dropdown = __webpack_require__(375);
+	var _Dropdown = __webpack_require__(374);
 
 	var _Dropdown2 = _interopRequireDefault(_Dropdown);
 
-	var _splitComponentProps2 = __webpack_require__(402);
+	var _splitComponentProps2 = __webpack_require__(401);
 
 	var _splitComponentProps3 = _interopRequireDefault(_splitComponentProps2);
 
@@ -35821,14 +35729,14 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 402 */
+/* 401 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	exports.__esModule = true;
 
-	var _entries = __webpack_require__(331);
+	var _entries = __webpack_require__(330);
 
 	var _entries2 = _interopRequireDefault(_entries);
 
@@ -35858,30 +35766,30 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 403 */
+/* 402 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -35889,7 +35797,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Transition = __webpack_require__(371);
+	var _Transition = __webpack_require__(370);
 
 	var _Transition2 = _interopRequireDefault(_Transition);
 
@@ -35978,34 +35886,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 404 */
+/* 403 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -36013,11 +35921,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -36078,34 +35986,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 405 */
+/* 404 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -36113,7 +36021,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
@@ -36121,15 +36029,15 @@
 
 	var _warning2 = _interopRequireDefault(_warning);
 
-	var _FormControlFeedback = __webpack_require__(406);
+	var _FormControlFeedback = __webpack_require__(405);
 
 	var _FormControlFeedback2 = _interopRequireDefault(_FormControlFeedback);
 
-	var _FormControlStatic = __webpack_require__(407);
+	var _FormControlStatic = __webpack_require__(406);
 
 	var _FormControlStatic2 = _interopRequireDefault(_FormControlStatic);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -36209,34 +36117,34 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 406 */
+/* 405 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -36244,11 +36152,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Glyphicon = __webpack_require__(356);
+	var _Glyphicon = __webpack_require__(355);
 
 	var _Glyphicon2 = _interopRequireDefault(_Glyphicon);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -36327,34 +36235,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 407 */
+/* 406 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -36362,11 +36270,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -36415,34 +36323,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 408 */
+/* 407 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -36450,11 +36358,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _StyleConfig = __webpack_require__(335);
+	var _StyleConfig = __webpack_require__(334);
 
-	var _ValidComponentChildren = __webpack_require__(337);
+	var _ValidComponentChildren = __webpack_require__(336);
 
 	var _ValidComponentChildren2 = _interopRequireDefault(_ValidComponentChildren);
 
@@ -36541,34 +36449,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 409 */
+/* 408 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -36576,11 +36484,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -36640,34 +36548,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 410 */
+/* 409 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -36675,7 +36583,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -36712,34 +36620,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 411 */
+/* 410 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -36747,7 +36655,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -36822,34 +36730,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 412 */
+/* 411 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -36857,17 +36765,17 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _InputGroupAddon = __webpack_require__(413);
+	var _InputGroupAddon = __webpack_require__(412);
 
 	var _InputGroupAddon2 = _interopRequireDefault(_InputGroupAddon);
 
-	var _InputGroupButton = __webpack_require__(414);
+	var _InputGroupButton = __webpack_require__(413);
 
 	var _InputGroupButton2 = _interopRequireDefault(_InputGroupButton);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _StyleConfig = __webpack_require__(335);
+	var _StyleConfig = __webpack_require__(334);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -36907,34 +36815,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 413 */
+/* 412 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -36942,7 +36850,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -36979,34 +36887,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 414 */
+/* 413 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -37014,7 +36922,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -37051,30 +36959,30 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 415 */
+/* 414 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -37082,15 +36990,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -37139,38 +37047,38 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 416 */
+/* 415 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _values = __webpack_require__(339);
+	var _values = __webpack_require__(338);
 
 	var _values2 = _interopRequireDefault(_values);
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -37178,9 +37086,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _StyleConfig = __webpack_require__(335);
+	var _StyleConfig = __webpack_require__(334);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -37242,34 +37150,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 417 */
+/* 416 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -37277,17 +37185,17 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
-	var _ListGroupItem = __webpack_require__(418);
+	var _ListGroupItem = __webpack_require__(417);
 
 	var _ListGroupItem2 = _interopRequireDefault(_ListGroupItem);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _ValidComponentChildren = __webpack_require__(337);
+	var _ValidComponentChildren = __webpack_require__(336);
 
 	var _ValidComponentChildren2 = _interopRequireDefault(_ValidComponentChildren);
 
@@ -37366,38 +37274,38 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 418 */
+/* 417 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _values = __webpack_require__(339);
+	var _values = __webpack_require__(338);
 
 	var _values2 = _interopRequireDefault(_values);
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -37405,9 +37313,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _StyleConfig = __webpack_require__(335);
+	var _StyleConfig = __webpack_require__(334);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -37514,34 +37422,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 419 */
+/* 418 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -37549,35 +37457,35 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
-	var _MediaBody = __webpack_require__(420);
+	var _MediaBody = __webpack_require__(419);
 
 	var _MediaBody2 = _interopRequireDefault(_MediaBody);
 
-	var _MediaHeading = __webpack_require__(421);
+	var _MediaHeading = __webpack_require__(420);
 
 	var _MediaHeading2 = _interopRequireDefault(_MediaHeading);
 
-	var _MediaLeft = __webpack_require__(422);
+	var _MediaLeft = __webpack_require__(421);
 
 	var _MediaLeft2 = _interopRequireDefault(_MediaLeft);
 
-	var _MediaList = __webpack_require__(423);
+	var _MediaList = __webpack_require__(422);
 
 	var _MediaList2 = _interopRequireDefault(_MediaList);
 
-	var _MediaListItem = __webpack_require__(424);
+	var _MediaListItem = __webpack_require__(423);
 
 	var _MediaListItem2 = _interopRequireDefault(_MediaListItem);
 
-	var _MediaRight = __webpack_require__(425);
+	var _MediaRight = __webpack_require__(424);
 
 	var _MediaRight2 = _interopRequireDefault(_MediaRight);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -37633,34 +37541,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 420 */
+/* 419 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -37668,11 +37576,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -37721,34 +37629,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 421 */
+/* 420 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -37756,11 +37664,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -37809,34 +37717,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 422 */
+/* 421 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -37844,11 +37752,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Media = __webpack_require__(419);
+	var _Media = __webpack_require__(418);
 
 	var _Media2 = _interopRequireDefault(_Media);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -37900,34 +37808,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 423 */
+/* 422 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -37935,7 +37843,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -37972,34 +37880,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 424 */
+/* 423 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -38007,7 +37915,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -38044,34 +37952,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 425 */
+/* 424 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -38079,11 +37987,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Media = __webpack_require__(419);
+	var _Media = __webpack_require__(418);
 
 	var _Media2 = _interopRequireDefault(_Media);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -38135,34 +38043,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 426 */
+/* 425 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -38170,17 +38078,17 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _all = __webpack_require__(350);
+	var _all = __webpack_require__(349);
 
 	var _all2 = _interopRequireDefault(_all);
 
-	var _SafeAnchor = __webpack_require__(345);
+	var _SafeAnchor = __webpack_require__(344);
 
 	var _SafeAnchor2 = _interopRequireDefault(_SafeAnchor);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _createChainedFunction = __webpack_require__(336);
+	var _createChainedFunction = __webpack_require__(335);
 
 	var _createChainedFunction2 = _interopRequireDefault(_createChainedFunction);
 
@@ -38337,50 +38245,50 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 427 */
+/* 426 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _events = __webpack_require__(428);
+	var _events = __webpack_require__(427);
 
 	var _events2 = _interopRequireDefault(_events);
 
-	var _ownerDocument = __webpack_require__(377);
+	var _ownerDocument = __webpack_require__(376);
 
 	var _ownerDocument2 = _interopRequireDefault(_ownerDocument);
 
-	var _inDOM = __webpack_require__(373);
+	var _inDOM = __webpack_require__(372);
 
 	var _inDOM2 = _interopRequireDefault(_inDOM);
 
-	var _scrollbarSize = __webpack_require__(431);
+	var _scrollbarSize = __webpack_require__(430);
 
 	var _scrollbarSize2 = _interopRequireDefault(_scrollbarSize);
 
@@ -38392,53 +38300,53 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _Modal = __webpack_require__(432);
+	var _Modal = __webpack_require__(431);
 
 	var _Modal2 = _interopRequireDefault(_Modal);
 
-	var _isOverflowing = __webpack_require__(441);
+	var _isOverflowing = __webpack_require__(440);
 
 	var _isOverflowing2 = _interopRequireDefault(_isOverflowing);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
-	var _Fade = __webpack_require__(403);
+	var _Fade = __webpack_require__(402);
 
 	var _Fade2 = _interopRequireDefault(_Fade);
 
-	var _ModalBody = __webpack_require__(445);
+	var _ModalBody = __webpack_require__(444);
 
 	var _ModalBody2 = _interopRequireDefault(_ModalBody);
 
-	var _ModalDialog = __webpack_require__(446);
+	var _ModalDialog = __webpack_require__(445);
 
 	var _ModalDialog2 = _interopRequireDefault(_ModalDialog);
 
-	var _ModalFooter = __webpack_require__(447);
+	var _ModalFooter = __webpack_require__(446);
 
 	var _ModalFooter2 = _interopRequireDefault(_ModalFooter);
 
-	var _ModalHeader = __webpack_require__(448);
+	var _ModalHeader = __webpack_require__(447);
 
 	var _ModalHeader2 = _interopRequireDefault(_ModalHeader);
 
-	var _ModalTitle = __webpack_require__(449);
+	var _ModalTitle = __webpack_require__(448);
 
 	var _ModalTitle2 = _interopRequireDefault(_ModalTitle);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _createChainedFunction = __webpack_require__(336);
+	var _createChainedFunction = __webpack_require__(335);
 
 	var _createChainedFunction2 = _interopRequireDefault(_createChainedFunction);
 
-	var _splitComponentProps2 = __webpack_require__(402);
+	var _splitComponentProps2 = __webpack_require__(401);
 
 	var _splitComponentProps3 = _interopRequireDefault(_splitComponentProps2);
 
-	var _StyleConfig = __webpack_require__(335);
+	var _StyleConfig = __webpack_require__(334);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -38687,24 +38595,24 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 428 */
+/* 427 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var on = __webpack_require__(374),
-	    off = __webpack_require__(396),
-	    filter = __webpack_require__(429);
+	var on = __webpack_require__(373),
+	    off = __webpack_require__(395),
+	    filter = __webpack_require__(428);
 
 	module.exports = { on: on, off: off, filter: filter };
 
 /***/ },
-/* 429 */
+/* 428 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var contains = __webpack_require__(378),
-	    qsa = __webpack_require__(430);
+	var contains = __webpack_require__(377),
+	    qsa = __webpack_require__(429);
 
 	module.exports = function (selector, handler) {
 	  return function (e) {
@@ -38719,7 +38627,7 @@
 	};
 
 /***/ },
-/* 430 */
+/* 429 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -38751,12 +38659,12 @@
 	};
 
 /***/ },
-/* 431 */
+/* 430 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var canUseDOM = __webpack_require__(373);
+	var canUseDOM = __webpack_require__(372);
 
 	var size;
 
@@ -38781,7 +38689,7 @@
 	};
 
 /***/ },
-/* 432 */
+/* 431 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38801,47 +38709,47 @@
 
 	var _warning2 = _interopRequireDefault(_warning);
 
-	var _componentOrElement = __webpack_require__(433);
+	var _componentOrElement = __webpack_require__(432);
 
 	var _componentOrElement2 = _interopRequireDefault(_componentOrElement);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
-	var _Portal = __webpack_require__(434);
+	var _Portal = __webpack_require__(433);
 
 	var _Portal2 = _interopRequireDefault(_Portal);
 
-	var _ModalManager = __webpack_require__(436);
+	var _ModalManager = __webpack_require__(435);
 
 	var _ModalManager2 = _interopRequireDefault(_ModalManager);
 
-	var _ownerDocument = __webpack_require__(398);
+	var _ownerDocument = __webpack_require__(397);
 
 	var _ownerDocument2 = _interopRequireDefault(_ownerDocument);
 
-	var _addEventListener = __webpack_require__(395);
+	var _addEventListener = __webpack_require__(394);
 
 	var _addEventListener2 = _interopRequireDefault(_addEventListener);
 
-	var _addFocusListener = __webpack_require__(444);
+	var _addFocusListener = __webpack_require__(443);
 
 	var _addFocusListener2 = _interopRequireDefault(_addFocusListener);
 
-	var _inDOM = __webpack_require__(373);
+	var _inDOM = __webpack_require__(372);
 
 	var _inDOM2 = _interopRequireDefault(_inDOM);
 
-	var _activeElement = __webpack_require__(376);
+	var _activeElement = __webpack_require__(375);
 
 	var _activeElement2 = _interopRequireDefault(_activeElement);
 
-	var _contains = __webpack_require__(378);
+	var _contains = __webpack_require__(377);
 
 	var _contains2 = _interopRequireDefault(_contains);
 
-	var _getContainer = __webpack_require__(435);
+	var _getContainer = __webpack_require__(434);
 
 	var _getContainer2 = _interopRequireDefault(_getContainer);
 
@@ -39282,7 +39190,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 433 */
+/* 432 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39295,7 +39203,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _createChainableTypeChecker = __webpack_require__(347);
+	var _createChainableTypeChecker = __webpack_require__(346);
 
 	var _createChainableTypeChecker2 = _interopRequireDefault(_createChainableTypeChecker);
 
@@ -39319,7 +39227,7 @@
 	exports.default = (0, _createChainableTypeChecker2.default)(validate);
 
 /***/ },
-/* 434 */
+/* 433 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39336,15 +39244,15 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _componentOrElement = __webpack_require__(433);
+	var _componentOrElement = __webpack_require__(432);
 
 	var _componentOrElement2 = _interopRequireDefault(_componentOrElement);
 
-	var _ownerDocument = __webpack_require__(398);
+	var _ownerDocument = __webpack_require__(397);
 
 	var _ownerDocument2 = _interopRequireDefault(_ownerDocument);
 
-	var _getContainer = __webpack_require__(435);
+	var _getContainer = __webpack_require__(434);
 
 	var _getContainer2 = _interopRequireDefault(_getContainer);
 
@@ -39445,7 +39353,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 435 */
+/* 434 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39468,7 +39376,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 436 */
+/* 435 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39479,23 +39387,23 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _style = __webpack_require__(363);
+	var _style = __webpack_require__(362);
 
 	var _style2 = _interopRequireDefault(_style);
 
-	var _class = __webpack_require__(437);
+	var _class = __webpack_require__(436);
 
 	var _class2 = _interopRequireDefault(_class);
 
-	var _scrollbarSize = __webpack_require__(431);
+	var _scrollbarSize = __webpack_require__(430);
 
 	var _scrollbarSize2 = _interopRequireDefault(_scrollbarSize);
 
-	var _isOverflowing = __webpack_require__(441);
+	var _isOverflowing = __webpack_require__(440);
 
 	var _isOverflowing2 = _interopRequireDefault(_isOverflowing);
 
-	var _manageAriaHidden = __webpack_require__(443);
+	var _manageAriaHidden = __webpack_require__(442);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39638,30 +39546,30 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 437 */
+/* 436 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	module.exports = {
-	  addClass: __webpack_require__(438),
-	  removeClass: __webpack_require__(440),
-	  hasClass: __webpack_require__(439)
+	  addClass: __webpack_require__(437),
+	  removeClass: __webpack_require__(439),
+	  hasClass: __webpack_require__(438)
 	};
 
 /***/ },
-/* 438 */
+/* 437 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var hasClass = __webpack_require__(439);
+	var hasClass = __webpack_require__(438);
 
 	module.exports = function addClass(element, className) {
 	  if (element.classList) element.classList.add(className);else if (!hasClass(element)) element.className = element.className + ' ' + className;
 	};
 
 /***/ },
-/* 439 */
+/* 438 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -39670,7 +39578,7 @@
 	};
 
 /***/ },
-/* 440 */
+/* 439 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -39680,7 +39588,7 @@
 	};
 
 /***/ },
-/* 441 */
+/* 440 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39690,11 +39598,11 @@
 	});
 	exports.default = isOverflowing;
 
-	var _isWindow = __webpack_require__(442);
+	var _isWindow = __webpack_require__(441);
 
 	var _isWindow2 = _interopRequireDefault(_isWindow);
 
-	var _ownerDocument = __webpack_require__(377);
+	var _ownerDocument = __webpack_require__(376);
 
 	var _ownerDocument2 = _interopRequireDefault(_ownerDocument);
 
@@ -39726,7 +39634,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 442 */
+/* 441 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -39736,7 +39644,7 @@
 	};
 
 /***/ },
-/* 443 */
+/* 442 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -39790,7 +39698,7 @@
 	}
 
 /***/ },
-/* 444 */
+/* 443 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -39826,34 +39734,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 445 */
+/* 444 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -39861,7 +39769,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -39898,34 +39806,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 446 */
+/* 445 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends3 = __webpack_require__(244);
+	var _extends3 = __webpack_require__(243);
 
 	var _extends4 = _interopRequireDefault(_extends3);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -39933,9 +39841,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _StyleConfig = __webpack_require__(335);
+	var _StyleConfig = __webpack_require__(334);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -40005,34 +39913,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 447 */
+/* 446 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -40040,7 +39948,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -40077,34 +39985,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 448 */
+/* 447 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -40112,9 +40020,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _createChainedFunction = __webpack_require__(336);
+	var _createChainedFunction = __webpack_require__(335);
 
 	var _createChainedFunction2 = _interopRequireDefault(_createChainedFunction);
 
@@ -40216,34 +40124,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 449 */
+/* 448 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -40251,7 +40159,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -40288,38 +40196,38 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 450 */
+/* 449 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
 	exports.__esModule = true;
 
-	var _extends3 = __webpack_require__(244);
+	var _extends3 = __webpack_require__(243);
 
 	var _extends4 = _interopRequireDefault(_extends3);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _keycode = __webpack_require__(379);
+	var _keycode = __webpack_require__(378);
 
 	var _keycode2 = _interopRequireDefault(_keycode);
 
@@ -40331,7 +40239,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _all = __webpack_require__(350);
+	var _all = __webpack_require__(349);
 
 	var _all2 = _interopRequireDefault(_all);
 
@@ -40339,13 +40247,13 @@
 
 	var _warning2 = _interopRequireDefault(_warning);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _createChainedFunction = __webpack_require__(336);
+	var _createChainedFunction = __webpack_require__(335);
 
 	var _createChainedFunction2 = _interopRequireDefault(_createChainedFunction);
 
-	var _ValidComponentChildren = __webpack_require__(337);
+	var _ValidComponentChildren = __webpack_require__(336);
 
 	var _ValidComponentChildren2 = _interopRequireDefault(_ValidComponentChildren);
 
@@ -40698,34 +40606,34 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 451 */
+/* 450 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends3 = __webpack_require__(244);
+	var _extends3 = __webpack_require__(243);
 
 	var _extends4 = _interopRequireDefault(_extends3);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -40733,37 +40641,37 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
-	var _uncontrollable = __webpack_require__(381);
+	var _uncontrollable = __webpack_require__(380);
 
 	var _uncontrollable2 = _interopRequireDefault(_uncontrollable);
 
-	var _Grid = __webpack_require__(409);
+	var _Grid = __webpack_require__(408);
 
 	var _Grid2 = _interopRequireDefault(_Grid);
 
-	var _NavbarBrand = __webpack_require__(452);
+	var _NavbarBrand = __webpack_require__(451);
 
 	var _NavbarBrand2 = _interopRequireDefault(_NavbarBrand);
 
-	var _NavbarCollapse = __webpack_require__(453);
+	var _NavbarCollapse = __webpack_require__(452);
 
 	var _NavbarCollapse2 = _interopRequireDefault(_NavbarCollapse);
 
-	var _NavbarHeader = __webpack_require__(454);
+	var _NavbarHeader = __webpack_require__(453);
 
 	var _NavbarHeader2 = _interopRequireDefault(_NavbarHeader);
 
-	var _NavbarToggle = __webpack_require__(455);
+	var _NavbarToggle = __webpack_require__(454);
 
 	var _NavbarToggle2 = _interopRequireDefault(_NavbarToggle);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _StyleConfig = __webpack_require__(335);
+	var _StyleConfig = __webpack_require__(334);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -40977,34 +40885,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 452 */
+/* 451 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -41012,7 +40920,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -41062,30 +40970,30 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 453 */
+/* 452 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -41093,11 +41001,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Collapse = __webpack_require__(362);
+	var _Collapse = __webpack_require__(361);
 
 	var _Collapse2 = _interopRequireDefault(_Collapse);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -41145,34 +41053,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 454 */
+/* 453 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -41180,7 +41088,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -41219,34 +41127,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 455 */
+/* 454 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -41254,9 +41162,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _createChainedFunction = __webpack_require__(336);
+	var _createChainedFunction = __webpack_require__(335);
 
 	var _createChainedFunction2 = _interopRequireDefault(_createChainedFunction);
 
@@ -41334,34 +41242,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 456 */
+/* 455 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -41369,15 +41277,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Dropdown = __webpack_require__(375);
+	var _Dropdown = __webpack_require__(374);
 
 	var _Dropdown2 = _interopRequireDefault(_Dropdown);
 
-	var _splitComponentProps2 = __webpack_require__(402);
+	var _splitComponentProps2 = __webpack_require__(401);
 
 	var _splitComponentProps3 = _interopRequireDefault(_splitComponentProps2);
 
-	var _ValidComponentChildren = __webpack_require__(337);
+	var _ValidComponentChildren = __webpack_require__(336);
 
 	var _ValidComponentChildren2 = _interopRequireDefault(_ValidComponentChildren);
 
@@ -41481,34 +41389,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 457 */
+/* 456 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -41516,11 +41424,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _SafeAnchor = __webpack_require__(345);
+	var _SafeAnchor = __webpack_require__(344);
 
 	var _SafeAnchor2 = _interopRequireDefault(_SafeAnchor);
 
-	var _createChainedFunction = __webpack_require__(336);
+	var _createChainedFunction = __webpack_require__(335);
 
 	var _createChainedFunction2 = _interopRequireDefault(_createChainedFunction);
 
@@ -41612,34 +41520,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 458 */
+/* 457 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -41647,15 +41555,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Overlay = __webpack_require__(459);
+	var _Overlay = __webpack_require__(458);
 
 	var _Overlay2 = _interopRequireDefault(_Overlay);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
-	var _Fade = __webpack_require__(403);
+	var _Fade = __webpack_require__(402);
 
 	var _Fade2 = _interopRequireDefault(_Fade);
 
@@ -41765,7 +41673,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 459 */
+/* 458 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41782,19 +41690,19 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Portal = __webpack_require__(434);
+	var _Portal = __webpack_require__(433);
 
 	var _Portal2 = _interopRequireDefault(_Portal);
 
-	var _Position = __webpack_require__(460);
+	var _Position = __webpack_require__(459);
 
 	var _Position2 = _interopRequireDefault(_Position);
 
-	var _RootCloseWrapper = __webpack_require__(394);
+	var _RootCloseWrapper = __webpack_require__(393);
 
 	var _RootCloseWrapper2 = _interopRequireDefault(_RootCloseWrapper);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
@@ -41998,7 +41906,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 460 */
+/* 459 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42011,7 +41919,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -42023,19 +41931,19 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _componentOrElement = __webpack_require__(433);
+	var _componentOrElement = __webpack_require__(432);
 
 	var _componentOrElement2 = _interopRequireDefault(_componentOrElement);
 
-	var _calculatePosition = __webpack_require__(461);
+	var _calculatePosition = __webpack_require__(460);
 
 	var _calculatePosition2 = _interopRequireDefault(_calculatePosition);
 
-	var _getContainer = __webpack_require__(435);
+	var _getContainer = __webpack_require__(434);
 
 	var _getContainer2 = _interopRequireDefault(_getContainer);
 
-	var _ownerDocument = __webpack_require__(398);
+	var _ownerDocument = __webpack_require__(397);
 
 	var _ownerDocument2 = _interopRequireDefault(_ownerDocument);
 
@@ -42214,7 +42122,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 461 */
+/* 460 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42224,19 +42132,19 @@
 	});
 	exports.default = calculatePosition;
 
-	var _offset = __webpack_require__(462);
+	var _offset = __webpack_require__(461);
 
 	var _offset2 = _interopRequireDefault(_offset);
 
-	var _position = __webpack_require__(463);
+	var _position = __webpack_require__(462);
 
 	var _position2 = _interopRequireDefault(_position);
 
-	var _scrollTop = __webpack_require__(465);
+	var _scrollTop = __webpack_require__(464);
 
 	var _scrollTop2 = _interopRequireDefault(_scrollTop);
 
-	var _ownerDocument = __webpack_require__(398);
+	var _ownerDocument = __webpack_require__(397);
 
 	var _ownerDocument2 = _interopRequireDefault(_ownerDocument);
 
@@ -42348,13 +42256,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 462 */
+/* 461 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var contains = __webpack_require__(378),
-	    getWindow = __webpack_require__(442),
-	    ownerDocument = __webpack_require__(377);
+	var contains = __webpack_require__(377),
+	    getWindow = __webpack_require__(441),
+	    ownerDocument = __webpack_require__(376);
 
 	module.exports = function offset(node) {
 	  var doc = ownerDocument(node),
@@ -42383,33 +42291,33 @@
 	};
 
 /***/ },
-/* 463 */
+/* 462 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var babelHelpers = __webpack_require__(369);
+	var babelHelpers = __webpack_require__(368);
 
 	exports.__esModule = true;
 	exports['default'] = position;
 
-	var _offset = __webpack_require__(462);
+	var _offset = __webpack_require__(461);
 
 	var _offset2 = babelHelpers.interopRequireDefault(_offset);
 
-	var _offsetParent = __webpack_require__(464);
+	var _offsetParent = __webpack_require__(463);
 
 	var _offsetParent2 = babelHelpers.interopRequireDefault(_offsetParent);
 
-	var _scrollTop = __webpack_require__(465);
+	var _scrollTop = __webpack_require__(464);
 
 	var _scrollTop2 = babelHelpers.interopRequireDefault(_scrollTop);
 
-	var _scrollLeft = __webpack_require__(466);
+	var _scrollLeft = __webpack_require__(465);
 
 	var _scrollLeft2 = babelHelpers.interopRequireDefault(_scrollLeft);
 
-	var _style = __webpack_require__(363);
+	var _style = __webpack_require__(362);
 
 	var _style2 = babelHelpers.interopRequireDefault(_style);
 
@@ -42445,21 +42353,21 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 464 */
+/* 463 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var babelHelpers = __webpack_require__(369);
+	var babelHelpers = __webpack_require__(368);
 
 	exports.__esModule = true;
 	exports['default'] = offsetParent;
 
-	var _ownerDocument = __webpack_require__(377);
+	var _ownerDocument = __webpack_require__(376);
 
 	var _ownerDocument2 = babelHelpers.interopRequireDefault(_ownerDocument);
 
-	var _style = __webpack_require__(363);
+	var _style = __webpack_require__(362);
 
 	var _style2 = babelHelpers.interopRequireDefault(_style);
 
@@ -42481,11 +42389,11 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 465 */
+/* 464 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var getWindow = __webpack_require__(442);
+	var getWindow = __webpack_require__(441);
 
 	module.exports = function scrollTop(node, val) {
 	  var win = getWindow(node);
@@ -42496,11 +42404,11 @@
 	};
 
 /***/ },
-/* 466 */
+/* 465 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var getWindow = __webpack_require__(442);
+	var getWindow = __webpack_require__(441);
 
 	module.exports = function scrollTop(node, val) {
 	  var win = getWindow(node);
@@ -42511,34 +42419,34 @@
 	};
 
 /***/ },
-/* 467 */
+/* 466 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
 	exports.__esModule = true;
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _contains = __webpack_require__(378);
+	var _contains = __webpack_require__(377);
 
 	var _contains2 = _interopRequireDefault(_contains);
 
@@ -42554,11 +42462,11 @@
 
 	var _warning2 = _interopRequireDefault(_warning);
 
-	var _Overlay = __webpack_require__(458);
+	var _Overlay = __webpack_require__(457);
 
 	var _Overlay2 = _interopRequireDefault(_Overlay);
 
-	var _createChainedFunction = __webpack_require__(336);
+	var _createChainedFunction = __webpack_require__(335);
 
 	var _createChainedFunction2 = _interopRequireDefault(_createChainedFunction);
 
@@ -42863,34 +42771,34 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 468 */
+/* 467 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -42898,7 +42806,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -42944,18 +42852,18 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 469 */
+/* 468 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _PagerItem = __webpack_require__(470);
+	var _PagerItem = __webpack_require__(469);
 
 	var _PagerItem2 = _interopRequireDefault(_PagerItem);
 
-	var _deprecationWarning = __webpack_require__(471);
+	var _deprecationWarning = __webpack_require__(470);
 
 	var _deprecationWarning2 = _interopRequireDefault(_deprecationWarning);
 
@@ -42965,34 +42873,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 470 */
+/* 469 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -43000,11 +42908,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _SafeAnchor = __webpack_require__(345);
+	var _SafeAnchor = __webpack_require__(344);
 
 	var _SafeAnchor2 = _interopRequireDefault(_SafeAnchor);
 
-	var _createChainedFunction = __webpack_require__(336);
+	var _createChainedFunction = __webpack_require__(335);
 
 	var _createChainedFunction2 = _interopRequireDefault(_createChainedFunction);
 
@@ -43094,26 +43002,26 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 471 */
+/* 470 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
 	exports.__esModule = true;
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _typeof2 = __webpack_require__(284);
+	var _typeof2 = __webpack_require__(283);
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -43186,34 +43094,34 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 472 */
+/* 471 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -43221,17 +43129,17 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _PagerItem = __webpack_require__(470);
+	var _PagerItem = __webpack_require__(469);
 
 	var _PagerItem2 = _interopRequireDefault(_PagerItem);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _createChainedFunction = __webpack_require__(336);
+	var _createChainedFunction = __webpack_require__(335);
 
 	var _createChainedFunction2 = _interopRequireDefault(_createChainedFunction);
 
-	var _ValidComponentChildren = __webpack_require__(337);
+	var _ValidComponentChildren = __webpack_require__(336);
 
 	var _ValidComponentChildren2 = _interopRequireDefault(_ValidComponentChildren);
 
@@ -43288,34 +43196,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 473 */
+/* 472 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -43323,15 +43231,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
-	var _PaginationButton = __webpack_require__(474);
+	var _PaginationButton = __webpack_require__(473);
 
 	var _PaginationButton2 = _interopRequireDefault(_PaginationButton);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -43594,34 +43502,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 474 */
+/* 473 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -43629,15 +43537,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
-	var _SafeAnchor = __webpack_require__(345);
+	var _SafeAnchor = __webpack_require__(344);
 
 	var _SafeAnchor2 = _interopRequireDefault(_SafeAnchor);
 
-	var _createChainedFunction = __webpack_require__(336);
+	var _createChainedFunction = __webpack_require__(335);
 
 	var _createChainedFunction2 = _interopRequireDefault(_createChainedFunction);
 
@@ -43732,38 +43640,38 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 475 */
+/* 474 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _values = __webpack_require__(339);
+	var _values = __webpack_require__(338);
 
 	var _values2 = _interopRequireDefault(_values);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -43771,13 +43679,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Collapse = __webpack_require__(362);
+	var _Collapse = __webpack_require__(361);
 
 	var _Collapse2 = _interopRequireDefault(_Collapse);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _StyleConfig = __webpack_require__(335);
+	var _StyleConfig = __webpack_require__(334);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -44002,34 +43910,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 476 */
+/* 475 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends3 = __webpack_require__(244);
+	var _extends3 = __webpack_require__(243);
 
 	var _extends4 = _interopRequireDefault(_extends3);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -44037,11 +43945,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _isRequiredForA11y = __webpack_require__(380);
+	var _isRequiredForA11y = __webpack_require__(379);
 
 	var _isRequiredForA11y2 = _interopRequireDefault(_isRequiredForA11y);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -44159,38 +44067,38 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 477 */
+/* 476 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _values = __webpack_require__(339);
+	var _values = __webpack_require__(338);
 
 	var _values2 = _interopRequireDefault(_values);
 
-	var _extends3 = __webpack_require__(244);
+	var _extends3 = __webpack_require__(243);
 
 	var _extends4 = _interopRequireDefault(_extends3);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -44198,11 +44106,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _StyleConfig = __webpack_require__(335);
+	var _StyleConfig = __webpack_require__(334);
 
-	var _ValidComponentChildren = __webpack_require__(337);
+	var _ValidComponentChildren = __webpack_require__(336);
 
 	var _ValidComponentChildren2 = _interopRequireDefault(_ValidComponentChildren);
 
@@ -44365,34 +44273,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 478 */
+/* 477 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -44404,7 +44312,7 @@
 
 	var _warning2 = _interopRequireDefault(_warning);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -44508,34 +44416,34 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 479 */
+/* 478 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
 	exports.__esModule = true;
 
-	var _extends3 = __webpack_require__(244);
+	var _extends3 = __webpack_require__(243);
 
 	var _extends4 = _interopRequireDefault(_extends3);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -44547,7 +44455,7 @@
 
 	var _warning2 = _interopRequireDefault(_warning);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -44622,34 +44530,34 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 480 */
+/* 479 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -44657,11 +44565,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -44710,30 +44618,30 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 481 */
+/* 480 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
@@ -44741,19 +44649,19 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Button = __webpack_require__(348);
+	var _Button = __webpack_require__(347);
 
 	var _Button2 = _interopRequireDefault(_Button);
 
-	var _Dropdown = __webpack_require__(375);
+	var _Dropdown = __webpack_require__(374);
 
 	var _Dropdown2 = _interopRequireDefault(_Dropdown);
 
-	var _SplitToggle = __webpack_require__(482);
+	var _SplitToggle = __webpack_require__(481);
 
 	var _SplitToggle2 = _interopRequireDefault(_SplitToggle);
 
-	var _splitComponentProps2 = __webpack_require__(402);
+	var _splitComponentProps2 = __webpack_require__(401);
 
 	var _splitComponentProps3 = _interopRequireDefault(_splitComponentProps2);
 
@@ -44844,26 +44752,26 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 482 */
+/* 481 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -44871,7 +44779,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _DropdownToggle = __webpack_require__(399);
+	var _DropdownToggle = __webpack_require__(398);
 
 	var _DropdownToggle2 = _interopRequireDefault(_DropdownToggle);
 
@@ -44901,26 +44809,26 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 483 */
+/* 482 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
@@ -44928,15 +44836,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _TabContainer = __webpack_require__(484);
+	var _TabContainer = __webpack_require__(483);
 
 	var _TabContainer2 = _interopRequireDefault(_TabContainer);
 
-	var _TabContent = __webpack_require__(485);
+	var _TabContent = __webpack_require__(484);
 
 	var _TabContent2 = _interopRequireDefault(_TabContent);
 
-	var _TabPane = __webpack_require__(486);
+	var _TabPane = __webpack_require__(485);
 
 	var _TabPane2 = _interopRequireDefault(_TabPane);
 
@@ -44986,26 +44894,26 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 484 */
+/* 483 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -45013,7 +44921,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _uncontrollable = __webpack_require__(381);
+	var _uncontrollable = __webpack_require__(380);
 
 	var _uncontrollable2 = _interopRequireDefault(_uncontrollable);
 
@@ -45142,34 +45050,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 485 */
+/* 484 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -45177,11 +45085,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -45354,34 +45262,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 486 */
+/* 485 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -45389,7 +45297,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _elementType = __webpack_require__(346);
+	var _elementType = __webpack_require__(345);
 
 	var _elementType2 = _interopRequireDefault(_elementType);
 
@@ -45397,13 +45305,13 @@
 
 	var _warning2 = _interopRequireDefault(_warning);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _createChainedFunction = __webpack_require__(336);
+	var _createChainedFunction = __webpack_require__(335);
 
 	var _createChainedFunction2 = _interopRequireDefault(_createChainedFunction);
 
-	var _Fade = __webpack_require__(403);
+	var _Fade = __webpack_require__(402);
 
 	var _Fade2 = _interopRequireDefault(_Fade);
 
@@ -45669,34 +45577,34 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 487 */
+/* 486 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends3 = __webpack_require__(244);
+	var _extends3 = __webpack_require__(243);
 
 	var _extends4 = _interopRequireDefault(_extends3);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -45704,7 +45612,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -45777,30 +45685,30 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 488 */
+/* 487 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -45808,33 +45716,33 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _isRequiredForA11y = __webpack_require__(380);
+	var _isRequiredForA11y = __webpack_require__(379);
 
 	var _isRequiredForA11y2 = _interopRequireDefault(_isRequiredForA11y);
 
-	var _uncontrollable = __webpack_require__(381);
+	var _uncontrollable = __webpack_require__(380);
 
 	var _uncontrollable2 = _interopRequireDefault(_uncontrollable);
 
-	var _Nav = __webpack_require__(450);
+	var _Nav = __webpack_require__(449);
 
 	var _Nav2 = _interopRequireDefault(_Nav);
 
-	var _NavItem = __webpack_require__(457);
+	var _NavItem = __webpack_require__(456);
 
 	var _NavItem2 = _interopRequireDefault(_NavItem);
 
-	var _TabContainer = __webpack_require__(484);
+	var _TabContainer = __webpack_require__(483);
 
 	var _TabContainer2 = _interopRequireDefault(_TabContainer);
 
-	var _TabContent = __webpack_require__(485);
+	var _TabContent = __webpack_require__(484);
 
 	var _TabContent2 = _interopRequireDefault(_TabContent);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _ValidComponentChildren = __webpack_require__(337);
+	var _ValidComponentChildren = __webpack_require__(336);
 
 	var _ValidComponentChildren2 = _interopRequireDefault(_ValidComponentChildren);
 
@@ -45985,34 +45893,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 489 */
+/* 488 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -46020,11 +45928,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _SafeAnchor = __webpack_require__(345);
+	var _SafeAnchor = __webpack_require__(344);
 
 	var _SafeAnchor2 = _interopRequireDefault(_SafeAnchor);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -46082,34 +45990,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 490 */
+/* 489 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends3 = __webpack_require__(244);
+	var _extends3 = __webpack_require__(243);
 
 	var _extends4 = _interopRequireDefault(_extends3);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -46117,11 +46025,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _isRequiredForA11y = __webpack_require__(380);
+	var _isRequiredForA11y = __webpack_require__(379);
 
 	var _isRequiredForA11y2 = _interopRequireDefault(_isRequiredForA11y);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -46227,34 +46135,34 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 491 */
+/* 490 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _extends2 = __webpack_require__(244);
+	var _extends2 = __webpack_require__(243);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _objectWithoutProperties2 = __webpack_require__(328);
+	var _objectWithoutProperties2 = __webpack_require__(327);
 
 	var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-	var _classCallCheck2 = __webpack_require__(282);
+	var _classCallCheck2 = __webpack_require__(281);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(283);
+	var _possibleConstructorReturn2 = __webpack_require__(282);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(319);
+	var _inherits2 = __webpack_require__(318);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _classnames = __webpack_require__(329);
+	var _classnames = __webpack_require__(328);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
@@ -46262,9 +46170,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _bootstrapUtils = __webpack_require__(330);
+	var _bootstrapUtils = __webpack_require__(329);
 
-	var _StyleConfig = __webpack_require__(335);
+	var _StyleConfig = __webpack_require__(334);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -46301,7 +46209,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 492 */
+/* 491 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46309,15 +46217,15 @@
 	exports.__esModule = true;
 	exports.ValidComponentChildren = exports.createChainedFunction = exports.bootstrapUtils = undefined;
 
-	var _bootstrapUtils2 = __webpack_require__(330);
+	var _bootstrapUtils2 = __webpack_require__(329);
 
 	var _bootstrapUtils = _interopRequireWildcard(_bootstrapUtils2);
 
-	var _createChainedFunction2 = __webpack_require__(336);
+	var _createChainedFunction2 = __webpack_require__(335);
 
 	var _createChainedFunction3 = _interopRequireDefault(_createChainedFunction2);
 
-	var _ValidComponentChildren2 = __webpack_require__(337);
+	var _ValidComponentChildren2 = __webpack_require__(336);
 
 	var _ValidComponentChildren3 = _interopRequireDefault(_ValidComponentChildren2);
 
@@ -46328,6 +46236,164 @@
 	exports.bootstrapUtils = _bootstrapUtils;
 	exports.createChainedFunction = _createChainedFunction3['default'];
 	exports.ValidComponentChildren = _ValidComponentChildren3['default'];
+
+/***/ },
+/* 492 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactBootstrap = __webpack_require__(241);
+
+	var _axios = __webpack_require__(493);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _reactRouter = __webpack_require__(177);
+
+	var _Team = __webpack_require__(515);
+
+	var _Team2 = _interopRequireDefault(_Team);
+
+	var _champions = __webpack_require__(521);
+
+	var _champions2 = _interopRequireDefault(_champions);
+
+	var _summonerSpells = __webpack_require__(522);
+
+	var _summonerSpells2 = _interopRequireDefault(_summonerSpells);
+
+	var _masteries = __webpack_require__(523);
+
+	var _masteries2 = _interopRequireDefault(_masteries);
+
+	var _runes = __webpack_require__(524);
+
+	var _runes2 = _interopRequireDefault(_runes);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var apiKey = 'a85d0753-6824-4725-a76f-23be84110e08';
+
+	var Match = function (_Component) {
+	  _inherits(Match, _Component);
+
+	  function Match(props) {
+	    _classCallCheck(this, Match);
+
+	    var _this = _possibleConstructorReturn(this, (Match.__proto__ || Object.getPrototypeOf(Match)).call(this, props));
+
+	    _this.state = {
+	      summonerName: _this.props.location.query.summonerName,
+	      players: []
+	    };
+	    return _this;
+	  }
+
+	  _createClass(Match, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      var summonerName = this.state.summonerName;
+	      var serverRequest = this.getMatchData(summonerName);
+	    }
+
+	    // https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/unclerodgers?api_key=a85d0753-6824-4725-a76f-23be84110e08
+	    // https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/39774795?api_key=a85d0753-6824-4725-a76f-23be84110e08
+
+	  }, {
+	    key: 'getMatchData',
+	    value: function getMatchData(summonerName) {
+	      var _this2 = this;
+
+	      // request the summonerObject which requests a string (the name)
+	      _axios2.default.get('https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/' + summonerName + '?api_key=' + apiKey).then(function (response) {
+	        // response.data = { yolomcbrolo: { ... } } so had to get the first prop
+	        var summonerKey = Object.keys(response.data)[0];
+	        var summonerObj = response.data[summonerKey];
+	        console.log('summonerName: ' + summonerObj.name + ' // summonerId: ' + summonerObj.id);
+	        // since if you search a playerName and they are not in a current game it
+	        // will throw 404, use a static.json file for the time being
+	        // axios.get(`https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/${summonerId}?api_key=${apiKey}`)
+	        _axios2.default.get('./jsonData/spectatorInformation.json').then(function (response) {
+	          var matchData = response.data;
+	          _this2.setState({
+	            players: [].concat(_toConsumableArray(matchData.participants))
+	          });
+	        }).catch(function (err) {
+	          console.log('error getting spectator info', err);
+	        });
+	      }).catch(function (err) {
+	        console.log('error!', err);
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var players = this.state.players;
+	      var teamA = players.slice(0, 5);
+	      var teamB = players.slice(5, 10);
+	      var jsonData = {
+	        champions: _champions2.default,
+	        masteries: _masteries2.default,
+	        runes: _runes2.default,
+	        summonerSpells: _summonerSpells2.default
+	      };
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'container-fluid' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'top-section' },
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/', className: 'btn btn-link' },
+	            'Back to Search'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'pull-right' },
+	            _react2.default.createElement(
+	              'b',
+	              null,
+	              'Current search: ',
+	              this.state.summonerName
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(_Team2.default, { members: teamA, jsonData: jsonData }),
+	        _react2.default.createElement(_Team2.default, { members: teamB, jsonData: jsonData })
+	      );
+	    }
+	  }]);
+
+	  return Match;
+	}(_react.Component);
+
+	// https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/47682701/ranked?api_key=a85d0753-6824-4725-a76f-23be84110e08
+	// https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/unclerodgers?api_key=a85d0753-6824-4725-a76f-23be84110e08
+	// https://na.api.pvp.net/api/lol/na/v2.4/team/by-summoner/42733402,21066307,67169698,59667857,70520692,65529523,52609925,52315500,49639860,64099838?api_key=a85d0753-6824-4725-a76f-23be84110e08
+	// https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/47682701?api_key=a85d0753-6824-4725-a76f-23be84110e08
+
+	exports.default = Match;
 
 /***/ },
 /* 493 */
@@ -47689,7 +47755,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactBootstrap = __webpack_require__(242);
+	var _reactBootstrap = __webpack_require__(241);
 
 	var _Player = __webpack_require__(516);
 
@@ -47715,18 +47781,17 @@
 	  _createClass(Team, [{
 	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'team-container' },
-	        _react2.default.createElement(
-	          _reactBootstrap.Row,
-	          null,
-	          _react2.default.createElement(_Player2.default, null),
-	          _react2.default.createElement(_Player2.default, null),
-	          _react2.default.createElement(_Player2.default, null),
-	          _react2.default.createElement(_Player2.default, null),
-	          _react2.default.createElement(_Player2.default, null)
-	        )
+	        this.props.members.map(function (member) {
+	          return _react2.default.createElement(_Player2.default, {
+	            key: member.summonerId,
+	            info: member,
+	            jsonData: _this2.props.jsonData });
+	        })
 	      );
 	    }
 	  }]);
@@ -47752,7 +47817,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactBootstrap = __webpack_require__(242);
+	var _reactBootstrap = __webpack_require__(241);
 
 	var _GeneralTab = __webpack_require__(517);
 
@@ -47777,30 +47842,43 @@
 	var Team = function (_Component) {
 	  _inherits(Team, _Component);
 
-	  function Team() {
+	  function Team(props) {
 	    _classCallCheck(this, Team);
 
-	    var _this = _possibleConstructorReturn(this, (Team.__proto__ || Object.getPrototypeOf(Team)).call(this));
+	    var _this = _possibleConstructorReturn(this, (Team.__proto__ || Object.getPrototypeOf(Team)).call(this, props));
 
 	    _this.state = {
-	      activeKey: '1'
+	      activeKey: '1',
+	      info: _this.props.info
 	    };
 	    return _this;
 	  }
 
 	  _createClass(Team, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      var info = this.state.info;
+	      var jsonData = this.props.jsonData;
+	      var champions = jsonData.champions;
+	      console.log(champions);
+	      // const summonerIcon = champions.map((champ) => {
+	      //   return champ.key
+	      // })
+
+	      // console.log(summonerIcon)
+	    }
+	  }, {
 	    key: 'handleSelect',
 	    value: function handleSelect(activeKey) {
 	      this.setState({ activeKey: activeKey });
 	    }
-
-	    // rune : http://ddragon.leagueoflegends.com/cdn/6.18.1/img/rune/8001.png
-	    // mastery : http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/6111.png
-	    // sum spell : http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/SummonerFlash.png
-
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var general = this.state.info;
+	      var masteries = this.state.info.masteries;
+	      var runes = this.state.info.runes;
+
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'col-md-15' },
@@ -47812,18 +47890,18 @@
 	            { activeKey: this.state.activeKey, onSelect: this.handleSelect.bind(this), accordion: true },
 	            _react2.default.createElement(
 	              _reactBootstrap.Panel,
-	              { header: 'playerName', eventKey: '1' },
-	              _react2.default.createElement(_GeneralTab2.default, null)
+	              { header: general.summonerName, eventKey: '1' },
+	              _react2.default.createElement(_GeneralTab2.default, { fromObserver: general })
 	            ),
 	            _react2.default.createElement(
 	              _reactBootstrap.Panel,
 	              { header: 'Runes', eventKey: '2' },
-	              _react2.default.createElement(_RunesTab2.default, null)
+	              _react2.default.createElement(_RunesTab2.default, { runes: runes })
 	            ),
 	            _react2.default.createElement(
 	              _reactBootstrap.Panel,
 	              { header: 'Masteries', eventKey: '3' },
-	              _react2.default.createElement(_MasteriesTab2.default, null)
+	              _react2.default.createElement(_MasteriesTab2.default, { masteries: masteries })
 	            )
 	          )
 	        )
@@ -47835,6 +47913,10 @@
 	}(_react.Component);
 
 	exports.default = Team;
+
+	// rune : http://ddragon.leagueoflegends.com/cdn/6.18.1/img/rune/8001.png
+	// mastery : http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/6111.png
+	// sum spell : http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/SummonerFlash.png
 
 /***/ },
 /* 517 */
@@ -47852,7 +47934,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactBootstrap = __webpack_require__(242);
+	var _reactBootstrap = __webpack_require__(241);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47865,15 +47947,22 @@
 	var GeneralTab = function (_Component) {
 	  _inherits(GeneralTab, _Component);
 
-	  function GeneralTab() {
+	  function GeneralTab(props) {
 	    _classCallCheck(this, GeneralTab);
 
-	    return _possibleConstructorReturn(this, (GeneralTab.__proto__ || Object.getPrototypeOf(GeneralTab)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (GeneralTab.__proto__ || Object.getPrototypeOf(GeneralTab)).call(this, props));
+
+	    _this.state = {
+	      data: _this.props.fromObserver
+	    };
+	    return _this;
 	  }
 
 	  _createClass(GeneralTab, [{
 	    key: 'render',
 	    value: function render() {
+	      var data = this.props.fromObserver;
+
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'tab general-tab', style: { backgroundColor: '#fff' } },
@@ -47976,7 +48065,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactBootstrap = __webpack_require__(242);
+	var _reactBootstrap = __webpack_require__(241);
 
 	var _MasteriesTree = __webpack_require__(519);
 
@@ -48270,7 +48359,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactBootstrap = __webpack_require__(242);
+	var _reactBootstrap = __webpack_require__(241);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -48393,8 +48482,1295 @@
 	exports.default = RunesTab;
 
 /***/ },
-/* 521 */,
+/* 521 */
+/***/ function(module, exports) {
+
+	"use strict";module.exports={"Aatrox":{"version":"6.18.1","id":"Aatrox","key":"266","name":"Aatrox","title":"the Darkin Blade","blurb":"Aatrox is a legendary warrior, one of only five that remain of an ancient race known as the Darkin. He wields his massive blade with grace and poise, slicing through legions in a style that is hypnotic to behold. With each foe felled, Aatrox's ...","info":{"attack":8,"defense":4,"magic":3,"difficulty":4},"image":{"full":"Aatrox.png","sprite":"champion0.png","group":"champion","x":0,"y":0,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"BloodWell","stats":{"hp":537.8,"hpperlevel":85,"mp":105.6,"mpperlevel":45,"movespeed":345,"armor":24.384,"armorperlevel":3.8,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":150,"hpregen":6.59,"hpregenperlevel":0.5,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":60.376,"attackdamageperlevel":3.2,"attackspeedoffset":-0.04,"attackspeedperlevel":3}},"Ahri":{"version":"6.18.1","id":"Ahri","key":"103","name":"Ahri","title":"the Nine-Tailed Fox","blurb":"Unlike other foxes that roamed the woods of southern Ionia, Ahri had always felt a strange connection to the magical world around her; a connection that was somehow incomplete. Deep inside, she felt the skin she had been born into was an ill fit for ...","info":{"attack":3,"defense":4,"magic":8,"difficulty":5},"image":{"full":"Ahri.png","sprite":"champion0.png","group":"champion","x":48,"y":0,"w":48,"h":48},"tags":["Mage","Assassin"],"partype":"MP","stats":{"hp":514.4,"hpperlevel":80,"mp":334,"mpperlevel":50,"movespeed":330,"armor":20.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6.505,"hpregenperlevel":0.6,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":53.04,"attackdamageperlevel":3,"attackspeedoffset":-0.065,"attackspeedperlevel":2}},"Akali":{"version":"6.18.1","id":"Akali","key":"84","name":"Akali","title":"the Fist of Shadow","blurb":"There exists an ancient order originating in the Ionian Isles dedicated to the preservation of balance. Order, chaos, light, darkness -- all things must exist in perfect harmony for such is the way of the universe. This order is known as the Kinkou ...","info":{"attack":5,"defense":3,"magic":8,"difficulty":7},"image":{"full":"Akali.png","sprite":"champion0.png","group":"champion","x":96,"y":0,"w":48,"h":48},"tags":["Assassin"],"partype":"Energy","stats":{"hp":587.8,"hpperlevel":85,"mp":200,"mpperlevel":0,"movespeed":350,"armor":26.38,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.34,"hpregenperlevel":0.65,"mpregen":50,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":58.376,"attackdamageperlevel":3.2,"attackspeedoffset":-0.1,"attackspeedperlevel":3.1}},"Alistar":{"version":"6.18.1","id":"Alistar","key":"12","name":"Alistar","title":"the Minotaur","blurb":"As the mightiest warrior to ever emerge from the Minotaur tribes of the Great Barrier, Alistar defended his tribe from Valoran's many dangers; that is, until the coming of the Noxian army. Alistar was lured from his village by the machinations of ...","info":{"attack":6,"defense":9,"magic":5,"difficulty":7},"image":{"full":"Alistar.png","sprite":"champion0.png","group":"champion","x":144,"y":0,"w":48,"h":48},"tags":["Tank","Support"],"partype":"MP","stats":{"hp":613.36,"hpperlevel":106,"mp":278.84,"mpperlevel":38,"movespeed":330,"armor":24.38,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.675,"hpregenperlevel":0.85,"mpregen":8.5,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":61.1116,"attackdamageperlevel":3.62,"attackspeedoffset":0,"attackspeedperlevel":2.125}},"Amumu":{"version":"6.18.1","id":"Amumu","key":"32","name":"Amumu","title":"the Sad Mummy","blurb":"''Solitude can be lonelier than death.''<br><br>A lonely and melancholy soul from ancient Shurima, Amumu roams the world in search of a friend. Cursed by an ancient spell, he is doomed to remain alone forever, as his touch is death and his affection ...","info":{"attack":2,"defense":6,"magic":8,"difficulty":3},"image":{"full":"Amumu.png","sprite":"champion0.png","group":"champion","x":192,"y":0,"w":48,"h":48},"tags":["Tank","Mage"],"partype":"MP","stats":{"hp":613.12,"hpperlevel":84,"mp":287.2,"mpperlevel":40,"movespeed":335,"armor":23.544,"armorperlevel":3.8,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.875,"hpregenperlevel":0.85,"mpregen":7.38,"mpregenperlevel":0.525,"crit":0,"critperlevel":0,"attackdamage":53.384,"attackdamageperlevel":3.8,"attackspeedoffset":-0.02,"attackspeedperlevel":2.18}},"Anivia":{"version":"6.18.1","id":"Anivia","key":"34","name":"Anivia","title":"the Cryophoenix","blurb":"Anivia is a being of the coldest winter, a mystical embodiment of ice magic, and an ancient protector of the Freljord. She commands all the power and fury of the land itself, calling the snow and bitter wind to defend her home from those who would ...","info":{"attack":1,"defense":4,"magic":10,"difficulty":10},"image":{"full":"Anivia.png","sprite":"champion0.png","group":"champion","x":240,"y":0,"w":48,"h":48},"tags":["Mage","Support"],"partype":"MP","stats":{"hp":467.6,"hpperlevel":70,"mp":396.04,"mpperlevel":50,"movespeed":325,"armor":21.22,"armorperlevel":4,"spellblock":30,"spellblockperlevel":0,"attackrange":600,"hpregen":5.57,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":51.376,"attackdamageperlevel":3.2,"attackspeedoffset":0,"attackspeedperlevel":1.68}},"Annie":{"version":"6.18.1","id":"Annie","key":"1","name":"Annie","title":"the Dark Child","blurb":"There have always been those within Noxus who did not agree with the evils perpetrated by the Noxian High Command. The High Command had just put down a coup attempt from the self-proclaimed Crown Prince Raschallion, and a crackdown on any form of ...","info":{"attack":2,"defense":3,"magic":10,"difficulty":6},"image":{"full":"Annie.png","sprite":"champion0.png","group":"champion","x":288,"y":0,"w":48,"h":48},"tags":["Mage"],"partype":"MP","stats":{"hp":511.68,"hpperlevel":76,"mp":334,"mpperlevel":50,"movespeed":335,"armor":19.22,"armorperlevel":4,"spellblock":30,"spellblockperlevel":0,"attackrange":575,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":50.41,"attackdamageperlevel":2.625,"attackspeedoffset":0.08,"attackspeedperlevel":1.36}},"Ashe":{"version":"6.18.1","id":"Ashe","key":"22","name":"Ashe","title":"the Frost Archer","blurb":"With each arrow she fires from her ancient ice-enchanted bow, Ashe proves she is a master archer. She chooses each target carefully, waits for the right moment, and then strikes with power and precision. It is with this same vision and focus that she ...","info":{"attack":7,"defense":3,"magic":2,"difficulty":4},"image":{"full":"Ashe.png","sprite":"champion0.png","group":"champion","x":336,"y":0,"w":48,"h":48},"tags":["Marksman","Support"],"partype":"MP","stats":{"hp":527.72,"hpperlevel":79,"mp":280,"mpperlevel":32,"movespeed":325,"armor":21.212,"armorperlevel":3.4,"spellblock":30,"spellblockperlevel":0,"attackrange":600,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":6.97,"mpregenperlevel":0.4,"crit":0,"critperlevel":0,"attackdamage":56.508,"attackdamageperlevel":2.26,"attackspeedoffset":-0.05,"attackspeedperlevel":3.33}},"AurelionSol":{"version":"6.18.1","id":"AurelionSol","key":"136","name":"Aurelion Sol","title":"The Star Forger","blurb":"Aurelion SolÂ onceÂ graced the vast emptiness of the cosmos with celestial wonders of his own devising. Now, he is forced to wield his awesome power at the behest of a space-faring empire that tricked him into servitude. Desiring a return to his ...","info":{"attack":2,"defense":3,"magic":8,"difficulty":7},"image":{"full":"AurelionSol.png","sprite":"champion0.png","group":"champion","x":384,"y":0,"w":48,"h":48},"tags":["Mage","Fighter"],"partype":"MP","stats":{"hp":550,"hpperlevel":80,"mp":350,"mpperlevel":50,"movespeed":325,"armor":19,"armorperlevel":3.6,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6.5,"hpregenperlevel":0.6,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":57,"attackdamageperlevel":3.2,"attackspeedoffset":0,"attackspeedperlevel":1.36}},"Azir":{"version":"6.18.1","id":"Azir","key":"268","name":"Azir","title":"the Emperor of the Sands","blurb":"''Shurima was once the glory of Runeterra. I will make it so again.''<br><br>Azir was a mortal emperor of Shurima in a far distant age, a proud man who stood at the cusp of immortality. His hubris saw him betrayed and murdered at the moment of his ...","info":{"attack":6,"defense":3,"magic":8,"difficulty":9},"image":{"full":"Azir.png","sprite":"champion0.png","group":"champion","x":432,"y":0,"w":48,"h":48},"tags":["Mage","Marksman"],"partype":"MP","stats":{"hp":524.4,"hpperlevel":80,"mp":350.56,"mpperlevel":42,"movespeed":325,"armor":19.04,"armorperlevel":3,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":6.92,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":52,"attackdamageperlevel":2.8,"attackspeedoffset":-0.02,"attackspeedperlevel":1.5}},"Bard":{"version":"6.18.1","id":"Bard","key":"432","name":"Bard","title":"the Wandering Caretaker","blurb":"Bard travels through realms beyond the imagination of mortal beings. Some of Valoran's greatest scholars have spent their lives trying to understand the mysteries he embodies. This enigmatic spirit has been given many names throughout the history of ...","info":{"attack":4,"defense":4,"magic":5,"difficulty":9},"image":{"full":"Bard.png","sprite":"champion0.png","group":"champion","x":0,"y":48,"w":48,"h":48},"tags":["Support","Mage"],"partype":"MP","stats":{"hp":535,"hpperlevel":89,"mp":350,"mpperlevel":50,"movespeed":330,"armor":25,"armorperlevel":4,"spellblock":30,"spellblockperlevel":0,"attackrange":500,"hpregen":5.4,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":52,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":2}},"Blitzcrank":{"version":"6.18.1","id":"Blitzcrank","key":"53","name":"Blitzcrank","title":"the Great Steam Golem","blurb":"Zaun is a place where both magic and science have gone awry, and the unchecked nature of experimentation has taken its toll. However, Zaun's lenient restrictions allow their researchers and inventors the leeway to push the bounds of science at an ...","info":{"attack":4,"defense":8,"magic":5,"difficulty":4},"image":{"full":"Blitzcrank.png","sprite":"champion0.png","group":"champion","x":48,"y":48,"w":48,"h":48},"tags":["Tank","Fighter"],"partype":"MP","stats":{"hp":582.6,"hpperlevel":95,"mp":267.2,"mpperlevel":40,"movespeed":325,"armor":24.38,"armorperlevel":4,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.51,"hpregenperlevel":0.75,"mpregen":8.5,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":61.54,"attackdamageperlevel":3.5,"attackspeedoffset":0,"attackspeedperlevel":1.13}},"Brand":{"version":"6.18.1","id":"Brand","key":"63","name":"Brand","title":"the Burning Vengeance","blurb":"In a faraway place known as Lokfar there was a seafaring marauder called Kegan Rodhe. As was his people's way, Kegan sailed far and wide with his fellows, stealing treasures from those unlucky enough to catch their attention. To some, he was a ...","info":{"attack":2,"defense":2,"magic":9,"difficulty":4},"image":{"full":"Brand.png","sprite":"champion0.png","group":"champion","x":96,"y":48,"w":48,"h":48},"tags":["Mage"],"partype":"MP","stats":{"hp":507.68,"hpperlevel":76,"mp":375.6,"mpperlevel":42,"movespeed":340,"armor":21.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":8.005,"mpregenperlevel":0.6,"crit":0,"critperlevel":0,"attackdamage":57.04,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":1.36}},"Braum":{"version":"6.18.1","id":"Braum","key":"201","name":"Braum","title":"the Heart of the Freljord","blurb":"''Would you like a bedtime story?''<br><br>''Grandma, I'm too old for that.''<br><br>''You're never too old to be told a story.''<br><br>The girl reluctantly crawls into bed and waits, knowing she won't win this battle. A bitter wind howls outside, ...","info":{"attack":3,"defense":9,"magic":4,"difficulty":3},"image":{"full":"Braum.png","sprite":"champion0.png","group":"champion","x":144,"y":48,"w":48,"h":48},"tags":["Support","Tank"],"partype":"MP","stats":{"hp":576.16,"hpperlevel":87,"mp":310.6,"mpperlevel":45,"movespeed":335,"armor":26.72,"armorperlevel":4.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.18,"hpregenperlevel":1,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":55.376,"attackdamageperlevel":3.2,"attackspeedoffset":-0.03,"attackspeedperlevel":3.5}},"Caitlyn":{"version":"6.18.1","id":"Caitlyn","key":"51","name":"Caitlyn","title":"the Sheriff of Piltover","blurb":"''Go ahead, run. I'll give you a five minute head start.''<br><br>One of the reasons Piltover is known as the City of Progress is because it has an extraordinarily low crime rate. This hasn't always been the case; brigands and thieves of all sorts ...","info":{"attack":8,"defense":2,"magic":2,"difficulty":6},"image":{"full":"Caitlyn.png","sprite":"champion0.png","group":"champion","x":192,"y":48,"w":48,"h":48},"tags":["Marksman"],"partype":"MP","stats":{"hp":524.4,"hpperlevel":80,"mp":313.7,"mpperlevel":35,"movespeed":325,"armor":22.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":650,"hpregen":5.67,"hpregenperlevel":0.55,"mpregen":7.4,"mpregenperlevel":0.55,"crit":0,"critperlevel":0,"attackdamage":53.66,"attackdamageperlevel":2.18,"attackspeedoffset":0.1,"attackspeedperlevel":4}},"Cassiopeia":{"version":"6.18.1","id":"Cassiopeia","key":"69","name":"Cassiopeia","title":"the Serpent's Embrace","blurb":"Cassiopeia is a terrifying creature - half woman, half snake - whose slightest glance brings death. The youngest daughter of one of Noxus' most influential families, she was once a beautiful and cunning temptress capable of manipulating the hardest ...","info":{"attack":2,"defense":3,"magic":9,"difficulty":10},"image":{"full":"Cassiopeia.png","sprite":"champion0.png","group":"champion","x":240,"y":48,"w":48,"h":48},"tags":["Mage"],"partype":"MP","stats":{"hp":525,"hpperlevel":75,"mp":375,"mpperlevel":60,"movespeed":328,"armor":25,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":5.5,"hpregenperlevel":0.5,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":53,"attackdamageperlevel":3,"attackspeedoffset":-0.034,"attackspeedperlevel":1.5}},"Chogath":{"version":"6.18.1","id":"Chogath","key":"31","name":"Cho'Gath","title":"the Terror of the Void","blurb":"There is a place between dimensions, between worlds. To some it is known as the Outside, to others it is the Unknown. To those that truly know, however, it is called the Void. Despite its name, the Void is not an empty place, but rather the home of ...","info":{"attack":3,"defense":7,"magic":7,"difficulty":5},"image":{"full":"Chogath.png","sprite":"champion0.png","group":"champion","x":288,"y":48,"w":48,"h":48},"tags":["Tank","Mage"],"partype":"MP","stats":{"hp":574.4,"hpperlevel":80,"mp":272.2,"mpperlevel":40,"movespeed":345,"armor":28.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.925,"hpregenperlevel":0.85,"mpregen":7.205,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":61.156,"attackdamageperlevel":4.2,"attackspeedoffset":0,"attackspeedperlevel":1.44}},"Corki":{"version":"6.18.1","id":"Corki","key":"42","name":"Corki","title":"the Daring Bombardier","blurb":"When Heimerdinger and his yordle colleagues migrated to Piltover, they embraced science as a way of life, and they immediately made several groundbreaking contributions to the techmaturgical community. What yordles lack in stature, they make up for ...","info":{"attack":8,"defense":3,"magic":6,"difficulty":6},"image":{"full":"Corki.png","sprite":"champion0.png","group":"champion","x":336,"y":48,"w":48,"h":48},"tags":["Marksman"],"partype":"MP","stats":{"hp":512.76,"hpperlevel":82,"mp":350.16,"mpperlevel":34,"movespeed":325,"armor":23.38,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":7.42,"mpregenperlevel":0.55,"crit":0,"critperlevel":0,"attackdamage":56,"attackdamageperlevel":2.5,"attackspeedoffset":0,"attackspeedperlevel":2.3}},"Darius":{"version":"6.18.1","id":"Darius","key":"122","name":"Darius","title":"the Hand of Noxus","blurb":"There is no greater symbol of Noxian might than Darius, the nation's most feared and battle-hardened warrior. Orphaned at a young age, Darius had to fight to keep himself and his younger brother alive. By the time he joined the military, he had ...","info":{"attack":9,"defense":5,"magic":1,"difficulty":2},"image":{"full":"Darius.png","sprite":"champion0.png","group":"champion","x":384,"y":48,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":582.24,"hpperlevel":100,"mp":263,"mpperlevel":37.5,"movespeed":340,"armor":30,"armorperlevel":4,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":9.845,"hpregenperlevel":0.95,"mpregen":6.585,"mpregenperlevel":0.35,"crit":0,"critperlevel":0,"attackdamage":56,"attackdamageperlevel":5,"attackspeedoffset":0,"attackspeedperlevel":1}},"Diana":{"version":"6.18.1","id":"Diana","key":"131","name":"Diana","title":"Scorn of the Moon","blurb":"''I am the light coursing in the soul of the moon.''<br><br>Bearing her crescent moonblade, Diana fights as a warrior of the Lunari, a faith all but quashed in the lands around Mount Targon. Clad in shimmering armor the color of winter snow at night, ...","info":{"attack":7,"defense":6,"magic":8,"difficulty":4},"image":{"full":"Diana.png","sprite":"champion0.png","group":"champion","x":432,"y":48,"w":48,"h":48},"tags":["Fighter","Mage"],"partype":"MP","stats":{"hp":589.2,"hpperlevel":90,"mp":297.2,"mpperlevel":40,"movespeed":345,"armor":26.048,"armorperlevel":3.6,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":150,"hpregen":7.425,"hpregenperlevel":0.85,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":53.04,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":2.25}},"Draven":{"version":"6.18.1","id":"Draven","key":"119","name":"Draven","title":"the Glorious Executioner","blurb":"Unlike his brother Darius, victory in battle was never enough for Draven. He craved recognition, acclaim, and glory. He first sought greatness in the Noxian military, but his flair for the dramatic went severely underappreciated. Thirsting for a ...","info":{"attack":9,"defense":3,"magic":1,"difficulty":8},"image":{"full":"Draven.png","sprite":"champion0.png","group":"champion","x":0,"y":96,"w":48,"h":48},"tags":["Marksman"],"partype":"MP","stats":{"hp":557.76,"hpperlevel":82,"mp":360.56,"mpperlevel":39,"movespeed":330,"armor":25.544,"armorperlevel":3.3,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6.175,"hpregenperlevel":0.7,"mpregen":8.04,"mpregenperlevel":0.65,"crit":0,"critperlevel":0,"attackdamage":55.8,"attackdamageperlevel":2.91,"attackspeedoffset":-0.08,"attackspeedperlevel":2.7}},"DrMundo":{"version":"6.18.1","id":"DrMundo","key":"36","name":"Dr. Mundo","title":"the Madman of Zaun","blurb":"''Beware the Madman of Zaun. In his eyes, you are already dead''<br><br>It is said that the man now known as Dr. Mundo was born without any sort of conscience. Instead, he had an unquenchable desire to inflict pain through experimentation. By the time ...","info":{"attack":5,"defense":7,"magic":6,"difficulty":5},"image":{"full":"DrMundo.png","sprite":"champion0.png","group":"champion","x":48,"y":96,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"None","stats":{"hp":582.52,"hpperlevel":89,"mp":0,"mpperlevel":0,"movespeed":345,"armor":26.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":7.76,"hpregenperlevel":0.75,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":61.27,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":2.8}},"Ekko":{"version":"6.18.1","id":"Ekko","key":"245","name":"Ekko","title":"the Boy Who Shattered Time","blurb":"A prodigy from the rough streets of Zaun, Ekko manipulates time to spin any situation to his advantage. Using his own invention, the Zero-Drive, he explores the branching possibilities of reality. As well as experimenting with multi-dimensional ...","info":{"attack":5,"defense":3,"magic":7,"difficulty":8},"image":{"full":"Ekko.png","sprite":"champion0.png","group":"champion","x":96,"y":96,"w":48,"h":48},"tags":["Assassin","Fighter"],"partype":"MP","stats":{"hp":580,"hpperlevel":80,"mp":280,"mpperlevel":50,"movespeed":340,"armor":27,"armorperlevel":3,"spellblock":32,"spellblockperlevel":1.25,"attackrange":125,"hpregen":9,"hpregenperlevel":0.9,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":55,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":3.3}},"Elise":{"version":"6.18.1","id":"Elise","key":"60","name":"Elise","title":"the Spider Queen","blurb":"''Beauty is power too, and can strike swifter than any sword.''<br><br>Elise is a deadly predator who dwells in a shuttered, lightless palace, deep in the Immortal Bastion of Noxus. Once she was mortal, the mistress of a once-powerful house, but the ...","info":{"attack":6,"defense":5,"magic":7,"difficulty":9},"image":{"full":"Elise.png","sprite":"champion0.png","group":"champion","x":144,"y":96,"w":48,"h":48},"tags":["Mage","Fighter"],"partype":"MP","stats":{"hp":529.4,"hpperlevel":80,"mp":324,"mpperlevel":50,"movespeed":325,"armor":22.128,"armorperlevel":3.35,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":5.705,"hpregenperlevel":0.6,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":50.54,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":1.75}},"Evelynn":{"version":"6.18.1","id":"Evelynn","key":"28","name":"Evelynn","title":"the Widowmaker","blurb":"Swift and lethal, Evelynn is one of the most deadly - and expensive - assassins in all of Runeterra. Able to merge with the shadows at will, she patiently stalks her prey, waiting for the right moment to strike. While Evelynn is clearly not entirely ...","info":{"attack":4,"defense":2,"magic":7,"difficulty":10},"image":{"full":"Evelynn.png","sprite":"champion0.png","group":"champion","x":192,"y":96,"w":48,"h":48},"tags":["Assassin","Mage"],"partype":"MP","stats":{"hp":531.2,"hpperlevel":90,"mp":315.6,"mpperlevel":42,"movespeed":340,"armor":26.5,"armorperlevel":3.8,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":9.82,"hpregenperlevel":0.55,"mpregen":8.105,"mpregenperlevel":0.6,"crit":0,"critperlevel":0,"attackdamage":53.88,"attackdamageperlevel":3.5,"attackspeedoffset":0,"attackspeedperlevel":3.6}},"Ezreal":{"version":"6.18.1","id":"Ezreal","key":"81","name":"Ezreal","title":"the Prodigal Explorer","blurb":"The intrepid young adventurer Ezreal has explored some of the most remote and abandoned locations on Runeterra. During an expedition to the buried ruins of ancient Shurima, he recovered an amulet of incredible mystical power. Likely constructed to be ...","info":{"attack":7,"defense":2,"magic":6,"difficulty":7},"image":{"full":"Ezreal.png","sprite":"champion0.png","group":"champion","x":240,"y":96,"w":48,"h":48},"tags":["Marksman","Mage"],"partype":"MP","stats":{"hp":484.4,"hpperlevel":80,"mp":360.6,"mpperlevel":42,"movespeed":325,"armor":21.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6.42,"hpregenperlevel":0.55,"mpregen":8.09,"mpregenperlevel":0.65,"crit":0,"critperlevel":0,"attackdamage":55.66,"attackdamageperlevel":2.41,"attackspeedoffset":0,"attackspeedperlevel":2.8}},"FiddleSticks":{"version":"6.18.1","id":"FiddleSticks","key":"9","name":"Fiddlesticks","title":"the Harbinger of Doom","blurb":"For nearly twenty years, Fiddlesticks has stood alone in the easternmost summoning chamber of the Institute of War. Only the burning emerald light of his unearthly gaze pierces the musty darkness of his dust-covered home. It is here that the Harbinger ...","info":{"attack":2,"defense":3,"magic":9,"difficulty":9},"image":{"full":"FiddleSticks.png","sprite":"champion0.png","group":"champion","x":288,"y":96,"w":48,"h":48},"tags":["Mage","Support"],"partype":"MP","stats":{"hp":524.4,"hpperlevel":80,"mp":400.12,"mpperlevel":56,"movespeed":335,"armor":20.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":480,"hpregen":5.605,"hpregenperlevel":0.6,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":48.36,"attackdamageperlevel":2.625,"attackspeedoffset":0,"attackspeedperlevel":2.11}},"Fiora":{"version":"6.18.1","id":"Fiora","key":"114","name":"Fiora","title":"the Grand Duelist","blurb":"''I have come to kill you for the sake of honor. And though you possess none, still you die.''<br>The most feared duelist in all Valoran, Fiora is as renowned for her brusque manner and cunning mind as she is for the speed of her bluesteel rapier. ...","info":{"attack":10,"defense":4,"magic":2,"difficulty":3},"image":{"full":"Fiora.png","sprite":"champion0.png","group":"champion","x":336,"y":96,"w":48,"h":48},"tags":["Fighter","Assassin"],"partype":"MP","stats":{"hp":550,"hpperlevel":85,"mp":300,"mpperlevel":40,"movespeed":345,"armor":24,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":150,"hpregen":8.25,"hpregenperlevel":0.55,"mpregen":8,"mpregenperlevel":0.7,"crit":0,"critperlevel":0,"attackdamage":60,"attackdamageperlevel":3.3,"attackspeedoffset":0,"attackspeedperlevel":3.2}},"Fizz":{"version":"6.18.1","id":"Fizz","key":"105","name":"Fizz","title":"the Tidal Trickster","blurb":"Centuries ago, an ancient water-dwelling race built a hidden city beneath a mountain in the sea. Though these creatures had their enemies, the city was an impenetrable fortress, and, in the safety it provided, they grew complacent. Fizz, however, ...","info":{"attack":6,"defense":4,"magic":7,"difficulty":6},"image":{"full":"Fizz.png","sprite":"champion0.png","group":"champion","x":384,"y":96,"w":48,"h":48},"tags":["Assassin","Fighter"],"partype":"MP","stats":{"hp":558.48,"hpperlevel":86,"mp":317.2,"mpperlevel":37,"movespeed":335,"armor":22.412,"armorperlevel":3.4,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":8.175,"hpregenperlevel":0.7,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":58.04,"attackdamageperlevel":3,"attackspeedoffset":-0.05,"attackspeedperlevel":3.1}},"Galio":{"version":"6.18.1","id":"Galio","key":"3","name":"Galio","title":"the Sentinel's Sorrow","blurb":"''There is no such thing as redemption. Only penance.''<br><br>Long before the regulation of magic, mages experimented with the creation of artificial life. Now forbidden, instilling golems with reason was once not so uncommon a practice amongst the ...","info":{"attack":3,"defense":7,"magic":6,"difficulty":3},"image":{"full":"Galio.png","sprite":"champion0.png","group":"champion","x":432,"y":96,"w":48,"h":48},"tags":["Tank","Mage"],"partype":"MP","stats":{"hp":577.8,"hpperlevel":85,"mp":369,"mpperlevel":47,"movespeed":335,"armor":26.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.71,"hpregenperlevel":0.75,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":61.97,"attackdamageperlevel":3.375,"attackspeedoffset":-0.02,"attackspeedperlevel":1.2}},"Gangplank":{"version":"6.18.1","id":"Gangplank","key":"41","name":"Gangplank","title":"the Saltwater Scourge","blurb":"''I was cutting throats and sinking Noxian war galleys when you were still pissing your britches, boy. You don't want to take me on.''<br><br>As unpredictable as he is brutal, the dethroned reaver king known as Gangplank is feared far and wide. Where ...","info":{"attack":7,"defense":6,"magic":4,"difficulty":9},"image":{"full":"Gangplank.png","sprite":"champion1.png","group":"champion","x":0,"y":0,"w":48,"h":48},"tags":["Fighter"],"partype":"MP","stats":{"hp":540,"hpperlevel":82,"mp":282,"mpperlevel":40,"movespeed":345,"armor":26,"armorperlevel":3,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":6,"hpregenperlevel":0.6,"mpregen":7.5,"mpregenperlevel":0.7,"crit":0,"critperlevel":0,"attackdamage":56,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":3.2}},"Garen":{"version":"6.18.1","id":"Garen","key":"86","name":"Garen","title":"The Might of Demacia","blurb":"Throughout Valoran, the resolve of Demacia's military is alternately celebrated or despised, but always respected. Their ''zero tolerance'' moral code is strictly upheld by civilians and soldiers alike. In combat, this means Demacian troops may not ...","info":{"attack":7,"defense":7,"magic":1,"difficulty":5},"image":{"full":"Garen.png","sprite":"champion1.png","group":"champion","x":48,"y":0,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"None","stats":{"hp":616.28,"hpperlevel":84.25,"mp":0,"mpperlevel":0,"movespeed":340,"armor":27.536,"armorperlevel":3,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":7.84,"hpregenperlevel":0.5,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":57.88,"attackdamageperlevel":4.5,"attackspeedoffset":0,"attackspeedperlevel":2.9}},"Gnar":{"version":"6.18.1","id":"Gnar","key":"150","name":"Gnar","title":"the Missing Link","blurb":"The jungle does not forgive blindness. Every broken branch tells a story.<br><br>I've hunted every creature this jungle has to offer. I was certain there were no challenges left here, but now there is something new. Each track is the size of a ...","info":{"attack":6,"defense":5,"magic":5,"difficulty":8},"image":{"full":"Gnar.png","sprite":"champion1.png","group":"champion","x":96,"y":0,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"Gnarfury","stats":{"hp":540,"hpperlevel":65,"mp":100,"mpperlevel":0,"movespeed":325,"armor":23,"armorperlevel":2.5,"spellblock":30,"spellblockperlevel":0,"attackrange":175,"hpregen":2.5,"hpregenperlevel":0.5,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":51,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":6}},"Gragas":{"version":"6.18.1","id":"Gragas","key":"79","name":"Gragas","title":"the Rabble Rouser","blurb":"The only thing more important to Gragas than fighting is drinking. His unquenchable thirst for stronger ale has led him in search of the most potent and unconventional ingredients to toss in his still. Impulsive and unpredictable, this rowdy carouser ...","info":{"attack":4,"defense":7,"magic":6,"difficulty":5},"image":{"full":"Gragas.png","sprite":"champion1.png","group":"champion","x":144,"y":0,"w":48,"h":48},"tags":["Fighter","Mage"],"partype":"MP","stats":{"hp":583.52,"hpperlevel":89,"mp":400,"mpperlevel":47,"movespeed":330,"armor":26.048,"armorperlevel":3.6,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":5.5,"hpregenperlevel":0.5,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":61.38,"attackdamageperlevel":3.5,"attackspeedoffset":-0.04,"attackspeedperlevel":2.05}},"Graves":{"version":"6.18.1","id":"Graves","key":"104","name":"Graves","title":"the Outlaw","blurb":"Malcolm Graves is a wanted man in every realm, city-state, and empire he has visited. Tough, strong-willed, and above all, relentless, through his life of crime he has amassed (then invariably lost) a small fortune.","info":{"attack":8,"defense":5,"magic":3,"difficulty":3},"image":{"full":"Graves.png","sprite":"champion1.png","group":"champion","x":192,"y":0,"w":48,"h":48},"tags":["Marksman"],"partype":"MP","stats":{"hp":551.12,"hpperlevel":84,"mp":322.2,"mpperlevel":40,"movespeed":340,"armor":24.376,"armorperlevel":3.4,"spellblock":30,"spellblockperlevel":0,"attackrange":425,"hpregen":6.675,"hpregenperlevel":0.7,"mpregen":7.9,"mpregenperlevel":0.7,"crit":0,"critperlevel":0,"attackdamage":60.83,"attackdamageperlevel":2.41,"attackspeedoffset":0.3,"attackspeedperlevel":2.6}},"Hecarim":{"version":"6.18.1","id":"Hecarim","key":"120","name":"Hecarim","title":"the Shadow of War","blurb":"''Break their ranks and ride them down without mercy. Crush the living and feast on their terror.''<br><br>Hecarim is an armored colossus who charges from the Shadow Isles at the head of a deathly host of spectral horsemen to hunt the living. A ...","info":{"attack":8,"defense":6,"magic":4,"difficulty":6},"image":{"full":"Hecarim.png","sprite":"champion1.png","group":"champion","x":240,"y":0,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":580,"hpperlevel":90,"mp":277.2,"mpperlevel":40,"movespeed":345,"armor":26.72,"armorperlevel":4,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":7,"hpregenperlevel":0.75,"mpregen":6.5,"mpregenperlevel":0.6,"crit":0,"critperlevel":0,"attackdamage":58,"attackdamageperlevel":3.2,"attackspeedoffset":-0.0672,"attackspeedperlevel":2.5}},"Heimerdinger":{"version":"6.18.1","id":"Heimerdinger","key":"74","name":"Heimerdinger","title":"the Revered Inventor","blurb":"From the Journal of Professor Cecil B. Heimerdinger<br><br>10.14<br><br>09:15<br><br>Current meteorological conditions in Bandle City seem optimal. Atmospheric pressure is ideal for today's experiments!<br><br>Running a fifth trial for my ...","info":{"attack":2,"defense":6,"magic":8,"difficulty":8},"image":{"full":"Heimerdinger.png","sprite":"champion1.png","group":"champion","x":288,"y":0,"w":48,"h":48},"tags":["Mage","Support"],"partype":"MP","stats":{"hp":476,"hpperlevel":75,"mp":307.2,"mpperlevel":40,"movespeed":340,"armor":19.04,"armorperlevel":3,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":11.005,"hpregenperlevel":1.75,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":55.536,"attackdamageperlevel":2.7,"attackspeedoffset":0,"attackspeedperlevel":1.36}},"Illaoi":{"version":"6.18.1","id":"Illaoi","key":"420","name":"Illaoi","title":"the Kraken Priestess","blurb":"''I'm not big on sermons. Broken bones teach better lessons.''<br>Illaoi's powerful physique is dwarfed only by her indomitable faith. As the prophet of the Great Kraken, she uses a huge, golden idol to rip her foes' spirits from their bodies and ...","info":{"attack":8,"defense":6,"magic":3,"difficulty":4},"image":{"full":"Illaoi.png","sprite":"champion1.png","group":"champion","x":336,"y":0,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":585.6,"hpperlevel":95,"mp":300,"mpperlevel":40,"movespeed":340,"armor":26,"armorperlevel":3.8,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":9.5,"hpregenperlevel":0.8,"mpregen":7.5,"mpregenperlevel":0.75,"crit":0,"critperlevel":0,"attackdamage":60,"attackdamageperlevel":5,"attackspeedoffset":0,"attackspeedperlevel":2.5}},"Irelia":{"version":"6.18.1","id":"Irelia","key":"39","name":"Irelia","title":"the Will of the Blades","blurb":"''The sword flourishes, as though painting with blood.''<br><br>The Ionians have developed some of the most breathtaking and deadly martial arts in all of Runeterra - just one manifestation of their pursuit of enlightenment. The most remarkable blade ...","info":{"attack":7,"defense":4,"magic":5,"difficulty":5},"image":{"full":"Irelia.png","sprite":"champion1.png","group":"champion","x":384,"y":0,"w":48,"h":48},"tags":["Fighter","Assassin"],"partype":"MP","stats":{"hp":607.2,"hpperlevel":90,"mp":338.8,"mpperlevel":32,"movespeed":345,"armor":25.3,"armorperlevel":3.75,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.59,"hpregenperlevel":0.65,"mpregen":8.1,"mpregenperlevel":0.65,"crit":0,"critperlevel":0,"attackdamage":61.544,"attackdamageperlevel":3.3,"attackspeedoffset":-0.06,"attackspeedperlevel":3.2}},"Janna":{"version":"6.18.1","id":"Janna","key":"40","name":"Janna","title":"the Storm's Fury","blurb":"There are those sorcerers who give themselves over to the primal powers of nature, forgoing the learned practice of magic. Such a sorceress is Janna, who first learned magic as an orphan growing up amidst the chaos that is the city-state of Zaun. ...","info":{"attack":3,"defense":5,"magic":7,"difficulty":7},"image":{"full":"Janna.png","sprite":"champion1.png","group":"champion","x":432,"y":0,"w":48,"h":48},"tags":["Support","Mage"],"partype":"MP","stats":{"hp":487.04,"hpperlevel":78,"mp":409.52,"mpperlevel":64,"movespeed":335,"armor":19.384,"armorperlevel":3.8,"spellblock":30,"spellblockperlevel":0,"attackrange":475,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":11.5,"mpregenperlevel":0.4,"crit":0,"critperlevel":0,"attackdamage":51.956,"attackdamageperlevel":2.95,"attackspeedoffset":0,"attackspeedperlevel":2.61}},"JarvanIV":{"version":"6.18.1","id":"JarvanIV","key":"59","name":"Jarvan IV","title":"the Exemplar of Demacia","blurb":"''There is only one truth, and you will find it at the point of my lance.''<br><br>As the royal family of Demacia for centuries, members of the Lightshield line have spent their lives waging war against any who opposed Demacian ethics. It is said that ...","info":{"attack":6,"defense":8,"magic":3,"difficulty":5},"image":{"full":"JarvanIV.png","sprite":"champion1.png","group":"champion","x":0,"y":48,"w":48,"h":48},"tags":["Tank","Fighter"],"partype":"MP","stats":{"hp":571.2,"hpperlevel":90,"mp":302.2,"mpperlevel":40,"movespeed":340,"armor":29,"armorperlevel":3.6,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":8.175,"hpregenperlevel":0.7,"mpregen":6.755,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":55.712,"attackdamageperlevel":3.4,"attackspeedoffset":-0.05,"attackspeedperlevel":2.5}},"Jax":{"version":"6.18.1","id":"Jax","key":"24","name":"Jax","title":"Grandmaster at Arms","blurb":"It is seldom the case where a champion is defined by his actions after joining the League of Legends rather than before. Such is the case with Jax, for whom the argument could be made that he is the most prolific tournament fighter currently at the ...","info":{"attack":7,"defense":5,"magic":7,"difficulty":5},"image":{"full":"Jax.png","sprite":"champion1.png","group":"champion","x":48,"y":48,"w":48,"h":48},"tags":["Fighter","Assassin"],"partype":"MP","stats":{"hp":592.8,"hpperlevel":85,"mp":338.8,"mpperlevel":32,"movespeed":350,"armor":27.04,"armorperlevel":3,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.37,"hpregenperlevel":0.55,"mpregen":7.575,"mpregenperlevel":0.7,"crit":0,"critperlevel":0,"attackdamage":61.97,"attackdamageperlevel":3.375,"attackspeedoffset":-0.02,"attackspeedperlevel":3.4}},"Jayce":{"version":"6.18.1","id":"Jayce","key":"126","name":"Jayce","title":"the Defender of Tomorrow","blurb":"Armed with wit, charm, and his signature transforming hammer, Jayce lives to protect his native Piltover. Long before his nation called him a hero, however, he was a promising young inventor. When Piltover commissioned him to study a rare arcane ...","info":{"attack":8,"defense":4,"magic":3,"difficulty":7},"image":{"full":"Jayce.png","sprite":"champion1.png","group":"champion","x":96,"y":48,"w":48,"h":48},"tags":["Fighter","Marksman"],"partype":"MP","stats":{"hp":571.2,"hpperlevel":90,"mp":357.2,"mpperlevel":37,"movespeed":335,"armor":22.38,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":125,"hpregen":7.34,"hpregenperlevel":0.8,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":50.38,"attackdamageperlevel":3.5,"attackspeedoffset":-0.05,"attackspeedperlevel":3}},"Jhin":{"version":"6.18.1","id":"Jhin","key":"202","name":"Jhin","title":"the Virtuoso","blurb":"''Art requires a certain...cruelty.''<br><br>Jhin is a meticulous criminal psychopath who believes murder is art. Once an Ionian prisoner, but freed by shadowy elements within Ionia's ruling council, the serial killer now works as their cabal's ...","info":{"attack":10,"defense":2,"magic":6,"difficulty":6},"image":{"full":"Jhin.png","sprite":"champion1.png","group":"champion","x":144,"y":48,"w":48,"h":48},"tags":["Marksman","Assassin"],"partype":"MP","stats":{"hp":540,"hpperlevel":85,"mp":300,"mpperlevel":50,"movespeed":330,"armor":20,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":53,"attackdamageperlevel":4,"attackspeedoffset":0,"attackspeedperlevel":0}},"Jinx":{"version":"6.18.1","id":"Jinx","key":"222","name":"Jinx","title":"the Loose Cannon","blurb":"Jinx lives to wreak havoc without a thought for the consequences, leaving a trail of mayhem and panic in her wake. A manic and impulsive criminal, she despises nothing more than boredom, and gleefully brings her own volatile brand of pandemonium to ...","info":{"attack":9,"defense":2,"magic":4,"difficulty":6},"image":{"full":"Jinx.png","sprite":"champion1.png","group":"champion","x":192,"y":48,"w":48,"h":48},"tags":["Marksman"],"partype":"MP","stats":{"hp":517.76,"hpperlevel":82,"mp":245.6,"mpperlevel":45,"movespeed":325,"armor":22.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":5.84,"hpregenperlevel":0.5,"mpregen":6.68,"mpregenperlevel":1,"crit":0,"critperlevel":0,"attackdamage":58.46,"attackdamageperlevel":2.41,"attackspeedoffset":0,"attackspeedperlevel":1}},"Kalista":{"version":"6.18.1","id":"Kalista","key":"429","name":"Kalista","title":"the Spear of Vengeance","blurb":"''When wronged, we seek justice. When hurt, we strike back. When betrayed, the Spear of Vengeance strikes!''<br><br>A specter of wrath and retribution, Kalista is the undying spirit of vengeance, an armored nightmare summoned from the Shadow Isles to ...","info":{"attack":8,"defense":2,"magic":4,"difficulty":7},"image":{"full":"Kalista.png","sprite":"champion1.png","group":"champion","x":240,"y":48,"w":48,"h":48},"tags":["Marksman"],"partype":"MP","stats":{"hp":517.76,"hpperlevel":83,"mp":231.8,"mpperlevel":35,"movespeed":325,"armor":19.012,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6,"hpregenperlevel":0.55,"mpregen":6.3,"mpregenperlevel":0.4,"crit":0,"critperlevel":0,"attackdamage":63,"attackdamageperlevel":2.9,"attackspeedoffset":-0.03,"attackspeedperlevel":2.5}},"Karma":{"version":"6.18.1","id":"Karma","key":"43","name":"Karma","title":"the Enlightened One","blurb":"Karma is a woman of indomitable will and unbound spiritual power. She is the soul of Ionia made manifest and an inspiring presence on the battlefield, shielding her allies and turning back her foes. A strong leader torn between tradition and ...","info":{"attack":1,"defense":7,"magic":8,"difficulty":5},"image":{"full":"Karma.png","sprite":"champion1.png","group":"champion","x":288,"y":48,"w":48,"h":48},"tags":["Mage","Support"],"partype":"MP","stats":{"hp":522.44,"hpperlevel":83,"mp":374,"mpperlevel":50,"movespeed":335,"armor":20.384,"armorperlevel":3.8,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":5.62,"hpregenperlevel":0.55,"mpregen":8.5,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":53.544,"attackdamageperlevel":3.3,"attackspeedoffset":0,"attackspeedperlevel":2.3}},"Karthus":{"version":"6.18.1","id":"Karthus","key":"30","name":"Karthus","title":"the Deathsinger","blurb":"''Death is not the end of the journey, it is just the beginning...''<br><br>The harbinger of oblivion, Karthus is an undying spirit whose haunting songs are a prelude to the horror of his nightmarish appearance. The living fear the eternity of undeath,...","info":{"attack":2,"defense":2,"magic":10,"difficulty":7},"image":{"full":"Karthus.png","sprite":"champion1.png","group":"champion","x":336,"y":48,"w":48,"h":48},"tags":["Mage"],"partype":"MP","stats":{"hp":516,"hpperlevel":75,"mp":372.48,"mpperlevel":61,"movespeed":335,"armor":20.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":450,"hpregen":6.42,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":45.66,"attackdamageperlevel":3.25,"attackspeedoffset":0,"attackspeedperlevel":2.11}},"Kassadin":{"version":"6.18.1","id":"Kassadin","key":"38","name":"Kassadin","title":"the Void Walker","blurb":"There is a place between dimensions and between worlds. To some it is known as the Outside, to others it is the Unknown. To most, however, it is called the Void. Despite its name, the Void is not an empty place, but rather the home of unspeakable ...","info":{"attack":3,"defense":5,"magic":8,"difficulty":8},"image":{"full":"Kassadin.png","sprite":"champion1.png","group":"champion","x":384,"y":48,"w":48,"h":48},"tags":["Assassin","Mage"],"partype":"MP","stats":{"hp":564.04,"hpperlevel":78,"mp":397.6,"mpperlevel":67,"movespeed":340,"armor":23.376,"armorperlevel":3.2,"spellblock":30,"spellblockperlevel":0,"attackrange":150,"hpregen":7.79,"hpregenperlevel":0.5,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":58.852,"attackdamageperlevel":3.9,"attackspeedoffset":-0.023,"attackspeedperlevel":3.7}},"Katarina":{"version":"6.18.1","id":"Katarina","key":"55","name":"Katarina","title":"the Sinister Blade","blurb":"Driven by an intense killer instinct, Katarina uses her talents as an assassin for the glory of Noxus, and the continued elevation of her family. While her fervor drives her to ever-greater feats, it can sometimes lead her astray.<br><br>From ...","info":{"attack":4,"defense":3,"magic":9,"difficulty":8},"image":{"full":"Katarina.png","sprite":"champion1.png","group":"champion","x":432,"y":48,"w":48,"h":48},"tags":["Assassin","Mage"],"partype":"None","stats":{"hp":510,"hpperlevel":83,"mp":0,"mpperlevel":0,"movespeed":345,"armor":26.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":4.5,"hpregenperlevel":0.55,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":58,"attackdamageperlevel":3.2,"attackspeedoffset":-0.05,"attackspeedperlevel":2.74}},"Kayle":{"version":"6.18.1","id":"Kayle","key":"10","name":"Kayle","title":"The Judicator","blurb":"In a world far away where an ancient war still rages, Kayle was a great hero - the strongest of an immortal race committed to destroying evil wherever it could be found. For ten thousand years, Kayle fought tirelessly for her people, wielding her ...","info":{"attack":6,"defense":6,"magic":7,"difficulty":7},"image":{"full":"Kayle.png","sprite":"champion1.png","group":"champion","x":0,"y":96,"w":48,"h":48},"tags":["Fighter","Support"],"partype":"MP","stats":{"hp":574.24,"hpperlevel":93,"mp":322.2,"mpperlevel":40,"movespeed":335,"armor":26.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":125,"hpregen":8.26,"hpregenperlevel":0.75,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":51,"attackdamageperlevel":2.8,"attackspeedoffset":-0.02,"attackspeedperlevel":2.2}},"Kennen":{"version":"6.18.1","id":"Kennen","key":"85","name":"Kennen","title":"the Heart of the Tempest","blurb":"There exists an ancient order originating in the Ionian Isles dedicated to the preservation of balance. Order, chaos, light, darkness -- all things must exist in perfect harmony for such is the way of the universe. This order is known as the Kinkou ...","info":{"attack":6,"defense":4,"magic":7,"difficulty":4},"image":{"full":"Kennen.png","sprite":"champion1.png","group":"champion","x":48,"y":96,"w":48,"h":48},"tags":["Mage","Marksman"],"partype":"Energy","stats":{"hp":535.72,"hpperlevel":79,"mp":200,"mpperlevel":0,"movespeed":335,"armor":24.3,"armorperlevel":3.75,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":5.59,"hpregenperlevel":0.65,"mpregen":50,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":50.544,"attackdamageperlevel":3.3,"attackspeedoffset":-0.0947,"attackspeedperlevel":3.4}},"Khazix":{"version":"6.18.1","id":"Khazix","key":"121","name":"Kha'Zix","title":"the Voidreaver","blurb":"A vicious Void predator, Kha'Zix infiltrated Valoran to devour the land's most promising creatures. With each kill he absorbs his prey's strength, evolving to grow more powerful. Kha'Zix hungers most to conquer and consume Rengar, the one beast he ...","info":{"attack":9,"defense":4,"magic":3,"difficulty":6},"image":{"full":"Khazix.png","sprite":"champion1.png","group":"champion","x":96,"y":96,"w":48,"h":48},"tags":["Assassin","Fighter"],"partype":"MP","stats":{"hp":572.8,"hpperlevel":85,"mp":327.2,"mpperlevel":40,"movespeed":350,"armor":27,"armorperlevel":3,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":7.51,"hpregenperlevel":0.75,"mpregen":7.59,"mpregenperlevel":0.5,"crit":0,"critperlevel":0,"attackdamage":55.208,"attackdamageperlevel":3.1,"attackspeedoffset":-0.065,"attackspeedperlevel":2.7}},"Kindred":{"version":"6.18.1","id":"Kindred","key":"203","name":"Kindred","title":"The Eternal Hunters","blurb":"''Tell me again, little Lamb, which things are ours to take?''<br>''All things, Dear Wolf.''<br>Separate, but never parted, Kindred represents the twin essences of death. Lamb's arrow offers a swift release for those who accept their fate. Wolf hunts ...","info":{"attack":8,"defense":2,"magic":2,"difficulty":4},"image":{"full":"Kindred.png","sprite":"champion1.png","group":"champion","x":144,"y":96,"w":48,"h":48},"tags":["Marksman"],"partype":"MP","stats":{"hp":540,"hpperlevel":85,"mp":300,"mpperlevel":35,"movespeed":325,"armor":20,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":500,"hpregen":7,"hpregenperlevel":0.55,"mpregen":6.97,"mpregenperlevel":0.4,"crit":0,"critperlevel":0,"attackdamage":54,"attackdamageperlevel":1.7,"attackspeedoffset":0,"attackspeedperlevel":2.5}},"Kled":{"version":"6.18.1","id":"Kled","key":"240","name":"Kled","title":"the Cantankerous Cavalier","blurb":"''A sane man would run . . . but I ain't the runnin' kind!''<br><br>A warrior as fearless as he is ornery, Kled is a popular folk hero in Noxus. Embodying the furious bravado of his nation, he is an icon beloved by the empire's soldiers, distrusted by ...","info":{"attack":8,"defense":2,"magic":2,"difficulty":7},"image":{"full":"Kled.png","sprite":"champion4.png","group":"champion","x":48,"y":48,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"Gnarfury","stats":{"hp":340,"hpperlevel":70,"mp":100,"mpperlevel":0,"movespeed":345,"armor":26,"armorperlevel":4,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":6,"hpregenperlevel":0.75,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":55,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":3.5}},"KogMaw":{"version":"6.18.1","id":"KogMaw","key":"96","name":"Kog'Maw","title":"the Mouth of the Abyss","blurb":"''If that's just hungry, I don't want to see angry.''<br><br>When the prophet Malzahar was reborn in Icathia, he was led there by an ominous voice which thereafter anchored itself to his psyche. From within, this voice bestowed upon him terrible ...","info":{"attack":8,"defense":2,"magic":5,"difficulty":6},"image":{"full":"KogMaw.png","sprite":"champion1.png","group":"champion","x":192,"y":96,"w":48,"h":48},"tags":["Marksman","Mage"],"partype":"MP","stats":{"hp":517.76,"hpperlevel":82,"mp":322.2,"mpperlevel":40,"movespeed":325,"armor":19.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":500,"hpregen":5.92,"hpregenperlevel":0.55,"mpregen":8.675,"mpregenperlevel":0.7,"crit":0,"critperlevel":0,"attackdamage":57.46,"attackdamageperlevel":2.41,"attackspeedoffset":0,"attackspeedperlevel":3.5}},"Leblanc":{"version":"6.18.1","id":"Leblanc","key":"7","name":"LeBlanc","title":"the Deceiver","blurb":"Every city has its dark side, even one whose reputation is already of a questionable hue. Noxus - though its name is already invoked with a mixture of reverence and revulsion - is no exception to this simple truth. Deep within the winding dungeons ...","info":{"attack":1,"defense":4,"magic":10,"difficulty":9},"image":{"full":"Leblanc.png","sprite":"champion1.png","group":"champion","x":240,"y":96,"w":48,"h":48},"tags":["Assassin","Mage"],"partype":"MP","stats":{"hp":516,"hpperlevel":75,"mp":334,"mpperlevel":50,"movespeed":335,"armor":21.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":7.42,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":54.88,"attackdamageperlevel":3.5,"attackspeedoffset":0,"attackspeedperlevel":1.4}},"LeeSin":{"version":"6.18.1","id":"LeeSin","key":"64","name":"Lee Sin","title":"the Blind Monk","blurb":"As a young teen, Lee Sin was intent on becoming a summoner. His will and dedication were unmatched by any of his peers, and his skill drew the attention of Reginald Ashram, the League's High Councilor at the time. While studying at the Arcanum Majoris,...","info":{"attack":8,"defense":5,"magic":3,"difficulty":6},"image":{"full":"LeeSin.png","sprite":"champion1.png","group":"champion","x":288,"y":96,"w":48,"h":48},"tags":["Fighter","Assassin"],"partype":"Energy","stats":{"hp":570.8,"hpperlevel":85,"mp":200,"mpperlevel":0,"movespeed":350,"armor":24.216,"armorperlevel":3.7,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":7.425,"hpregenperlevel":0.7,"mpregen":50,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":61.176,"attackdamageperlevel":3.2,"attackspeedoffset":-0.04,"attackspeedperlevel":3}},"Leona":{"version":"6.18.1","id":"Leona","key":"89","name":"Leona","title":"the Radiant Dawn","blurb":"''If you would shine like a sun, first you must burn like one.''<br><br>Imbued with the fire of the sun, Leona is a warrior templar of the Solari who defends Mount Targon with her Zenith Blade and Shield of Daybreak. Her skin shimmers with starfire ...","info":{"attack":4,"defense":8,"magic":3,"difficulty":4},"image":{"full":"Leona.png","sprite":"champion1.png","group":"champion","x":336,"y":96,"w":48,"h":48},"tags":["Tank","Support"],"partype":"MP","stats":{"hp":576.16,"hpperlevel":87,"mp":302.2,"mpperlevel":40,"movespeed":335,"armor":27.208,"armorperlevel":3.6,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.425,"hpregenperlevel":0.85,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":60.04,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":2.9}},"Lissandra":{"version":"6.18.1","id":"Lissandra","key":"127","name":"Lissandra","title":"the Ice Witch","blurb":"Lissandra's magic twists the pure power of ice into something dark and terrible. With the force of her black ice, she does more than freeze - she impales and crushes those who oppose her. To the terrified denizens of the north, she is known only as ...","info":{"attack":2,"defense":5,"magic":8,"difficulty":6},"image":{"full":"Lissandra.png","sprite":"champion1.png","group":"champion","x":384,"y":96,"w":48,"h":48},"tags":["Mage"],"partype":"MP","stats":{"hp":506.12,"hpperlevel":75,"mp":304,"mpperlevel":50,"movespeed":325,"armor":20.216,"armorperlevel":3.7,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6.92,"hpregenperlevel":0.55,"mpregen":5.67,"mpregenperlevel":0.4,"crit":0,"critperlevel":0,"attackdamage":50.536,"attackdamageperlevel":2.7,"attackspeedoffset":0,"attackspeedperlevel":1.36}},"Lucian":{"version":"6.18.1","id":"Lucian","key":"236","name":"Lucian","title":"the Purifier","blurb":"Lucian wields relic weapons imbued with ancient power and stands a stalwart guardian against the undead. His cold conviction never wavers, even in the face of the maddening horrors he destroys beneath his hail of purifying fire. Lucian walks alone on ...","info":{"attack":8,"defense":5,"magic":3,"difficulty":6},"image":{"full":"Lucian.png","sprite":"champion1.png","group":"champion","x":432,"y":96,"w":48,"h":48},"tags":["Marksman"],"partype":"MP","stats":{"hp":554.4,"hpperlevel":80,"mp":348.88,"mpperlevel":38,"movespeed":335,"armor":24.04,"armorperlevel":3,"spellblock":30,"spellblockperlevel":0,"attackrange":500,"hpregen":6.19,"hpregenperlevel":0.65,"mpregen":8.175,"mpregenperlevel":0.7,"crit":0,"critperlevel":0,"attackdamage":57.46,"attackdamageperlevel":2.41,"attackspeedoffset":-0.02,"attackspeedperlevel":3.3}},"Lulu":{"version":"6.18.1","id":"Lulu","key":"117","name":"Lulu","title":"the Fae Sorceress","blurb":"Perhaps more than any other champion in the League, Lulu marches to the beat of her own drum. During her youth in Bandle City, she spent most of her time wandering alone in the forest or lost in a daydream. It wasn't that she was antisocial; the ...","info":{"attack":4,"defense":5,"magic":7,"difficulty":5},"image":{"full":"Lulu.png","sprite":"champion2.png","group":"champion","x":0,"y":0,"w":48,"h":48},"tags":["Support","Mage"],"partype":"MP","stats":{"hp":552.76,"hpperlevel":74,"mp":350,"mpperlevel":55,"movespeed":330,"armor":19.216,"armorperlevel":3.7,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6.005,"hpregenperlevel":0.6,"mpregen":11,"mpregenperlevel":0.6,"crit":0,"critperlevel":0,"attackdamage":46.368,"attackdamageperlevel":2.6,"attackspeedoffset":0,"attackspeedperlevel":2.25}},"Lux":{"version":"6.18.1","id":"Lux","key":"99","name":"Lux","title":"the Lady of Luminosity","blurb":"Born to the prestigious Crownguards, the paragon family of Demacian service, Luxanna was destined for greatness. She grew up as the family's only daughter, and she immediately took to the advanced education and lavish parties required of families as ...","info":{"attack":2,"defense":4,"magic":9,"difficulty":5},"image":{"full":"Lux.png","sprite":"champion2.png","group":"champion","x":48,"y":0,"w":48,"h":48},"tags":["Mage","Support"],"partype":"MP","stats":{"hp":477.72,"hpperlevel":79,"mp":384,"mpperlevel":47,"movespeed":330,"armor":18.72,"armorperlevel":4,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":53.544,"attackdamageperlevel":3.3,"attackspeedoffset":0,"attackspeedperlevel":1.36}},"Malphite":{"version":"6.18.1","id":"Malphite","key":"54","name":"Malphite","title":"Shard of the Monolith","blurb":"There is a world of perfect harmony, where all are part of the whole. The Monolith is the essence of all creation, and its denizens are but singular pieces of it. It is beautiful in its symmetry, and in its almost complete lack of uncertainty. The ...","info":{"attack":5,"defense":9,"magic":7,"difficulty":2},"image":{"full":"Malphite.png","sprite":"champion2.png","group":"champion","x":96,"y":0,"w":48,"h":48},"tags":["Tank","Fighter"],"partype":"MP","stats":{"hp":574.2,"hpperlevel":90,"mp":282.2,"mpperlevel":40,"movespeed":335,"armor":28.3,"armorperlevel":3.75,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":7,"hpregenperlevel":0.55,"mpregen":7.32,"mpregenperlevel":0.55,"crit":0,"critperlevel":0,"attackdamage":61.97,"attackdamageperlevel":3.375,"attackspeedoffset":-0.02,"attackspeedperlevel":3.4}},"Malzahar":{"version":"6.18.1","id":"Malzahar","key":"90","name":"Malzahar","title":"the Prophet of the Void","blurb":"Many men have gone mad beneath the glare of the Shurima sun, but it was during the night's chilling embrace that Malzahar relinquished his sanity. Malzahar was born a seer, blessed with the gift of prophecy. His talent, though unrefined, promised to ...","info":{"attack":2,"defense":2,"magic":9,"difficulty":6},"image":{"full":"Malzahar.png","sprite":"champion2.png","group":"champion","x":144,"y":0,"w":48,"h":48},"tags":["Mage","Assassin"],"partype":"MP","stats":{"hp":525,"hpperlevel":75,"mp":300,"mpperlevel":55,"movespeed":335,"armor":20,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":500,"hpregen":6,"hpregenperlevel":0.6,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":55,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":1.5}},"Maokai":{"version":"6.18.1","id":"Maokai","key":"57","name":"Maokai","title":"the Twisted Treant","blurb":"''All around me are empty husks, soulless and unafraid... but I will bring them fear.''<br><br>Maokai is a rageful, towering treant who fights the unnatural horrors of the Shadow Isles. He was twisted into a force of vengeance after a magical ...","info":{"attack":3,"defense":8,"magic":6,"difficulty":3},"image":{"full":"Maokai.png","sprite":"champion2.png","group":"champion","x":192,"y":0,"w":48,"h":48},"tags":["Tank","Mage"],"partype":"MP","stats":{"hp":572.2,"hpperlevel":90,"mp":377.28,"mpperlevel":43,"movespeed":335,"armor":28.72,"armorperlevel":4,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":7,"hpregenperlevel":0.75,"mpregen":7.205,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":63.544,"attackdamageperlevel":3.3,"attackspeedoffset":-0.1,"attackspeedperlevel":2.125}},"MasterYi":{"version":"6.18.1","id":"MasterYi","key":"11","name":"Master Yi","title":"the Wuju Bladesman","blurb":"Through the ancient martial art of Wuju, Master Yi has tempered his body and sharpened his mind until thought and action have become one. Though he chooses to enter into violence as a last resort, the grace and speed with which he wields his blade ...","info":{"attack":10,"defense":4,"magic":2,"difficulty":4},"image":{"full":"MasterYi.png","sprite":"champion2.png","group":"champion","x":240,"y":0,"w":48,"h":48},"tags":["Assassin","Fighter"],"partype":"MP","stats":{"hp":598.56,"hpperlevel":92,"mp":250.56,"mpperlevel":42,"movespeed":355,"armor":24.04,"armorperlevel":3,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":7.59,"hpregenperlevel":0.65,"mpregen":7.255,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":60.04,"attackdamageperlevel":3,"attackspeedoffset":-0.08,"attackspeedperlevel":2}},"MissFortune":{"version":"6.18.1","id":"MissFortune","key":"21","name":"Miss Fortune","title":"the Bounty Hunter","blurb":"''The bigger the risk, the bigger the bounty.''<br><br>Beauty and danger: There are few who can match Miss Fortune in either. One of Bilgewater's most infamous bounty hunters, she built her legend upon a swathe of bullet-riddled corpses and captured ...","info":{"attack":8,"defense":2,"magic":5,"difficulty":1},"image":{"full":"MissFortune.png","sprite":"champion2.png","group":"champion","x":288,"y":0,"w":48,"h":48},"tags":["Marksman"],"partype":"MP","stats":{"hp":530,"hpperlevel":85,"mp":325.84,"mpperlevel":35,"movespeed":325,"armor":24.04,"armorperlevel":3,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6.19,"hpregenperlevel":0.65,"mpregen":8.04,"mpregenperlevel":0.65,"crit":0,"critperlevel":0,"attackdamage":46,"attackdamageperlevel":1,"attackspeedoffset":-0.04734,"attackspeedperlevel":3}},"MonkeyKing":{"version":"6.18.1","id":"MonkeyKing","key":"62","name":"Wukong","title":"the Monkey King","blurb":"During the chaos of the Rune Wars, an enormous runestone was lost deep within the Plague Jungles. It remained there, untouched for centuries, emanating a potent magic which infused nearby wildlife with sentience and vitality. A group of monkeys who ...","info":{"attack":8,"defense":5,"magic":2,"difficulty":3},"image":{"full":"MonkeyKing.png","sprite":"champion2.png","group":"champion","x":336,"y":0,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":577.8,"hpperlevel":85,"mp":265.84,"mpperlevel":38,"movespeed":345,"armor":24.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":6.19,"hpregenperlevel":0.65,"mpregen":8.04,"mpregenperlevel":0.65,"crit":0,"critperlevel":0,"attackdamage":59.876,"attackdamageperlevel":3.2,"attackspeedoffset":-0.05,"attackspeedperlevel":3}},"Mordekaiser":{"version":"6.18.1","id":"Mordekaiser","key":"82","name":"Mordekaiser","title":"the Iron Revenant","blurb":"''All things must die... and yet I live on.''<br><br>The baleful revenant Mordekaiser is among the most terrifying and hateful spirits haunting the Shadow Isles. He has existed for countless centuries, shielded from true death by necromantic sorcery ...","info":{"attack":4,"defense":6,"magic":7,"difficulty":4},"image":{"full":"Mordekaiser.png","sprite":"champion2.png","group":"champion","x":384,"y":0,"w":48,"h":48},"tags":["Fighter"],"partype":"None","stats":{"hp":525,"hpperlevel":73,"mp":0,"mpperlevel":0,"movespeed":325,"armor":20,"armorperlevel":3.75,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":4,"hpregenperlevel":0.3,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":61,"attackdamageperlevel":5,"attackspeedoffset":0.04,"attackspeedperlevel":2.2}},"Morgana":{"version":"6.18.1","id":"Morgana","key":"25","name":"Morgana","title":"Fallen Angel","blurb":"There is a world far away populated by graceful and beautiful winged beings gifted with immortality, where an ancient conflict still rages. Like so many conflicts, this war split families. One side proclaimed themselves as beings of perfect order and ...","info":{"attack":1,"defense":6,"magic":8,"difficulty":1},"image":{"full":"Morgana.png","sprite":"champion2.png","group":"champion","x":432,"y":0,"w":48,"h":48},"tags":["Mage","Support"],"partype":"MP","stats":{"hp":547.48,"hpperlevel":86,"mp":340.8,"mpperlevel":60,"movespeed":335,"armor":25.384,"armorperlevel":3.8,"spellblock":30,"spellblockperlevel":0,"attackrange":450,"hpregen":5.705,"hpregenperlevel":0.6,"mpregen":8.5,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":55.46,"attackdamageperlevel":3.5,"attackspeedoffset":0,"attackspeedperlevel":1.53}},"Nami":{"version":"6.18.1","id":"Nami","key":"267","name":"Nami","title":"the Tidecaller","blurb":"Nami channels the primal energies of the ocean, harnessing its mystical restorative properties and commanding the raw power of the tides themselves. Though many doubted her, Nami had the bravery and determination to take on a dangerous quest when no ...","info":{"attack":4,"defense":3,"magic":7,"difficulty":5},"image":{"full":"Nami.png","sprite":"champion2.png","group":"champion","x":0,"y":48,"w":48,"h":48},"tags":["Support","Mage"],"partype":"MP","stats":{"hp":489.32,"hpperlevel":74,"mp":377.24,"mpperlevel":43,"movespeed":335,"armor":19.72,"armorperlevel":4,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":11.5,"mpregenperlevel":0.4,"crit":0,"critperlevel":0,"attackdamage":51.208,"attackdamageperlevel":3.1,"attackspeedoffset":-0.03,"attackspeedperlevel":2.61}},"Nasus":{"version":"6.18.1","id":"Nasus","key":"75","name":"Nasus","title":"the Curator of the Sands","blurb":"''What was fallen will be great again.''<br><br>Nasus is an imposing, jackal-headed Ascended being from ancient Shurima, a heroic figure regarded as a demigod by the people of the desert. Fiercely intelligent, he was a guardian of knowledge and ...","info":{"attack":7,"defense":5,"magic":6,"difficulty":6},"image":{"full":"Nasus.png","sprite":"champion2.png","group":"champion","x":48,"y":48,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":561.2,"hpperlevel":90,"mp":325.6,"mpperlevel":42,"movespeed":350,"armor":24.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":9.01,"hpregenperlevel":0.9,"mpregen":7.44,"mpregenperlevel":0.5,"crit":0,"critperlevel":0,"attackdamage":59.18,"attackdamageperlevel":3.5,"attackspeedoffset":-0.02,"attackspeedperlevel":3.48}},"Nautilus":{"version":"6.18.1","id":"Nautilus","key":"111","name":"Nautilus","title":"the Titan of the Depths","blurb":"Once, Nautilus was a sailor commissioned by the Institute of War to explore the uncharted reaches of the Guardian's Sea. This expedition took him deep into unknown waters where he and his crew found a vast section of black oozing liquid that none of ...","info":{"attack":4,"defense":6,"magic":6,"difficulty":6},"image":{"full":"Nautilus.png","sprite":"champion2.png","group":"champion","x":96,"y":48,"w":48,"h":48},"tags":["Tank","Fighter"],"partype":"MP","stats":{"hp":576.48,"hpperlevel":86,"mp":334,"mpperlevel":47,"movespeed":325,"armor":26.46,"armorperlevel":3.75,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":8.37,"hpregenperlevel":0.55,"mpregen":8.625,"mpregenperlevel":0.7,"crit":0,"critperlevel":0,"attackdamage":57.544,"attackdamageperlevel":3.3,"attackspeedoffset":0.02,"attackspeedperlevel":1}},"Nidalee":{"version":"6.18.1","id":"Nidalee","key":"76","name":"Nidalee","title":"the Bestial Huntress","blurb":"There are few dwellers, let alone champions, residing in the blasted and dangerous lands that lie south of the Great Barrier. Much of that world still bears the scars of past Runes Wars, especially the mysterious Kumungu Jungle. There are ...","info":{"attack":5,"defense":4,"magic":7,"difficulty":8},"image":{"full":"Nidalee.png","sprite":"champion2.png","group":"champion","x":144,"y":48,"w":48,"h":48},"tags":["Assassin","Fighter"],"partype":"MP","stats":{"hp":511.2,"hpperlevel":80,"mp":295.6,"mpperlevel":45,"movespeed":335,"armor":22.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":6.005,"hpregenperlevel":0.6,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":47.88,"attackdamageperlevel":3.5,"attackspeedoffset":-0.02,"attackspeedperlevel":3.22}},"Nocturne":{"version":"6.18.1","id":"Nocturne","key":"56","name":"Nocturne","title":"the Eternal Nightmare","blurb":"Before Nocturne, people believed that dreams were figments of their imagination, meaningless images that flashed through the mind when one slept. This belief was put to the test when a rash of sleep-related incidents started afflicting summoners of ...","info":{"attack":9,"defense":5,"magic":2,"difficulty":4},"image":{"full":"Nocturne.png","sprite":"champion2.png","group":"champion","x":192,"y":48,"w":48,"h":48},"tags":["Assassin","Fighter"],"partype":"MP","stats":{"hp":582.8,"hpperlevel":85,"mp":273.8,"mpperlevel":35,"movespeed":345,"armor":26.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.26,"hpregenperlevel":0.75,"mpregen":6.755,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":59.208,"attackdamageperlevel":3.1,"attackspeedoffset":-0.065,"attackspeedperlevel":2.7}},"Nunu":{"version":"6.18.1","id":"Nunu","key":"20","name":"Nunu","title":"the Yeti Rider","blurb":"Sometimes bonds of friendship become stronger than even bonds of blood. When those bonds link a fearless boy to a fearsome Yeti, the bond becomes a force to be reckoned with. Given the responsibility of taming a terrifying beast, Nunu forged a ...","info":{"attack":4,"defense":6,"magic":7,"difficulty":4},"image":{"full":"Nunu.png","sprite":"champion2.png","group":"champion","x":240,"y":48,"w":48,"h":48},"tags":["Support","Fighter"],"partype":"MP","stats":{"hp":598.28,"hpperlevel":90,"mp":283.56,"mpperlevel":42,"movespeed":350,"armor":26.38,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.39,"hpregenperlevel":0.8,"mpregen":7.44,"mpregenperlevel":0.5,"crit":0,"critperlevel":0,"attackdamage":56.856,"attackdamageperlevel":3.45,"attackspeedoffset":0,"attackspeedperlevel":2.25}},"Olaf":{"version":"6.18.1","id":"Olaf","key":"2","name":"Olaf","title":"the Berserker","blurb":"Most men would say that death is a thing to be feared; none of those men would be Olaf. The Berserker lives only for the roar of a battle cry and the clash of steel. Spurred on by his hunger for glory and the looming curse of a forgettable death, Olaf ...","info":{"attack":9,"defense":5,"magic":3,"difficulty":3},"image":{"full":"Olaf.png","sprite":"champion2.png","group":"champion","x":288,"y":48,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":597.24,"hpperlevel":93,"mp":315.6,"mpperlevel":42,"movespeed":350,"armor":26.04,"armorperlevel":3,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.51,"hpregenperlevel":0.9,"mpregen":7.465,"mpregenperlevel":0.575,"crit":0,"critperlevel":0,"attackdamage":59.98,"attackdamageperlevel":3.5,"attackspeedoffset":-0.1,"attackspeedperlevel":2.7}},"Orianna":{"version":"6.18.1","id":"Orianna","key":"61","name":"Orianna","title":"the Lady of Clockwork","blurb":"There once was a Piltovian man named Corin Reveck who had a daughter named Orianna, whom he loved more than anything else in the world. Though Orianna had incredible talent for dancing, she was deeply fascinated by the champions of the League of ...","info":{"attack":4,"defense":3,"magic":9,"difficulty":7},"image":{"full":"Orianna.png","sprite":"champion2.png","group":"champion","x":336,"y":48,"w":48,"h":48},"tags":["Mage","Support"],"partype":"MP","stats":{"hp":517.72,"hpperlevel":79,"mp":334,"mpperlevel":50,"movespeed":325,"armor":17.04,"armorperlevel":3,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":6.87,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":40.368,"attackdamageperlevel":2.6,"attackspeedoffset":-0.05,"attackspeedperlevel":3.5}},"Pantheon":{"version":"6.18.1","id":"Pantheon","key":"80","name":"Pantheon","title":"the Artisan of War","blurb":"''Bring forth one true champion, or a hundred more like you, and then we shall have a battle that will be spoken of until the end of time.''<br><br>The peerless warrior known as Pantheon is a nigh-unstoppable paragon of battle. He was born among the ...","info":{"attack":9,"defense":4,"magic":3,"difficulty":4},"image":{"full":"Pantheon.png","sprite":"champion2.png","group":"champion","x":384,"y":48,"w":48,"h":48},"tags":["Fighter","Assassin"],"partype":"MP","stats":{"hp":579.16,"hpperlevel":87,"mp":317.12,"mpperlevel":31,"movespeed":355,"armor":27.652,"armorperlevel":3.9,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":150,"hpregen":7.84,"hpregenperlevel":0.65,"mpregen":7.355,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":55.572,"attackdamageperlevel":2.9,"attackspeedoffset":-0.03,"attackspeedperlevel":2.95}},"Poppy":{"version":"6.18.1","id":"Poppy","key":"78","name":"Poppy","title":"Keeper of the Hammer","blurb":"''I'm no hero. Just a yordle with a hammer.''<br><br>Runeterra has no shortage of valiant champions, but few are as tenacious as Poppy. Bearing a hammer twice the length of her body, this determined yordle has spent untold years searching for the ...","info":{"attack":6,"defense":7,"magic":2,"difficulty":6},"image":{"full":"Poppy.png","sprite":"champion2.png","group":"champion","x":432,"y":48,"w":48,"h":48},"tags":["Tank","Fighter"],"partype":"MP","stats":{"hp":540,"hpperlevel":90,"mp":280,"mpperlevel":40,"movespeed":345,"armor":29,"armorperlevel":3.5,"spellblock":32,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8,"hpregenperlevel":0.8,"mpregen":7,"mpregenperlevel":0.7,"crit":0,"critperlevel":0,"attackdamage":56,"attackdamageperlevel":4,"attackspeedoffset":0,"attackspeedperlevel":2.5}},"Quinn":{"version":"6.18.1","id":"Quinn","key":"133","name":"Quinn","title":"Demacia's Wings","blurb":"Quinn and Valor are an elite ranger team. With crossbow and claw, they undertake their nation's most dangerous missions deep within enemy territory, from swift reconnaissance to lethal strikes. The pair's unbreakable bond is deadly on the battlefield, ...","info":{"attack":9,"defense":4,"magic":2,"difficulty":5},"image":{"full":"Quinn.png","sprite":"champion2.png","group":"champion","x":0,"y":96,"w":48,"h":48},"tags":["Marksman","Fighter"],"partype":"MP","stats":{"hp":532.8,"hpperlevel":85,"mp":268.8,"mpperlevel":35,"movespeed":335,"armor":23.38,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":6.97,"mpregenperlevel":0.4,"crit":0,"critperlevel":0,"attackdamage":54.46,"attackdamageperlevel":2.41,"attackspeedoffset":-0.065,"attackspeedperlevel":3.1}},"Rammus":{"version":"6.18.1","id":"Rammus","key":"33","name":"Rammus","title":"the Armordillo","blurb":"''OK.''<br><br>Idolized by many, dismissed by some, mystifying to all, the curious being, Rammus, is an enigma. Protected by a spiked shell, Rammus inspires increasingly disparate theories on his origin wherever he goes - from demigod, to sacred ...","info":{"attack":4,"defense":10,"magic":5,"difficulty":5},"image":{"full":"Rammus.png","sprite":"champion2.png","group":"champion","x":48,"y":96,"w":48,"h":48},"tags":["Tank","Fighter"],"partype":"MP","stats":{"hp":564.48,"hpperlevel":86,"mp":310.44,"mpperlevel":33,"movespeed":335,"armor":31.384,"armorperlevel":4.3,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":7.92,"hpregenperlevel":0.55,"mpregen":7.84,"mpregenperlevel":0.5,"crit":0,"critperlevel":0,"attackdamage":55.88,"attackdamageperlevel":3.5,"attackspeedoffset":0,"attackspeedperlevel":2.215}},"RekSai":{"version":"6.18.1","id":"RekSai","key":"421","name":"Rek'Sai","title":"the Void Burrower","blurb":"The largest and fiercest of her species, Rek'Sai is a merciless predator that tunnels through the earth to ambush and devour her prey. Her insatiable hunger has laid waste to entire regions of the once-great Shuriman empire. Merchants, traders and ...","info":{"attack":8,"defense":5,"magic":2,"difficulty":3},"image":{"full":"RekSai.png","sprite":"champion2.png","group":"champion","x":96,"y":96,"w":48,"h":48},"tags":["Fighter"],"partype":"Battlefury","stats":{"hp":570,"hpperlevel":90,"mp":100,"mpperlevel":0,"movespeed":335,"armor":24,"armorperlevel":3.4,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":7.34,"hpregenperlevel":0.65,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":55.628,"attackdamageperlevel":3.35,"attackspeedoffset":0,"attackspeedperlevel":2}},"Renekton":{"version":"6.18.1","id":"Renekton","key":"58","name":"Renekton","title":"the Butcher of the Sands","blurb":"''Blood and vengeance.''<br><br>Renekton is a terrifying, rage-fueled Ascended being from the scorched deserts of Shurima. Once, he was his empire's most esteemed warrior, leading the armies of Shurima to countless victories. However, after the ...","info":{"attack":8,"defense":5,"magic":2,"difficulty":3},"image":{"full":"Renekton.png","sprite":"champion2.png","group":"champion","x":144,"y":96,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"Rage","stats":{"hp":572.16,"hpperlevel":87,"mp":100,"mpperlevel":0,"movespeed":345,"armor":25.584,"armorperlevel":3.8,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":7.96,"hpregenperlevel":0.75,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":58.328,"attackdamageperlevel":3.1,"attackspeedoffset":-0.06,"attackspeedperlevel":2.65}},"Rengar":{"version":"6.18.1","id":"Rengar","key":"107","name":"Rengar","title":"the Pridestalker","blurb":"On every wall of his den, the trophy hunter Rengar mounts the heads, horns, claws, and fangs of the most lethal creatures in Valoran. Though his collection is extensive, he remains unsatisfied, tirelessly seeking greater game. He takes time with every ...","info":{"attack":7,"defense":4,"magic":2,"difficulty":8},"image":{"full":"Rengar.png","sprite":"champion2.png","group":"champion","x":192,"y":96,"w":48,"h":48},"tags":["Assassin","Fighter"],"partype":"Ferocity","stats":{"hp":586.2,"hpperlevel":90,"mp":5,"mpperlevel":0,"movespeed":345,"armor":25.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":4.27,"hpregenperlevel":0.4,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":60.04,"attackdamageperlevel":3,"attackspeedoffset":-0.08,"attackspeedperlevel":2.85}},"Riven":{"version":"6.18.1","id":"Riven","key":"92","name":"Riven","title":"the Exile","blurb":"''There is a place between war and murder in which our demons lurk.''<br><br>In Noxus, any citizen may rise to power regardless of race, gender, or social standing - strength is all that matters. It was with committed faith in this ideal that Riven ...","info":{"attack":8,"defense":5,"magic":1,"difficulty":8},"image":{"full":"Riven.png","sprite":"champion2.png","group":"champion","x":240,"y":96,"w":48,"h":48},"tags":["Fighter","Assassin"],"partype":"None","stats":{"hp":558.48,"hpperlevel":86,"mp":0,"mpperlevel":0,"movespeed":340,"armor":24.376,"armorperlevel":3.2,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":5.34,"hpregenperlevel":0.5,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":56.04,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":3.5}},"Rumble":{"version":"6.18.1","id":"Rumble","key":"68","name":"Rumble","title":"the Mechanized Menace","blurb":"''Ugh, it's gonna take forever to scrape your face off my suit!''<br><br>Even amongst yordles, Rumble was always the runt of the litter. As such, he was used to being bullied. In order to survive, he had to be scrappier and more resourceful than his ...","info":{"attack":3,"defense":6,"magic":8,"difficulty":10},"image":{"full":"Rumble.png","sprite":"champion2.png","group":"champion","x":288,"y":96,"w":48,"h":48},"tags":["Fighter","Mage"],"partype":"Heat","stats":{"hp":584.4,"hpperlevel":80,"mp":100,"mpperlevel":0,"movespeed":345,"armor":25.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.005,"hpregenperlevel":0.6,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":61.036,"attackdamageperlevel":3.2,"attackspeedoffset":-0.03,"attackspeedperlevel":1.85}},"Ryze":{"version":"6.18.1","id":"Ryze","key":"13","name":"Ryze","title":"the Rune Mage","blurb":"''Take care with this world. What is made can be unmade.''<br><br>Widely considered one of the most adept sorcerers on Runeterra, Ryze is an ancient, hard-bitten archmage with an impossibly heavy burden to bear. Armed with a boundless constitution and ...","info":{"attack":2,"defense":2,"magic":10,"difficulty":7},"image":{"full":"Ryze.png","sprite":"champion2.png","group":"champion","x":336,"y":96,"w":48,"h":48},"tags":["Mage","Fighter"],"partype":"MP","stats":{"hp":558.48,"hpperlevel":86,"mp":400,"mpperlevel":50,"movespeed":340,"armor":21.552,"armorperlevel":3,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":7,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":55.04,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":2.112}},"Sejuani":{"version":"6.18.1","id":"Sejuani","key":"113","name":"Sejuani","title":"the Winter's Wrath","blurb":"Sejuani was weaned on hardship and reared on barbarity. Where others succumbed to the harshness of the Freljord, she was tempered by it until pain became power, hunger an encouragement, and frost an ally in culling the weak. Through her ordeals, she ...","info":{"attack":5,"defense":7,"magic":6,"difficulty":4},"image":{"full":"Sejuani.png","sprite":"champion2.png","group":"champion","x":384,"y":96,"w":48,"h":48},"tags":["Tank","Fighter"],"partype":"MP","stats":{"hp":600,"hpperlevel":95,"mp":400,"mpperlevel":40,"movespeed":340,"armor":29.54,"armorperlevel":3,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.675,"hpregenperlevel":0.85,"mpregen":7.205,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":57.544,"attackdamageperlevel":3.3,"attackspeedoffset":-0.0672,"attackspeedperlevel":1.44}},"Shaco":{"version":"6.18.1","id":"Shaco","key":"35","name":"Shaco","title":"the Demon Jester","blurb":"Most would say that death isn't funny. It isn't, unless you're Shaco - then it's hysterical. He is Valoran's first fully functioning homicidal comic; he jests until someone dies, and then he laughs. The figure that has come to be known as the Demon ...","info":{"attack":8,"defense":4,"magic":6,"difficulty":9},"image":{"full":"Shaco.png","sprite":"champion2.png","group":"champion","x":432,"y":96,"w":48,"h":48},"tags":["Assassin"],"partype":"MP","stats":{"hp":582.12,"hpperlevel":84,"mp":297.2,"mpperlevel":40,"movespeed":350,"armor":24.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.37,"hpregenperlevel":0.55,"mpregen":7.155,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":57.58,"attackdamageperlevel":3.5,"attackspeedoffset":-0.1,"attackspeedperlevel":3}},"Shen":{"version":"6.18.1","id":"Shen","key":"98","name":"Shen","title":"the Eye of Twilight","blurb":"''The Eye is blind to fear, to hate, to love - to all things that would sway equilibrium.''<br><br>Leader of a secret clan of mystic warriors, Shen serves as the Eye of Twilight, entrusted to enforce equilibrium in the world. Longing to remain free ...","info":{"attack":3,"defense":9,"magic":3,"difficulty":4},"image":{"full":"Shen.png","sprite":"champion3.png","group":"champion","x":0,"y":0,"w":48,"h":48},"tags":["Tank","Melee"],"partype":"Energy","stats":{"hp":540,"hpperlevel":73,"mp":400,"mpperlevel":0,"movespeed":340,"armor":25,"armorperlevel":2.6,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.5,"hpregenperlevel":0.75,"mpregen":50,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":60,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":2}},"Shyvana":{"version":"6.18.1","id":"Shyvana","key":"102","name":"Shyvana","title":"the Half-Dragon","blurb":"A half-breed born from the union between dragon and human, Shyvana searched all her life for belonging. Persecution forged her into a brutal warrior, and those who dare stand against Shyvana face the fiery beast lurking just beneath her skin....","info":{"attack":8,"defense":6,"magic":3,"difficulty":4},"image":{"full":"Shyvana.png","sprite":"champion3.png","group":"champion","x":48,"y":0,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"Dragonfury","stats":{"hp":594.6,"hpperlevel":95,"mp":100,"mpperlevel":0,"movespeed":350,"armor":27.628,"armorperlevel":3.35,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.59,"hpregenperlevel":0.8,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":60.712,"attackdamageperlevel":3.4,"attackspeedoffset":-0.05,"attackspeedperlevel":2.5}},"Singed":{"version":"6.18.1","id":"Singed","key":"27","name":"Singed","title":"the Mad Chemist","blurb":"Singed descended from a long line of Zaun's revered chemists. Even in his youth, his talent for concocting potions far outstripped that of his peers, and he quickly distinguished himself from his less extraordinary chemist compatriots. It came as no ...","info":{"attack":4,"defense":8,"magic":7,"difficulty":5},"image":{"full":"Singed.png","sprite":"champion3.png","group":"champion","x":96,"y":0,"w":48,"h":48},"tags":["Tank","Fighter"],"partype":"MP","stats":{"hp":542.76,"hpperlevel":82,"mp":290.6,"mpperlevel":45,"movespeed":345,"armor":27.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.02,"hpregenperlevel":0.55,"mpregen":7.52,"mpregenperlevel":0.55,"crit":0,"critperlevel":0,"attackdamage":62.32,"attackdamageperlevel":3.375,"attackspeedoffset":0.02,"attackspeedperlevel":1.81}},"Sion":{"version":"6.18.1","id":"Sion","key":"14","name":"Sion","title":"The Undead Juggernaut","blurb":"BLOOD.<br><br>SMELL IT.<br><br>WANT. ACHING. NEED!<br><br>CLOSE NOW. THEY COME.<br><br>NO CHAINS? FREE! KILL!<br><br>IN REACH. YES! DIE! DIE!<br><br>Gone. Too quick. No fight. More. I want... more.<br><br>A voice? Unfamiliar. I see him. The Grand ...","info":{"attack":5,"defense":9,"magic":3,"difficulty":5},"image":{"full":"Sion.png","sprite":"champion3.png","group":"champion","x":144,"y":0,"w":48,"h":48},"tags":["Tank","Fighter"],"partype":"MP","stats":{"hp":542.64,"hpperlevel":73,"mp":325.6,"mpperlevel":42,"movespeed":345,"armor":23.04,"armorperlevel":3,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":10.18,"hpregenperlevel":0.8,"mpregen":8.005,"mpregenperlevel":0.6,"crit":0,"critperlevel":0,"attackdamage":59.72,"attackdamageperlevel":4,"attackspeedoffset":-0.08,"attackspeedperlevel":1.3}},"Sivir":{"version":"6.18.1","id":"Sivir","key":"15","name":"Sivir","title":"the Battle Mistress","blurb":"''I don't care what face is on your coin, as long as it pays.''<br><br>Sivir is a renowned fortune hunter and mercenary captain who plies her trade in the deserts of Shurima. Armed with her legendary jeweled crossblade, she has fought and won ...","info":{"attack":9,"defense":3,"magic":1,"difficulty":4},"image":{"full":"Sivir.png","sprite":"champion3.png","group":"champion","x":192,"y":0,"w":48,"h":48},"tags":["Marksman"],"partype":"MP","stats":{"hp":515.76,"hpperlevel":82,"mp":284,"mpperlevel":50,"movespeed":335,"armor":22.21,"armorperlevel":3.25,"spellblock":30,"spellblockperlevel":0,"attackrange":500,"hpregen":5.17,"hpregenperlevel":0.55,"mpregen":8.01,"mpregenperlevel":0.9,"crit":0,"critperlevel":0,"attackdamage":57.46,"attackdamageperlevel":2.41,"attackspeedoffset":0,"attackspeedperlevel":1.6}},"Skarner":{"version":"6.18.1","id":"Skarner","key":"72","name":"Skarner","title":"the Crystal Vanguard","blurb":"''We are one. We cannot be shattered.''<br><br>Skarner is an immense crystalline scorpion from a hidden valley in Shurima. Part of the ancient Brackern race, Skarner and his kin are known for their great wisdom and deep connection to the land, as ...","info":{"attack":7,"defense":6,"magic":5,"difficulty":5},"image":{"full":"Skarner.png","sprite":"champion3.png","group":"champion","x":240,"y":0,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":601.28,"hpperlevel":90,"mp":272.2,"mpperlevel":40,"movespeed":335,"armor":29.384,"armorperlevel":3.8,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.925,"hpregenperlevel":0.85,"mpregen":7.205,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":57.156,"attackdamageperlevel":4.5,"attackspeedoffset":0,"attackspeedperlevel":2.1}},"Sona":{"version":"6.18.1","id":"Sona","key":"37","name":"Sona","title":"Maven of the Strings","blurb":"Sona has no memories of her true parents. As an infant, she was found abandoned on the doorstep of an Ionian adoption house, nestled atop an ancient instrument in an exquisite case of unknown origins. She was an unusually well-behaved child, always ...","info":{"attack":5,"defense":2,"magic":8,"difficulty":4},"image":{"full":"Sona.png","sprite":"champion3.png","group":"champion","x":288,"y":0,"w":48,"h":48},"tags":["Support","Mage"],"partype":"MP","stats":{"hp":482.36,"hpperlevel":77,"mp":340.6,"mpperlevel":45,"movespeed":325,"armor":20.544,"armorperlevel":3.3,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":11.5,"mpregenperlevel":0.4,"crit":0,"critperlevel":0,"attackdamage":50.04,"attackdamageperlevel":3,"attackspeedoffset":-0.03,"attackspeedperlevel":2.3}},"Soraka":{"version":"6.18.1","id":"Soraka","key":"16","name":"Soraka","title":"the Starchild","blurb":"A healer gifted with the magic of the stars, Soraka holds all living creatures close to her heart. She was once a celestial being, but she sacrificed her immortality and entered the world of mortals. So long as evil threatens life in Valoran, Soraka ...","info":{"attack":2,"defense":5,"magic":7,"difficulty":3},"image":{"full":"Soraka.png","sprite":"champion3.png","group":"champion","x":336,"y":0,"w":48,"h":48},"tags":["Support","Mage"],"partype":"MP","stats":{"hp":529.04,"hpperlevel":78,"mp":350.8,"mpperlevel":60,"movespeed":325,"armor":23.384,"armorperlevel":3.8,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":2.5,"hpregenperlevel":0.5,"mpregen":11.5,"mpregenperlevel":0.4,"crit":0,"critperlevel":0,"attackdamage":50.04,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":2.14}},"Swain":{"version":"6.18.1","id":"Swain","key":"50","name":"Swain","title":"the Master Tactician","blurb":"The earliest account of Swain's existence comes from a Noxian infirmary doctor's notes. According to them, Swain limped into the ward without cry or complaint; his right leg was snapped in half, with bone protruding from the skin. A small, scowling ...","info":{"attack":2,"defense":6,"magic":9,"difficulty":8},"image":{"full":"Swain.png","sprite":"champion3.png","group":"champion","x":384,"y":0,"w":48,"h":48},"tags":["Mage","Fighter"],"partype":"MP","stats":{"hp":516.04,"hpperlevel":90,"mp":374,"mpperlevel":47,"movespeed":335,"armor":22.72,"armorperlevel":4,"spellblock":30,"spellblockperlevel":0,"attackrange":500,"hpregen":7.84,"hpregenperlevel":0.65,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":52.04,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":2.11}},"Syndra":{"version":"6.18.1","id":"Syndra","key":"134","name":"Syndra","title":"the Dark Sovereign","blurb":"Born with immense magical potential, Syndra loves nothing more than exercising the incredible power at her command. With each passing day, her mastery of magical force grows more potent and devastating. Refusing any notion of balance or restraint, ...","info":{"attack":2,"defense":3,"magic":9,"difficulty":8},"image":{"full":"Syndra.png","sprite":"champion3.png","group":"champion","x":432,"y":0,"w":48,"h":48},"tags":["Mage","Support"],"partype":"MP","stats":{"hp":511.04,"hpperlevel":78,"mp":384,"mpperlevel":60,"movespeed":330,"armor":24.712,"armorperlevel":3.4,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6.505,"hpregenperlevel":0.6,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":53.872,"attackdamageperlevel":2.9,"attackspeedoffset":0,"attackspeedperlevel":2}},"TahmKench":{"version":"6.18.1","id":"TahmKench","key":"223","name":"Tahm Kench","title":"the River King","blurb":"''The whole world's a river, and I'm its king.''<br>Tahm Kench travels Runeterra's waterways, feeding his insatiable appetite with the misery of the unsuspecting. The singularly charming gourmand savors every moment of his victims' suffering.  A deal ...","info":{"attack":3,"defense":9,"magic":6,"difficulty":5},"image":{"full":"TahmKench.png","sprite":"champion3.png","group":"champion","x":0,"y":48,"w":48,"h":48},"tags":["Support","Tank"],"partype":"MP","stats":{"hp":610,"hpperlevel":95,"mp":325,"mpperlevel":40,"movespeed":335,"armor":27,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":6.5,"hpregenperlevel":0.55,"mpregen":8,"mpregenperlevel":1,"crit":0,"critperlevel":0,"attackdamage":56,"attackdamageperlevel":3.2,"attackspeedoffset":0,"attackspeedperlevel":2.5}},"Taliyah":{"version":"6.18.1","id":"Taliyah","key":"163","name":"Taliyah","title":"the Stoneweaver","blurb":"Taliyah is a nomadic mage from Shurima who weaves stone with energetic enthusiasm and raw determination. Torn between teenage wonder and adult responsibility, she has crossed nearly all of Valoran on a journey to learn the true nature of her growing ...","info":{"attack":1,"defense":7,"magic":8,"difficulty":5},"image":{"full":"Taliyah.png","sprite":"champion3.png","group":"champion","x":48,"y":48,"w":48,"h":48},"tags":["Mage","Support"],"partype":"MP","stats":{"hp":520,"hpperlevel":75,"mp":340,"mpperlevel":60,"movespeed":325,"armor":20,"armorperlevel":3,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":6,"hpregenperlevel":0.7,"mpregen":7,"mpregenperlevel":0.85,"crit":0,"critperlevel":0,"attackdamage":56,"attackdamageperlevel":3.3,"attackspeedoffset":0,"attackspeedperlevel":1.36}},"Talon":{"version":"6.18.1","id":"Talon","key":"91","name":"Talon","title":"the Blade's Shadow","blurb":"''The three deadliest blademasters in all of Valoran are bound to the house of Du Couteau: my father, myself, and Talon. Challenge us, if you dare.''<br>-- Katarina Du Couteau<br><br>Talon's earliest memories are the darkness of Noxus' underground ...","info":{"attack":9,"defense":3,"magic":1,"difficulty":7},"image":{"full":"Talon.png","sprite":"champion3.png","group":"champion","x":96,"y":48,"w":48,"h":48},"tags":["Assassin","Fighter"],"partype":"MP","stats":{"hp":582.8,"hpperlevel":85,"mp":377.2,"mpperlevel":37,"movespeed":350,"armor":26.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.51,"hpregenperlevel":0.75,"mpregen":7.59,"mpregenperlevel":0.5,"crit":0,"critperlevel":0,"attackdamage":55.208,"attackdamageperlevel":3.1,"attackspeedoffset":-0.065,"attackspeedperlevel":2.7}},"Taric":{"version":"6.18.1","id":"Taric","key":"44","name":"Taric","title":"the Shield of Valoran","blurb":"''The best weapons are beautiful.''<br><br>Taric is the Aspect of the Protector, wielding incredible power as Runeterra's guardian of life, love, and beauty. Shamed by a dereliction of duty and exiled from his homeland Demacia, Taric ascended Mount ...","info":{"attack":4,"defense":8,"magic":5,"difficulty":3},"image":{"full":"Taric.png","sprite":"champion3.png","group":"champion","x":144,"y":48,"w":48,"h":48},"tags":["Support","Fighter"],"partype":"MP","stats":{"hp":575,"hpperlevel":90,"mp":300,"mpperlevel":60,"movespeed":340,"armor":25,"armorperlevel":3.4,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":150,"hpregen":6,"hpregenperlevel":0.5,"mpregen":5,"mpregenperlevel":1,"crit":0,"critperlevel":0,"attackdamage":55,"attackdamageperlevel":3.5,"attackspeedoffset":0,"attackspeedperlevel":2}},"Teemo":{"version":"6.18.1","id":"Teemo","key":"17","name":"Teemo","title":"the Swift Scout","blurb":"Teemo is a legend among his yordle brothers and sisters in Bandle City. As far as yordles are concerned, there is something just slightly off about him. While Teemo enjoys the companionship of other yordles, he also insists on frequent solo missions ...","info":{"attack":5,"defense":3,"magic":7,"difficulty":6},"image":{"full":"Teemo.png","sprite":"champion3.png","group":"champion","x":192,"y":48,"w":48,"h":48},"tags":["Marksman","Assassin"],"partype":"MP","stats":{"hp":515.76,"hpperlevel":82,"mp":267.2,"mpperlevel":40,"movespeed":330,"armor":24.3,"armorperlevel":3.75,"spellblock":30,"spellblockperlevel":0,"attackrange":500,"hpregen":5.74,"hpregenperlevel":0.65,"mpregen":7.205,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":49.54,"attackdamageperlevel":3,"attackspeedoffset":-0.0947,"attackspeedperlevel":3.38}},"Thresh":{"version":"6.18.1","id":"Thresh","key":"412","name":"Thresh","title":"the Chain Warden","blurb":"''The mind is a wondrous thing to tear apart.''<br><br>Sadistic and cunning, Thresh is a restless spirit who prides himself on tormenting mortals and breaking them with slow, excruciating inventiveness. His victims suffer far beyond the point of death,...","info":{"attack":5,"defense":6,"magic":6,"difficulty":7},"image":{"full":"Thresh.png","sprite":"champion3.png","group":"champion","x":240,"y":48,"w":48,"h":48},"tags":["Support","Fighter"],"partype":"MP","stats":{"hp":560.52,"hpperlevel":93,"mp":273.92,"mpperlevel":44,"movespeed":335,"armor":16,"armorperlevel":0,"spellblock":30,"spellblockperlevel":0,"attackrange":450,"hpregen":6.92,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":47.696,"attackdamageperlevel":2.2,"attackspeedoffset":0,"attackspeedperlevel":3.5}},"Tristana":{"version":"6.18.1","id":"Tristana","key":"18","name":"Tristana","title":"the Yordle Gunner","blurb":"Greatness comes in all shapes and sizes, as proven by this diminutive, cannon-wieldingÂ yordle. In a world fraught with turmoil, Tristana refuses to back down from any challenge. She represents the pinnacle of martial proficiency, unwavering courage, ...","info":{"attack":9,"defense":3,"magic":5,"difficulty":4},"image":{"full":"Tristana.png","sprite":"champion3.png","group":"champion","x":288,"y":48,"w":48,"h":48},"tags":["Marksman","Assassin"],"partype":"MP","stats":{"hp":542.76,"hpperlevel":82,"mp":246.76,"mpperlevel":32,"movespeed":325,"armor":22,"armorperlevel":3,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6.19,"hpregenperlevel":0.65,"mpregen":7.205,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":56.96,"attackdamageperlevel":2.41,"attackspeedoffset":-0.04734,"attackspeedperlevel":1.5}},"Trundle":{"version":"6.18.1","id":"Trundle","key":"48","name":"Trundle","title":"the Troll King","blurb":"Trundle is a hulking and devious troll with a mischievous streak. There is nothing he can't beat into submission and bend to his will, not even the ice itself. With his massive, frozen club, he chills his enemies to the core and runs them through with ...","info":{"attack":7,"defense":6,"magic":2,"difficulty":5},"image":{"full":"Trundle.png","sprite":"champion3.png","group":"champion","x":336,"y":48,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":616.28,"hpperlevel":96,"mp":281.6,"mpperlevel":45,"movespeed":350,"armor":27.536,"armorperlevel":2.7,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":6,"hpregenperlevel":0.75,"mpregen":7.505,"mpregenperlevel":0.6,"crit":0,"critperlevel":0,"attackdamage":60.04,"attackdamageperlevel":3,"attackspeedoffset":-0.0672,"attackspeedperlevel":2.9}},"Tryndamere":{"version":"6.18.1","id":"Tryndamere","key":"23","name":"Tryndamere","title":"the Barbarian King","blurb":"Fueled by his unbridled fury and rage, Tryndamere cuts his way through the tundra, mastering the art of battle by challenging the Freljord's greatest warriors. The wrathful barbarian seeks revenge on the one who decimated his clan and strikes down all ...","info":{"attack":10,"defense":5,"magic":2,"difficulty":5},"image":{"full":"Tryndamere.png","sprite":"champion3.png","group":"champion","x":384,"y":48,"w":48,"h":48},"tags":["Fighter","Assassin"],"partype":"Battlefury","stats":{"hp":625.64,"hpperlevel":98,"mp":100,"mpperlevel":0,"movespeed":345,"armor":24.108,"armorperlevel":3.1,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.51,"hpregenperlevel":0.9,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":61.376,"attackdamageperlevel":3.2,"attackspeedoffset":-0.0672,"attackspeedperlevel":2.9}},"TwistedFate":{"version":"6.18.1","id":"TwistedFate","key":"4","name":"Twisted Fate","title":"the Card Master","blurb":"Twisted Fate is an infamous card sharp and swindler who has gambled and charmed his way across much of the known world, earning the enmity and admiration of the rich and foolish alike. He rarely takes things seriously, greeting each day with a mocking ...","info":{"attack":6,"defense":2,"magic":6,"difficulty":9},"image":{"full":"TwistedFate.png","sprite":"champion3.png","group":"champion","x":432,"y":48,"w":48,"h":48},"tags":["Mage"],"partype":"MP","stats":{"hp":521.76,"hpperlevel":82,"mp":265.84,"mpperlevel":38,"movespeed":330,"armor":20.542,"armorperlevel":3.15,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":5.505,"hpregenperlevel":0.6,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":49.954,"attackdamageperlevel":3.3,"attackspeedoffset":-0.04,"attackspeedperlevel":3.22}},"Twitch":{"version":"6.18.1","id":"Twitch","key":"29","name":"Twitch","title":"the Plague Rat","blurb":"H.I.V.E. Incident Report<br>Code Violation: Industrial Homicide<br>Casefile Status: Unsolved<br>Investigating Agent: Rol, P.<br><br>Team responded to report of suspicious character, criminal activity; proceeded to Sump Works, Sector 90TZ. Sector 90TZ ...","info":{"attack":9,"defense":2,"magic":3,"difficulty":6},"image":{"full":"Twitch.png","sprite":"champion3.png","group":"champion","x":0,"y":96,"w":48,"h":48},"tags":["Marksman","Assassin"],"partype":"MP","stats":{"hp":525.08,"hpperlevel":81,"mp":287.2,"mpperlevel":40,"movespeed":330,"armor":23.04,"armorperlevel":3,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6.005,"hpregenperlevel":0.6,"mpregen":7.255,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":55.46,"attackdamageperlevel":2.41,"attackspeedoffset":-0.08,"attackspeedperlevel":3.38}},"Udyr":{"version":"6.18.1","id":"Udyr","key":"77","name":"Udyr","title":"the Spirit Walker","blurb":"Udyr is more than a man; he is a vessel for the untamed power of four primal animal spirits. When tapping into the spirits' bestial natures, Udyr can harness their unique strengths: the tiger grants him speed and ferocity, the turtle resilience, the ...","info":{"attack":8,"defense":7,"magic":4,"difficulty":7},"image":{"full":"Udyr.png","sprite":"champion3.png","group":"champion","x":48,"y":96,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":593.32,"hpperlevel":99,"mp":270.4,"mpperlevel":30,"movespeed":345,"armor":25.47,"armorperlevel":4,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":6,"hpregenperlevel":0.75,"mpregen":7.505,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":58.286,"attackdamageperlevel":3.2,"attackspeedoffset":-0.05,"attackspeedperlevel":2.67}},"Urgot":{"version":"6.18.1","id":"Urgot","key":"6","name":"Urgot","title":"the Headsman's Pride","blurb":"There are warriors who become great for their strength, cunning, or skill with arms. Others simply refuse to die. Urgot, once a great soldier of Noxus, may constitute a case in support of the latter. Prone to diving headlong into enemy battle lines, ...","info":{"attack":8,"defense":5,"magic":3,"difficulty":8},"image":{"full":"Urgot.png","sprite":"champion3.png","group":"champion","x":96,"y":96,"w":48,"h":48},"tags":["Marksman","Fighter"],"partype":"MP","stats":{"hp":586.52,"hpperlevel":89,"mp":312.4,"mpperlevel":55,"movespeed":335,"armor":24.544,"armorperlevel":3.3,"spellblock":30,"spellblockperlevel":0,"attackrange":425,"hpregen":6.505,"hpregenperlevel":0.6,"mpregen":8.59,"mpregenperlevel":0.65,"crit":0,"critperlevel":0,"attackdamage":54.05,"attackdamageperlevel":3.6,"attackspeedoffset":-0.03,"attackspeedperlevel":2.9}},"Varus":{"version":"6.18.1","id":"Varus","key":"110","name":"Varus","title":"the Arrow of Retribution","blurb":"''The life of an arrow is fleeting, built of nothing but direction and intent.''<br><br>For his incomparable skill with the bow and his unquestioned sense of honor, Varus was chosen to be the warden of a sacred Ionian temple. The temple was built to ...","info":{"attack":7,"defense":3,"magic":4,"difficulty":2},"image":{"full":"Varus.png","sprite":"champion3.png","group":"champion","x":144,"y":96,"w":48,"h":48},"tags":["Marksman","Mage"],"partype":"MP","stats":{"hp":537.76,"hpperlevel":82,"mp":360.48,"mpperlevel":33,"movespeed":330,"armor":23.212,"armorperlevel":3.4,"spellblock":30,"spellblockperlevel":0,"attackrange":575,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":7.34,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":54.66,"attackdamageperlevel":2.41,"attackspeedoffset":-0.05,"attackspeedperlevel":3}},"Vayne":{"version":"6.18.1","id":"Vayne","key":"67","name":"Vayne","title":"the Night Hunter","blurb":"The world is not always as civilized as people might think. There are still those who would follow the blackest paths of magic and become corrupted by the darker powers that flow through Runeterra. Shauna Vayne knows this fact well.<br><br>As a young ...","info":{"attack":10,"defense":1,"magic":1,"difficulty":8},"image":{"full":"Vayne.png","sprite":"champion3.png","group":"champion","x":192,"y":96,"w":48,"h":48},"tags":["Marksman","Assassin"],"partype":"MP","stats":{"hp":498.44,"hpperlevel":83,"mp":231.8,"mpperlevel":35,"movespeed":330,"armor":19.012,"armorperlevel":3.4,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":6.97,"mpregenperlevel":0.4,"crit":0,"critperlevel":0,"attackdamage":55.88,"attackdamageperlevel":1.66,"attackspeedoffset":-0.05,"attackspeedperlevel":4}},"Veigar":{"version":"6.18.1","id":"Veigar","key":"45","name":"Veigar","title":"the Tiny Master of Evil","blurb":"To most, thoughts of yordles do not conjure images to be feared. The easygoing half-pint race, though fierce, is often regarded with some degree of joviality. Their high-pitched voices and naturally cute forms inspire something of a protective ...","info":{"attack":2,"defense":2,"magic":10,"difficulty":7},"image":{"full":"Veigar.png","sprite":"champion3.png","group":"champion","x":240,"y":96,"w":48,"h":48},"tags":["Mage"],"partype":"MP","stats":{"hp":492.76,"hpperlevel":82,"mp":392.4,"mpperlevel":52,"movespeed":340,"armor":22.55,"armorperlevel":3.75,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":50.71,"attackdamageperlevel":2.625,"attackspeedoffset":0,"attackspeedperlevel":2.24}},"Velkoz":{"version":"6.18.1","id":"Velkoz","key":"161","name":"Vel'Koz","title":"the Eye of the Void","blurb":"I pass into the sudden glare. Blink. Blink, blink, blink. My eyes adjust and evaluate the landscape before me.<br><br>There's a scurrying. I look down to find a small, white creature standing on its hind legs, sniffing at my body. It intrigues me....","info":{"attack":2,"defense":2,"magic":10,"difficulty":8},"image":{"full":"Velkoz.png","sprite":"champion3.png","group":"champion","x":288,"y":96,"w":48,"h":48},"tags":["Mage"],"partype":"MP","stats":{"hp":507.68,"hpperlevel":76,"mp":375.6,"mpperlevel":42,"movespeed":340,"armor":21.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":54.9379,"attackdamageperlevel":3.14159,"attackspeedoffset":0,"attackspeedperlevel":1.36}},"Vi":{"version":"6.18.1","id":"Vi","key":"254","name":"Vi","title":"the Piltover Enforcer","blurb":"To Vi, every problem is just another brick wall to punch through with her gigantic hextech gauntlets. Though she grew up on the wrong side of the law, Vi now uses her criminal know-how to serve Piltover's police force. Vi's brash attitude, abrasive ...","info":{"attack":8,"defense":5,"magic":3,"difficulty":4},"image":{"full":"Vi.png","sprite":"champion3.png","group":"champion","x":336,"y":96,"w":48,"h":48},"tags":["Fighter","Assassin"],"partype":"MP","stats":{"hp":582.8,"hpperlevel":85,"mp":295.6,"mpperlevel":45,"movespeed":345,"armor":25.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":9.01,"hpregenperlevel":0.9,"mpregen":8.09,"mpregenperlevel":0.65,"crit":0,"critperlevel":0,"attackdamage":55.88,"attackdamageperlevel":3.5,"attackspeedoffset":-0.03,"attackspeedperlevel":2.5}},"Viktor":{"version":"6.18.1","id":"Viktor","key":"112","name":"Viktor","title":"the Machine Herald","blurb":"Early in life, Viktor discovered his passion for science and invention, particularly in the field of mechanical automation. He attended Zaun's prestigious College of Techmaturgy and led the team that constructed Blitzcrank - a scientific breakthrough ...","info":{"attack":2,"defense":4,"magic":10,"difficulty":9},"image":{"full":"Viktor.png","sprite":"champion3.png","group":"champion","x":384,"y":96,"w":48,"h":48},"tags":["Mage"],"partype":"MP","stats":{"hp":516.04,"hpperlevel":78,"mp":324,"mpperlevel":50,"movespeed":335,"armor":22.72,"armorperlevel":4,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":7.84,"hpregenperlevel":0.65,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":52.04,"attackdamageperlevel":3,"attackspeedoffset":-0.05,"attackspeedperlevel":2.11}},"Vladimir":{"version":"6.18.1","id":"Vladimir","key":"8","name":"Vladimir","title":"the Crimson Reaper","blurb":"There is a temple hidden in the mountains between Noxus and the Tempest Flats, where the secrets of an ancient and terrifying sorcery are kept. The area surrounding the temple is littered with the exsanguinated corpses of those who have mistakenly ...","info":{"attack":2,"defense":6,"magic":8,"difficulty":7},"image":{"full":"Vladimir.png","sprite":"champion3.png","group":"champion","x":432,"y":96,"w":48,"h":48},"tags":["Mage","Tank"],"partype":"Gnarfury","stats":{"hp":525,"hpperlevel":84,"mp":2,"mpperlevel":0,"movespeed":330,"armor":23,"armorperlevel":3.3,"spellblock":30,"spellblockperlevel":0,"attackrange":450,"hpregen":7.005,"hpregenperlevel":0.6,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":52,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":2}},"Volibear":{"version":"6.18.1","id":"Volibear","key":"106","name":"Volibear","title":"the Thunder's Roar","blurb":"The unforgiving northern reaches of the Freljord are home to the Ursine, a fierce and warlike race that has endured the barren tundra for thousands of years. Their leader is a furious adversary who commands the force of lightning to strike fear within ...","info":{"attack":7,"defense":7,"magic":4,"difficulty":3},"image":{"full":"Volibear.png","sprite":"champion4.png","group":"champion","x":0,"y":0,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":584.48,"hpperlevel":86,"mp":270.4,"mpperlevel":30,"movespeed":345,"armor":26.38,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.09,"hpregenperlevel":0.65,"mpregen":8.09,"mpregenperlevel":0.65,"crit":0,"critperlevel":0,"attackdamage":59.544,"attackdamageperlevel":3.3,"attackspeedoffset":-0.05,"attackspeedperlevel":2.67}},"Warwick":{"version":"6.18.1","id":"Warwick","key":"19","name":"Warwick","title":"the Blood Hunter","blurb":"Warwick was once a man revered for his ability to track down human specimens for the darkest types of scientific research. When his ambitions exceeded his physical limits, he drank a dangerous elixir to transform himself into an unstoppable manhunter. ...","info":{"attack":7,"defense":4,"magic":4,"difficulty":3},"image":{"full":"Warwick.png","sprite":"champion4.png","group":"champion","x":48,"y":0,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":592.64,"hpperlevel":98,"mp":240.4,"mpperlevel":30,"movespeed":345,"armor":25.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":8.39,"hpregenperlevel":0.8,"mpregen":8.105,"mpregenperlevel":0.6,"crit":0,"critperlevel":0,"attackdamage":62.43,"attackdamageperlevel":3.375,"attackspeedoffset":-0.08,"attackspeedperlevel":2.88}},"Xerath":{"version":"6.18.1","id":"Xerath","key":"101","name":"Xerath","title":"the Magus Ascendant","blurb":"''A lifetime as a slave has prepared me for eternity as your master.''<br><br>Xerath is an Ascended Magus of ancient Shurima, a being of arcane energy writhing in the broken shards of a magical sarcophagus. For millennia, he was trapped beneath the ...","info":{"attack":1,"defense":3,"magic":10,"difficulty":8},"image":{"full":"Xerath.png","sprite":"champion4.png","group":"champion","x":96,"y":0,"w":48,"h":48},"tags":["Mage","Assassin"],"partype":"MP","stats":{"hp":514.4,"hpperlevel":80,"mp":366.96,"mpperlevel":44,"movespeed":340,"armor":21.88,"armorperlevel":3.5,"spellblock":30,"spellblockperlevel":0,"attackrange":525,"hpregen":5.42,"hpregenperlevel":0.55,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":54.7,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":1.36}},"XinZhao":{"version":"6.18.1","id":"XinZhao","key":"5","name":"Xin Zhao","title":"the Seneschal of Demacia","blurb":"''Death is inevitable, one can only avoid defeat.''<br><br>Whenever Jarvan III, the king of Demacia, delivers one of his rallying speeches from the glinting marble balcony atop the Royal Palace, Xin Zhao is at his side. Coined the Seneschal of Demacia,...","info":{"attack":8,"defense":6,"magic":3,"difficulty":2},"image":{"full":"XinZhao.png","sprite":"champion4.png","group":"champion","x":144,"y":0,"w":48,"h":48},"tags":["Fighter","Assassin"],"partype":"MP","stats":{"hp":600,"hpperlevel":92,"mp":273.8,"mpperlevel":35,"movespeed":345,"armor":25.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":8.175,"hpregenperlevel":0.7,"mpregen":7.255,"mpregenperlevel":0.45,"crit":0,"critperlevel":0,"attackdamage":57.544,"attackdamageperlevel":3.3,"attackspeedoffset":0,"attackspeedperlevel":2.6}},"Yasuo":{"version":"6.18.1","id":"Yasuo","key":"157","name":"Yasuo","title":"the Unforgiven","blurb":"Yasuo is a man of resolve, an agile swordsman who wields the wind itself to cut down his foes. This once-proud warrior has been disgraced by a false accusation and forced into a desperate fight for survival. With the world turned against him, he will ...","info":{"attack":8,"defense":4,"magic":4,"difficulty":10},"image":{"full":"Yasuo.png","sprite":"champion4.png","group":"champion","x":192,"y":0,"w":48,"h":48},"tags":["Fighter","Assassin"],"partype":"Wind","stats":{"hp":517.76,"hpperlevel":82,"mp":100,"mpperlevel":0,"movespeed":345,"armor":24.712,"armorperlevel":3.4,"spellblock":30,"spellblockperlevel":0,"attackrange":175,"hpregen":6.51,"hpregenperlevel":0.9,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":55.376,"attackdamageperlevel":3.2,"attackspeedoffset":-0.067,"attackspeedperlevel":2.5}},"Yorick":{"version":"6.18.1","id":"Yorick","key":"83","name":"Yorick","title":"Shepherd of Souls","blurb":"''These islesâ€¦ How they scream.''<br>The last survivor of a long-forgotten religious order, Yorick is both blessed and cursed with power over the dead. Trapped on the Shadow Isles, his only companions are the rotting corpses and shrieking spirits that ...","info":{"attack":6,"defense":6,"magic":4,"difficulty":6},"image":{"full":"Yorick.png","sprite":"champion4.png","group":"champion","x":240,"y":0,"w":48,"h":48},"tags":["Fighter","Tank"],"partype":"MP","stats":{"hp":580,"hpperlevel":100,"mp":300,"mpperlevel":40,"movespeed":340,"armor":30,"armorperlevel":4,"spellblock":32,"spellblockperlevel":1.25,"attackrange":175,"hpregen":8,"hpregenperlevel":0.8,"mpregen":7.5,"mpregenperlevel":0.75,"crit":0,"critperlevel":0,"attackdamage":57,"attackdamageperlevel":5,"attackspeedoffset":0,"attackspeedperlevel":2}},"Zac":{"version":"6.18.1","id":"Zac","key":"154","name":"Zac","title":"the Secret Weapon","blurb":"Zac is the product of a Zaun experiment to manufacture a hexchem-engineered supersoldier - the Zaun Amorphous Combatant. Combining brute strength with limitless flexibility, he is a versatile juggernaut: a creative fighter who bounces over obstacles ...","info":{"attack":3,"defense":7,"magic":7,"difficulty":8},"image":{"full":"Zac.png","sprite":"champion4.png","group":"champion","x":288,"y":0,"w":48,"h":48},"tags":["Tank","Fighter"],"partype":"None","stats":{"hp":614.6,"hpperlevel":95,"mp":0,"mpperlevel":0,"movespeed":340,"armor":23.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":175,"hpregen":7.92,"hpregenperlevel":0.55,"mpregen":0,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":59.67,"attackdamageperlevel":3.375,"attackspeedoffset":-0.02,"attackspeedperlevel":1.6}},"Zed":{"version":"6.18.1","id":"Zed","key":"238","name":"Zed","title":"the Master of Shadows","blurb":"Zed is the first ninja in 200 years to unlock the ancient, forbidden ways. He defied his clan and master, casting off the balance and discipline that had shackled him all his life. Zed now offers power to those who embrace knowledge of the shadows, ...","info":{"attack":9,"defense":2,"magic":1,"difficulty":7},"image":{"full":"Zed.png","sprite":"champion4.png","group":"champion","x":336,"y":0,"w":48,"h":48},"tags":["Assassin","Fighter"],"partype":"Energy","stats":{"hp":579.4,"hpperlevel":80,"mp":200,"mpperlevel":0,"movespeed":345,"armor":26.88,"armorperlevel":3.5,"spellblock":32.1,"spellblockperlevel":1.25,"attackrange":125,"hpregen":7.09,"hpregenperlevel":0.65,"mpregen":50,"mpregenperlevel":0,"crit":0,"critperlevel":0,"attackdamage":54.712,"attackdamageperlevel":3.4,"attackspeedoffset":-0.03,"attackspeedperlevel":2.1}},"Ziggs":{"version":"6.18.1","id":"Ziggs","key":"115","name":"Ziggs","title":"the Hexplosives Expert","blurb":"Ziggs was born with a talent for tinkering, but his chaotic, hyperactive nature was unusual among yordle scientists. Aspiring to be a revered inventor like Heimerdinger, he rattled through ambitious projects with manic zeal, emboldened by both his ...","info":{"attack":2,"defense":4,"magic":9,"difficulty":4},"image":{"full":"Ziggs.png","sprite":"champion4.png","group":"champion","x":384,"y":0,"w":48,"h":48},"tags":["Mage"],"partype":"MP","stats":{"hp":524.4,"hpperlevel":80,"mp":384,"mpperlevel":47,"movespeed":325,"armor":21.544,"armorperlevel":3.3,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":6.255,"hpregenperlevel":0.6,"mpregen":6,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":54.208,"attackdamageperlevel":3.1,"attackspeedoffset":-0.04734,"attackspeedperlevel":2}},"Zilean":{"version":"6.18.1","id":"Zilean","key":"26","name":"Zilean","title":"the Chronokeeper","blurb":"In the wastelands of Urtistan, there was once a great city. It perished long ago in a terrible Rune War, like most of the lands below the Great Barrier. Nevertheless, one man survived: a sorcerer named Zilean. Being obsessed with time, it was only ...","info":{"attack":2,"defense":5,"magic":8,"difficulty":6},"image":{"full":"Zilean.png","sprite":"champion4.png","group":"champion","x":432,"y":0,"w":48,"h":48},"tags":["Support","Mage"],"partype":"MP","stats":{"hp":499.28,"hpperlevel":77,"mp":360.8,"mpperlevel":60,"movespeed":335,"armor":19.134,"armorperlevel":3.8,"spellblock":30,"spellblockperlevel":0,"attackrange":550,"hpregen":5.44,"hpregenperlevel":0.5,"mpregen":8.5,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":51.64,"attackdamageperlevel":3,"attackspeedoffset":0,"attackspeedperlevel":2.13}},"Zyra":{"version":"6.18.1","id":"Zyra","key":"143","name":"Zyra","title":"Rise of the Thorns","blurb":"Longing to take control of her fate, the ancient, dying plant Zyra transferred her consciousness into a human body for a second chance at life. Centuries ago, she and her kind dominated the Kumungu Jungle, using thorns and vines to consume any animal ...","info":{"attack":4,"defense":3,"magic":8,"difficulty":7},"image":{"full":"Zyra.png","sprite":"champion4.png","group":"champion","x":0,"y":48,"w":48,"h":48},"tags":["Mage","Support"],"partype":"MP","stats":{"hp":499.32,"hpperlevel":74,"mp":334,"mpperlevel":50,"movespeed":340,"armor":20.04,"armorperlevel":3,"spellblock":30,"spellblockperlevel":0,"attackrange":575,"hpregen":5.69,"hpregenperlevel":0.5,"mpregen":8.5,"mpregenperlevel":0.8,"crit":0,"critperlevel":0,"attackdamage":53.376,"attackdamageperlevel":3.2,"attackspeedoffset":0,"attackspeedperlevel":2.11}}};
+
+/***/ },
 /* 522 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	module.exports = {
+		"SummonerBarrier": {
+			"id": "SummonerBarrier",
+			"name": "Barrier",
+			"description": "Shields your champion from 115-455 damage (depending on champion level) for 2 seconds.",
+			"tooltip": "Temporarily shields {{ f1 }} damage from your champion for 2 seconds.",
+			"maxrank": 1,
+			"cooldown": [210],
+			"cooldownBurn": "210",
+			"cost": [0],
+			"costBurn": "0",
+			"effect": [],
+			"effectBurn": [],
+			"vars": [],
+			"key": "21",
+			"summonerLevel": 4,
+			"modes": ["ARAM", "CLASSIC", "TUTORIAL", "ODIN", "ASCENSION"],
+			"costType": "NoCost",
+			"maxammo": "-1",
+			"range": [1200],
+			"rangeBurn": "1200",
+			"image": {
+				"full": "SummonerBarrier.png",
+				"sprite": "spell0.png",
+				"group": "spell",
+				"x": 0,
+				"y": 0,
+				"w": 48,
+				"h": 48
+			},
+			"resource": "No Cost"
+		},
+		"SummonerBoost": {
+			"id": "SummonerBoost",
+			"name": "Cleanse",
+			"description": "Removes all disables and summoner spell debuffs affecting your champion and lowers the duration of incoming disables by 65% for 3 seconds.",
+			"tooltip": "Removes all disables and summoner spell debuffs affecting your champion and reduces the duration of disables by 65% for the next {{ f1 }} seconds.",
+			"maxrank": 1,
+			"cooldown": [210],
+			"cooldownBurn": "210",
+			"cost": [0],
+			"costBurn": "0",
+			"effect": [],
+			"effectBurn": [],
+			"vars": [{
+				"link": "@text",
+				"coeff": 3,
+				"key": "f1"
+			}],
+			"key": "1",
+			"summonerLevel": 6,
+			"modes": ["CLASSIC", "ODIN", "TUTORIAL", "ARAM", "ASCENSION"],
+			"costType": "NoCost",
+			"maxammo": "-1",
+			"range": [200],
+			"rangeBurn": "200",
+			"image": {
+				"full": "SummonerBoost.png",
+				"sprite": "spell0.png",
+				"group": "spell",
+				"x": 48,
+				"y": 0,
+				"w": 48,
+				"h": 48
+			},
+			"resource": "No Cost"
+		},
+		"SummonerClairvoyance": {
+			"id": "SummonerClairvoyance",
+			"name": "Clairvoyance",
+			"description": "Reveals a small area of the map for your team for 5 seconds.",
+			"tooltip": "Reveals a small area of the map for your team for {{ f1 }} seconds.",
+			"maxrank": 1,
+			"cooldown": [240],
+			"cooldownBurn": "240",
+			"cost": [0],
+			"costBurn": "0",
+			"effect": [],
+			"effectBurn": [],
+			"vars": [{
+				"link": "@text",
+				"coeff": 4,
+				"key": "f1"
+			}],
+			"key": "2",
+			"summonerLevel": 8,
+			"modes": ["ODIN", "ASCENSION"],
+			"costType": "NoCost",
+			"maxammo": "-1",
+			"range": [25000],
+			"rangeBurn": "25000",
+			"image": {
+				"full": "SummonerClairvoyance.png",
+				"sprite": "spell0.png",
+				"group": "spell",
+				"x": 96,
+				"y": 0,
+				"w": 48,
+				"h": 48
+			},
+			"resource": "No Cost"
+		},
+		"SummonerDot": {
+			"id": "SummonerDot",
+			"name": "Ignite",
+			"description": "Ignites target enemy champion, dealing 70-410 true damage (depending on champion level) over 5 seconds, grants you vision of the target, and reduces healing effects on them for the duration.",
+			"tooltip": "Ignite deals <span class=\"colorFEFCFF\">{{ f1 }}</span> true damage to target enemy champion over 5 seconds, grants you vision of the target and applies Grievous Wounds for the duration.<br><br><i>(Grievous Wounds reduces healing effects by 40%. This vision does not reveal stealthed enemies.)</i>",
+			"leveltip": {
+				"label": [""],
+				"effect": [""]
+			},
+			"maxrank": 1,
+			"cooldown": [180],
+			"cooldownBurn": "180",
+			"cost": [0],
+			"costBurn": "0",
+			"effect": [null, [500], [150]],
+			"effectBurn": [null, "500", "150"],
+			"vars": [{
+				"link": "@player.level",
+				"coeff": [70, 90, 110, 130, 150, 170, 190, 210, 230, 250, 270, 290, 310, 330, 350, 370, 390, 410],
+				"key": "f1"
+			}],
+			"key": "14",
+			"summonerLevel": 10,
+			"modes": ["CLASSIC", "ODIN", "TUTORIAL", "ARAM", "ASCENSION"],
+			"costType": "NoCost",
+			"maxammo": "-1",
+			"range": [600],
+			"rangeBurn": "600",
+			"image": {
+				"full": "SummonerDot.png",
+				"sprite": "spell0.png",
+				"group": "spell",
+				"x": 144,
+				"y": 0,
+				"w": 48,
+				"h": 48
+			},
+			"resource": "No Cost"
+		},
+		"SummonerExhaust": {
+			"id": "SummonerExhaust",
+			"name": "Exhaust",
+			"description": "Exhausts target enemy champion, reducing their Movement Speed and Attack Speed by 30%, their Armor and Magic Resist by 10, and their damage dealt by 40% for 2.5 seconds.",
+			"tooltip": "Exhausts target enemy champion, reducing their Movement Speed and Attack Speed by {{ f3 }}%, their Armor and Magic Resist by {{ f4 }}, and their damage dealt by {{ f2 }}% for 2.5 seconds.",
+			"maxrank": 1,
+			"cooldown": [210],
+			"cooldownBurn": "210",
+			"cost": [0],
+			"costBurn": "0",
+			"effect": [],
+			"effectBurn": [],
+			"vars": [],
+			"key": "3",
+			"summonerLevel": 4,
+			"modes": ["CLASSIC", "ODIN", "TUTORIAL", "ARAM", "ASCENSION"],
+			"costType": "NoCost",
+			"maxammo": "-1",
+			"range": [650],
+			"rangeBurn": "650",
+			"image": {
+				"full": "SummonerExhaust.png",
+				"sprite": "spell0.png",
+				"group": "spell",
+				"x": 192,
+				"y": 0,
+				"w": 48,
+				"h": 48
+			},
+			"resource": "No Cost"
+		},
+		"SummonerFlash": {
+			"id": "SummonerFlash",
+			"name": "Flash",
+			"description": "Teleports your champion a short distance toward your cursor's location.",
+			"tooltip": "Teleports your champion a short distance toward your cursor's location.",
+			"maxrank": 1,
+			"cooldown": [300],
+			"cooldownBurn": "300",
+			"cost": [0],
+			"costBurn": "0",
+			"effect": [],
+			"effectBurn": [],
+			"vars": [],
+			"key": "4",
+			"summonerLevel": 8,
+			"modes": ["CLASSIC", "ODIN", "TUTORIAL", "ARAM", "ASCENSION"],
+			"costType": "NoCost",
+			"maxammo": "-1",
+			"range": [425],
+			"rangeBurn": "425",
+			"image": {
+				"full": "SummonerFlash.png",
+				"sprite": "spell0.png",
+				"group": "spell",
+				"x": 240,
+				"y": 0,
+				"w": 48,
+				"h": 48
+			},
+			"resource": "No Cost"
+		},
+		"SummonerHaste": {
+			"id": "SummonerHaste",
+			"name": "Ghost",
+			"description": "Your champion can move through units and has 28-45% (depending on champion level) increased Movement Speed for 10 seconds.",
+			"tooltip": "Your champion can move through units and has {{ f1 }}% increased Movement Speed for 10 seconds.",
+			"maxrank": 1,
+			"cooldown": [210],
+			"cooldownBurn": "210",
+			"cost": [0],
+			"costBurn": "0",
+			"effect": [],
+			"effectBurn": [],
+			"vars": [{
+				"link": "@text",
+				"coeff": 27,
+				"key": "f1"
+			}],
+			"key": "6",
+			"summonerLevel": 1,
+			"modes": ["CLASSIC", "ODIN", "TUTORIAL", "ARAM", "ASCENSION", "FIRSTBLOOD"],
+			"costType": "NoCost",
+			"maxammo": "-1",
+			"range": [200],
+			"rangeBurn": "200",
+			"image": {
+				"full": "SummonerHaste.png",
+				"sprite": "spell0.png",
+				"group": "spell",
+				"x": 288,
+				"y": 0,
+				"w": 48,
+				"h": 48
+			},
+			"resource": "No Cost"
+		},
+		"SummonerHeal": {
+			"id": "SummonerHeal",
+			"name": "Heal",
+			"description": "Restores 90-345 Health (depending on champion level) and grants 30% Movement Speed for 1 second to you and target allied champion. This healing is halved for units recently affected by Summoner Heal.",
+			"tooltip": "Restores {{ f1 }} Health and grants 30% Movement Speed for 1 second to your champion and target allied champion. This healing is halved for units recently affected by Summoner Heal.<br><br><span class=\"colorFFFF00\">If this spell cannot find a target, it will cast on the most wounded allied champion in range.</span>",
+			"maxrank": 1,
+			"cooldown": [240],
+			"cooldownBurn": "240",
+			"cost": [0],
+			"costBurn": "0",
+			"effect": [],
+			"effectBurn": [],
+			"vars": [{
+				"link": "@player.level",
+				"coeff": [90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345],
+				"key": "f1"
+			}],
+			"key": "7",
+			"summonerLevel": 1,
+			"modes": ["CLASSIC", "ODIN", "TUTORIAL", "ARAM", "ASCENSION", "FIRSTBLOOD"],
+			"costType": "NoCost",
+			"maxammo": "-1",
+			"range": [850],
+			"rangeBurn": "850",
+			"image": {
+				"full": "SummonerHeal.png",
+				"sprite": "spell0.png",
+				"group": "spell",
+				"x": 336,
+				"y": 0,
+				"w": 48,
+				"h": 48
+			},
+			"resource": "No Cost"
+		},
+		"SummonerMana": {
+			"id": "SummonerMana",
+			"name": "Clarity",
+			"description": "Restores 50% of your champion's maximum Mana. Also restores allies for 25% of their maximum Mana.",
+			"tooltip": "Restores {{ f1 }}% maximum Mana to your Champion and {{ f2 }}% to nearby allies.",
+			"maxrank": 1,
+			"cooldown": [240],
+			"cooldownBurn": "240",
+			"cost": [0],
+			"costBurn": "0",
+			"effect": [],
+			"effectBurn": [],
+			"vars": [{
+				"link": "@player.level",
+				"coeff": [190, 220, 250, 280, 310, 340, 370, 400, 430, 460, 490, 520, 550, 580, 610, 640, 670, 700],
+				"key": "f1"
+			}, {
+				"link": "@player.level",
+				"coeff": [95, 110, 125, 140, 155, 170, 185, 200, 215, 230, 245, 260, 275, 290, 305, 320, 335, 350],
+				"key": "f2"
+			}],
+			"key": "13",
+			"summonerLevel": 1,
+			"modes": ["ODIN", "ARAM", "ASCENSION"],
+			"costType": "NoCost",
+			"maxammo": "-1",
+			"range": [600],
+			"rangeBurn": "600",
+			"image": {
+				"full": "SummonerMana.png",
+				"sprite": "spell0.png",
+				"group": "spell",
+				"x": 384,
+				"y": 0,
+				"w": 48,
+				"h": 48
+			},
+			"resource": "No Cost"
+		},
+		"SummonerPoroRecall": {
+			"id": "SummonerPoroRecall",
+			"name": "To the King!",
+			"description": "Quickly travel to the Poro King's side.",
+			"tooltip": "<span class=\"colorFFE076\">Passive:</span> Hitting an enemy champion with a Poro gives your team a Poro Mark. Upon reaching 10 Poro Marks, your team summons the Poro King to fight alongside them. While the Poro King is active, no Poro Marks can be scored by either team.<br><br><span class=\"colorFFE076\">Active:</span> Quickly dash to King Poro's side. Can only be cast while the Poro King is summoned for your team. <br><br><i><span class=\"colorFDD017\">''Poros tug the heartstrings. The rest of you just comes along for the ride.''</span></i>",
+			"maxrank": 1,
+			"cooldown": [10],
+			"cooldownBurn": "10",
+			"cost": [0],
+			"costBurn": "0",
+			"effect": [],
+			"effectBurn": [],
+			"vars": [],
+			"key": "30",
+			"summonerLevel": 1,
+			"modes": ["KINGPORO"],
+			"costType": "NoCost",
+			"maxammo": "-1",
+			"range": [200],
+			"rangeBurn": "200",
+			"image": {
+				"full": "SummonerPoroRecall.png",
+				"sprite": "spell0.png",
+				"group": "spell",
+				"x": 432,
+				"y": 0,
+				"w": 48,
+				"h": 48
+			},
+			"resource": "No Cost"
+		},
+		"SummonerPoroThrow": {
+			"id": "SummonerPoroThrow",
+			"name": "Poro Toss",
+			"description": "Toss a Poro at your enemies. If it hits, you can quickly travel to your target as a follow up.",
+			"tooltip": "Toss a Poro a long distance, dealing {{ f2 }} true damage to the first enemy unit hit. This ability can be recast for 3 seconds if it hits an enemy to dash to the target hit. Dashing to the target will reduce the cooldown of Poro Toss by 5 seconds.<br><br>Poros are not blocked by spell shields or wind walls because they are animals, not spells!<br><br><i><span class=\"colorFDD017\">''Poros are a model for Runeterran aerodynamics.''</span></i>",
+			"maxrank": 1,
+			"cooldown": [20],
+			"cooldownBurn": "20",
+			"cost": [0],
+			"costBurn": "0",
+			"effect": [],
+			"effectBurn": [],
+			"vars": [],
+			"key": "31",
+			"summonerLevel": 1,
+			"modes": ["KINGPORO"],
+			"costType": "NoCost",
+			"maxammo": "-1",
+			"range": [2500],
+			"rangeBurn": "2500",
+			"image": {
+				"full": "SummonerPoroThrow.png",
+				"sprite": "spell0.png",
+				"group": "spell",
+				"x": 0,
+				"y": 48,
+				"w": 48,
+				"h": 48
+			},
+			"resource": "No Cost"
+		},
+		"SummonerSmite": {
+			"id": "SummonerSmite",
+			"name": "Smite",
+			"description": "Deals 390-1000 true damage (depending on champion level) to target epic or large monster or enemy minion.",
+			"tooltip": "Deals <span class=\"colorFEFCFF\">{{ f1 }}</span> true damage to target epic or large monster or enemy minion.<br><br>Smite regains a charge every {{ f3 }} seconds, up to a maximum of 2 charges.<br><br><i>Smiting Large Monsters instantly harvests additional bonuses based on the Monster. Mouse over large jungle monsters to see potential bonus rewards.</i>",
+			"maxrank": 1,
+			"cooldown": [90],
+			"cooldownBurn": "90",
+			"cost": [0],
+			"costBurn": "0",
+			"effect": [],
+			"effectBurn": [],
+			"vars": [{
+				"link": "@player.level",
+				"coeff": [390, 410, 430, 450, 480, 510, 540, 570, 600, 640, 680, 720, 760, 800, 850, 900, 950, 1000],
+				"key": "f1"
+			}],
+			"key": "11",
+			"summonerLevel": 10,
+			"modes": ["CLASSIC", "TUTORIAL"],
+			"costType": "NoCost",
+			"maxammo": "2",
+			"range": [500],
+			"rangeBurn": "500",
+			"image": {
+				"full": "SummonerSmite.png",
+				"sprite": "spell0.png",
+				"group": "spell",
+				"x": 48,
+				"y": 48,
+				"w": 48,
+				"h": 48
+			},
+			"resource": "No Cost"
+		},
+		"SummonerSnowball": {
+			"id": "SummonerSnowball",
+			"name": "Mark",
+			"description": "Throw a snowball in a straight line at your enemies. If it hits an enemy, they become marked and your champion can quickly travel to the marked target as a follow up.",
+			"tooltip": "Throw a snowball a long distance, dealing {{ f1 }} true damage to the first enemy unit hit. If it hits an enemy, this ability can be recast for {{ f2 }} seconds to Dash to the tagged unit, dealing an additional {{ f5 }} true damage. Dashing to the target will reduce the cooldown of Mark by {{ f3 }}%.<br><br><span class=\"colorFFFF00\">Mark projectiles are not stopped by spell shields or projectile mitigation.</span>",
+			"maxrank": 1,
+			"cooldown": [80],
+			"cooldownBurn": "80",
+			"cost": [0],
+			"costBurn": "0",
+			"effect": [],
+			"effectBurn": [],
+			"vars": [],
+			"key": "32",
+			"summonerLevel": 1,
+			"modes": ["ARAM"],
+			"costType": "NoCost",
+			"maxammo": "-1",
+			"range": [1600],
+			"rangeBurn": "1600",
+			"image": {
+				"full": "SummonerSnowball.png",
+				"sprite": "spell0.png",
+				"group": "spell",
+				"x": 96,
+				"y": 48,
+				"w": 48,
+				"h": 48
+			},
+			"resource": "No Cost"
+		},
+		"SummonerTeleport": {
+			"id": "SummonerTeleport",
+			"name": "Teleport",
+			"description": "After channeling for 4.5 seconds, teleports your champion to target allied structure, minion, or ward.",
+			"tooltip": "After channeling for {{ f1 }} seconds, your champion teleports to target allied structure, minion, or ward.<br><br>You may reactivate Teleport to cancel it, placing it on a {{ f3 }} second cooldown.",
+			"maxrank": 1,
+			"cooldown": [300],
+			"cooldownBurn": "300",
+			"cost": [0],
+			"costBurn": "0",
+			"effect": [],
+			"effectBurn": [],
+			"vars": [{
+				"link": "@text",
+				"coeff": 4,
+				"key": "f1"
+			}],
+			"key": "12",
+			"summonerLevel": 6,
+			"modes": ["CLASSIC", "TUTORIAL"],
+			"costType": "NoCost",
+			"maxammo": "-1",
+			"range": [25000],
+			"rangeBurn": "25000",
+			"image": {
+				"full": "SummonerTeleport.png",
+				"sprite": "spell0.png",
+				"group": "spell",
+				"x": 144,
+				"y": 48,
+				"w": 48,
+				"h": 48
+			},
+			"resource": "No Cost"
+		}
+	};
+
+/***/ },
+/* 523 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	module.exports = {
+		"Ferocity": [[{
+			"masteryId": "6111",
+			"prereq": "0"
+		}, {
+			"masteryId": "6114",
+			"prereq": "0"
+		}], [{
+			"masteryId": "6121",
+			"prereq": "0"
+		}, {
+			"masteryId": "6122",
+			"prereq": "0"
+		}, {
+			"masteryId": "6123",
+			"prereq": "0"
+		}], [{
+			"masteryId": "6131",
+			"prereq": "0"
+		}, {
+			"masteryId": "6134",
+			"prereq": "0"
+		}], [{
+			"masteryId": "6141",
+			"prereq": "0"
+		}, {
+			"masteryId": "6142",
+			"prereq": "0"
+		}], [{
+			"masteryId": "6151",
+			"prereq": "0"
+		}, {
+			"masteryId": "6154",
+			"prereq": "0"
+		}], [{
+			"masteryId": "6161",
+			"prereq": "0"
+		}, {
+			"masteryId": "6162",
+			"prereq": "0"
+		}, {
+			"masteryId": "6164",
+			"prereq": "0"
+		}]],
+		"Cunning": [[{
+			"masteryId": "6311",
+			"prereq": "0"
+		}, {
+			"masteryId": "6312",
+			"prereq": "0"
+		}], [{
+			"masteryId": "6321",
+			"prereq": "0"
+		}, {
+			"masteryId": "6322",
+			"prereq": "0"
+		}, {
+			"masteryId": "6323",
+			"prereq": "0"
+		}], [{
+			"masteryId": "6331",
+			"prereq": "0"
+		}, {
+			"masteryId": "6332",
+			"prereq": "0"
+		}], [{
+			"masteryId": "6342",
+			"prereq": "0"
+		}, {
+			"masteryId": "6343",
+			"prereq": "0"
+		}], [{
+			"masteryId": "6351",
+			"prereq": "0"
+		}, {
+			"masteryId": "6352",
+			"prereq": "0"
+		}], [{
+			"masteryId": "6361",
+			"prereq": "0"
+		}, {
+			"masteryId": "6362",
+			"prereq": "0"
+		}, {
+			"masteryId": "6363",
+			"prereq": "0"
+		}]],
+		"Resolve": [[{
+			"masteryId": "6211",
+			"prereq": "0"
+		}, {
+			"masteryId": "6212",
+			"prereq": "0"
+		}], [{
+			"masteryId": "6221",
+			"prereq": "0"
+		}, {
+			"masteryId": "6223",
+			"prereq": "0"
+		}], [{
+			"masteryId": "6231",
+			"prereq": "0"
+		}, {
+			"masteryId": "6232",
+			"prereq": "0"
+		}], [{
+			"masteryId": "6241",
+			"prereq": "0"
+		}, {
+			"masteryId": "6242",
+			"prereq": "0"
+		}], [{
+			"masteryId": "6251",
+			"prereq": "0"
+		}, {
+			"masteryId": "6252",
+			"prereq": "0"
+		}], [{
+			"masteryId": "6261",
+			"prereq": "0"
+		}, {
+			"masteryId": "6262",
+			"prereq": "0"
+		}, {
+			"masteryId": "6263",
+			"prereq": "0"
+		}]],
+		"data": {
+			"6111": {
+				"id": 6111,
+				"name": "Fury",
+				"description": ["+0.8% Attack Speed", "+1.6% Attack Speed", "+2.4% Attack Speed", "+3.2% Attack Speed", "+4% Attack Speed"],
+				"image": {
+					"full": "6111.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 0,
+					"y": 0,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 5,
+				"prereq": "0"
+			},
+			"6114": {
+				"id": 6114,
+				"name": "Sorcery",
+				"description": ["+0.4% increased Ability damage", "+0.8% increased Ability damage", "+1.2% increased Ability damage", "+1.6% increased Ability damage", "+2.0% increased Ability damage"],
+				"image": {
+					"full": "6114.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 48,
+					"y": 0,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 5,
+				"prereq": "0"
+			},
+			"6121": {
+				"id": 6121,
+				"name": "Double Edged Sword",
+				"description": ["Deal 3% additional damage, take 1.5% additional damage."],
+				"image": {
+					"full": "6121.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 96,
+					"y": 0,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 1,
+				"prereq": "0"
+			},
+			"6122": {
+				"id": 6122,
+				"name": "Feast",
+				"description": ["Killing a unit restores 20 Health (30 second cooldown)"],
+				"image": {
+					"full": "6122.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 144,
+					"y": 0,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 1,
+				"prereq": "0"
+			},
+			"6123": {
+				"id": 6123,
+				"name": "Expose Weakness",
+				"description": ["Damaging enemy champions causes them to take 3% more damage from your allies"],
+				"image": {
+					"full": "6123.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 192,
+					"y": 0,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 1,
+				"prereq": "0"
+			},
+			"6131": {
+				"id": 6131,
+				"name": "Vampirism",
+				"description": ["+0.4% Lifesteal and Spell Vamp", "+0.8% Lifesteal and Spell Vamp", "+1.2% Lifesteal and Spell Vamp", "+1.6% Lifesteal and Spell Vamp", "+2.0% Lifesteal and Spell Vamp"],
+				"image": {
+					"full": "6131.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 240,
+					"y": 0,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 5,
+				"prereq": "0"
+			},
+			"6134": {
+				"id": 6134,
+				"name": "Natural Talent",
+				"description": ["Gain 0.4 + 0.09 per level Attack Damage, and 0.6 + 0.13 per level Ability Power (+2 Attack Damage and 3 Ability Power at level 18)", "Gain 0.8 + 0.18 per level Attack Damage, and 1.2 + 0.27 per level Ability Power (+4 Attack Damage and 6 Ability Power at level 18)", "Gain 1.2 + 0.27 per level Attack Damage, and 1.8 + 0.4 per level Ability Power (+6 Attack Damage and 9 Ability Power at level 18)", "Gain 1.6 + 0.36 per level Attack Damage, and 2.4 + 0.53 per level Ability Power (+8 Attack Damage and 12 Ability Power at level 18)", "Gain 2 + 0.44 per level Attack Damage, and 3 + 0.67 per level Ability Power (+10 Attack Damage and 15 Ability Power at level 18)"],
+				"image": {
+					"full": "6134.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 288,
+					"y": 0,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 5,
+				"prereq": "0"
+			},
+			"6141": {
+				"id": 6141,
+				"name": "Bounty Hunter",
+				"description": ["Deal 1% increased damage for each unique enemy champion you have killed"],
+				"image": {
+					"full": "6141.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 336,
+					"y": 0,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 1,
+				"prereq": "0"
+			},
+			"6142": {
+				"id": 6142,
+				"name": "Oppressor",
+				"description": ["Deal 2.5% increased damage to targets with impaired movement (slow, stun, root, taunt, etc.)"],
+				"image": {
+					"full": "6142.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 384,
+					"y": 0,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 1,
+				"prereq": "0"
+			},
+			"6151": {
+				"id": 6151,
+				"name": "Battering Blows",
+				"description": ["+1.4% Armor Penetration", "+2.8% Armor Penetration", "+4.2% Armor Penetration", "+5.6% Armor Penetration", "+7% Armor Penetration"],
+				"image": {
+					"full": "6151.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 432,
+					"y": 0,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 5,
+				"prereq": "0"
+			},
+			"6154": {
+				"id": 6154,
+				"name": "Piercing Thoughts",
+				"description": ["+1.4% Magic Penetration", "+2.8% Magic Penetration", "+4.2% Magic Penetration", "+5.6% Magic Penetration", "+7% Magic Penetration"],
+				"image": {
+					"full": "6154.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 0,
+					"y": 48,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 5,
+				"prereq": "0"
+			},
+			"6161": {
+				"id": 6161,
+				"name": "Warlord's Bloodlust",
+				"description": ["Gain increasingly more Life Steal based on your missing health against champions (up to 20%). Against minions gain 50% benefit (25% for ranged champions)."],
+				"image": {
+					"full": "6161.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 48,
+					"y": 48,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 1,
+				"prereq": "0"
+			},
+			"6162": {
+				"id": 6162,
+				"name": "Fervor of Battle",
+				"description": ["Hitting champions with attacks and abilities generates a Fervor stack (2 for melee attacks, 2 second cooldown for ability hits). Stacks of Fervor last 6 seconds (max 8 stacks).<br><br>Your basic attacks deal 1-14 bonus physical damage to champions for each stack."],
+				"image": {
+					"full": "6162.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 96,
+					"y": 48,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 1,
+				"prereq": "0"
+			},
+			"6164": {
+				"id": 6164,
+				"name": "Deathfire Touch",
+				"description": ["Your damaging abilities cause enemy champions to take magic damage over 4 seconds.<br><br>Damage: 8 + 60% Bonus Attack Damage and 25% Ability Power<br><br>Deathfire Touch's duration is reduced for:<br>     - Area of Effect: 2 second duration. <br>     - Damage over Time: 1 second duration."],
+				"image": {
+					"full": "6164.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 144,
+					"y": 48,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 1,
+				"prereq": "0"
+			},
+			"6211": {
+				"id": 6211,
+				"name": "Recovery",
+				"description": ["+0.4 Health per 5 seconds", "+0.8 Health per 5 seconds", "+1.2 Health per 5 seconds", "+1.6 Health per 5 seconds", "+2.0 Health per 5 seconds"],
+				"image": {
+					"full": "6211.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 384,
+					"y": 96,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 5,
+				"prereq": "0"
+			},
+			"6212": {
+				"id": 6212,
+				"name": "Unyielding",
+				"description": ["+1% Bonus Armor and Magic Resist", "+2% Bonus Armor and Magic Resist", "+3% Bonus Armor and Magic Resist", "+4% Bonus Armor and Magic Resist", "+5% Bonus Armor and Magic Resist"],
+				"image": {
+					"full": "6212.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 432,
+					"y": 96,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 5,
+				"prereq": "0"
+			},
+			"6221": {
+				"id": 6221,
+				"name": "Explorer",
+				"description": ["+15 Movement Speed in Brush and River"],
+				"image": {
+					"full": "6221.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 0,
+					"y": 144,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 1,
+				"prereq": "0"
+			},
+			"6223": {
+				"id": 6223,
+				"name": "Tough Skin",
+				"description": ["You take 2 less damage from champion and neutral monster basic attacks"],
+				"image": {
+					"full": "6223.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 48,
+					"y": 144,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 1,
+				"prereq": "0"
+			},
+			"6231": {
+				"id": 6231,
+				"name": "Runic Armor",
+				"description": ["Shields, healing, regeneration, and lifesteal on you are 1.6% stronger", "Shields, healing, regeneration, and lifesteal on you are 3.2% stronger", "Shields, healing, regeneration, and lifesteal on you are 4.8% stronger", "Shields, healing, regeneration, and lifesteal on you are 6.4% stronger", "Shields, healing, regeneration, and lifesteal on you are 8% stronger"],
+				"image": {
+					"full": "6231.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 96,
+					"y": 144,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 5,
+				"prereq": "0"
+			},
+			"6232": {
+				"id": 6232,
+				"name": "Veteran's Scars",
+				"description": ["+10 Health", "+20 Health", "+30 Health", "+40 Health", "+50 Health"],
+				"image": {
+					"full": "6232.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 144,
+					"y": 144,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 5,
+				"prereq": "0"
+			},
+			"6241": {
+				"id": 6241,
+				"name": "Insight",
+				"description": ["Reduces the cooldown of Summoner Spells by 15%"],
+				"image": {
+					"full": "6241.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 192,
+					"y": 144,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 1,
+				"prereq": "0"
+			},
+			"6242": {
+				"id": 6242,
+				"name": "Perseverance",
+				"description": ["+50% Base Health Regen, increased to +200% when below 25% Health"],
+				"image": {
+					"full": "6242.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 240,
+					"y": 144,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 1,
+				"prereq": "0"
+			},
+			"6251": {
+				"id": 6251,
+				"name": "Swiftness",
+				"description": ["+3% Tenacity and Slow Resist", "+6% Tenacity and Slow Resist", "+9% Tenacity and Slow Resist", "+12% Tenacity and Slow Resist", "+15% Tenacity and Slow Resist"],
+				"image": {
+					"full": "6251.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 288,
+					"y": 144,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 5,
+				"prereq": "0"
+			},
+			"6252": {
+				"id": 6252,
+				"name": "Legendary Guardian",
+				"description": ["+0.6 Armor and Magic Resist for each nearby enemy champion", "+1.2 Armor and Magic Resist for each nearby enemy champion", "+1.8 Armor and Magic Resist for each nearby enemy champion", "+2.4 Armor and Magic Resist for each nearby enemy champion", "+3 Armor and Magic Resist for each nearby enemy champion"],
+				"image": {
+					"full": "6252.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 336,
+					"y": 144,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 5,
+				"prereq": "0"
+			},
+			"6261": {
+				"id": 6261,
+				"name": "Grasp of the Undying",
+				"description": ["Every 4 seconds in combat, your next attack against an enemy champion deals damage equal to 3% of your max Health and heals you for 1.5% of your max Health (halved for ranged champions, deals magic damage)"],
+				"image": {
+					"full": "6261.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 384,
+					"y": 144,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 1,
+				"prereq": "0"
+			},
+			"6262": {
+				"id": 6262,
+				"name": "Strength of the Ages",
+				"description": ["You permanently gain Health (300 max) for you or allies killing certain nearby units:<br> - Siege minions: +20 Health<br> - Large monsters: +10 Health<br><br>At the max bonus, these kills instead restore 6% of your Maximum Health."],
+				"image": {
+					"full": "6262.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 432,
+					"y": 144,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 1,
+				"prereq": "0"
+			},
+			"6263": {
+				"id": 6263,
+				"name": "Bond of Stone",
+				"description": ["+4% Damage Reduction. 6% of the damage from enemy champions taken by the nearest allied champion is dealt to you instead. Damage is not redirected if you are below 5% of your maximum health."],
+				"image": {
+					"full": "6263.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 0,
+					"y": 192,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 1,
+				"prereq": "0"
+			},
+			"6311": {
+				"id": 6311,
+				"name": "Wanderer",
+				"description": ["+0.6% Movement Speed out of combat", "+1.2% Movement Speed out of combat", "+1.8% Movement Speed out of combat", "+2.4% Movement Speed out of combat", "+3% Movement Speed out of combat"],
+				"image": {
+					"full": "6311.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 192,
+					"y": 48,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 5,
+				"prereq": "0"
+			},
+			"6312": {
+				"id": 6312,
+				"name": "Savagery",
+				"description": ["Single target attacks and spells deal 1 bonus damage to minions and monsters", "Single target attacks and spells deal 2 bonus damage to minions and monsters", "Single target attacks and spells deal 3 bonus damage to minions and monsters", "Single target attacks and spells deal 4 bonus damage to minions and monsters", "Single target attacks and spells deal 5 bonus damage to minions and monsters"],
+				"image": {
+					"full": "6312.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 240,
+					"y": 48,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 5,
+				"prereq": "0"
+			},
+			"6321": {
+				"id": 6321,
+				"name": "Runic Affinity",
+				"description": ["Buffs from neutral monsters last 15% longer"],
+				"image": {
+					"full": "6321.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 288,
+					"y": 48,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 1,
+				"prereq": "0"
+			},
+			"6322": {
+				"id": 6322,
+				"name": "Secret Stash",
+				"description": ["Your Potions and Elixirs last 10% longer.<br><br>Your Health Potions are replaced with Biscuits that restore 15 Health and Mana instantly on use"],
+				"image": {
+					"full": "6322.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 336,
+					"y": 48,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 1,
+				"prereq": "0"
+			},
+			"6323": {
+				"id": 6323,
+				"name": "Assassin",
+				"description": ["Deal 2% increased damage to champions when no allied champions are nearby"],
+				"image": {
+					"full": "6323.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 384,
+					"y": 48,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 1,
+				"prereq": "0"
+			},
+			"6331": {
+				"id": 6331,
+				"name": "Merciless",
+				"description": ["Deal 1% increased damage to champions below 40% Health", "Deal 2% increased damage to champions below 40% Health", "Deal 3% increased damage to champions below 40% Health", "Deal 4% increased damage to champions below 40% Health", "Deal 5% increased damage to champions below 40% Health"],
+				"image": {
+					"full": "6331.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 432,
+					"y": 48,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 5,
+				"prereq": "0"
+			},
+			"6332": {
+				"id": 6332,
+				"name": "Meditation",
+				"description": ["Regenerate 0.3% of your missing Mana every 5 seconds", "Regenerate 0.6% of your missing Mana every 5 seconds", "Regenerate 0.9% of your missing Mana every 5 seconds", "Regenerate 1.2% of your missing Mana every 5 seconds", "Regenerate 1.5% of your missing Mana every 5 seconds"],
+				"image": {
+					"full": "6332.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 0,
+					"y": 96,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 5,
+				"prereq": "0"
+			},
+			"6342": {
+				"id": 6342,
+				"name": "Bandit",
+				"description": ["Gain 1 gold for each nearby minion killed by an ally. <br><br>Gain 3 gold (10 if melee) when hitting an enemy champion with a basic attack (5 second cooldown)"],
+				"image": {
+					"full": "6342.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 48,
+					"y": 96,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 1,
+				"prereq": "0"
+			},
+			"6343": {
+				"id": 6343,
+				"name": "Dangerous Game",
+				"description": ["Champion kills and assists restore 5% of your missing Health and Mana"],
+				"image": {
+					"full": "6343.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 96,
+					"y": 96,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 1,
+				"prereq": "0"
+			},
+			"6351": {
+				"id": 6351,
+				"name": "Precision",
+				"description": ["Gain 0.6 + 0.06 per level Magic Penetration and Armor Penetration", "Gain 1.2 + 0.12 per level Magic Penetration and Armor Penetration", "Gain 1.8 + 0.18 per level Magic Penetration and Armor Penetration", "Gain 2.4 + 0.24 per level Magic Penetration and Armor Penetration", "Gain 3 + 0.3 per level Magic Penetration and Armor Penetration"],
+				"image": {
+					"full": "6351.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 144,
+					"y": 96,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 5,
+				"prereq": "0"
+			},
+			"6352": {
+				"id": 6352,
+				"name": "Intelligence",
+				"description": ["Your Cooldown Reduction cap is increased to 41% and you gain 1% Cooldown Reduction", "Your Cooldown Reduction cap is increased to 42% and you gain 2% Cooldown Reduction", "Your Cooldown Reduction cap is increased to 43% and you gain 3% Cooldown Reduction", "Your Cooldown Reduction cap is increased to 44% and you gain 4% Cooldown Reduction", "Your Cooldown Reduction cap is increased to 45% and you gain 5% Cooldown Reduction"],
+				"image": {
+					"full": "6352.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 192,
+					"y": 96,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 5,
+				"prereq": "0"
+			},
+			"6361": {
+				"id": 6361,
+				"name": "Stormraider's Surge",
+				"description": ["Dealing 30% of a champion's max Health within 2.5 seconds grants you 40% Movement Speed and 75% Slow Resistance for 3 seconds (10 second cooldown)."],
+				"image": {
+					"full": "6361.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 240,
+					"y": 96,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 1,
+				"prereq": "0"
+			},
+			"6362": {
+				"id": 6362,
+				"name": "Thunderlord's Decree",
+				"description": ["Your 3rd attack or damaging spell against the same enemy champion calls down a lightning strike, dealing magic damage in the area. <br><br>Damage: 10 per level, plus 30% of your Bonus Attack Damage, and 10% of your Ability Power (25-15 second cooldown, based on level)."],
+				"image": {
+					"full": "6362.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 288,
+					"y": 96,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 1,
+				"prereq": "0"
+			},
+			"6363": {
+				"id": 6363,
+				"name": "Windspeaker's Blessing",
+				"description": ["Your heals and shields are 10% stronger. Additionally, your shields and heals on other allies increase their armor by 5-22 (based on level) and their magic resistance by half that amount for 3 seconds."],
+				"image": {
+					"full": "6363.png",
+					"sprite": "mastery0.png",
+					"group": "gray_mastery",
+					"x": 336,
+					"y": 96,
+					"w": 48,
+					"h": 48
+				},
+				"ranks": 1,
+				"prereq": "0"
+			}
+		}
+	};
+
+/***/ },
+/* 524 */
+/***/ function(module, exports) {
+
+	"use strict";module.exports={"5001":{"colloq":null,"description":"+0.53 attack damage","image":{"full":"r_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":0},"name":"Lesser Mark of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"FlatPhysicalDamageMod":0.525},"tags":["physicalAttack","flat","mark"]},"5002":{"colloq":null,"description":"+0.08 attack damage per level (+1.35 at champion level 18)","image":{"full":"r_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":0},"name":"Lesser Mark of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"rFlatPhysicalDamageModPerLevel":0.075},"tags":["physicalAttack","perLevel","mark"]},"5003":{"colloq":null,"description":"+0.94% attack speed","image":{"full":"r_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":0},"name":"Lesser Mark of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"PercentAttackSpeedMod":0.009434},"tags":["physicalAttack","percent","mark"]},"5005":{"colloq":null,"description":"+1.24% critical damage","image":{"full":"r_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":0},"name":"Lesser Mark of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"FlatCritDamageMod":0.012397},"tags":["physicalAttack","flat","mark"]},"5007":{"colloq":null,"description":"+0.52% critical chance","image":{"full":"r_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":0},"name":"Lesser Mark of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"FlatCritChanceMod":0.005155},"tags":["physicalAttack","flat","mark"]},"5009":{"colloq":null,"description":"+0.72 armor penetration","image":{"full":"r_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":0},"name":"Lesser Mark of Armor Penetration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"rFlatArmorPenetrationMod":0.72},"tags":["physicalAttack","flat","mark"]},"5011":{"colloq":null,"description":"+1.93 health","image":{"full":"r_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":0},"name":"Lesser Mark of Health","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"FlatHPPoolMod":1.9305},"tags":["defense","flat","mark"]},"5012":{"colloq":null,"description":"+0.3 health per level (+5.4 at champion level 18)","image":{"full":"r_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":0},"name":"Lesser Mark of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"rFlatHPModPerLevel":0.3005},"tags":["defense","perLevel","mark"]},"5013":{"colloq":null,"description":"+0.51 armor","image":{"full":"r_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":0},"name":"Lesser Mark of Armor","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"FlatArmorMod":0.508},"tags":["defense","flat","mark"]},"5015":{"colloq":null,"description":"+0.43 magic resist","image":{"full":"r_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":0},"name":"Lesser Mark of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"FlatSpellBlockMod":0.43},"tags":["defense","flat","mark"]},"5016":{"colloq":null,"description":"+0.04 magic resist per level (+0.72 at champion level 18)","image":{"full":"r_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":0},"name":"Lesser Mark of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"rFlatSpellBlockModPerLevel":0.0412},"tags":["defense","perLevel","mark"]},"5021":{"colloq":null,"description":"-0.11% cooldowns","image":{"full":"r_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":0},"name":"Lesser Mark of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"rPercentCooldownMod":-0.001112},"tags":["mark"]},"5023":{"colloq":null,"description":"+0.33 ability power","image":{"full":"r_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":0},"name":"Lesser Mark of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"FlatMagicDamageMod":0.33},"tags":["magic","flat","mark"]},"5024":{"colloq":null,"description":"+0.06 ability power per level (+1.08 at champion level 18)","image":{"full":"r_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":0},"name":"Lesser Mark of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"rFlatMagicDamageModPerLevel":0.0577},"tags":["magic","perLevel","mark"]},"5025":{"colloq":null,"description":"+3.28 mana","image":{"full":"r_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":0},"name":"Lesser Mark of Mana","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"FlatMPPoolMod":3.2813},"tags":["magic","flat","mark"]},"5026":{"colloq":null,"description":"+0.65 mana per level (+11.7 at champion level 18)","image":{"full":"r_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":0},"name":"Lesser Mark of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"rFlatMPModPerLevel":0.6481},"tags":["magic","perLevel","mark"]},"5027":{"colloq":null,"description":"+0.15 mana regen / 5 sec.","image":{"full":"r_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":0},"name":"Lesser Mark of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"FlatMPRegenMod":0.02916},"tags":["magic","flat","mark"]},"5029":{"colloq":null,"description":"+0.49 magic penetration","image":{"full":"r_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":0},"name":"Lesser Mark of Magic Penetration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"rFlatMagicPenetrationMod":0.49},"tags":["magic","flat","mark"]},"5031":{"colloq":null,"description":"+0.16 attack damage","image":{"full":"b_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":0},"name":"Lesser Glyph of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"FlatPhysicalDamageMod":0.1575},"tags":["physicalAttack","flat","glyph"]},"5032":{"colloq":null,"description":"+0.02 attack damage per level (+0.36 at champion level 18)","image":{"full":"b_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":0},"name":"Lesser Glyph of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"rFlatPhysicalDamageModPerLevel":0.0225},"tags":["physicalAttack","perLevel","glyph"]},"5033":{"colloq":null,"description":"+0.35% attack speed","image":{"full":"b_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":0},"name":"Lesser Glyph of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"PercentAttackSpeedMod":0.003538},"tags":["physicalAttack","percent","glyph"]},"5035":{"colloq":null,"description":"+0.31% critical damage","image":{"full":"b_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":0},"name":"Lesser Glyph of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"FlatCritDamageMod":0.003099},"tags":["physicalAttack","flat","glyph"]},"5037":{"colloq":null,"description":"+0.15% critical chance","image":{"full":"b_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":0},"name":"Lesser Glyph of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"FlatCritChanceMod":0.001546},"tags":["physicalAttack","flat","glyph"]},"5041":{"colloq":null,"description":"+1.49 health","image":{"full":"b_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":0},"name":"Lesser Glyph of Health","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"FlatHPPoolMod":1.485},"tags":["defense","flat","glyph"]},"5042":{"colloq":null,"description":"+0.3 health per level (+5.4 at champion level 18)","image":{"full":"b_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":0},"name":"Lesser Glyph of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"rFlatHPModPerLevel":0.3005},"tags":["defense","perLevel","glyph"]},"5043":{"colloq":null,"description":"+0.39 armor","image":{"full":"b_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":0},"name":"Lesser Glyph of Armor","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"FlatArmorMod":0.3908},"tags":["defense","flat","glyph"]},"5045":{"colloq":null,"description":"+0.74 magic resist","image":{"full":"b_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":0},"name":"Lesser Glyph of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"FlatSpellBlockMod":0.74},"tags":["defense","flat","glyph"]},"5046":{"colloq":null,"description":"+0.09 magic resist per level (+1.68 at champion level 18)","image":{"full":"b_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":0},"name":"Lesser Glyph of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"rFlatSpellBlockModPerLevel":0.09333},"tags":["defense","perLevel","glyph"]},"5047":{"colloq":null,"description":"+0.15 health regen / 5 sec.","image":{"full":"b_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":0},"name":"Lesser Glyph of Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"FlatHPRegenMod":0.03},"tags":["defense","flat","glyph"]},"5051":{"colloq":null,"description":"-0.47% cooldowns","image":{"full":"b_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":0},"name":"Lesser Glyph of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"rPercentCooldownMod":-0.0047},"tags":["glyph"]},"5052":{"colloq":null,"description":"-0.05% cooldowns per level (-0.93% at champion level 18)","image":{"full":"b_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":0},"name":"Lesser Glyph of Scaling Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"rPercentCooldownModPerLevel":-0.00051667},"tags":["glyph"]},"5053":{"colloq":null,"description":"+0.66 ability power","image":{"full":"b_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":0},"name":"Lesser Glyph of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"FlatMagicDamageMod":0.66},"tags":["magic","flat","glyph"]},"5054":{"colloq":null,"description":"+0.1 ability power per level (+1.8 at champion level 18)","image":{"full":"b_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":0},"name":"Lesser Glyph of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"rFlatMagicDamageModPerLevel":0.0962},"tags":["magic","perLevel","glyph"]},"5055":{"colloq":null,"description":"+6.25 mana","image":{"full":"b_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":0},"name":"Lesser Glyph of Mana","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"FlatMPPoolMod":6.25},"tags":["magic","flat","glyph"]},"5056":{"colloq":null,"description":"+0.79 mana per level (+14.22 at champion level 18)","image":{"full":"b_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":0},"name":"Lesser Glyph of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"rFlatMPModPerLevel":0.787},"tags":["magic","perLevel","glyph"]},"5057":{"colloq":null,"description":"+0.19 mana regen / 5 sec.","image":{"full":"b_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":0},"name":"Lesser Glyph of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"FlatMPRegenMod":0.038},"tags":["magic","flat","glyph"]},"5058":{"colloq":null,"description":"+0.04 mana regen / 5 sec. per level (+0.67 at champion level 18)","image":{"full":"b_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":0},"name":"Lesser Glyph of Scaling Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"rFlatMPRegenModPerLevel":0.007444},"tags":["magic","perLevel","glyph"]},"5059":{"colloq":null,"description":"+0.35 magic penetration","image":{"full":"b_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":0},"name":"Lesser Glyph of Magic Penetration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"rFlatMagicPenetrationMod":0.35},"tags":["magic","flat","glyph"]},"5061":{"colloq":null,"description":"+0.24 attack damage","image":{"full":"y_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":48},"name":"Lesser Seal of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"FlatPhysicalDamageMod":0.2364},"tags":["physicalAttack","flat","seal"]},"5062":{"colloq":null,"description":"+0.03 attack damage per level (+0.61 at champion level 18)","image":{"full":"y_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":48},"name":"Lesser Seal of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"rFlatPhysicalDamageModPerLevel":0.0338},"tags":["physicalAttack","perLevel","seal"]},"5063":{"colloq":null,"description":"+0.42% attack speed","image":{"full":"y_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":48},"name":"Lesser Seal of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"PercentAttackSpeedMod":0.004245},"tags":["physicalAttack","percent","seal"]},"5065":{"colloq":null,"description":"+0.43% critical damage","image":{"full":"y_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":48},"name":"Lesser Seal of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"FlatCritDamageMod":0.004339},"tags":["physicalAttack","flat","seal"]},"5067":{"colloq":null,"description":"+0.23% critical chance","image":{"full":"y_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":48},"name":"Lesser Seal of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"FlatCritChanceMod":0.00232},"tags":["physicalAttack","flat","seal"]},"5071":{"colloq":null,"description":"+4.48 health","image":{"full":"y_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":48},"name":"Lesser Seal of Health","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"FlatHPPoolMod":4.48},"tags":["defense","flat","seal"]},"5072":{"colloq":null,"description":"+0.75 health per level (+13.44 at champion level 18)","image":{"full":"y_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":48},"name":"Lesser Seal of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"rFlatHPModPerLevel":0.74667},"tags":["defense","perLevel","seal"]},"5073":{"colloq":null,"description":"+0.56 armor","image":{"full":"y_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":48},"name":"Lesser Seal of Armor","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"FlatArmorMod":0.56},"tags":["defense","flat","seal"]},"5074":{"colloq":null,"description":"+0.09 armor per level (+1.68 at champion level 18)","image":{"full":"y_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":48},"name":"Lesser Seal of Scaling Armor","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"rFlatArmorModPerLevel":0.09333},"tags":["defense","perLevel","seal"]},"5075":{"colloq":null,"description":"+0.41 magic resist","image":{"full":"y_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":48},"name":"Lesser Seal of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"FlatSpellBlockMod":0.4125},"tags":["defense","flat","seal"]},"5076":{"colloq":null,"description":"+0.05 magic resist per level (+0.9 at champion level 18)","image":{"full":"y_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":48},"name":"Lesser Seal of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"rFlatSpellBlockModPerLevel":0.0536},"tags":["defense","perLevel","seal"]},"5077":{"colloq":null,"description":"+0.31 health regen / 5 sec.","image":{"full":"y_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":48},"name":"Lesser Seal of Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"FlatHPRegenMod":0.062},"tags":["defense","flat","seal"]},"5078":{"colloq":null,"description":"+0.06 health regen / 5 sec. per level (+1.08 at champion level 18)","image":{"full":"y_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":48},"name":"Lesser Seal of Scaling Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"rFlatHPRegenModPerLevel":0.0125},"tags":["defense","perLevel","seal"]},"5081":{"colloq":null,"description":"-0.2% cooldowns","image":{"full":"y_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":48},"name":"Lesser Seal of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"rPercentCooldownMod":-0.002},"tags":["seal"]},"5083":{"colloq":null,"description":"+0.33 ability power","image":{"full":"y_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":48},"name":"Lesser Seal of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"FlatMagicDamageMod":0.33},"tags":["magic","flat","seal"]},"5084":{"colloq":null,"description":"+0.06 ability power per level (+1.08 at champion level 18)","image":{"full":"y_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":48},"name":"Lesser Seal of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"rFlatMagicDamageModPerLevel":0.0577},"tags":["magic","perLevel","seal"]},"5085":{"colloq":null,"description":"+3.83 mana","image":{"full":"y_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":48},"name":"Lesser Seal of Mana","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"FlatMPPoolMod":3.8281},"tags":["magic","flat","seal"]},"5086":{"colloq":null,"description":"+0.65 mana per level (+11.7 at champion level 18)","image":{"full":"y_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":48},"name":"Lesser Seal of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"rFlatMPModPerLevel":0.6481},"tags":["magic","perLevel","seal"]},"5087":{"colloq":null,"description":"+0.23 mana regen / 5 sec.","image":{"full":"y_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":48},"name":"Lesser Seal of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"FlatMPRegenMod":0.04514},"tags":["magic","flat","seal"]},"5088":{"colloq":null,"description":"+0.036 mana regen / 5 sec. per level (+0.65 at champion level 18)","image":{"full":"y_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":48},"name":"Lesser Seal of Scaling Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"rFlatMPRegenModPerLevel":0.0072},"tags":["magic","perLevel","seal"]},"5091":{"colloq":null,"description":"+1.25 attack damage","image":{"full":"bl_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":48},"name":"Lesser Quintessence of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"FlatPhysicalDamageMod":1.25},"tags":["physicalAttack","flat","quintessence"]},"5092":{"colloq":null,"description":"+0.14 attack damage per level (+2.52 at champion level 18)","image":{"full":"bl_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":48},"name":"Lesser Quintessence of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rFlatPhysicalDamageModPerLevel":0.1389},"tags":["physicalAttack","perLevel","quintessence"]},"5093":{"colloq":null,"description":"+2.52% attack speed","image":{"full":"bl_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":48},"name":"Lesser Quintessence of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"PercentAttackSpeedMod":0.0252},"tags":["physicalAttack","percent","quintessence"]},"5095":{"colloq":null,"description":"+2.48% critical damage","image":{"full":"bl_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":48},"name":"Lesser Quintessence of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"FlatCritDamageMod":0.024793},"tags":["physicalAttack","flat","quintessence"]},"5097":{"colloq":null,"description":"+1.03% critical chance","image":{"full":"bl_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":48},"name":"Lesser Quintessence of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"FlatCritChanceMod":0.010309},"tags":["physicalAttack","flat","quintessence"]},"5099":{"colloq":null,"description":"+1.42 armor penetration","image":{"full":"bl_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":48},"name":"Lesser Quintessence of Armor Penetration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rFlatArmorPenetrationMod":1.42},"tags":["physicalAttack","flat","quintessence"]},"5101":{"colloq":null,"description":"+14.5 health","image":{"full":"bl_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":48},"name":"Lesser Quintessence of Health","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"FlatHPPoolMod":14.5},"tags":["defense","flat","quintessence"]},"5102":{"colloq":null,"description":"+1.5 health per level (+27 at champion level 18)","image":{"full":"bl_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":48},"name":"Lesser Quintessence of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rFlatHPModPerLevel":1.5024},"tags":["defense","perLevel","quintessence"]},"5103":{"colloq":null,"description":"+2.37 armor","image":{"full":"bl_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":48},"name":"Lesser Quintessence of Armor","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"FlatArmorMod":2.3684},"tags":["defense","flat","quintessence"]},"5104":{"colloq":null,"description":"+0.21 armor per level (+3.78 at champion level 18)","image":{"full":"bl_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":48},"name":"Lesser Quintessence of Scaling Armor","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rFlatArmorModPerLevel":0.2083},"tags":["defense","perLevel","quintessence"]},"5105":{"colloq":null,"description":"+2.22 magic resist","image":{"full":"bl_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":48},"name":"Lesser Quintessence of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"FlatSpellBlockMod":2.22},"tags":["defense","flat","quintessence"]},"5106":{"colloq":null,"description":"+0.21 magic resist per level (+3.78 at champion level 18)","image":{"full":"bl_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":48},"name":"Lesser Quintessence of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rFlatSpellBlockModPerLevel":0.2062},"tags":["defense","perLevel","quintessence"]},"5107":{"colloq":null,"description":"+1.5 health regen / 5 sec.","image":{"full":"bl_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":48},"name":"Lesser Quintessence of Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"FlatHPRegenMod":0.3},"tags":["defense","flat","quintessence"]},"5108":{"colloq":null,"description":"+0.16 health regen / 5 sec. per level (+2.88 at champion level 18)","image":{"full":"bl_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":48},"name":"Lesser Quintessence of Scaling Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rFlatHPRegenModPerLevel":0.03126},"tags":["defense","perLevel","quintessence"]},"5111":{"colloq":null,"description":"-1.4% cooldowns","image":{"full":"bl_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":48},"name":"Lesser Quintessence of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rPercentCooldownMod":-0.014},"tags":["quintessence"]},"5112":{"colloq":null,"description":"-0.15% cooldowns per level (-2.8% at champion level 18)","image":{"full":"bl_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":48},"name":"Lesser Quintessence of Scaling Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rPercentCooldownModPerLevel":-0.0015556},"tags":["quintessence"]},"5113":{"colloq":null,"description":"+2.75 ability power","image":{"full":"bl_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":48},"name":"Lesser Quintessence of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"FlatMagicDamageMod":2.75},"tags":["magic","flat","quintessence"]},"5114":{"colloq":null,"description":"+0.24 ability power per level (+4.32 at champion level 18)","image":{"full":"bl_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":48},"name":"Lesser Quintessence of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rFlatMagicDamageModPerLevel":0.2404},"tags":["magic","perLevel","quintessence"]},"5115":{"colloq":null,"description":"+20.83 mana","image":{"full":"bl_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":48},"name":"Lesser Quintessence of Mana","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"FlatMPPoolMod":20.8333},"tags":["magic","flat","quintessence"]},"5116":{"colloq":null,"description":"+2.31 mana per level (+41.58 at champion level 18)","image":{"full":"bl_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":48},"name":"Lesser Quintessence of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rFlatMPModPerLevel":2.3148},"tags":["magic","perLevel","quintessence"]},"5117":{"colloq":null,"description":"+0.69 mana regen / 5 sec.","image":{"full":"bl_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":48},"name":"Lesser Quintessence of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"FlatMPRegenMod":0.13888},"tags":["magic","flat","quintessence"]},"5118":{"colloq":null,"description":"+0.14 mana regen / 5 sec. per level (+2.52 at champion level 18)","image":{"full":"bl_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":48},"name":"Lesser Quintessence of Scaling Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rFlatMPRegenModPerLevel":0.02712},"tags":["magic","perLevel","quintessence"]},"5119":{"colloq":null,"description":"+1.11 magic penetration","image":{"full":"bl_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":48},"name":"Lesser Quintessence of Magic Penetration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rFlatMagicPenetrationMod":1.11},"tags":["magic","flat","quintessence"]},"5121":{"colloq":null,"description":"+0.83% movement speed","image":{"full":"bl_3_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":48},"name":"Lesser Quintessence of Movement Speed","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"PercentMovementSpeedMod":0.008333},"tags":["utility","percent","quintessence"]},"5123":{"colloq":null,"description":"+0.74 attack damage","image":{"full":"r_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":48},"name":"Mark of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"FlatPhysicalDamageMod":0.735},"tags":["physicalAttack","flat","mark"]},"5124":{"colloq":null,"description":"+0.1 attack damage per level (+1.89 at champion level 18)","image":{"full":"r_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":48},"name":"Mark of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"rFlatPhysicalDamageModPerLevel":0.105},"tags":["physicalAttack","perLevel","mark"]},"5125":{"colloq":null,"description":"+1.32% attack speed","image":{"full":"r_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":96},"name":"Mark of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"PercentAttackSpeedMod":0.013208},"tags":["physicalAttack","percent","mark"]},"5127":{"colloq":null,"description":"+1.74% critical damage","image":{"full":"r_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":48},"name":"Mark of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"FlatCritDamageMod":0.017355},"tags":["physicalAttack","flat","mark"]},"5129":{"colloq":null,"description":"+0.72% critical chance","image":{"full":"r_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":96},"name":"Mark of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"FlatCritChanceMod":0.007216},"tags":["physicalAttack","flat","mark"]},"5131":{"colloq":null,"description":"+1 armor penetration","image":{"full":"r_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":48},"name":"Mark of Armor Penetration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"rFlatArmorPenetrationMod":1},"tags":["physicalAttack","flat","mark"]},"5133":{"colloq":null,"description":"+2.7 health","image":{"full":"r_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":96},"name":"Mark of Health","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"FlatHPPoolMod":2.7027},"tags":["defense","flat","mark"]},"5134":{"colloq":null,"description":"+0.42 health per level (+7.56 at champion level 18)","image":{"full":"r_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":96},"name":"Mark of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"rFlatHPModPerLevel":0.4207},"tags":["defense","perLevel","mark"]},"5135":{"colloq":null,"description":"+0.71 armor","image":{"full":"r_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":48},"name":"Mark of Armor","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"FlatArmorMod":0.7112},"tags":["defense","flat","mark"]},"5137":{"colloq":null,"description":"+0.6 magic resist","image":{"full":"r_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":96},"name":"Mark of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"FlatSpellBlockMod":0.6},"tags":["defense","flat","mark"]},"5138":{"colloq":null,"description":"+0.06 magic resist per level (+1.08 at champion level 18)","image":{"full":"r_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":96},"name":"Mark of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"rFlatSpellBlockModPerLevel":0.0577},"tags":["defense","perLevel","mark"]},"5143":{"colloq":null,"description":"-0.16% cooldowns","image":{"full":"r_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":48},"name":"Mark of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"rPercentCooldownMod":-0.001556},"tags":["mark"]},"5145":{"colloq":null,"description":"+0.46 ability power","image":{"full":"r_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":96},"name":"Mark of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"FlatMagicDamageMod":0.462},"tags":["magic","flat","mark"]},"5146":{"colloq":null,"description":"+0.08 ability power per level (+1.44 at champion level 18)","image":{"full":"r_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":96},"name":"Mark of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"rFlatMagicDamageModPerLevel":0.0808},"tags":["magic","perLevel","mark"]},"5147":{"colloq":null,"description":"+4.59 mana","image":{"full":"r_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":48},"name":"Mark of Mana","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"FlatMPPoolMod":4.5938},"tags":["magic","flat","mark"]},"5148":{"colloq":null,"description":"+0.91 mana per level (+16.38 at champion level 18)","image":{"full":"r_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":48},"name":"Mark of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"rFlatMPModPerLevel":0.9074},"tags":["magic","perLevel","mark"]},"5149":{"colloq":null,"description":"+0.2 mana regen / 5 sec.","image":{"full":"r_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":96},"name":"Mark of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"FlatMPRegenMod":0.04084},"tags":["magic","flat","mark"]},"5151":{"colloq":null,"description":"+0.68 magic penetration","image":{"full":"r_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":48},"name":"Mark of Magic Penetration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"rFlatMagicPenetrationMod":0.68},"tags":["magic","flat","mark"]},"5153":{"colloq":null,"description":"+0.22 attack damage","image":{"full":"b_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":96},"name":"Glyph of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"FlatPhysicalDamageMod":0.2205},"tags":["physicalAttack","flat","glyph"]},"5154":{"colloq":null,"description":"+0.03 attack damage per level (+0.57 at champion level 18)","image":{"full":"b_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":96},"name":"Glyph of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"rFlatPhysicalDamageModPerLevel":0.0315},"tags":["physicalAttack","perLevel","glyph"]},"5155":{"colloq":null,"description":"+0.5% attack speed","image":{"full":"b_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":96},"name":"Glyph of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"PercentAttackSpeedMod":0.004953},"tags":["physicalAttack","percent","glyph"]},"5157":{"colloq":null,"description":"+0.43% critical damage","image":{"full":"b_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":96},"name":"Glyph of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"FlatCritDamageMod":0.004339},"tags":["physicalAttack","flat","glyph"]},"5159":{"colloq":null,"description":"+0.22% critical chance","image":{"full":"b_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":96},"name":"Glyph of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"FlatCritChanceMod":0.002165},"tags":["physicalAttack","flat","glyph"]},"5163":{"colloq":null,"description":"+2.08 health","image":{"full":"b_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":96},"name":"Glyph of Health","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"FlatHPPoolMod":2.079},"tags":["defense","flat","glyph"]},"5164":{"colloq":null,"description":"+0.42 health per level (+7.56 at champion level 18)","image":{"full":"b_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":96},"name":"Glyph of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"rFlatHPModPerLevel":0.4207},"tags":["defense","perLevel","glyph"]},"5165":{"colloq":null,"description":"+0.55 armor","image":{"full":"b_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":96},"name":"Glyph of Armor","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"FlatArmorMod":0.5471},"tags":["defense","flat","glyph"]},"5167":{"colloq":null,"description":"+1.04 magic resist","image":{"full":"b_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":96},"name":"Glyph of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"FlatSpellBlockMod":1.04},"tags":["defense","flat","glyph"]},"5168":{"colloq":null,"description":"+0.13 magic resist per level (+2.34 at champion level 18)","image":{"full":"b_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":96},"name":"Glyph of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"rFlatSpellBlockModPerLevel":0.13},"tags":["defense","perLevel","glyph"]},"5169":{"colloq":null,"description":"+0.21 health regen / 5 sec.","image":{"full":"b_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":96},"name":"Glyph of Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"FlatHPRegenMod":0.042},"tags":["defense","flat","glyph"]},"5173":{"colloq":null,"description":"-0.67% cooldowns","image":{"full":"b_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":96},"name":"Glyph of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"rPercentCooldownMod":-0.00667},"tags":["glyph"]},"5174":{"colloq":null,"description":"-0.07% cooldowns per level (-1.3% at champion level 18)","image":{"full":"b_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":96},"name":"Glyph of Scaling Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"rPercentCooldownModPerLevel":-0.0007223},"tags":["glyph"]},"5175":{"colloq":null,"description":"+0.92 ability power","image":{"full":"b_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":96},"name":"Glyph of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"FlatMagicDamageMod":0.92},"tags":["magic","flat","glyph"]},"5176":{"colloq":null,"description":"+0.13 ability power per level (+2.34 at champion level 18)","image":{"full":"b_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":96},"name":"Glyph of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"rFlatMagicDamageModPerLevel":0.1346},"tags":["magic","perLevel","glyph"]},"5177":{"colloq":null,"description":"+8.75 mana","image":{"full":"b_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":96},"name":"Glyph of Mana","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"FlatMPPoolMod":8.75},"tags":["magic","flat","glyph"]},"5178":{"colloq":null,"description":"+1.1 mana per level (+19.8 at champion level 18)","image":{"full":"b_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":96},"name":"Glyph of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"rFlatMPModPerLevel":1.1019},"tags":["magic","perLevel","glyph"]},"5179":{"colloq":null,"description":"+0.26 mana regen / 5 sec.","image":{"full":"b_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":96},"name":"Glyph of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"FlatMPRegenMod":0.052},"tags":["magic","flat","glyph"]},"5180":{"colloq":null,"description":"+0.05 mana regen / 5 sec. per level (+0.94 at champion level 18)","image":{"full":"b_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":96},"name":"Glyph of Scaling Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"rFlatMPRegenModPerLevel":0.01044},"tags":["magic","perLevel","glyph"]},"5181":{"colloq":null,"description":"+0.49 magic penetration","image":{"full":"b_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":96},"name":"Glyph of Magic Penetration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"rFlatMagicPenetrationMod":0.49},"tags":["magic","flat","glyph"]},"5183":{"colloq":null,"description":"+0.33 attack damage","image":{"full":"y_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":96},"name":"Seal of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"FlatPhysicalDamageMod":0.3309},"tags":["physicalAttack","flat","seal"]},"5184":{"colloq":null,"description":"+0.05 attack damage per level (+0.85 at champion level 18)","image":{"full":"y_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":96},"name":"Seal of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"rFlatPhysicalDamageModPerLevel":0.0473},"tags":["physicalAttack","perLevel","seal"]},"5185":{"colloq":null,"description":"+0.59% attack speed","image":{"full":"y_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":96},"name":"Seal of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"PercentAttackSpeedMod":0.005943},"tags":["physicalAttack","percent","seal"]},"5187":{"colloq":null,"description":"+0.61% critical damage","image":{"full":"y_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":96},"name":"Seal of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"FlatCritDamageMod":0.006074},"tags":["physicalAttack","flat","seal"]},"5189":{"colloq":null,"description":"+0.32% critical chance","image":{"full":"y_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":96},"name":"Seal of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"FlatCritChanceMod":0.003247},"tags":["physicalAttack","flat","seal"]},"5193":{"colloq":null,"description":"+6.24 health","image":{"full":"y_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":96},"name":"Seal of Health","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"FlatHPPoolMod":6.24},"tags":["defense","flat","seal"]},"5194":{"colloq":null,"description":"+1.04 health per level (+18.72 at champion level 18)","image":{"full":"y_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":96},"name":"Seal of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"rFlatHPModPerLevel":1.04},"tags":["defense","perLevel","seal"]},"5195":{"colloq":null,"description":"+0.78 armor","image":{"full":"y_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":96},"name":"Seal of Armor","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"FlatArmorMod":0.78},"tags":["defense","flat","seal"]},"5196":{"colloq":null,"description":"+0.13 armor per level (+2.34 at champion level 18)","image":{"full":"y_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":96},"name":"Seal of Scaling Armor","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"rFlatArmorModPerLevel":0.13},"tags":["defense","perLevel","seal"]},"5197":{"colloq":null,"description":"+0.58 magic resist","image":{"full":"y_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":96},"name":"Seal of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"FlatSpellBlockMod":0.5775},"tags":["defense","flat","seal"]},"5198":{"colloq":null,"description":"+0.08 magic resist per level (+1.44 at champion level 18)","image":{"full":"y_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":96},"name":"Seal of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"rFlatSpellBlockModPerLevel":0.075},"tags":["defense","perLevel","seal"]},"5199":{"colloq":null,"description":"+0.43 health regen / 5 sec.","image":{"full":"y_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":96},"name":"Seal of Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"FlatHPRegenMod":0.086},"tags":["defense","flat","seal"]},"5200":{"colloq":null,"description":"+0.09 health regen / 5 sec. per level (+1.62 at champion level 18)","image":{"full":"y_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":96},"name":"Seal of Scaling Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"rFlatHPRegenModPerLevel":0.0175},"tags":["defense","perLevel","seal"]},"5203":{"colloq":null,"description":"-0.29% cooldowns","image":{"full":"y_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":96},"name":"Seal of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"rPercentCooldownMod":-0.002889},"tags":["seal"]},"5205":{"colloq":null,"description":"+0.46 ability power","image":{"full":"y_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":96},"name":"Seal of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"FlatMagicDamageMod":0.462},"tags":["magic","flat","seal"]},"5206":{"colloq":null,"description":"+0.08 ability power per level (+1.44 at champion level 18)","image":{"full":"y_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":96},"name":"Seal of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"rFlatMagicDamageModPerLevel":0.0808},"tags":["magic","perLevel","seal"]},"5207":{"colloq":null,"description":"+5.36 mana","image":{"full":"y_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":96},"name":"Seal of Mana","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"FlatMPPoolMod":5.3594},"tags":["magic","flat","seal"]},"5208":{"colloq":null,"description":"+0.91 mana per level (+16.38 at champion level 18)","image":{"full":"y_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":96},"name":"Seal of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"rFlatMPModPerLevel":0.9074},"tags":["magic","perLevel","seal"]},"5209":{"colloq":null,"description":"+0.32 mana regen / 5 sec.","image":{"full":"y_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":96},"name":"Seal of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"FlatMPRegenMod":0.0632},"tags":["magic","flat","seal"]},"5210":{"colloq":null,"description":"+0.05 mana regen / 5 sec. per level (+0.9 at champion level 18)","image":{"full":"y_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":96},"name":"Seal of Scaling Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"rFlatMPRegenModPerLevel":0.01},"tags":["magic","perLevel","seal"]},"5213":{"colloq":null,"description":"+1.75 attack damage","image":{"full":"bl_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":144},"name":"Quintessence of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatPhysicalDamageMod":1.75},"tags":["physicalAttack","flat","quintessence"]},"5214":{"colloq":null,"description":"+0.19 attack damage per level (+3.42 at champion level 18)","image":{"full":"bl_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":144},"name":"Quintessence of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatPhysicalDamageModPerLevel":0.1944},"tags":["physicalAttack","perLevel","quintessence"]},"5215":{"colloq":null,"description":"+3.51% attack speed","image":{"full":"bl_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":144},"name":"Quintessence of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"PercentAttackSpeedMod":0.0351},"tags":["physicalAttack","percent","quintessence"]},"5217":{"colloq":null,"description":"+3.47% critical damage","image":{"full":"bl_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":144},"name":"Quintessence of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatCritDamageMod":0.034711},"tags":["physicalAttack","flat","quintessence"]},"5219":{"colloq":null,"description":"+1.44% critical chance","image":{"full":"bl_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":144},"name":"Quintessence of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatCritChanceMod":0.014433},"tags":["physicalAttack","flat","quintessence"]},"5221":{"colloq":null,"description":"+1.99 armor penetration","image":{"full":"bl_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":144},"name":"Quintessence of Armor Penetration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatArmorPenetrationMod":1.99},"tags":["physicalAttack","flat","quintessence"]},"5223":{"colloq":null,"description":"+20 health","image":{"full":"bl_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":144},"name":"Quintessence of Health","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatHPPoolMod":20},"tags":["defense","flat","quintessence"]},"5224":{"colloq":null,"description":"+2.1 health per level (+37.8 at champion level 18)","image":{"full":"bl_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":144},"name":"Quintessence of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatHPModPerLevel":2.1034},"tags":["defense","perLevel","quintessence"]},"5225":{"colloq":null,"description":"+3.32 armor","image":{"full":"bl_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":144},"name":"Quintessence of Armor","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatArmorMod":3.3158},"tags":["defense","flat","quintessence"]},"5226":{"colloq":null,"description":"+0.29 armor per level (+5.22 at champion level 18)","image":{"full":"bl_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":144},"name":"Quintessence of Scaling Armor","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatArmorModPerLevel":0.2917},"tags":["defense","perLevel","quintessence"]},"5227":{"colloq":null,"description":"+3.11 magic resist","image":{"full":"bl_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":144},"name":"Quintessence of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatSpellBlockMod":3.11},"tags":["defense","flat","quintessence"]},"5228":{"colloq":null,"description":"+0.29 magic resist per level (+5.22 at champion level 18)","image":{"full":"bl_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":144},"name":"Quintessence of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatSpellBlockModPerLevel":0.2886},"tags":["defense","perLevel","quintessence"]},"5229":{"colloq":null,"description":"+2.1 health regen / 5 sec.","image":{"full":"bl_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":144},"name":"Quintessence of Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatHPRegenMod":0.42},"tags":["defense","flat","quintessence"]},"5230":{"colloq":null,"description":"+0.22 health regen / 5 sec. per level (+3.96 at champion level 18)","image":{"full":"bl_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":144},"name":"Quintessence of Scaling Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatHPRegenModPerLevel":0.04376},"tags":["defense","perLevel","quintessence"]},"5233":{"colloq":null,"description":"-1.95% cooldowns","image":{"full":"bl_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":144},"name":"Quintessence of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rPercentCooldownMod":-0.0195},"tags":["quintessence"]},"5234":{"colloq":null,"description":"-0.21% cooldowns per level (-3.9% at champion level 18)","image":{"full":"bl_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":144},"name":"Quintessence of Scaling Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rPercentCooldownModPerLevel":-0.002167},"tags":["quintessence"]},"5235":{"colloq":null,"description":"+3.85 ability power","image":{"full":"bl_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":144},"name":"Quintessence of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatMagicDamageMod":3.85},"tags":["magic","flat","quintessence"]},"5236":{"colloq":null,"description":"+0.34 ability power per level (+6.12 at champion level 18)","image":{"full":"bl_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":144},"name":"Quintessence of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatMagicDamageModPerLevel":0.3365},"tags":["magic","perLevel","quintessence"]},"5237":{"colloq":null,"description":"+29.17 mana","image":{"full":"bl_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":144},"name":"Quintessence of Mana","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatMPPoolMod":29.1667},"tags":["magic","flat","quintessence"]},"5238":{"colloq":null,"description":"+3.24 mana per level (+58.32 at champion level 18)","image":{"full":"bl_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":144},"name":"Quintessence of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatMPModPerLevel":3.2407},"tags":["magic","perLevel","quintessence"]},"5239":{"colloq":null,"description":"+0.97 mana regen / 5 sec.","image":{"full":"bl_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":144},"name":"Quintessence of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatMPRegenMod":0.19444},"tags":["magic","flat","quintessence"]},"5240":{"colloq":null,"description":"+0.19 mana regen / 5 sec. per level (+3.42 at champion level 18)","image":{"full":"bl_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":144},"name":"Quintessence of Scaling Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatMPRegenModPerLevel":0.03798},"tags":["magic","perLevel","quintessence"]},"5241":{"colloq":null,"description":"+1.56 magic penetration","image":{"full":"bl_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":144},"name":"Quintessence of Magic Penetration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatMagicPenetrationMod":1.56},"tags":["magic","flat","quintessence"]},"5243":{"colloq":null,"description":"+1.17% movement speed","image":{"full":"bl_3_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":144},"name":"Quintessence of Movement Speed","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"PercentMovementSpeedMod":0.011667},"tags":["utility","percent","quintessence"]},"5245":{"colloq":null,"description":"+0.95 attack damage","image":{"full":"r_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":144},"name":"Greater Mark of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"FlatPhysicalDamageMod":0.945},"tags":["physicalAttack","flat","mark"]},"5246":{"colloq":null,"description":"+0.13 attack damage per level (+2.43 at champion level 18)","image":{"full":"r_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":144},"name":"Greater Mark of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"rFlatPhysicalDamageModPerLevel":0.135},"tags":["physicalAttack","perLevel","mark"]},"5247":{"colloq":null,"description":"+1.7% attack speed","image":{"full":"r_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":144},"name":"Greater Mark of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"PercentAttackSpeedMod":0.016981},"tags":["physicalAttack","percent","mark"]},"5249":{"colloq":null,"description":"+2.23% critical damage","image":{"full":"r_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":144},"name":"Greater Mark of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"FlatCritDamageMod":0.022314},"tags":["physicalAttack","flat","mark"]},"5251":{"colloq":null,"description":"+0.93% critical chance","image":{"full":"r_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":144},"name":"Greater Mark of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"FlatCritChanceMod":0.009278},"tags":["physicalAttack","flat","mark"]},"5253":{"colloq":null,"description":"+1.28 armor penetration","image":{"full":"r_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":144},"name":"Greater Mark of Armor Penetration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"rFlatArmorPenetrationMod":1.28},"tags":["physicalAttack","flat","mark"]},"5255":{"colloq":null,"description":"+3.47 health","image":{"full":"r_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":144},"name":"Greater Mark of Health","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"FlatHPPoolMod":3.4749},"tags":["defense","flat","mark"]},"5256":{"colloq":null,"description":"+0.54 health per level (+9.72 at champion level 18)","image":{"full":"r_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":144},"name":"Greater Mark of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"rFlatHPModPerLevel":0.5409},"tags":["defense","perLevel","mark"]},"5257":{"colloq":null,"description":"+0.91 armor","image":{"full":"r_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":144},"name":"Greater Mark of Armor","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"FlatArmorMod":0.9144},"tags":["defense","flat","mark"]},"5259":{"colloq":null,"description":"+0.77 magic resist","image":{"full":"r_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":144},"name":"Greater Mark of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"FlatSpellBlockMod":0.77},"tags":["defense","flat","mark"]},"5260":{"colloq":null,"description":"+0.07 magic resist per level (+1.26 at champion level 18)","image":{"full":"r_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":144},"name":"Greater Mark of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"rFlatSpellBlockModPerLevel":0.0742},"tags":["defense","perLevel","mark"]},"5265":{"colloq":null,"description":"-0.2% cooldowns","image":{"full":"r_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":144},"name":"Greater Mark of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"rPercentCooldownMod":-0.002},"tags":["mark"]},"5267":{"colloq":null,"description":"+0.59 ability power","image":{"full":"r_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":144},"name":"Greater Mark of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"FlatMagicDamageMod":0.594},"tags":["magic","flat","mark"]},"5268":{"colloq":null,"description":"+0.1 ability power per level (+1.8 at champion level 18)","image":{"full":"r_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":144},"name":"Greater Mark of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"rFlatMagicDamageModPerLevel":0.1038},"tags":["magic","perLevel","mark"]},"5269":{"colloq":null,"description":"+5.91 mana","image":{"full":"r_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":144},"name":"Greater Mark of Mana","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"FlatMPPoolMod":5.9063},"tags":["magic","flat","mark"]},"5270":{"colloq":null,"description":"+1.17 mana per level (+21.06 at champion level 18)","image":{"full":"r_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":144},"name":"Greater Mark of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"rFlatMPModPerLevel":1.1667},"tags":["magic","perLevel","mark"]},"5271":{"colloq":null,"description":"+0.26 mana regen / 5 sec.","image":{"full":"r_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":144},"name":"Greater Mark of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"FlatMPRegenMod":0.0525},"tags":["magic","flat","mark"]},"5273":{"colloq":null,"description":"+0.87 magic penetration","image":{"full":"r_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":144},"name":"Greater Mark of Magic Penetration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"rFlatMagicPenetrationMod":0.87},"tags":["magic","flat","mark"]},"5275":{"colloq":null,"description":"+0.28 attack damage","image":{"full":"b_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":144},"name":"Greater Glyph of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"FlatPhysicalDamageMod":0.2835},"tags":["physicalAttack","flat","glyph"]},"5276":{"colloq":null,"description":"+0.04 attack damage per level (+0.73 at champion level 18)","image":{"full":"b_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":144},"name":"Greater Glyph of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"rFlatPhysicalDamageModPerLevel":0.0405},"tags":["physicalAttack","perLevel","glyph"]},"5277":{"colloq":null,"description":"+0.64% attack speed","image":{"full":"b_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":192},"name":"Greater Glyph of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"PercentAttackSpeedMod":0.006368},"tags":["physicalAttack","percent","glyph"]},"5279":{"colloq":null,"description":"+0.56% critical damage","image":{"full":"b_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":144},"name":"Greater Glyph of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"FlatCritDamageMod":0.005579},"tags":["physicalAttack","flat","glyph"]},"5281":{"colloq":null,"description":"+0.28% critical chance","image":{"full":"b_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":192},"name":"Greater Glyph of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"FlatCritChanceMod":0.002784},"tags":["physicalAttack","flat","glyph"]},"5285":{"colloq":null,"description":"+2.67 health","image":{"full":"b_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":192},"name":"Greater Glyph of Health","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"FlatHPPoolMod":2.673},"tags":["defense","flat","glyph"]},"5286":{"colloq":null,"description":"+0.54 health per level (+9.72 at champion level 18)","image":{"full":"b_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":192},"name":"Greater Glyph of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"rFlatHPModPerLevel":0.5409},"tags":["defense","perLevel","glyph"]},"5287":{"colloq":null,"description":"+0.7 armor","image":{"full":"b_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":144},"name":"Greater Glyph of Armor","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"FlatArmorMod":0.7034},"tags":["defense","flat","glyph"]},"5289":{"colloq":null,"description":"+1.34 magic resist","image":{"full":"b_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":192},"name":"Greater Glyph of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"FlatSpellBlockMod":1.34},"tags":["defense","flat","glyph"]},"5290":{"colloq":null,"description":"+0.16 magic resist per level (+3 at champion level 18)","image":{"full":"b_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":192},"name":"Greater Glyph of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"rFlatSpellBlockModPerLevel":0.16667},"tags":["defense","perLevel","glyph"]},"5291":{"colloq":null,"description":"+0.27 health regen / 5 sec.","image":{"full":"b_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":144},"name":"Greater Glyph of Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"FlatHPRegenMod":0.054},"tags":["defense","flat","glyph"]},"5295":{"colloq":null,"description":"-0.83% cooldowns","image":{"full":"b_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":144},"name":"Greater Glyph of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"rPercentCooldownMod":-0.008334},"tags":["glyph"]},"5296":{"colloq":null,"description":"-0.09% cooldowns per level (-1.67% at champion level 18)","image":{"full":"b_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":144},"name":"Greater Glyph of Scaling Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"rPercentCooldownModPerLevel":-0.0009278},"tags":["glyph"]},"5297":{"colloq":null,"description":"+1.19 ability power","image":{"full":"b_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":192},"name":"Greater Glyph of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"FlatMagicDamageMod":1.19},"tags":["magic","flat","glyph"]},"5298":{"colloq":null,"description":"+0.17 ability power per level (+3.06 at champion level 18)","image":{"full":"b_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":192},"name":"Greater Glyph of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"rFlatMagicDamageModPerLevel":0.1731},"tags":["magic","perLevel","glyph"]},"5299":{"colloq":null,"description":"+11.25 mana","image":{"full":"b_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":144},"name":"Greater Glyph of Mana","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"FlatMPPoolMod":11.25},"tags":["magic","flat","glyph"]},"5300":{"colloq":null,"description":"+1.42 mana per level (+25.56 at champion level 18)","image":{"full":"b_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":144},"name":"Greater Glyph of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"rFlatMPModPerLevel":1.4167},"tags":["magic","perLevel","glyph"]},"5301":{"colloq":null,"description":"+0.33 mana regen / 5 sec.","image":{"full":"b_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":192},"name":"Greater Glyph of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"FlatMPRegenMod":0.066},"tags":["magic","flat","glyph"]},"5302":{"colloq":null,"description":"+0.06 mana regen / 5 sec. per level (+1.2 at champion level 18)","image":{"full":"b_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":192},"name":"Greater Glyph of Scaling Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"rFlatMPRegenModPerLevel":0.01334},"tags":["magic","perLevel","glyph"]},"5303":{"colloq":null,"description":"+0.63 magic penetration","image":{"full":"b_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":144},"name":"Greater Glyph of Magic Penetration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"rFlatMagicPenetrationMod":0.63},"tags":["magic","flat","glyph"]},"5305":{"colloq":null,"description":"+0.43 attack damage","image":{"full":"y_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":192},"name":"Greater Seal of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"FlatPhysicalDamageMod":0.4254},"tags":["physicalAttack","flat","seal"]},"5306":{"colloq":null,"description":"+0.06 attack damage per level (+1.09 at champion level 18)","image":{"full":"y_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":192},"name":"Greater Seal of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"rFlatPhysicalDamageModPerLevel":0.0608},"tags":["physicalAttack","perLevel","seal"]},"5307":{"colloq":null,"description":"+0.76% attack speed","image":{"full":"y_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":192},"name":"Greater Seal of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"PercentAttackSpeedMod":0.007642},"tags":["physicalAttack","percent","seal"]},"5309":{"colloq":null,"description":"+0.78% critical damage","image":{"full":"y_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":192},"name":"Greater Seal of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"FlatCritDamageMod":0.00781},"tags":["physicalAttack","flat","seal"]},"5311":{"colloq":null,"description":"+0.42% critical chance","image":{"full":"y_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":192},"name":"Greater Seal of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"FlatCritChanceMod":0.004175},"tags":["physicalAttack","flat","seal"]},"5315":{"colloq":null,"description":"+8 health","image":{"full":"y_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":192},"name":"Greater Seal of Health","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"FlatHPPoolMod":8},"tags":["defense","flat","seal"]},"5316":{"colloq":null,"description":"+1.33 health per level (+24 at champion level 18)","image":{"full":"y_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":192},"name":"Greater Seal of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"rFlatHPModPerLevel":1.3334},"tags":["defense","perLevel","seal"]},"5317":{"colloq":null,"description":"+1 armor","image":{"full":"y_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":192},"name":"Greater Seal of Armor","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"FlatArmorMod":1},"tags":["defense","flat","seal"]},"5318":{"colloq":null,"description":"+0.16 armor per level (+3 at champion level 18)","image":{"full":"y_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":192},"name":"Greater Seal of Scaling Armor","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"rFlatArmorModPerLevel":0.16667},"tags":["defense","perLevel","seal"]},"5319":{"colloq":null,"description":"+0.74 magic resist","image":{"full":"y_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":192},"name":"Greater Seal of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"FlatSpellBlockMod":0.7425},"tags":["defense","flat","seal"]},"5320":{"colloq":null,"description":"+0.1 magic resist per level (+1.8 at champion level 18)","image":{"full":"y_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":192},"name":"Greater Seal of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"rFlatSpellBlockModPerLevel":0.0965},"tags":["defense","perLevel","seal"]},"5321":{"colloq":null,"description":"+0.56 health regen / 5 sec.","image":{"full":"y_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":192},"name":"Greater Seal of Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"FlatHPRegenMod":0.1112},"tags":["defense","flat","seal"]},"5322":{"colloq":null,"description":"+0.11 health regen / 5 sec. per level (+1.98 at champion level 18)","image":{"full":"y_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":192},"name":"Greater Seal of Scaling Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"rFlatHPRegenModPerLevel":0.0225},"tags":["defense","perLevel","seal"]},"5325":{"colloq":null,"description":"-0.36% cooldowns","image":{"full":"y_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":192},"name":"Greater Seal of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"rPercentCooldownMod":-0.003556},"tags":["seal"]},"5327":{"colloq":null,"description":"+0.59 ability power","image":{"full":"y_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":192},"name":"Greater Seal of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"FlatMagicDamageMod":0.594},"tags":["magic","flat","seal"]},"5328":{"colloq":null,"description":"+0.1 ability power per level (+1.8 at champion level 18)","image":{"full":"y_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":192},"name":"Greater Seal of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"rFlatMagicDamageModPerLevel":0.1038},"tags":["magic","perLevel","seal"]},"5329":{"colloq":null,"description":"+6.89 mana","image":{"full":"y_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":192},"name":"Greater Seal of Mana","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"FlatMPPoolMod":6.8906},"tags":["magic","flat","seal"]},"5330":{"colloq":null,"description":"+1.17 mana per level (+21.06 at champion level 18)","image":{"full":"y_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":192},"name":"Greater Seal of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"rFlatMPModPerLevel":1.1667},"tags":["magic","perLevel","seal"]},"5331":{"colloq":null,"description":"+0.41 mana regen / 5 sec.","image":{"full":"y_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":192},"name":"Greater Seal of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"FlatMPRegenMod":0.08126},"tags":["magic","flat","seal"]},"5332":{"colloq":null,"description":"+0.065 mana regen / 5 sec. per level (+1.17 at champion level 18)","image":{"full":"y_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":192},"name":"Greater Seal of Scaling Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"rFlatMPRegenModPerLevel":0.013},"tags":["magic","perLevel","seal"]},"5335":{"colloq":null,"description":"+2.25 attack damage","image":{"full":"bl_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":192},"name":"Greater Quintessence of Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatPhysicalDamageMod":2.25},"tags":["physicalAttack","flat","quintessence"]},"5336":{"colloq":null,"description":"+0.25 attack damage per level (+4.5 at champion level 18)","image":{"full":"bl_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":192},"name":"Greater Quintessence of Scaling Attack Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatPhysicalDamageModPerLevel":0.25},"tags":["physicalAttack","perLevel","quintessence"]},"5337":{"colloq":null,"description":"+4.5% attack speed","image":{"full":"bl_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":192},"name":"Greater Quintessence of Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"PercentAttackSpeedMod":0.045},"tags":["physicalAttack","percent","quintessence"]},"5339":{"colloq":null,"description":"+4.46% critical damage","image":{"full":"bl_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":192},"name":"Greater Quintessence of Critical Damage","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatCritDamageMod":0.044628},"tags":["physicalAttack","flat","quintessence"]},"5341":{"colloq":null,"description":"+1.86% critical chance","image":{"full":"bl_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":192},"name":"Greater Quintessence of Critical Chance","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatCritChanceMod":0.018557},"tags":["physicalAttack","flat","quintessence"]},"5343":{"colloq":null,"description":"+2.56 armor penetration","image":{"full":"bl_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":192},"name":"Greater Quintessence of Armor Penetration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatArmorPenetrationMod":2.56},"tags":["physicalAttack","flat","quintessence"]},"5345":{"colloq":null,"description":"+26 health","image":{"full":"bl_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":192},"name":"Greater Quintessence of Health","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatHPPoolMod":26},"tags":["defense","flat","quintessence"]},"5346":{"colloq":null,"description":"+2.7 health per level (+48.6 at champion level 18)","image":{"full":"bl_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":192},"name":"Greater Quintessence of Scaling Health","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatHPModPerLevel":2.7043},"tags":["defense","perLevel","quintessence"]},"5347":{"colloq":null,"description":"+4.26 armor","image":{"full":"bl_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":192},"name":"Greater Quintessence of Armor","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatArmorMod":4.2632},"tags":["defense","flat","quintessence"]},"5348":{"colloq":null,"description":"+0.38 armor per level (+6.84 at champion level 18)","image":{"full":"bl_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":192},"name":"Greater Quintessence of Scaling Armor","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatArmorModPerLevel":0.375},"tags":["defense","perLevel","quintessence"]},"5349":{"colloq":null,"description":"+4 magic resist","image":{"full":"bl_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":192},"name":"Greater Quintessence of Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatSpellBlockMod":4},"tags":["defense","flat","quintessence"]},"5350":{"colloq":null,"description":"+0.37 magic resist per level (+6.66 at champion level 18)","image":{"full":"bl_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":192},"name":"Greater Quintessence of Scaling Magic Resist","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatSpellBlockModPerLevel":0.3711},"tags":["defense","perLevel","quintessence"]},"5351":{"colloq":null,"description":"+2.7 health regen / 5 sec.","image":{"full":"bl_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":192},"name":"Greater Quintessence of Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatHPRegenMod":0.54},"tags":["defense","flat","quintessence"]},"5352":{"colloq":null,"description":"+0.28 health regen / 5 sec. per level (+5.04 at champion level 18)","image":{"full":"bl_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":192},"name":"Greater Quintessence of Scaling Health Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatHPRegenModPerLevel":0.05626},"tags":["defense","perLevel","quintessence"]},"5355":{"colloq":null,"description":"-2.5% cooldowns","image":{"full":"bl_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":192},"name":"Greater Quintessence of Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rPercentCooldownMod":-0.025},"tags":["quintessence"]},"5356":{"colloq":null,"description":"-0.28% cooldowns per level (-5% at champion level 18)","image":{"full":"bl_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":192},"name":"Greater Quintessence of Scaling Cooldown Reduction","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rPercentCooldownModPerLevel":-0.002778},"tags":["quintessence"]},"5357":{"colloq":null,"description":"+4.95 ability power","image":{"full":"bl_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":192},"name":"Greater Quintessence of Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatMagicDamageMod":4.95},"tags":["magic","flat","quintessence"]},"5358":{"colloq":null,"description":"+0.43 ability power per level (+7.74 at champion level 18)","image":{"full":"bl_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":192},"name":"Greater Quintessence of Scaling Ability Power","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatMagicDamageModPerLevel":0.4327},"tags":["magic","perLevel","quintessence"]},"5359":{"colloq":null,"description":"+37.5 mana","image":{"full":"bl_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":192},"name":"Greater Quintessence of Mana","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatMPPoolMod":37.5},"tags":["magic","flat","quintessence"]},"5360":{"colloq":null,"description":"+4.17 mana per level (+75.06 at champion level 18)","image":{"full":"bl_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":192},"name":"Greater Quintessence of Scaling Mana","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatMPModPerLevel":4.1667},"tags":["magic","perLevel","quintessence"]},"5361":{"colloq":null,"description":"+1.25 mana regen / 5 sec.","image":{"full":"bl_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":192},"name":"Greater Quintessence of Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatMPRegenMod":0.25},"tags":["magic","flat","quintessence"]},"5362":{"colloq":null,"description":"+0.24 mana regen / 5 sec. per level (+4.32 at champion level 18)","image":{"full":"bl_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":192},"name":"Greater Quintessence of Scaling Mana Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatMPRegenModPerLevel":0.04882},"tags":["magic","perLevel","quintessence"]},"5363":{"colloq":null,"description":"+2.01 magic penetration","image":{"full":"bl_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":192},"name":"Greater Quintessence of Magic Penetration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatMagicPenetrationMod":2.01},"tags":["magic","flat","quintessence"]},"5365":{"colloq":null,"description":"+1.5% movement speed","image":{"full":"bl_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":192},"name":"Greater Quintessence of Movement Speed","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"PercentMovementSpeedMod":0.015},"tags":["utility","percent","quintessence"]},"5366":{"colloq":null,"description":"-5% time dead","image":{"full":"bl_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":192},"name":"Greater Quintessence of Revival","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rPercentTimeDeadMod":0.05},"tags":["utility","percent","quintessence"]},"5367":{"colloq":null,"description":"+1 gold / 10 sec.","image":{"full":"bl_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":192},"name":"Greater Quintessence of Gold","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatGoldPer10Mod":1},"tags":["utility","quintessence"]},"5368":{"colloq":null,"description":"+2% experience gained","image":{"full":"bl_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":192},"name":"Greater Quintessence of Experience","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"PercentEXPBonus":0.02},"tags":["utility","percent","quintessence"]},"5369":{"colloq":null,"description":"+0.63 Energy regen/5 sec","image":{"full":"y_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":192},"name":"Greater Seal of Energy Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"FlatEnergyRegenMod":0.126},"tags":["seal"]},"5370":{"colloq":null,"description":"+0.064 Energy regen/5 sec per level (+1.15 at champion level 18)","image":{"full":"y_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":192},"name":"Greater Seal of Scaling Energy Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"rFlatEnergyRegenModPerLevel":0.01283},"tags":["seal"]},"5371":{"colloq":null,"description":"+2.2 Energy","image":{"full":"b_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":192},"name":"Greater Glyph of Energy","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"FlatEnergyPoolMod":2.2},"tags":["glyph"]},"5372":{"colloq":null,"description":"+0.161 Energy/level (+2.89 at level 18)","image":{"full":"b_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":144},"name":"Greater Glyph of Scaling Energy","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"blue"},"stats":{"rFlatEnergyModPerLevel":0.161},"tags":["glyph"]},"5373":{"colloq":null,"description":"+1.575 Energy regen/5 sec","image":{"full":"bl_2_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":192},"name":"Greater Quintessence of Energy Regeneration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatEnergyRegenMod":0.315},"tags":["quintessence"]},"5374":{"colloq":null,"description":"+5.4 Energy","image":{"full":"bl_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":192},"name":"Greater Quintessence of Energy","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatEnergyPoolMod":5.4},"tags":["quintessence"]},"5400":{"colloq":null,"description":"+0.5 Armor Penetration / +0.34 Magic Penetration","image":{"full":"r_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":0},"name":"Lesser Mark of Hybrid Penetration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"rFlatArmorPenetrationMod":0.5,"rFlatMagicPenetrationMod":0.34},"tags":["physicalAttack","flat","magic","mark"]},"5401":{"colloq":null,"description":"+0.7 AMP / +0.48 MP","image":{"full":"r_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":48},"name":"Mark of Hybrid Penetration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"rFlatArmorPenetrationMod":0.7,"rFlatMagicPenetrationMod":0.48},"tags":["physicalAttack","flat","magic","mark"]},"5402":{"colloq":null,"description":"+0.9 Armor Penetration / +0.62 Magic Penetration","image":{"full":"r_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":144},"name":"Greater Mark of Hybrid Penetration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"rFlatArmorPenetrationMod":0.9,"rFlatMagicPenetrationMod":0.61},"tags":["physicalAttack","flat","magic","mark"]},"5403":{"colloq":null,"description":"+0.25 gold / 10 sec.","image":{"full":"y_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":192},"name":"Greater Seal of Gold","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"rFlatGoldPer10Mod":0.25},"tags":["utility","seal"]},"5404":{"colloq":null,"description":"+0.84% increased health.","image":{"full":"bl_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":48},"name":"Lesser Quintessence of Percent Health","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"PercentHPPoolMod":0.0084},"tags":["defense","percent","quintessence"]},"5405":{"colloq":null,"description":"+1.17% increased health.","image":{"full":"bl_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":144},"name":"Quintessence of Percent Health","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"PercentHPPoolMod":0.0117},"tags":["defense","percent","quintessence"]},"5406":{"colloq":null,"description":"+1.5% increased health.","image":{"full":"bl_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":192},"name":"Greater Quintessence of Percent Health","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"PercentHPPoolMod":0.015},"tags":["defense","percent","quintessence"]},"5407":{"colloq":null,"description":"+1.12% Spellvamp.","image":{"full":"bl_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":48},"name":"Lesser Quintessence of Spell Vamp","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"PercentSpellVampMod":0.0112},"tags":["quintessence"]},"5408":{"colloq":null,"description":"+1.56% Spellvamp.","image":{"full":"bl_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":144},"name":"Quintessence of Spell Vamp","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"PercentSpellVampMod":0.0156},"tags":["quintessence"]},"5409":{"colloq":null,"description":"+2% Spellvamp.","image":{"full":"bl_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":192},"name":"Greater Quintessence of Spell Vamp","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"PercentSpellVampMod":0.02},"tags":["quintessence"]},"5410":{"colloq":null,"description":"+0.84% Life Steal","image":{"full":"bl_1_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":48},"name":"Lesser Quintessence of Life Steal","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"PercentLifeStealMod":0.0084},"tags":["quintessence"]},"5411":{"colloq":null,"description":"+1.17% Life Steal","image":{"full":"bl_1_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":144},"name":"Quintessence of Life Steal","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"PercentLifeStealMod":0.0117},"tags":["quintessence"]},"5412":{"colloq":null,"description":"+1.5% Life Steal.","image":{"full":"bl_1_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":192},"name":"Greater Quintessence of Life Steal","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"PercentLifeStealMod":0.015},"tags":["quintessence"]},"5413":{"colloq":null,"description":"+0.28% Health.","image":{"full":"y_2_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":48},"name":"Lesser Seal of Percent Health","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"PercentHPPoolMod":0.0028},"tags":["defense","percent","seal"]},"5414":{"colloq":null,"description":"+0.39% Health.","image":{"full":"y_2_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":96},"name":"Seal of Percent Health","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"yellow"},"stats":{"PercentHPPoolMod":0.0039},"tags":["defense","percent","seal"]},"5415":{"colloq":null,"description":"+0.5% Health.","image":{"full":"y_3_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":192},"name":"Greater Seal of Percent Health","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"yellow"},"stats":{"PercentHPPoolMod":0.005},"tags":["defense","percent","seal"]},"5416":{"colloq":null,"description":"+0.99 Armor Penetration / +0.78 Magic Penetration","image":{"full":"bl_4_1.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":48},"name":"Lesser Quintessence of Hybrid Penetration","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"black"},"stats":{"rFlatArmorPenetrationMod":0.99,"rFlatMagicPenetrationMod":0.78},"tags":["physicalAttack","flat","magic","quintessence"]},"5417":{"colloq":null,"description":"+1.39 Armor Penetration / +1.09 Magic Penetration","image":{"full":"bl_4_2.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":144},"name":"Quintessence of Hybrid Penetration","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatArmorPenetrationMod":1.39,"rFlatMagicPenetrationMod":1.09},"tags":["physicalAttack","flat","magic","quintessence"]},"5418":{"colloq":null,"description":"+1.79 Armor Penetration / +1.4 Magic Penetration","image":{"full":"bl_4_3.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":192},"name":"Greater Quintessence of Hybrid Penetration","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatArmorPenetrationMod":1.79,"rFlatMagicPenetrationMod":1.4},"tags":["physicalAttack","flat","magic","quintessence"]},"8001":{"colloq":null,"description":"+2% critical damage","image":{"full":"8001.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":240},"name":"Mark of the Crippling Candy Cane","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"FlatCritDamageMod":0.019835},"tags":["physicalAttack","flat","mark"]},"8002":{"colloq":null,"description":"+0.62% critical chance","image":{"full":"8002.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":240},"name":"Lesser Mark of the Yuletide Tannenbaum ","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"FlatCritChanceMod":0.0061855},"tags":["physicalAttack","flat","mark"]},"8003":{"colloq":null,"description":"-0.75% cooldowns","image":{"full":"8003.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":240},"name":"Glyph of the Special Stocking","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"rPercentCooldownMod":-0.0075},"tags":["glyph"]},"8005":{"colloq":null,"description":"+0.12 ability power per level (+2.16 at champion level 18)","image":{"full":"8005.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":240},"name":"Lesser Glyph of the Gracious Gift","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"rFlatMagicDamageModPerLevel":0.1154},"tags":["magic","perLevel","glyph"]},"8006":{"colloq":null,"description":"+0.72 health per level (+12.96 at champion level 18)","image":{"full":"8006.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":240},"name":"Lesser Seal of the Stout Snowman","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"rFlatHPModPerLevel":0.72115},"tags":["defense","perLevel","seal"]},"8007":{"colloq":null,"description":"+1.13% attack speed","image":{"full":"8007.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":240},"name":"Lesser Mark of Alpine Attack Speed","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"red"},"stats":{"PercentAttackSpeedMod":0.011321},"tags":["physicalAttack","percent","mark"]},"8008":{"colloq":null,"description":"+2% critical damage","image":{"full":"8008.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":240},"name":"Mark of the Combatant","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"red"},"stats":{"FlatCritDamageMod":0.019835},"tags":["physicalAttack","flat","mark"]},"8009":{"colloq":null,"description":"+3.56 health","image":{"full":"8009.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":240},"name":"Lesser Seal of the Medalist","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"yellow"},"stats":{"FlatHPPoolMod":3.564},"tags":["defense","flat","seal"]},"8011":{"colloq":null,"description":"+0.66 ability power","image":{"full":"8011.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":240},"name":"Lesser Glyph of the Challenger","plaintext":null,"rune":{"isrune":true,"tier":"1","type":"blue"},"stats":{"FlatMagicDamageMod":0.66},"tags":["magic","flat","glyph"]},"8012":{"colloq":null,"description":"-0.75% cooldowns","image":{"full":"8012.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":432,"y":240},"name":"Glyph of the Soaring Slalom","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"blue"},"stats":{"rPercentCooldownMod":-0.0075},"tags":["glyph"]},"8013":{"colloq":null,"description":"+2.37 armor penetration","image":{"full":"8013.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":288},"name":"Quintessence of the Headless Horseman","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatArmorPenetrationMod":2.37},"tags":["physicalAttack","flat","quintessence"]},"8014":{"colloq":null,"description":"+1.85 magic penetration","image":{"full":"8014.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":288},"name":"Quintessence of the Piercing Screech","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"rFlatMagicPenetrationMod":1.85},"tags":["magic","flat","quintessence"]},"8015":{"colloq":null,"description":"+24 health","image":{"full":"8015.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":96,"y":288},"name":"Quintessence of Bountiful Treats","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatHPPoolMod":24},"tags":["defense","flat","quintessence"]},"8016":{"colloq":null,"description":"+1.39% movement speed","image":{"full":"8016.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":144,"y":288},"name":"Quintessence of the Speedy Specter","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"PercentMovementSpeedMod":0.0139},"tags":["utility","percent","quintessence"]},"8017":{"colloq":null,"description":"+4.56 ability power","image":{"full":"8017.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":192,"y":288},"name":"Quintessence of the Witches Brew","plaintext":null,"rune":{"isrune":true,"tier":"2","type":"black"},"stats":{"FlatMagicDamageMod":4.56},"tags":["magic","flat","quintessence"]},"8019":{"colloq":null,"description":"+2.01 magic penetration","image":{"full":"8019.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":240,"y":288},"name":"Greater Quintessence of the Piercing Present","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatMagicPenetrationMod":2.01},"tags":["magic","flat","quintessence"]},"8020":{"colloq":null,"description":"+2.56 armor penetration","image":{"full":"8020.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":288,"y":288},"name":"Greater Quintessence of the Deadly Wreath","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"rFlatArmorPenetrationMod":2.56},"tags":["physicalAttack","flat","quintessence"]},"8021":{"colloq":null,"description":"+26 health","image":{"full":"8021.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":336,"y":288},"name":"Greater Quintessence of Frosty Health","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"FlatHPPoolMod":26},"tags":["defense","flat","quintessence"]},"8022":{"colloq":null,"description":"+1.5% movement speed","image":{"full":"8022.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":384,"y":288},"name":"Greater Quintessence of Sugar Rush","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"PercentMovementSpeedMod":0.015},"tags":["utility","percent","quintessence"]},"8035":{"colloq":null,"description":"+1.5% movement speed","image":{"full":"8035.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":384},"name":"Greater Quintessence of Studio Rumble","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"PercentMovementSpeedMod":0.015},"tags":["utility","percent","quintessence"]},"10001":{"colloq":null,"description":"+2.23% critical damage","image":{"full":"10001.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":0,"y":0},"name":"Razer Mark of Precision","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"red"},"stats":{"FlatCritDamageMod":0.022314},"tags":["physicalAttack","flat","mark"]},"10002":{"colloq":null,"description":"+1.5% movement speed","image":{"full":"10002.png","group":"rune","h":48,"sprite":"rune0.png","w":48,"x":48,"y":0},"name":"Razer Quintessence of Speed","plaintext":null,"rune":{"isrune":true,"tier":"3","type":"black"},"stats":{"PercentMovementSpeedMod":0.015},"tags":["utility","percent","quintessence"]}};
+
+/***/ },
+/* 525 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48409,7 +49785,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactBootstrap = __webpack_require__(242);
+	var _reactBootstrap = __webpack_require__(241);
 
 	var _reactRouter = __webpack_require__(177);
 
@@ -48441,7 +49817,7 @@
 	    key: 'handleSubmit',
 	    value: function handleSubmit(e) {
 	      e.preventDefault();
-	      var summonerName = this.state.summonerNameValue;
+	      var summonerName = this.state.summonerNameValue.replace(/\s+/g, '');
 	      if (summonerName.length <= 0) {
 	        console.log('throw error!');
 	      } else {

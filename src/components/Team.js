@@ -8,13 +8,14 @@ class Team extends Component {
   render() {
     return(
       <div className="team-container">
-        <Row>
-          <Player />
-          <Player />
-          <Player />
-          <Player />
-          <Player />
-        </Row>
+        {this.props.members.map((member) => {
+          return(
+            <Player
+              key={member.summonerId}
+              info={member}
+              jsonData={this.props.jsonData} />
+          )
+        })}
       </div>
     )
   }

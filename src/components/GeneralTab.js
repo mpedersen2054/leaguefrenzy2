@@ -3,7 +3,17 @@ import React, { Component } from 'react'
 import { Row, Col } from 'react-bootstrap'
 
 class GeneralTab extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      data: this.props.fromObserver
+    }
+  }
+
   render() {
+    const data = this.props.fromObserver
+
     return(
       <div className="tab general-tab" style={{backgroundColor: '#fff'}}>
         <div className="visual-data">

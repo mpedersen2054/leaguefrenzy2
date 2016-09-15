@@ -1,11 +1,20 @@
 
 import React, { Component } from 'react'
+import { browserHistory } from 'react-router'
+import { Alert } from 'react-bootstrap'
 
 class App extends Component {
+
+  sendToRootWithMessage(msg) {
+    console.log('hello there...', msg)
+  }
+
   render() {
     return(
       <div>
-        {this.props.children}
+        {React.cloneElement(this.props.children, {
+          sendToRootWithMessage: this.sendToRootWithMessage
+        })}
       </div>
     )
   }
