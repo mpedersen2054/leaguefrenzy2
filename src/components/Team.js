@@ -7,7 +7,7 @@ import Player from './Player'
 class Team extends Component {
   render() {
     return(
-      <div className="team-container">
+      <div className={`team-container team-container-${this.props.teamNum} clearfix`}>
         {this.props.members.map((member) => {
           return(
             <Player

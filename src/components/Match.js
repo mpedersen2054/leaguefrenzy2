@@ -75,12 +75,12 @@ class Match extends Component {
         <div className="top-section">
           <Link to="/" className="btn btn-link">Back to Search</Link>
           <div className="pull-right">
-            <b>Current search: {this.state.summonerName}</b>
+            Current search: <b>{this.state.summonerName}</b>
           </div>
         </div>
 
-        <Team members={teamA} jsonData={jsonData} />
-        <Team members={teamB} jsonData={jsonData} />
+        <Team members={teamA} teamNum={100} jsonData={jsonData} />
+        <Team members={teamB} teamNum={200} jsonData={jsonData} />
 
       </div>
     )
