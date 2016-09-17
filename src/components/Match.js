@@ -42,8 +42,8 @@ class Match extends Component {
         console.log(`summonerName: ${summonerObj.name} // summonerId: ${summonerObj.id}`)
         // since if you search a playerName and they are not in a current game it
         // will throw 404, use a static.json file for the time being
-        // axios.get(`https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/${summonerId}?api_key=${apiKey}`)
-        axios.get('./jsonData/spectatorInformation.json')
+        axios.get(`https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/${summonerObj.id}?api_key=${apiKey}`)
+        // axios.get('./jsonData/spectatorInformation.json')
           .then((response) => {
             const matchData = response.data
             this.setState({

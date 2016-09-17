@@ -64407,8 +64407,9 @@
 	        console.log('summonerName: ' + summonerObj.name + ' // summonerId: ' + summonerObj.id);
 	        // since if you search a playerName and they are not in a current game it
 	        // will throw 404, use a static.json file for the time being
-	        // axios.get(`https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/${summonerId}?api_key=${apiKey}`)
-	        _axios2.default.get('./jsonData/spectatorInformation.json').then(function (response) {
+	        _axios2.default.get('https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/' + summonerObj.id + '?api_key=' + apiKey)
+	        // axios.get('./jsonData/spectatorInformation.json')
+	        .then(function (response) {
 	          var matchData = response.data;
 	          _this2.setState({
 	            players: [].concat(_toConsumableArray(matchData.participants))
@@ -66048,6 +66049,16 @@
 
 	var _reactBootstrap = __webpack_require__(241);
 
+	var _axios = __webpack_require__(499);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _lodash = __webpack_require__(492);
+
+	var _ = _interopRequireWildcard(_lodash);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -66065,18 +66076,62 @@
 	    var _this = _possibleConstructorReturn(this, (GeneralTab.__proto__ || Object.getPrototypeOf(GeneralTab)).call(this, props));
 
 	    _this.state = {
-	      data: _this.props.fromObserver
+	      data: _this.props.fromObserver,
+	      stats: {}
 	    };
 	    return _this;
 	  }
 
 	  _createClass(GeneralTab, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      var summonerId = this.state.data.summonerId;
+	      var getRankedData = this.getRankedData(summonerId);
+	    }
+	  }, {
+	    key: 'getRankedData',
+	    value: function getRankedData(summonerId) {
+	      var _this2 = this;
+
+	      var apiKey = '20439faa-7bb2-480d-80de-8f9db165f083';
+	      var champId = this.state.data.championId;
+	      _axios2.default.get('https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/' + summonerId + '/ranked?api_key=' + apiKey).then(function (response) {
+	        var champions = response.data.champions;
+	        var hasPlayedChamp = _.find(champions, function (champ) {
+	          if (champ.id == champId) return champ;
+	        });
+	        var stats;
+	        if (!hasPlayedChamp) {
+	          stats = { stats: {} };
+	        } else {
+	          stats = { stats: hasPlayedChamp.stats };
+	        }
+	        _this2.setState(stats);
+	        // console.log(`${champId} has played ${hasPlayedChamp}`)
+	      }).catch(function (err) {
+	        console.log('there was an error!!!', err);
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var data = this.props.fromObserver;
+	      var data = this.state.data;
 	      var championImage = this.props.championImage;
 	      var summSpell1url = this.props.spell1;
 	      var summSpell2url = this.props.spell2;
+
+	      var stats = this.state.stats;
+	      console.log(stats);
+	      // const totalGamesWon = stats.totalSessionsWon
+	      // const totalGamesLost = stats.totalGameLost
+	      // const totalChampKills = stats.totalChampionKills
+	      // // divide champkills / games
+	      // const totalChampDeaths = stats.totalDeathsPerSession
+	      // // divide champ deaths / games
+	      // const totalChampAssists = stats.totalAssists
+	      // // divide champ assists / games
+	      // const totalMinionsKilled = stats.totalMinionsKilled
+	      // // divide champ cs / games
 
 	      return _react2.default.createElement(
 	        'div',
