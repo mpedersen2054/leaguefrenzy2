@@ -47,9 +47,20 @@ class GeneralTab extends Component {
 
   getWinPercentage(wins, loses) {
     const winPercentCalc = (wins / (wins + loses)) * 100
-    // if winPercentCalc !== NaN
-    if (!!winPercentCalc) {
+    if (!!winPercentCalc) { // if winPercentCalc !== NaN
       return Math.round(winPercentCalc)
+    } else {
+      return 0
+    }
+  }
+
+  getPerGameAverage(stat) {
+    const stats = this.state.stats
+    const wins = stats.totalSessionsWon
+    const loses = stats.totalSessionsLost
+    const totalGames = wins + loses
+    if (!!totalGames) { // if wins/loses === NaN
+      return Math.round(stat / totalGames)
     } else {
       return 0
     }
@@ -60,9 +71,8 @@ class GeneralTab extends Component {
     const championImage = this.props.championImage
     const summSpell1url = this.props.spell1
     const summSpell2url = this.props.spell2
-
     const stats = this.state.stats
-
+    // console.log(stats)
 
     return(
       <div className="tab general-tab" style={{backgroundColor: '#fff'}}>
@@ -84,20 +94,34 @@ class GeneralTab extends Component {
             </Col>
             <Col xs={6} md={8}>
               <div className="wins-loses">
-                <span className="wins">
-                  {stats.totalSessionsWon}
-                </span>
-                / <span className="loses">
-                  {stats.totalSessionsLost}
+                <span className="orig-num">
+                  <span className="wins">
+                    {stats.totalSessionsWon}
+                  </span>
+                  /<span className="loses">
+                    {stats.totalSessionsLost}
+                  </span>
                 </span>
                 <span className="win-percent">
-                  {this.getWinPercentage(stats.totalSessionsWon, stats.totalSessionsLost)} %
+                   ( {this.getWinPercentage(stats.totalSessionsWon, stats.totalSessionsLost)} % )
                 </span>
               </div>
-              <div className="kills">200 ( 10.4 )</div>
-              <div className="deaths">173 ( 8 )</div>
-              <div className="assists">263 ( 14.8 )</div>
-              <div className="cs">12000 ( 232 )</div>
+              <div className="kills">
+                <span className="orig-num">{stats.totalChampionKills}</span>
+                 ( {this.getPerGameAverage(stats.totalChampionKills)} <span className="per-game">pga</span> )
+              </div>
+              <div className="deaths">
+                <span className="orig-num">{stats.totalDeathsPerSession}</span>
+                 ( {this.getPerGameAverage(stats.totalDeathsPerSession)} <span className="per-game">pga</span> )
+              </div>
+              <div className="assists">
+                <span className="orig-num">{stats.totalAssists}</span>
+                 ( {this.getPerGameAverage(stats.totalAssists)} <span className="per-game">pga</span> )
+              </div>
+              <div className="cs">
+                <span className="orig-num">{stats.totalMinionKills}</span>
+                 ( {this.getPerGameAverage(stats.totalMinionKills)} <span className="per-game">pga</span> )
+              </div>
             </Col>
           </Row>
         </div>
