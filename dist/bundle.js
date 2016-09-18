@@ -21504,7 +21504,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  font-size: 14px;\n  letter-spacing: 1px;\n}\nimg {\n  max-width: 100%;\n  vertical-align: top;\n}\n.col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\n.player {\n  margin: 2.5px 5px;\n  height: 360px;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.top-section .btn {\n  padding: 0px;\n}\n.panel-heading {\n  padding: 5px;\n}\n.panel-heading .panel-title {\n  cursor: pointer;\n}\n.panel-group .panel+.panel {\n  margin-top: 0px;\n  margin-bottom: 0px;\n}\n.panel-group .panel {\n  border-radius: 0px;\n  max-height: 300px;\n  overflow: hidden;\n}\n.panel-body {\n  height: 260px;\n  padding: 0;\n}\n.tab {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  background-color: #fff;\n}\n.team-container {\n  padding: 10px 5px 0;\n}\n.team-container-100 {\n  background-color: rgba(0,0,255,0.2);\n}\n.team-container-200 {\n  background-color: rgba(255,0,0,0.2);\n}\n.general-tab {\n  font-weight: 500;\n  font-size: 15px;\n}\n.general-tab .visual-data {\n  margin: 20px 20px;\n}\n.general-tab .visual-data .champion-image {\n  width: 80px;\n  height: 80px;\n  margin-right: 10px;\n  float: left;\n  border-radius: 2px;\n}\n.general-tab .visual-data .summoner-spell {\n  width: 40px;\n  height: 40px;\n}\n.general-tab .visual-data .summoner-keystone {\n  display: block;\n  width: 40px;\n  height: 40px;\n}\n.general-tab .info-data {\n  margin: 20px;\n  clear: both;\n}\n.runes-tab .rune {\n  position: relative;\n  margin: 10px;\n}\n.runes-tab .rune div {\n  font-size: 8px;\n  font-weight: 300;\n}\n.runes-tab .rune img {\n  width: 75%;\n  height: 75%;\n}\n.masteries-tab .masteries-tree {\n  font-size: 12px;\n  width: 33%;\n  height: 100%;\n  float: left;\n}\n.masteries-tab .masteries-tree:last-child {\n  width: 34%;\n}\n.mrow {\n  content: \"\";\n  display: table;\n  clear: both;\n  display: block;\n}\n.mrow .m {\n  position: relative;\n  width: 33%;\n  min-height: 32px;\n  float: left;\n  -moz-box-shadow: inset 0 0 4px #000;\n  -webkit-box-shadow: inset 0 0 4px #000;\n  box-shadow: inset 0 0 4px #000;\n}\n.mrow .m img {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 0.75;\n}\n.mrow .m .number-overlay {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 1;\n  font-size: 20px;\n  font-weight: 300;\n  text-shadow: 2px 2px 2px #000;\n  text-align: center;\n  color: #ff0;\n  padding-top: 2px;\n}\n", ""]);
+	exports.push([module.id, "body {\n  font-size: 14px;\n  letter-spacing: 1px;\n}\nimg {\n  max-width: 100%;\n  vertical-align: top;\n}\n.col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\n.player {\n  margin: 2.5px 5px;\n  height: 360px;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.top-section .btn {\n  padding: 0px;\n}\n.panel-heading {\n  padding: 5px;\n}\n.panel-heading .panel-title {\n  cursor: pointer;\n}\n.panel-group .panel+.panel {\n  margin-top: 0px;\n  margin-bottom: 0px;\n}\n.panel-group .panel {\n  border-radius: 0px;\n  max-height: 300px;\n  overflow: hidden;\n}\n.panel-body {\n  height: 260px;\n  padding: 0;\n}\n.tab {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  background-color: #fff;\n}\n.team-container {\n  padding: 10px 5px 0;\n}\n.team-container-100 {\n  background-color: rgba(0,0,255,0.2);\n}\n.team-container-200 {\n  background-color: rgba(255,0,0,0.2);\n}\n.general-tab {\n  font-weight: 500;\n  font-size: 15px;\n}\n.general-tab .visual-data {\n  margin: 20px 20px;\n}\n.general-tab .visual-data .champion-image {\n  width: 80px;\n  height: 80px;\n  margin-right: 10px;\n  float: left;\n  border-radius: 2px;\n}\n.general-tab .visual-data .summoner-spell {\n  width: 40px;\n  height: 40px;\n}\n.general-tab .visual-data .summoner-keystone {\n  display: block;\n  width: 40px;\n  height: 40px;\n}\n.general-tab .info-data {\n  margin: 20px;\n  clear: both;\n}\n.runes-tab .rune {\n  position: relative;\n  margin: 10px;\n}\n.runes-tab .rune div {\n  font-size: 8px;\n  font-weight: 300;\n}\n.runes-tab .rune img {\n  width: 75%;\n  height: 75%;\n}\n.masteries-tab .masteries-tree {\n  font-size: 12px;\n  width: 33%;\n  height: 100%;\n  float: left;\n}\n.masteries-tab .masteries-tree:last-child {\n  width: 34%;\n}\n.mrow {\n  content: \"\";\n  display: table;\n  clear: both;\n  display: block;\n}\n.mrow .m {\n  position: relative;\n  width: 33%;\n  min-height: 32px;\n  float: left;\n  -moz-box-shadow: inset 0 0 4px #000;\n  -webkit-box-shadow: inset 0 0 4px #000;\n  box-shadow: inset 0 0 4px #000;\n}\n.mrow .m img {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 0.75;\n}\n.mrow .m .number-overlay {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 1;\n  font-size: 20px;\n  font-weight: 300;\n  text-shadow: 2px 2px 2px #000;\n  text-align: center;\n  color: #ff0;\n  padding-top: 2px;\n}\n.general-tab .win-percent {\n  margin-left: 10px;\n  font-weight: 600;\n}\n", ""]);
 
 	// exports
 
@@ -64407,9 +64407,8 @@
 	        console.log('summonerName: ' + summonerObj.name + ' // summonerId: ' + summonerObj.id);
 	        // since if you search a playerName and they are not in a current game it
 	        // will throw 404, use a static.json file for the time being
-	        _axios2.default.get('https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/' + summonerObj.id + '?api_key=' + apiKey)
-	        // axios.get('./jsonData/spectatorInformation.json')
-	        .then(function (response) {
+	        // axios.get(`https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/${summonerObj.id}?api_key=${apiKey}`)
+	        _axios2.default.get('./jsonData/spectatorInformation.json').then(function (response) {
 	          var matchData = response.data;
 	          _this2.setState({
 	            players: [].concat(_toConsumableArray(matchData.participants))
@@ -66009,12 +66008,15 @@
 	            _react2.default.createElement(
 	              _reactBootstrap.Panel,
 	              { header: 'Runes', eventKey: '2' },
-	              _react2.default.createElement(_RunesTab2.default, { runes: runes, runesJson: this.props.jsonData.runes })
+	              _react2.default.createElement(_RunesTab2.default, {
+	                runes: runes,
+	                runesJson: this.props.jsonData.runes })
 	            ),
 	            _react2.default.createElement(
 	              _reactBootstrap.Panel,
 	              { header: 'Masteries', eventKey: '3' },
-	              _react2.default.createElement(_MasteriesTab2.default, { masteries: masteries })
+	              _react2.default.createElement(_MasteriesTab2.default, {
+	                masteries: masteries })
 	            )
 	          )
 	        )
@@ -66095,6 +66097,9 @@
 
 	      var apiKey = '20439faa-7bb2-480d-80de-8f9db165f083';
 	      var champId = this.state.data.championId;
+
+	      var dummyStats = { maxChampionsKilled: 0, maxNumDeaths: 0, mostChampionKillsPerSession: 0, mostSpellsCast: 0, totalAssists: 0, totalChampionKills: 0, totalDamageDealt: 0, totalDamageTaken: 0, totalDeathsPerSession: 0, totalDoubleKills: 0, totalFirstBlood: 0, totalGoldEarned: 0, totalMagicDamageDealt: 0, totalMinionKills: 0, totalPentaKills: 0, totalPhysicalDamageDealt: 0, totalQuadraKills: 0, totalSessionsLost: 0, totalSessionsPlayed: 0, totalSessionsWon: 0, totalTripleKills: 0, totalTurretsKilled: 0, totalUnrealKills: 0 };
+
 	      _axios2.default.get('https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/' + summonerId + '/ranked?api_key=' + apiKey).then(function (response) {
 	        var champions = response.data.champions;
 	        var hasPlayedChamp = _.find(champions, function (champ) {
@@ -66102,15 +66107,26 @@
 	        });
 	        var stats;
 	        if (!hasPlayedChamp) {
-	          stats = { stats: {} };
+	          console.log('hello no hasPlayedChamp', hasPlayedChamps);
+	          stats = dummyStats;
 	        } else {
 	          stats = { stats: hasPlayedChamp.stats };
 	        }
 	        _this2.setState(stats);
-	        // console.log(`${champId} has played ${hasPlayedChamp}`)
 	      }).catch(function (err) {
-	        console.log('there was an error!!!', err);
+	        _this2.setState({ stats: dummyStats });
 	      });
+	    }
+	  }, {
+	    key: 'getWinPercentage',
+	    value: function getWinPercentage(wins, loses) {
+	      var winPercentCalc = wins / (wins + loses) * 100;
+	      // if winPercentCalc !== NaN
+	      if (!!winPercentCalc) {
+	        return Math.round(winPercentCalc);
+	      } else {
+	        return 0;
+	      }
 	    }
 	  }, {
 	    key: 'render',
@@ -66121,17 +66137,6 @@
 	      var summSpell2url = this.props.spell2;
 
 	      var stats = this.state.stats;
-	      console.log(stats);
-	      // const totalGamesWon = stats.totalSessionsWon
-	      // const totalGamesLost = stats.totalGameLost
-	      // const totalChampKills = stats.totalChampionKills
-	      // // divide champkills / games
-	      // const totalChampDeaths = stats.totalDeathsPerSession
-	      // // divide champ deaths / games
-	      // const totalChampAssists = stats.totalAssists
-	      // // divide champ assists / games
-	      // const totalMinionsKilled = stats.totalMinionsKilled
-	      // // divide champ cs / games
 
 	      return _react2.default.createElement(
 	        'div',
@@ -66185,7 +66190,23 @@
 	              _react2.default.createElement(
 	                'div',
 	                { className: 'wins-loses' },
-	                '27 / 24 ( 54.7% )'
+	                _react2.default.createElement(
+	                  'span',
+	                  { className: 'wins' },
+	                  stats.totalSessionsWon
+	                ),
+	                '/ ',
+	                _react2.default.createElement(
+	                  'span',
+	                  { className: 'loses' },
+	                  stats.totalSessionsLost
+	                ),
+	                _react2.default.createElement(
+	                  'span',
+	                  { className: 'win-percent' },
+	                  this.getWinPercentage(stats.totalSessionsWon, stats.totalSessionsLost),
+	                  ' %'
+	                )
 	              ),
 	              _react2.default.createElement(
 	                'div',

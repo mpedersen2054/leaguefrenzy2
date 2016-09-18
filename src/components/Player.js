@@ -76,11 +76,16 @@ class Team extends Component {
                 spell1={this.state.summonerSpell1Url}
                 spell2={this.state.summonerSpell2Url} />
             </Panel>
+
             <Panel header="Runes" eventKey="2">
-              <RunesTab runes={runes} runesJson={this.props.jsonData.runes} />
+              <RunesTab
+                runes={runes}
+                runesJson={this.props.jsonData.runes} />
             </Panel>
+
             <Panel header="Masteries" eventKey="3">
-              <MasteriesTab masteries={masteries} />
+              <MasteriesTab
+                masteries={masteries} />
             </Panel>
           </PanelGroup>
         </div>

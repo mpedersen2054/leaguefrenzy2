@@ -22,6 +22,9 @@ class GeneralTab extends Component {
   getRankedData(summonerId) {
     const apiKey = '20439faa-7bb2-480d-80de-8f9db165f083'
     const champId = this.state.data.championId
+
+    const dummyStats = { maxChampionsKilled: 0, maxNumDeaths: 0, mostChampionKillsPerSession: 0, mostSpellsCast: 0, totalAssists: 0, totalChampionKills: 0, totalDamageDealt: 0, totalDamageTaken: 0, totalDeathsPerSession: 0, totalDoubleKills: 0, totalFirstBlood: 0, totalGoldEarned: 0, totalMagicDamageDealt: 0, totalMinionKills: 0, totalPentaKills: 0, totalPhysicalDamageDealt: 0, totalQuadraKills: 0, totalSessionsLost: 0, totalSessionsPlayed: 0, totalSessionsWon: 0, totalTripleKills: 0, totalTurretsKilled: 0, totalUnrealKills: 0 }
+
     axios.get(`https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/${summonerId}/ranked?api_key=${apiKey}`)
       .then((response) => {
         const champions = response.data.champions
@@ -30,16 +33,26 @@ class GeneralTab extends Component {
         })
         var stats
         if (!hasPlayedChamp) {
-          stats = { stats: {} }
+          console.log('hello no hasPlayedChamp', hasPlayedChamps)
+          stats = dummyStats
         } else {
           stats = { stats: hasPlayedChamp.stats }
         }
         this.setState(stats)
-        // console.log(`${champId} has played ${hasPlayedChamp}`)
       })
       .catch((err) => {
-        console.log('there was an error!!!', err)
+        this.setState({ stats: dummyStats })
       })
+  }
+
+  getWinPercentage(wins, loses) {
+    const winPercentCalc = (wins / (wins + loses)) * 100
+    // if winPercentCalc !== NaN
+    if (!!winPercentCalc) {
+      return Math.round(winPercentCalc)
+    } else {
+      return 0
+    }
   }
 
   render() {
@@ -49,17 +62,7 @@ class GeneralTab extends Component {
     const summSpell2url = this.props.spell2
 
     const stats = this.state.stats
-    console.log(stats)
-    // const totalGamesWon = stats.totalSessionsWon
-    // const totalGamesLost = stats.totalGameLost
-    // const totalChampKills = stats.totalChampionKills
-    // // divide champkills / games
-    // const totalChampDeaths = stats.totalDeathsPerSession
-    // // divide champ deaths / games
-    // const totalChampAssists = stats.totalAssists
-    // // divide champ assists / games
-    // const totalMinionsKilled = stats.totalMinionsKilled
-    // // divide champ cs / games
+
 
     return(
       <div className="tab general-tab" style={{backgroundColor: '#fff'}}>
@@ -80,7 +83,17 @@ class GeneralTab extends Component {
               <div>cs</div>
             </Col>
             <Col xs={6} md={8}>
-              <div className="wins-loses">27 / 24 ( 54.7% )</div>
+              <div className="wins-loses">
+                <span className="wins">
+                  {stats.totalSessionsWon}
+                </span>
+                / <span className="loses">
+                  {stats.totalSessionsLost}
+                </span>
+                <span className="win-percent">
+                  {this.getWinPercentage(stats.totalSessionsWon, stats.totalSessionsLost)} %
+                </span>
+              </div>
               <div className="kills">200 ( 10.4 )</div>
               <div className="deaths">173 ( 8 )</div>
               <div className="assists">263 ( 14.8 )</div>
