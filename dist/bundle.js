@@ -21504,7 +21504,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  font-size: 14px;\n  letter-spacing: 1px;\n}\nimg {\n  max-width: 100%;\n  vertical-align: top;\n}\n.col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\n.player {\n  margin: 2.5px 5px;\n  height: 360px;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.top-section .btn {\n  padding: 0px;\n}\n.panel-heading {\n  padding: 5px;\n}\n.panel-heading .panel-title {\n  cursor: pointer;\n}\n.panel-group .panel+.panel {\n  margin-top: 0px;\n  margin-bottom: 0px;\n}\n.panel-group .panel {\n  border-radius: 0px;\n  max-height: 300px;\n  overflow: hidden;\n}\n.panel-body {\n  height: 260px;\n  padding: 0;\n}\n.tab {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  background-color: #fff;\n}\n.team-container {\n  padding: 10px 5px 0;\n}\n.team-container-100 {\n  background-color: rgba(0,0,255,0.2);\n}\n.team-container-200 {\n  background-color: rgba(255,0,0,0.2);\n}\n.general-tab {\n  font-weight: 500;\n  font-size: 15px;\n}\n.general-tab .visual-data {\n  margin: 20px 20px;\n}\n.general-tab .visual-data .champion-image {\n  width: 80px;\n  height: 80px;\n  margin-right: 10px;\n  float: left;\n  border-radius: 2px;\n}\n.general-tab .visual-data .summoner-spell {\n  width: 40px;\n  height: 40px;\n}\n.general-tab .visual-data .summoner-keystone {\n  display: block;\n  width: 40px;\n  height: 40px;\n}\n.general-tab .info-data {\n  margin: 20px;\n  clear: both;\n}\n.runes-tab .rune {\n  position: relative;\n  margin: 10px;\n}\n.runes-tab .rune div {\n  font-size: 8px;\n  font-weight: 300;\n}\n.runes-tab .rune img {\n  width: 75%;\n  height: 75%;\n}\n.masteries-tab .masteries-tree {\n  font-size: 12px;\n  width: 33%;\n  height: 100%;\n  float: left;\n}\n.masteries-tab .masteries-tree:last-child {\n  width: 34%;\n}\n.mrow {\n  content: \"\";\n  display: table;\n  clear: both;\n  display: block;\n}\n.mrow .m {\n  position: relative;\n  width: 33%;\n  min-height: 32px;\n  float: left;\n  -moz-box-shadow: inset 0 0 4px #000;\n  -webkit-box-shadow: inset 0 0 4px #000;\n  box-shadow: inset 0 0 4px #000;\n}\n.mrow .m img {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 0.75;\n}\n.mrow .m .number-overlay {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 1;\n  font-size: 20px;\n  font-weight: 300;\n  text-shadow: 2px 2px 2px #000;\n  text-align: center;\n  color: #ff0;\n  padding-top: 2px;\n}\n.general-tab .wins-loses .orig-num,\n.general-tab .kills .orig-num,\n.general-tab .deaths .orig-num,\n.general-tab .assists .orig-num,\n.general-tab .cs .orig-num {\n  margin-right: 10px;\n}\n.general-tab .per-game {\n  font-size: 12px;\n  font-weight: 300;\n}\n", ""]);
+	exports.push([module.id, "body {\n  font-size: 14px;\n  letter-spacing: 1px;\n}\nimg {\n  max-width: 100%;\n  vertical-align: top;\n}\n.col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\n.player {\n  margin: 2.5px 5px;\n  height: 360px;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.top-section .btn {\n  padding: 0px;\n}\n.panel-heading {\n  padding: 5px;\n}\n.panel-heading .panel-title {\n  cursor: pointer;\n}\n.panel-group .panel+.panel {\n  margin-top: 0px;\n  margin-bottom: 0px;\n}\n.panel-group .panel {\n  border-radius: 0px;\n  max-height: 300px;\n  overflow: hidden;\n}\n.panel-body {\n  height: 260px;\n  padding: 0;\n}\n.tab {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  background-color: #fff;\n}\n.team-container {\n  padding: 10px 5px 0;\n}\n.team-container-100 {\n  background-color: rgba(0,0,255,0.2);\n}\n.team-container-200 {\n  background-color: rgba(255,0,0,0.2);\n}\n.general-tab {\n  font-weight: 500;\n  font-size: 15px;\n}\n.general-tab .visual-data {\n  margin: 20px 20px;\n}\n.general-tab .visual-data .champion-image {\n  width: 80px;\n  height: 80px;\n  margin-right: 10px;\n  float: left;\n  border-radius: 2px;\n}\n.general-tab .visual-data .summoner-spell {\n  width: 40px;\n  height: 40px;\n}\n.general-tab .visual-data .summoner-keystone {\n  display: block;\n  width: 40px;\n  height: 40px;\n}\n.general-tab .info-data {\n  margin: 20px;\n  clear: both;\n}\n.runes-tab {\n  overflow: scroll;\n}\n.runes-tab .marks p,\n.runes-tab .glyphs p,\n.runes-tab .seals p,\n.runes-tab .quints p {\n  padding: 5px;\n  margin-bottom: 0;\n  color: #000;\n}\n.runes-tab .rune {\n  font-size: 14px;\n  background-color: #fff;\n  border-bottom: 1px solid #eee;\n}\n.runes-tab .rune .count {\n  font-size: 16px;\n  padding: 0 10px 0 5px;\n  margin-right: 5px;\n  border-right: 1px solid #ccc;\n}\n.runes-tab .rune .description {\n  padding-left: 10px;\n}\n.runes-tab .marks p {\n  background-color: rgba(255,0,0,0.5);\n}\n.runes-tab .glyphs p {\n  background-color: rgba(0,0,255,0.5);\n}\n.runes-tab .seals p {\n  background-color: rgba(255,255,0,0.5);\n}\n.runes-tab .quints p {\n  background-color: rgba(255,165,0,0.5);\n}\n.masteries-tab .masteries-tree {\n  font-size: 12px;\n  width: 33%;\n  height: 100%;\n  float: left;\n}\n.masteries-tab .masteries-tree:last-child {\n  width: 34%;\n}\n.mrow {\n  content: \"\";\n  display: table;\n  clear: both;\n  display: block;\n}\n.mrow .m {\n  position: relative;\n  width: 33%;\n  min-height: 32px;\n  float: left;\n  -moz-box-shadow: inset 0 0 4px #000;\n  -webkit-box-shadow: inset 0 0 4px #000;\n  box-shadow: inset 0 0 4px #000;\n}\n.mrow .m img {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 0.75;\n}\n.mrow .m .number-overlay {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 1;\n  font-size: 20px;\n  font-weight: 300;\n  text-shadow: 2px 2px 2px #000;\n  text-align: center;\n  color: #ff0;\n  padding-top: 2px;\n}\n.general-tab .wins-loses .orig-num,\n.general-tab .kills .orig-num,\n.general-tab .deaths .orig-num,\n.general-tab .assists .orig-num,\n.general-tab .cs .orig-num {\n  margin-right: 10px;\n}\n.general-tab .per-game {\n  font-size: 12px;\n  font-weight: 300;\n}\n", ""]);
 
 	// exports
 
@@ -64390,6 +64390,9 @@
 	      var summonerName = this.state.summonerName;
 	      var serverRequest = this.getMatchData(summonerName);
 	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {}
 
 	    // https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/unclerodgers?api_key=a85d0753-6824-4725-a76f-23be84110e08
 	    // https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/39774795?api_key=a85d0753-6824-4725-a76f-23be84110e08
@@ -64419,6 +64422,11 @@
 	      }).catch(function (err) {
 	        console.log('error!', err);
 	      });
+	    }
+	  }, {
+	    key: 'getSummonerRuneInfo',
+	    value: function getSummonerRuneInfo(runez) {
+	      console.log('hello from getSummonerRuneInfo in Match::::', runez);
 	    }
 	  }, {
 	    key: 'render',
@@ -66623,6 +66631,12 @@
 
 	var _reactBootstrap = __webpack_require__(241);
 
+	var _lodash = __webpack_require__(492);
+
+	var _ = _interopRequireWildcard(_lodash);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -66637,37 +66651,151 @@
 	  function RunesTab() {
 	    _classCallCheck(this, RunesTab);
 
-	    return _possibleConstructorReturn(this, (RunesTab.__proto__ || Object.getPrototypeOf(RunesTab)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (RunesTab.__proto__ || Object.getPrototypeOf(RunesTab)).call(this));
+
+	    _this.state = {
+	      runes: []
+	    };
+	    return _this;
 	  }
 
 	  _createClass(RunesTab, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      var runes = this.props.runes;
+	      var runesJson = this.props.runesJson;
+	      var newArr = [];
+	      for (var i in runes) {
+	        var rune = runes[i];
+	        newArr.push({ runeInfo: runesJson[rune.runeId], count: rune.count });
+	      }
+	      this.setState({ runes: [].concat(newArr) });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var runesJson = this.props.runesJson;
-	      var runes = this.props.runes;
+	      var runes = this.state.runes;
+	      var marks = _.filter(runes, function (rune) {
+	        if (rune.runeInfo.rune.type === 'red') return rune;
+	      });
+	      var glyphs = _.filter(runes, function (rune) {
+	        if (rune.runeInfo.rune.type === 'blue') return rune;
+	      });
+	      var seals = _.filter(runes, function (rune) {
+	        if (rune.runeInfo.rune.type === 'yellow') return rune;
+	      });
+	      var quints = _.filter(runes, function (rune) {
+	        if (rune.runeInfo.rune.type === 'black') return rune;
+	      });
 
-	      // console.log('summoners runes: ', runes)
-	      // console.log('runes.json: ', runesJson)
+	      // console.log('marks: ', marks)
+	      // console.log('glyphs: ', glyphs)
+	      // console.log('seals: ', seals)
+	      // console.log('quints: ', quints)
 
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'tab runes-tab' },
 	        _react2.default.createElement(
-	          _reactBootstrap.Row,
-	          null,
-	          this.props.runes.map(function (rune) {
+	          'div',
+	          { className: 'marks' },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'marks'
+	          ),
+	          marks.map(function (mark) {
 	            return _react2.default.createElement(
-	              _reactBootstrap.Col,
-	              { xs: 3, sm: 2, md: 4, key: rune.runeId },
+	              'div',
+	              { key: _.random(0, 10000), className: 'mark rune' },
 	              _react2.default.createElement(
-	                'div',
-	                { className: 'rune' },
-	                _react2.default.createElement('img', { src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/rune/' + runesJson[rune.runeId].image.full }),
-	                _react2.default.createElement(
-	                  'div',
-	                  null,
-	                  runesJson[rune.runeId].description
-	                )
+	                'span',
+	                { className: 'count' },
+	                'x',
+	                mark.count
+	              ),
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'description' },
+	                mark.runeInfo.description
+	              )
+	            );
+	          })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'glyphs' },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'glyphs'
+	          ),
+	          glyphs.map(function (glyph) {
+	            return _react2.default.createElement(
+	              'div',
+	              { key: _.random(0, 10000), className: 'glyph rune' },
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'count' },
+	                'x',
+	                glyph.count
+	              ),
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'description' },
+	                glyph.runeInfo.description
+	              )
+	            );
+	          })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'seals' },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'seals'
+	          ),
+	          seals.map(function (seal) {
+	            return _react2.default.createElement(
+	              'div',
+	              { key: _.random(0, 10000), className: 'seal rune' },
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'count' },
+	                'x',
+	                seal.count
+	              ),
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'description' },
+	                seal.runeInfo.description
+	              )
+	            );
+	          })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'quints' },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'quints'
+	          ),
+	          quints.map(function (quint) {
+	            return _react2.default.createElement(
+	              'div',
+	              { key: _.random(0, 10000), className: 'quint rune' },
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'count' },
+	                'x',
+	                quint.count
+	              ),
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'description' },
+	                quint.runeInfo.description
 	              )
 	            );
 	          })
@@ -66680,6 +66808,21 @@
 	}(_react.Component);
 
 	exports.default = RunesTab;
+
+	// <div className="tab runes-tab">
+	//   <Row>
+	//     {this.props.runes.map((rune) => {
+	//       return(
+	//         <Col xs={3} sm={2} md={4} key={rune.runeId}>
+	//           <div className="rune">
+	//             <img src={`http://ddragon.leagueoflegends.com/cdn/6.18.1/img/rune/${runesJson[rune.runeId].image.full}`} />
+	//             <div>{runesJson[rune.runeId].description}</div>
+	//           </div>
+	//         </Col>
+	//       )
+	//     })}
+	//   </Row>
+	// </div>
 
 /***/ },
 /* 527 */

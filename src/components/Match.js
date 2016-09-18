@@ -29,6 +29,8 @@ class Match extends Component {
     var serverRequest = this.getMatchData(summonerName)
   }
 
+  componentWillUnmount() {}
+
   // https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/unclerodgers?api_key=a85d0753-6824-4725-a76f-23be84110e08
   // https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/39774795?api_key=a85d0753-6824-4725-a76f-23be84110e08
 
@@ -57,6 +59,10 @@ class Match extends Component {
       .catch((err) => {
         console.log('error!', err)
       })
+  }
+
+  getSummonerRuneInfo(runez) {
+    console.log('hello from getSummonerRuneInfo in Match::::', runez)
   }
 
   render() {

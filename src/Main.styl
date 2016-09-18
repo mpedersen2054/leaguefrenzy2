@@ -96,15 +96,31 @@ img
 
 
 .runes-tab
+  overflow scroll
+  .marks, .glyphs, .seals, .quints
+    p
+      padding 5px
+      margin-bottom 0
+      color #000
   .rune
-    position relative
-    margin 10px
-    div
-      font-size 8px
-      font-weight 300
-    img
-      width 75%
-      height 75%
+    font-size 14px
+    background-color #fff
+    border-bottom 1px solid #eee
+    .count
+      font-size 16px
+      padding 0 10px 0 5px
+      margin-right 5px
+      border-right 1px solid #ccc
+    .description
+      padding-left 10px
+  .marks p
+    background-color rgba(255, 0, 0, 0.5)
+  .glyphs p
+    background-color rgba(0, 0, 255, 0.5)
+  .seals p
+    background-color rgba(255, 255, 0, 0.5)
+  .quints p
+    background-color rgba(255, 165, 0, 0.5)
 
 
 

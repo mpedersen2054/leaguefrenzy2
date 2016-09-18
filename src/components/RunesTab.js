@@ -1,32 +1,112 @@
 
 import React, { Component } from 'react'
 import { Row, Col } from 'react-bootstrap'
+import * as _ from 'lodash'
 
 class RunesTab extends Component {
-  render() {
-    const runesJson = this.props.runesJson
-    const runes = this.props.runes
+  constructor() {
+    super()
 
-    // console.log('summoners runes: ', runes)
-    // console.log('runes.json: ', runesJson)
+    this.state = {
+      runes: []
+    }
+  }
+
+  componentWillMount() {
+    const runes = this.props.runes
+    const runesJson = this.props.runesJson
+    const newArr = []
+    for (var i in runes) {
+      var rune = runes[i]
+      newArr.push({ runeInfo: runesJson[rune.runeId], count: rune.count})
+    }
+    this.setState({ runes: [...newArr] })
+  }
+
+  render() {
+    const runes = this.state.runes
+    const marks = _.filter(runes, (rune) => {
+      if (rune.runeInfo.rune.type === 'red') return rune
+    })
+    const glyphs = _.filter(runes, (rune) => {
+      if (rune.runeInfo.rune.type === 'blue') return rune
+    })
+    const seals = _.filter(runes, (rune) => {
+      if (rune.runeInfo.rune.type === 'yellow') return rune
+    })
+    const quints = _.filter(runes, (rune) => {
+      if (rune.runeInfo.rune.type === 'black') return rune
+    })
+
+    // console.log('marks: ', marks)
+    // console.log('glyphs: ', glyphs)
+    // console.log('seals: ', seals)
+    // console.log('quints: ', quints)
 
     return(
       <div className="tab runes-tab">
-        <Row>
-          {this.props.runes.map((rune) => {
+        <div className="marks">
+          <p>marks</p>
+          {marks.map((mark) => {
             return(
-              <Col xs={3} sm={2} md={4} key={rune.runeId}>
-                <div className="rune">
-                  <img src={`http://ddragon.leagueoflegends.com/cdn/6.18.1/img/rune/${runesJson[rune.runeId].image.full}`} />
-                  <div>{runesJson[rune.runeId].description}</div>
-                </div>
-              </Col>
+              <div key={_.random(0, 10000)} className="mark rune">
+                <span className="count">x{mark.count}</span>
+                <span className="description">{mark.runeInfo.description}</span>
+              </div>
             )
           })}
-        </Row>
+        </div>
+        <div className="glyphs">
+          <p>glyphs</p>
+          {glyphs.map((glyph) => {
+            return(
+              <div key={_.random(0, 10000)} className="glyph rune">
+                <span className="count">x{glyph.count}</span>
+                <span className="description">{glyph.runeInfo.description}</span>
+              </div>
+            )
+          })}
+        </div>
+        <div className="seals">
+          <p>seals</p>
+          {seals.map((seal) => {
+            return(
+              <div key={_.random(0, 10000)} className="seal rune">
+                <span className="count">x{seal.count}</span>
+                <span className="description">{seal.runeInfo.description}</span>
+              </div>
+            )
+          })}
+        </div>
+        <div className="quints">
+          <p>quints</p>
+          {quints.map((quint) => {
+            return(
+              <div key={_.random(0, 10000)} className="quint rune">
+                <span className="count">x{quint.count}</span>
+                <span className="description">{quint.runeInfo.description}</span>
+              </div>
+            )
+          })}
+        </div>
       </div>
     )
   }
 }
 
 export default RunesTab
+
+// <div className="tab runes-tab">
+//   <Row>
+//     {this.props.runes.map((rune) => {
+//       return(
+//         <Col xs={3} sm={2} md={4} key={rune.runeId}>
+//           <div className="rune">
+//             <img src={`http://ddragon.leagueoflegends.com/cdn/6.18.1/img/rune/${runesJson[rune.runeId].image.full}`} />
+//             <div>{runesJson[rune.runeId].description}</div>
+//           </div>
+//         </Col>
+//       )
+//     })}
+//   </Row>
+// </div>
