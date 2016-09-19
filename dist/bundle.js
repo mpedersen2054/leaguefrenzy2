@@ -21504,7 +21504,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  font-size: 14px;\n  letter-spacing: 1px;\n}\nimg {\n  max-width: 100%;\n  vertical-align: top;\n}\n.col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\n.player {\n  margin: 2.5px 5px;\n  height: 360px;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.top-section .btn {\n  padding: 0px;\n}\n.panel-heading {\n  padding: 5px;\n}\n.panel-heading .panel-title {\n  cursor: pointer;\n}\n.panel-group .panel+.panel {\n  margin-top: 0px;\n  margin-bottom: 0px;\n}\n.panel-group .panel {\n  border-radius: 0px;\n  max-height: 300px;\n  overflow: hidden;\n}\n.panel-body {\n  height: 260px;\n  padding: 0;\n}\n.tab {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  background-color: #fff;\n}\n.team-container {\n  padding: 10px 5px 0;\n}\n.team-container-100 {\n  background-color: rgba(0,0,255,0.2);\n}\n.team-container-200 {\n  background-color: rgba(255,0,0,0.2);\n}\n.general-tab {\n  font-weight: 500;\n  font-size: 15px;\n}\n.general-tab .visual-data {\n  margin: 20px 20px;\n}\n.general-tab .visual-data .champion-image {\n  width: 80px;\n  height: 80px;\n  margin-right: 10px;\n  float: left;\n  border-radius: 2px;\n}\n.general-tab .visual-data .summoner-spell {\n  width: 40px;\n  height: 40px;\n}\n.general-tab .visual-data .summoner-keystone {\n  display: block;\n  width: 40px;\n  height: 40px;\n}\n.general-tab .info-data {\n  margin: 20px;\n  clear: both;\n}\n.runes-tab {\n  overflow: scroll;\n}\n.runes-tab .marks p,\n.runes-tab .glyphs p,\n.runes-tab .seals p,\n.runes-tab .quints p {\n  padding: 5px;\n  margin-bottom: 0;\n  color: #000;\n}\n.runes-tab .rune {\n  font-size: 14px;\n  background-color: #fff;\n  border-bottom: 1px solid #eee;\n}\n.runes-tab .rune .count {\n  font-size: 16px;\n  padding: 0 10px 0 5px;\n  margin-right: 5px;\n  border-right: 1px solid #ccc;\n}\n.runes-tab .rune .description {\n  padding-left: 10px;\n}\n.runes-tab .marks p {\n  background-color: rgba(255,0,0,0.5);\n}\n.runes-tab .glyphs p {\n  background-color: rgba(0,0,255,0.5);\n}\n.runes-tab .seals p {\n  background-color: rgba(255,255,0,0.5);\n}\n.runes-tab .quints p {\n  background-color: rgba(255,165,0,0.5);\n}\n.masteries-tab .masteries-tree {\n  font-size: 12px;\n  width: 33%;\n  height: 100%;\n  float: left;\n}\n.masteries-tab .masteries-tree:last-child {\n  width: 34%;\n}\n.mrow {\n  content: \"\";\n  display: table;\n  clear: both;\n  display: block;\n}\n.mrow .m {\n  position: relative;\n  width: 33%;\n  min-height: 32px;\n  float: left;\n  -moz-box-shadow: inset 0 0 4px #000;\n  -webkit-box-shadow: inset 0 0 4px #000;\n  box-shadow: inset 0 0 4px #000;\n}\n.mrow .m img {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 0.75;\n}\n.mrow .m .number-overlay {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 1;\n  font-size: 20px;\n  font-weight: 300;\n  text-shadow: 2px 2px 2px #000;\n  text-align: center;\n  color: #ff0;\n  padding-top: 2px;\n}\n.general-tab .wins-loses .orig-num,\n.general-tab .kills .orig-num,\n.general-tab .deaths .orig-num,\n.general-tab .assists .orig-num,\n.general-tab .cs .orig-num {\n  margin-right: 10px;\n}\n.general-tab .per-game {\n  font-size: 12px;\n  font-weight: 300;\n}\n", ""]);
+	exports.push([module.id, "body {\n  font-size: 14px;\n  letter-spacing: 1px;\n}\nimg {\n  max-width: 100%;\n  vertical-align: top;\n}\n.col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\n.search-page {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #00f;\n}\n.search-page .main-col {\n  position: relative;\n  top: 160px;\n}\n.search-page h1 {\n  font-size: 52px;\n  font-weight: 700;\n  text-transform: uppercase;\n  margin: 0;\n}\n.search-page h3 {\n  font-weight: 400;\n  margin: 0;\n  margin-bottom: 10px;\n  font-size: 18px;\n  color: #777;\n}\n.search-page #search-summoner,\n.search-page .form-group {\n  margin-bottom: 0;\n}\n.search-page .form-control {\n  border-radius: 6px 6px 0 0;\n}\n.search-page .btn {\n  border-radius: 0 0 6px 6px;\n  text-transform: uppercase;\n}\n@media (max-width: 768px) {\n  .search-page .main-col h1 {\n    font-size: 26px;\n  }\n}\n.player {\n  margin: 2.5px 5px;\n  height: 360px;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.top-section .btn {\n  padding: 0px;\n}\n.panel-heading {\n  padding: 5px;\n}\n.panel-heading .panel-title {\n  cursor: pointer;\n}\n.panel-group .panel+.panel {\n  margin-top: 0px;\n  margin-bottom: 0px;\n}\n.panel-group .panel {\n  border-radius: 0px;\n  max-height: 300px;\n  overflow: hidden;\n}\n.panel-body {\n  height: 260px;\n  padding: 0;\n}\n.tab {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  background-color: #fff;\n}\n.team-container {\n  padding: 10px 5px 0;\n}\n.team-container-100 {\n  background-color: rgba(0,0,255,0.2);\n}\n.team-container-200 {\n  background-color: rgba(255,0,0,0.2);\n}\n.general-tab {\n  font-weight: 500;\n  font-size: 15px;\n}\n.general-tab .visual-data {\n  margin: 20px 20px;\n}\n.general-tab .visual-data .champion-image {\n  width: 80px;\n  height: 80px;\n  margin-right: 10px;\n  float: left;\n  border-radius: 2px;\n}\n.general-tab .visual-data .summoner-spell {\n  width: 40px;\n  height: 40px;\n}\n.general-tab .visual-data .summoner-keystone {\n  display: block;\n  width: 40px;\n  height: 40px;\n}\n.general-tab .info-data {\n  margin: 20px;\n  clear: both;\n}\n.runes-tab {\n  overflow: scroll;\n}\n.runes-tab .marks p,\n.runes-tab .glyphs p,\n.runes-tab .seals p,\n.runes-tab .quints p {\n  padding: 5px;\n  margin-bottom: 0;\n  color: #000;\n}\n.runes-tab .rune {\n  font-size: 14px;\n  background-color: #fff;\n  border-bottom: 1px solid #eee;\n}\n.runes-tab .rune .count {\n  font-size: 16px;\n  padding: 0 10px 0 5px;\n  margin-right: 5px;\n  border-right: 1px solid #ccc;\n}\n.runes-tab .rune .description {\n  padding-left: 10px;\n}\n.runes-tab .marks p {\n  background-color: rgba(255,0,0,0.5);\n}\n.runes-tab .glyphs p {\n  background-color: rgba(0,0,255,0.5);\n}\n.runes-tab .seals p {\n  background-color: rgba(255,255,0,0.5);\n}\n.runes-tab .quints p {\n  background-color: rgba(255,165,0,0.5);\n}\n.masteries-tab .masteries-tree {\n  font-size: 12px;\n  width: 33%;\n  height: 100%;\n  float: left;\n}\n.masteries-tab .masteries-tree:last-child {\n  width: 34%;\n}\n.mrow {\n  content: \"\";\n  display: table;\n  clear: both;\n  display: block;\n}\n.mrow .m {\n  position: relative;\n  width: 33%;\n  min-height: 32px;\n  float: left;\n  -moz-box-shadow: inset 0 0 4px #000;\n  -webkit-box-shadow: inset 0 0 4px #000;\n  box-shadow: inset 0 0 4px #000;\n}\n.mrow .m img {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 0.75;\n}\n.mrow .m .number-overlay {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 1;\n  font-size: 20px;\n  font-weight: 300;\n  text-shadow: 2px 2px 2px #000;\n  text-align: center;\n  color: #ff0;\n  padding-top: 2px;\n}\n.general-tab .wins-loses .orig-num,\n.general-tab .kills .orig-num,\n.general-tab .deaths .orig-num,\n.general-tab .assists .orig-num,\n.general-tab .cs .orig-num {\n  margin-right: 10px;\n}\n.general-tab .per-game {\n  font-size: 12px;\n  font-weight: 300;\n}\n", ""]);
 
 	// exports
 
@@ -66933,24 +66933,42 @@
 	          'div',
 	          { className: 'container' },
 	          _react2.default.createElement(
-	            'form',
-	            {
-	              id: 'search-summoner',
-	              onSubmit: this.handleSubmit },
+	            _reactBootstrap.Row,
+	            null,
 	            _react2.default.createElement(
-	              _reactBootstrap.FormGroup,
-	              null,
-	              _react2.default.createElement(_reactBootstrap.FormControl, {
-	                type: 'text',
-	                name: 'summonerName',
-	                onChange: this.handleInputChange,
-	                value: this.state.summonerNameValue,
-	                placeholder: 'Enter summoner name...' })
-	            ),
-	            _react2.default.createElement(
-	              _reactBootstrap.Button,
-	              null,
-	              'Search'
+	              _reactBootstrap.Col,
+	              { md: 6, mdOffset: 3, className: 'main-col well' },
+	              _react2.default.createElement(
+	                'h1',
+	                null,
+	                'Leaguefrenzy 2.0'
+	              ),
+	              _react2.default.createElement(
+	                'h3',
+	                null,
+	                'get ranked stats, runes, and masteries for players of a game-in-progress'
+	              ),
+	              _react2.default.createElement(
+	                'form',
+	                {
+	                  id: 'search-summoner',
+	                  onSubmit: this.handleSubmit },
+	                _react2.default.createElement(
+	                  _reactBootstrap.FormGroup,
+	                  { bsSize: 'large' },
+	                  _react2.default.createElement(_reactBootstrap.FormControl, {
+	                    type: 'text',
+	                    name: 'summonerName',
+	                    onChange: this.handleInputChange,
+	                    value: this.state.summonerNameValue,
+	                    placeholder: 'Enter summoner name...' })
+	                ),
+	                _react2.default.createElement(
+	                  _reactBootstrap.Button,
+	                  { block: true, bsSize: 'large', bsStyle: 'info' },
+	                  'Search'
+	                )
+	              )
 	            )
 	          )
 	        )
