@@ -25,6 +25,10 @@ class RunesTab extends Component {
 
   render() {
     const runes = this.state.runes
+
+    // for each type of rune, filter the summoners runes
+    // array and extract each rune by its type
+
     const marks = _.filter(runes, (rune) => {
       if (rune.runeInfo.rune.type === 'red') return rune
     })
@@ -37,11 +41,6 @@ class RunesTab extends Component {
     const quints = _.filter(runes, (rune) => {
       if (rune.runeInfo.rune.type === 'black') return rune
     })
-
-    // console.log('marks: ', marks)
-    // console.log('glyphs: ', glyphs)
-    // console.log('seals: ', seals)
-    // console.log('quints: ', quints)
 
     return(
       <div className="tab runes-tab">
@@ -95,18 +94,3 @@ class RunesTab extends Component {
 }
 
 export default RunesTab
-
-// <div className="tab runes-tab">
-//   <Row>
-//     {this.props.runes.map((rune) => {
-//       return(
-//         <Col xs={3} sm={2} md={4} key={rune.runeId}>
-//           <div className="rune">
-//             <img src={`http://ddragon.leagueoflegends.com/cdn/6.18.1/img/rune/${runesJson[rune.runeId].image.full}`} />
-//             <div>{runesJson[rune.runeId].description}</div>
-//           </div>
-//         </Col>
-//       )
-//     })}
-//   </Row>
-// </div>

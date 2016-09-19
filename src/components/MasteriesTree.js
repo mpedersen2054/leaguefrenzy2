@@ -1,5 +1,6 @@
 
 import React, { Component } from 'react'
+import * as _ from 'lodash'
 
 class MasteriesTree extends Component {
 
@@ -9,11 +10,38 @@ class MasteriesTree extends Component {
     if (tree === 62) return `http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/62${mid}.png`
   }
 
-  render() {
+  hasMasteryIfSoRank(talentId, tal) {
+    const masteries = this.props.masteries
+    const talent = talentId.toString() + tal.toString()
+    var hasMastery = _.find(masteries, (mastery) => {
+      if (mastery.masteryId == talent) {
+        return mastery
+      }
+    })
+    if (hasMastery) {
+      return hasMastery.rank
+    } else {
+      return 0
+    }
+  }
 
+  render() {
     const tree = this.props.tree
+    const masteries = this.props.masteries
     const talentId = this.props.talentId
     const talents = this.props.talents
+
+    // warlords 6161
+    // ferver 6162
+    // deathfire 6164
+
+    // spirit walker 6361
+    // thunderlords 6362
+    // healing / shield 6363
+
+    // on hit dmg + heal 6261
+    // jungle thingy 6262
+    // dmg reduce 6263
 
     return(
       <div className={`masteries-tree ${tree}`}>
@@ -22,14 +50,14 @@ class MasteriesTree extends Component {
           <div className={`m m-${talents[0]}`}>
             <img src={this.getDdragonUrl(talentId, talents[0])} />
             <div className="number-overlay">
-              5
+              {this.hasMasteryIfSoRank(talentId, talents[0])}
             </div>
           </div>
           <div className="m m-filler"></div>
           <div className={`m m-${talents[1]}`}>
             <img src={this.getDdragonUrl(talentId, talents[1])} />
             <div className="number-overlay">
-              0
+              {this.hasMasteryIfSoRank(talentId, talents[1])}
             </div>
           </div>
         </div>
@@ -37,19 +65,19 @@ class MasteriesTree extends Component {
           <div className={`m m-${talents[2]}`}>
             <img src={this.getDdragonUrl(talentId, talents[2])} />
             <div className="number-overlay">
-              1
+              {this.hasMasteryIfSoRank(talentId, talents[2])}
             </div>
           </div>
           <div className={`m m-${talents[3]}`}>
             <img src={this.getDdragonUrl(talentId, talents[3])} />
             <div className="number-overlay">
-              0
+              {this.hasMasteryIfSoRank(talentId, talents[3])}
             </div>
           </div>
           <div className={`m m-${talents[4]}`}>
             <img src={this.getDdragonUrl(talentId, talents[4])} />
             <div className="number-overlay">
-              0
+              {this.hasMasteryIfSoRank(talentId, talents[4])}
             </div>
           </div>
         </div>
@@ -57,14 +85,14 @@ class MasteriesTree extends Component {
           <div className={`m m-${talents[5]}`}>
             <img src={this.getDdragonUrl(talentId, talents[5])} />
             <div className="number-overlay">
-              5
+              {this.hasMasteryIfSoRank(talentId, talents[5])}
             </div>
           </div>
           <div className="m m-filler"></div>
           <div className={`m m-${talents[6]}`}>
             <img src={this.getDdragonUrl(talentId, talents[6])} />
             <div className="number-overlay">
-              0
+              {this.hasMasteryIfSoRank(talentId, talents[6])}
             </div>
           </div>
         </div>
@@ -72,13 +100,13 @@ class MasteriesTree extends Component {
           <div className={`m m-${talents[7]}`}>
             <img src={this.getDdragonUrl(talentId, talents[7])} />
             <div className="number-overlay">
-              0
+              {this.hasMasteryIfSoRank(talentId, talents[7])}
             </div>
           </div>
           <div className={`m m-${talents[8]}`}>
             <img src={this.getDdragonUrl(talentId, talents[8])} />
             <div className="number-overlay">
-              1
+              {this.hasMasteryIfSoRank(talentId, talents[8])}
             </div>
           </div>
         </div>
@@ -86,14 +114,14 @@ class MasteriesTree extends Component {
           <div className={`m m-${talents[9]}`}>
             <img src={this.getDdragonUrl(talentId, talents[9])} />
             <div className="number-overlay">
-              5
+              {this.hasMasteryIfSoRank(talentId, talents[9])}
             </div>
           </div>
           <div className="m m-filler"></div>
           <div className={`m m-${talents[10]}`}>
             <img src={this.getDdragonUrl(talentId, talents[10])} />
             <div className="number-overlay">
-              0
+              {this.hasMasteryIfSoRank(talentId, talents[10])}
             </div>
           </div>
         </div>
@@ -101,19 +129,19 @@ class MasteriesTree extends Component {
           <div className={`m m-${talents[11]}`}>
             <img src={this.getDdragonUrl(talentId, talents[11])} />
             <div className="number-overlay">
-              0
+              {this.hasMasteryIfSoRank(talentId, talents[11])}
             </div>
           </div>
           <div className={`m m-${talents[12]}`}>
             <img src={this.getDdragonUrl(talentId, talents[12])} />
             <div className="number-overlay">
-              1
+              {this.hasMasteryIfSoRank(talentId, talents[12])}
             </div>
           </div>
           <div className={`m m-${talents[13]}`}>
             <img src={this.getDdragonUrl(talentId, talents[13])} />
             <div className="number-overlay">
-              0
+              {this.hasMasteryIfSoRank(talentId, talents[13])}
             </div>
           </div>
         </div>
