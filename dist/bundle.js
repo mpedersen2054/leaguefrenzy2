@@ -65985,7 +65985,23 @@
 	    }
 	  }, {
 	    key: 'getMasteryKeystone',
-	    value: function getMasteryKeystone() {}
+	    value: function getMasteryKeystone() {
+	      var masteries = this.state.info.masteries;
+	      var whichKeystone = _.find(masteries, function (mastery) {
+	        var mid = mastery.masteryId;
+	        if (mid == '6161') return mastery; // warlords
+	        if (mid == '6162') return mastery; // ferver
+	        if (mid == '6164') return mastery; // deathfire
+	        if (mid == '6361') return mastery; // spiritwalker
+	        if (mid == '6362') return mastery; // thunderlords
+	        if (mid == '6363') return mastery; // windspeakers
+	        if (mid == '6261') return mastery; // grasp of undying
+	        if (mid == '6262') return mastery; // strength of ages
+	        if (mid == '6263') return mastery; // bond of stone
+	      });
+
+	      return whichKeystone;
+	    }
 	  }, {
 	    key: 'handleSelect',
 	    value: function handleSelect(activeKey) {
@@ -65997,6 +66013,7 @@
 	      var general = this.state.info;
 	      var masteries = this.state.info.masteries;
 	      var runes = this.state.info.runes;
+	      var keystone = this.getMasteryKeystone();
 
 	      return _react2.default.createElement(
 	        'div',
@@ -66014,7 +66031,8 @@
 	                fromObserver: general,
 	                championImage: this.state.championImage,
 	                spell1: this.state.summonerSpell1Url,
-	                spell2: this.state.summonerSpell2Url })
+	                spell2: this.state.summonerSpell2Url,
+	                keystone: keystone.masteryId })
 	            ),
 	            _react2.default.createElement(
 	              _reactBootstrap.Panel,
@@ -66172,7 +66190,7 @@
 	          _react2.default.createElement('img', { className: 'champion-image', src: championImage }),
 	          _react2.default.createElement('img', { className: 'summoner-spell spell1', src: summSpell1url }),
 	          _react2.default.createElement('img', { className: 'summoner-spell spell2', src: summSpell2url }),
-	          _react2.default.createElement('img', { className: 'summoner-keystone', src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/6362.png' })
+	          _react2.default.createElement('img', { className: 'summoner-keystone', src: 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/' + this.props.keystone + '.png' })
 	        ),
 	        _react2.default.createElement(
 	          'div',
@@ -66465,18 +66483,6 @@
 	      var masteries = this.props.masteries;
 	      var talentId = this.props.talentId;
 	      var talents = this.props.talents;
-
-	      // warlords 6161
-	      // ferver 6162
-	      // deathfire 6164
-
-	      // spirit walker 6361
-	      // thunderlords 6362
-	      // healing / shield 6363
-
-	      // on hit dmg + heal 6261
-	      // jungle thingy 6262
-	      // dmg reduce 6263
 
 	      return _react2.default.createElement(
 	        'div',

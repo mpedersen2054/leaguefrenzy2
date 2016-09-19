@@ -56,16 +56,33 @@ class Team extends Component {
     })
   }
 
-  getMasteryKeystone() {}
+  getMasteryKeystone() {
+    const masteries = this.state.info.masteries
+    const whichKeystone = _.find(masteries, (mastery) => {
+      const mid = mastery.masteryId
+      if (mid == '6161') return mastery // warlords
+      if (mid == '6162') return mastery // ferver
+      if (mid == '6164') return mastery // deathfire
+      if (mid == '6361') return mastery // spiritwalker
+      if (mid == '6362') return mastery // thunderlords
+      if (mid == '6363') return mastery // windspeakers
+      if (mid == '6261') return mastery // grasp of undying
+      if (mid == '6262') return mastery // strength of ages
+      if (mid == '6263') return mastery // bond of stone
+    })
+
+    return whichKeystone
+  }
 
   handleSelect(activeKey) {
     this.setState({ activeKey })
   }
 
   render() {
-    const general = this.state.info
+    const general   = this.state.info
     const masteries = this.state.info.masteries
-    const runes = this.state.info.runes
+    const runes     = this.state.info.runes
+    const keystone  = this.getMasteryKeystone()
 
     return(
       <div className="col-md-15">
@@ -76,7 +93,8 @@ class Team extends Component {
                 fromObserver={general}
                 championImage={this.state.championImage}
                 spell1={this.state.summonerSpell1Url}
-                spell2={this.state.summonerSpell2Url} />
+                spell2={this.state.summonerSpell2Url}
+                keystone={keystone.masteryId} />
             </Panel>
 
             <Panel header="Runes" eventKey="2">

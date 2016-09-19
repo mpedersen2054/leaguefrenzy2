@@ -31,18 +31,6 @@ class MasteriesTree extends Component {
     const talentId = this.props.talentId
     const talents = this.props.talents
 
-    // warlords 6161
-    // ferver 6162
-    // deathfire 6164
-
-    // spirit walker 6361
-    // thunderlords 6362
-    // healing / shield 6363
-
-    // on hit dmg + heal 6261
-    // jungle thingy 6262
-    // dmg reduce 6263
-
     return(
       <div className={`masteries-tree ${tree}`}>
         <div className="title">{tree}</div>

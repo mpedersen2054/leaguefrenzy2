@@ -80,7 +80,7 @@ class GeneralTab extends Component {
           <img className="champion-image" src={championImage} />
           <img className="summoner-spell spell1" src={summSpell1url} />
           <img className="summoner-spell spell2" src={summSpell2url} />
-          <img className="summoner-keystone" src="http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/6362.png" />
+          <img className="summoner-keystone" src={`http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/${this.props.keystone}.png`} />
         </div>
 
         <div className="info-data">
