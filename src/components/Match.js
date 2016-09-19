@@ -82,7 +82,7 @@ class Match extends Component {
       }
     })
     // champions thumbnail image url
-    const championImage = `http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/${champion.name.replace(' ', '')}.png`
+    const championImage = `//ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/${champion.name.replace(' ', '')}.png`
 
     // get summonerSpell 1
     const spell1 = _.find(summonerSpells, (spell) => {
@@ -94,8 +94,8 @@ class Match extends Component {
     })
 
     // summonerSpell's image urls
-    const sumSpellImg1 = `http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/${spell1.id}.png`
-    const sumSpellImg2 = `http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/${spell2.id}.png`
+    const sumSpellImg1 = `//ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/${spell1.id}.png`
+    const sumSpellImg2 = `//ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/${spell2.id}.png`
 
     // return object that will be set to the state in PlayerTab
     return {

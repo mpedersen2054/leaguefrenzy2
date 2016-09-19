@@ -64410,7 +64410,7 @@
 	        }
 	      });
 	      // champions thumbnail image url
-	      var championImage = 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/' + champion.name.replace(' ', '') + '.png';
+	      var championImage = '//ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/' + champion.name.replace(' ', '') + '.png';
 
 	      // get summonerSpell 1
 	      var spell1 = _.find(_summonerSpells2.default, function (spell) {
@@ -64422,8 +64422,8 @@
 	      });
 
 	      // summonerSpell's image urls
-	      var sumSpellImg1 = 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/' + spell1.id + '.png';
-	      var sumSpellImg2 = 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/' + spell2.id + '.png';
+	      var sumSpellImg1 = '//ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/' + spell1.id + '.png';
+	      var sumSpellImg2 = '//ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/' + spell2.id + '.png';
 
 	      // return object that will be set to the state in PlayerTab
 	      return {
@@ -66508,9 +66508,9 @@
 	  _createClass(MasteriesTree, [{
 	    key: 'getDdragonUrl',
 	    value: function getDdragonUrl(tree, mid) {
-	      if (tree === 61) return 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/61' + mid + '.png';
-	      if (tree === 63) return 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/63' + mid + '.png';
-	      if (tree === 62) return 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/62' + mid + '.png';
+	      if (tree === 61) return '//ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/61' + mid + '.png';
+	      if (tree === 63) return '//ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/63' + mid + '.png';
+	      if (tree === 62) return '//ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/62' + mid + '.png';
 	    }
 
 	    // if the mastery is used, return the rank (0-5, 0-1)
