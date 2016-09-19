@@ -21,6 +21,8 @@ app.use(function(req, res, next) {
   next();
 })
 
+// endpoint to request from lolapi
+// if on frontend throws XSRF err
 app.get('/getInfo/:summonerId', (req, res) => {
   const summonerId = req.params.summonerId
   const apiKey = 'a85d0753-6824-4725-a76f-23be84110e08'
