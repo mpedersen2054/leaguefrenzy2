@@ -21504,7 +21504,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  font-size: 14px;\n  letter-spacing: 1px;\n}\nimg {\n  max-width: 100%;\n  vertical-align: top;\n}\n.col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\n.search-page {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(\"http://img12.deviantart.net/967b/i/2014/022/4/1/season_4__glhf__by_su_ke-d73ck1t.jpg\");\n  background-size: cover;\n}\n.search-page .container {\n  position: relative;\n  top: 160px;\n}\n.search-page h1 {\n  font-size: 52px;\n  font-weight: 700;\n  text-transform: uppercase;\n  margin: 0;\n}\n.search-page h3 {\n  font-weight: 400;\n  margin: 0;\n  margin-bottom: 10px;\n  font-size: 14px;\n  color: #777;\n}\n.search-page #search-summoner,\n.search-page .form-group {\n  margin-bottom: 0;\n}\n.search-page .form-control {\n  border-radius: 6px 6px 0 0;\n}\n.search-page .search-btn {\n  border-radius: 0 0 6px 6px;\n  text-transform: uppercase;\n}\n.search-page .second-col {\n  color: #777;\n}\n.search-page .second-col .pull-left {\n  margin-right: 10px;\n}\n.search-page .second-col .pull-left .btn {\n  margin-top: 0;\n}\n.search-page .second-col p {\n  font-size: 13.5px;\n  padding-top: 7.5px;\n}\n@media (max-width: 768px) {\n  .search-page .main-col h1 {\n    font-size: 26px;\n  }\n}\n.player {\n  margin: 2.5px 5px;\n  height: 360px;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.top-section .btn {\n  padding: 0px;\n}\n.panel-heading {\n  padding: 5px;\n}\n.panel-heading .panel-title {\n  cursor: pointer;\n}\n.panel-group .panel+.panel {\n  margin-top: 0px;\n  margin-bottom: 0px;\n}\n.panel-group .panel {\n  border-radius: 0px;\n  max-height: 300px;\n  overflow: hidden;\n}\n.panel-body {\n  height: 260px;\n  padding: 0;\n}\n.tab {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  background-color: #fff;\n}\n.team-container {\n  padding: 10px 5px 0;\n}\n.team-container-100 {\n  background-color: rgba(0,0,255,0.2);\n}\n.team-container-200 {\n  background-color: rgba(255,0,0,0.2);\n}\n.general-tab {\n  font-weight: 500;\n  font-size: 15px;\n}\n.general-tab .visual-data {\n  margin: 20px 20px;\n}\n.general-tab .visual-data .champion-image {\n  width: 80px;\n  height: 80px;\n  margin-right: 10px;\n  float: left;\n  border-radius: 2px;\n}\n.general-tab .visual-data .summoner-spell {\n  width: 40px;\n  height: 40px;\n}\n.general-tab .visual-data .summoner-keystone {\n  display: block;\n  width: 40px;\n  height: 40px;\n}\n.general-tab .info-data {\n  margin: 20px;\n  clear: both;\n}\n.runes-tab {\n  overflow: scroll;\n}\n.runes-tab .marks p,\n.runes-tab .glyphs p,\n.runes-tab .seals p,\n.runes-tab .quints p {\n  padding: 5px;\n  margin-bottom: 0;\n  color: #000;\n}\n.runes-tab .rune {\n  font-size: 14px;\n  background-color: #fff;\n  border-bottom: 1px solid #eee;\n}\n.runes-tab .rune .count {\n  font-size: 16px;\n  padding: 0 10px 0 5px;\n  margin-right: 5px;\n  border-right: 1px solid #ccc;\n}\n.runes-tab .rune .description {\n  padding-left: 10px;\n}\n.runes-tab .marks p {\n  background-color: rgba(255,0,0,0.5);\n}\n.runes-tab .glyphs p {\n  background-color: rgba(0,0,255,0.5);\n}\n.runes-tab .seals p {\n  background-color: rgba(255,255,0,0.5);\n}\n.runes-tab .quints p {\n  background-color: rgba(255,165,0,0.5);\n}\n.masteries-tab .masteries-tree {\n  font-size: 12px;\n  width: 33%;\n  height: 100%;\n  float: left;\n}\n.masteries-tab .masteries-tree:last-child {\n  width: 34%;\n}\n.mrow {\n  content: \"\";\n  display: table;\n  clear: both;\n  display: block;\n}\n.mrow .m {\n  position: relative;\n  width: 33%;\n  min-height: 32px;\n  float: left;\n  -moz-box-shadow: inset 0 0 4px #000;\n  -webkit-box-shadow: inset 0 0 4px #000;\n  box-shadow: inset 0 0 4px #000;\n}\n.mrow .m img {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 0.75;\n}\n.mrow .m .number-overlay {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 1;\n  font-size: 20px;\n  font-weight: 300;\n  text-shadow: 2px 2px 2px #000;\n  text-align: center;\n  color: #ff0;\n  padding-top: 2px;\n}\n.general-tab .wins-loses .orig-num,\n.general-tab .kills .orig-num,\n.general-tab .deaths .orig-num,\n.general-tab .assists .orig-num,\n.general-tab .cs .orig-num {\n  margin-right: 10px;\n}\n.general-tab .per-game {\n  font-size: 12px;\n  font-weight: 300;\n}\n", ""]);
+	exports.push([module.id, "body {\n  font-size: 14px;\n  letter-spacing: 1px;\n}\nimg {\n  max-width: 100%;\n  vertical-align: top;\n}\n.col-xs-15 {\n  width: 20%;\n  float: left;\n}\n@media (min-width: 768px) {\n  .col-sm-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 992px) {\n  .col-md-15 {\n    width: 20%;\n    float: left;\n  }\n}\n@media (min-width: 1200px) {\n  .col-lg-15 {\n    width: 20%;\n    float: left;\n  }\n}\n.search-page {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(\"http://img12.deviantart.net/967b/i/2014/022/4/1/season_4__glhf__by_su_ke-d73ck1t.jpg\");\n  background-size: cover;\n}\n.search-page .container {\n  position: relative;\n  top: 160px;\n}\n.search-page h1 {\n  font-size: 52px;\n  font-weight: 700;\n  text-transform: uppercase;\n  margin: 0;\n}\n.search-page h3 {\n  font-weight: 400;\n  margin: 0;\n  margin-bottom: 10px;\n  font-size: 14px;\n  color: #777;\n}\n.search-page #search-summoner,\n.search-page .form-group {\n  margin-bottom: 0;\n}\n.search-page .form-control {\n  border-radius: 6px 6px 0 0;\n}\n.search-page .search-btn {\n  border-radius: 0 0 6px 6px;\n  text-transform: uppercase;\n}\n.search-page .second-col {\n  color: #777;\n}\n.search-page .second-col .pull-left {\n  margin-right: 10px;\n}\n.search-page .second-col .pull-left .btn {\n  margin-top: 0;\n}\n.search-page .second-col p {\n  font-size: 13.5px;\n  padding-top: 7.5px;\n}\n@media (max-width: 768px) {\n  .search-page .main-col h1 {\n    font-size: 26px;\n  }\n}\n.player {\n  margin: 2.5px 5px;\n  height: 360px;\n  border-radius: 4px;\n  overflow: hidden;\n}\n.top-section .btn {\n  padding: 0px;\n}\n.loading-container,\n.error-container {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  text-align: center;\n}\n.loading-container .loading,\n.error-container .loading {\n  position: relative;\n  width: 200px;\n  height: 200px;\n  background-image: url(\"http://imgh.us/ripple_6.svg\");\n  margin: 200px auto;\n}\n.error-container {\n  text-align: left;\n  padding-top: 100px;\n}\n.error-container .sad-teemo {\n  background-image: url(\"https://s-media-cache-ak0.pinimg.com/564x/eb/99/b7/eb99b7859b3e32ffc7a6445989821d57.jpg\");\n  background-size: cover;\n  width: 300px;\n  height: 420px;\n  border-radius: 20px;\n  margin-right: 40px;\n}\n.error-container h1,\n.error-container h3,\n.error-container .description {\n  margin: 0;\n}\n.error-container h1 {\n  font-size: 60px;\n  font-weight: 600;\n  text-transform: uppercase;\n}\n.error-container h3 {\n  font-size: 30px;\n  text-transform: uppercase;\n  margin-bottom: 20px;\n}\n.error-container .description {\n  font-size: 20px;\n}\n.panel-heading {\n  padding: 5px;\n}\n.panel-heading .panel-title {\n  cursor: pointer;\n}\n.panel-group .panel+.panel {\n  margin-top: 0px;\n  margin-bottom: 0px;\n}\n.panel-group .panel {\n  border-radius: 0px;\n  max-height: 300px;\n  overflow: hidden;\n}\n.panel-body {\n  height: 260px;\n  padding: 0;\n}\n.tab {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  background-color: #fff;\n}\n.team-container {\n  padding: 10px 5px 0;\n}\n.team-container-100 {\n  background-color: rgba(0,0,255,0.2);\n}\n.team-container-200 {\n  background-color: rgba(255,0,0,0.2);\n}\n.general-tab {\n  font-weight: 500;\n  font-size: 15px;\n}\n.general-tab .visual-data {\n  margin: 20px 20px;\n}\n.general-tab .visual-data .champion-image {\n  width: 80px;\n  height: 80px;\n  margin-right: 10px;\n  float: left;\n  border-radius: 2px;\n}\n.general-tab .visual-data .summoner-spell {\n  width: 40px;\n  height: 40px;\n}\n.general-tab .visual-data .summoner-keystone {\n  display: block;\n  width: 40px;\n  height: 40px;\n}\n.general-tab .info-data {\n  margin: 20px;\n  clear: both;\n}\n.runes-tab {\n  overflow: scroll;\n}\n.runes-tab .marks p,\n.runes-tab .glyphs p,\n.runes-tab .seals p,\n.runes-tab .quints p {\n  padding: 5px;\n  margin-bottom: 0;\n  color: #000;\n}\n.runes-tab .rune {\n  font-size: 14px;\n  background-color: #fff;\n  border-bottom: 1px solid #eee;\n}\n.runes-tab .rune .count {\n  font-size: 16px;\n  padding: 0 10px 0 5px;\n  margin-right: 5px;\n  border-right: 1px solid #ccc;\n}\n.runes-tab .rune .description {\n  padding-left: 10px;\n}\n.runes-tab .marks p {\n  background-color: rgba(255,0,0,0.5);\n}\n.runes-tab .glyphs p {\n  background-color: rgba(0,0,255,0.5);\n}\n.runes-tab .seals p {\n  background-color: rgba(255,255,0,0.5);\n}\n.runes-tab .quints p {\n  background-color: rgba(255,165,0,0.5);\n}\n.masteries-tab .masteries-tree {\n  font-size: 12px;\n  width: 33%;\n  height: 100%;\n  float: left;\n}\n.masteries-tab .masteries-tree:last-child {\n  width: 34%;\n}\n.mrow {\n  content: \"\";\n  display: table;\n  clear: both;\n  display: block;\n}\n.mrow .m {\n  position: relative;\n  width: 33%;\n  min-height: 32px;\n  float: left;\n  -moz-box-shadow: inset 0 0 4px #000;\n  -webkit-box-shadow: inset 0 0 4px #000;\n  box-shadow: inset 0 0 4px #000;\n}\n.mrow .m img {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 0.75;\n}\n.mrow .m .number-overlay {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 1;\n  font-size: 20px;\n  font-weight: 300;\n  text-shadow: 2px 2px 2px #000;\n  text-align: center;\n  color: #ff0;\n  padding-top: 2px;\n}\n.general-tab .wins-loses .orig-num,\n.general-tab .kills .orig-num,\n.general-tab .deaths .orig-num,\n.general-tab .assists .orig-num,\n.general-tab .cs .orig-num {\n  margin-right: 10px;\n}\n.general-tab .per-game {\n  font-size: 12px;\n  font-weight: 300;\n}\n", ""]);
 
 	// exports
 
@@ -64392,91 +64392,45 @@
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
 	      var summonerName = this.state.summonerName;
-	      var useStatic = this.state.useStatic;
-	      var useStaticToF = useStatic == 'true';
-	      // var serverRequest = this.getMatchData(summonerName)
-	      if (useStaticToF) {
-	        console.log('using static!');
-	        var serverRequest = this.useStaticData(summonerName);
-	      } else {
-	        console.log('not using static!');
-	        var serverRequest = this.getMatchData(summonerName);
-	      }
+	      var useStatic = this.state.useStatic == 'true';
+
+	      this.getMatchData(summonerName, useStatic);
 	    }
 	  }, {
-	    key: 'componentWillUnmount',
-	    value: function componentWillUnmount() {}
-
-	    // https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/unclerodgers?api_key=a85d0753-6824-4725-a76f-23be84110e08
-	    // https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/39774795?api_key=a85d0753-6824-4725-a76f-23be84110e08
-
-	  }, {
 	    key: 'getMatchData',
-	    value: function getMatchData(summonerName) {
+	    value: function getMatchData(summonerName, isStatic) {
 	      var _this2 = this;
 
-	      console.log('hello get match data');
+	      this.setState({ isLoading: true });
 	      // request the summonerObject which requests a string (the name)
-	      _axios2.default.get('https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/' + summonerName + '?api_key=' + apiKey).then(function (response) {
+	      this.serverRequest = _axios2.default.get('https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/' + summonerName + '?api_key=' + apiKey).then(function (response) {
 	        // response.data = { yolomcbrolo: { ... } } so had to get the first prop
 	        var summonerKey = Object.keys(response.data)[0];
 	        var summonerObj = response.data[summonerKey];
 	        console.log('summonerName: ' + summonerObj.name + ' // summonerId: ' + summonerObj.id);
-	        // since if you search a playerName and they are not in a current game it
-	        // will throw 404, use a static.json file for the time being
-	        var searchFile = '/getInfo/' + summonerObj.id;
+
+	        // if isStatic = true ( render json from local directory )
+	        // else use 'localhost:XXXX/getInfo/:summonerId'
+	        var searchFile = isStatic ? '../jsonData/spectatorInformation.json' : '/getInfo/' + summonerObj.id;
 	        _axios2.default.get(searchFile).then(function (response) {
 	          var matchData = response.data;
-	          console.log(response, 'hello rezponze');
 	          _this2.setState({
 	            players: [].concat(_toConsumableArray(matchData.participants)),
-	            isError: false
+	            isError: false,
+	            isLoading: false
 	          });
 	        }).catch(function (err) {
-	          // throw error here
 	          console.log('error getting spectator info', err);
-	          _this2.setState({ isError: true });
+	          _this2.setState({ isError: true, isLoading: false });
 	        });
 	      }).catch(function (err) {
-	        console.log('error!', err, _this2.state.isError);
-	        _this2.setState({ isError: true });
+	        _this2.setState({ isError: true, isLoading: false });
 	      });
 	    }
 	  }, {
 	    key: 'getSummonerRuneInfo',
 	    value: function getSummonerRuneInfo(runez) {
 	      console.log('hello from getSummonerRuneInfo in Match::::', runez);
-	    }
-	  }, {
-	    key: 'useStaticData',
-	    value: function useStaticData(e) {
-	      var _this3 = this;
-
-	      var staticFile = '../jsonData/spectatorInformation.json';
-	      this.setState({ isLoading: true });
-
-	      // request the summonerObject which requests a string (the name)
-	      _axios2.default.get('https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/yolomcbrolo?api_key=' + apiKey).then(function (response) {
-	        // response.data = { yolomcbrolo: { ... } } so had to get the first prop
-	        var summonerKey = Object.keys(response.data)[0];
-	        var summonerObj = response.data[summonerKey];
-	        // since if you search a playerName and they are not in a current game it
-	        // will throw 404, use a static.json file for the time being
-	        _axios2.default.get(staticFile).then(function (response) {
-	          var matchData = response.data;
-	          console.log(response, 'hello rezponze');
-	          _this3.setState({
-	            players: [].concat(_toConsumableArray(matchData.participants)),
-	            isError: false
-	          });
-	        }).catch(function (err) {
-	          console.log('error getting static spectator info', err);
-	          _this3.setState({ isError: true });
-	        });
-	      }).catch(function (err) {
-	        console.log('error from useStaticData!', err);
-	        _this3.setState({ isError: true });
-	      });
 	    }
 	  }, {
 	    key: 'renderTmpl',
@@ -64491,10 +64445,8 @@
 	        summonerSpells: _summonerSpells2.default
 	      };
 
-	      console.log('in renderTmpl: ', this.state.isError);
-
-	      // if isError = false
 	      if (!this.state.isError) {
+	        // Teams TMPL
 	        return _react2.default.createElement(
 	          'div',
 	          { className: 'teams-container' },
@@ -64502,23 +64454,42 @@
 	          _react2.default.createElement(_Team2.default, { members: teamB, teamNum: 200, jsonData: jsonData, useStaticData: this.useStaticData })
 	        );
 	      } else if (this.state.isLoading) {
+	        // Loading TMPL
 	        return _react2.default.createElement(
 	          'div',
 	          { className: 'loading-container' },
-	          _react2.default.createElement(
-	            'h1',
-	            null,
-	            'LOADING>>>>>>>>>............'
-	          )
+	          _react2.default.createElement('div', { className: 'loading' })
 	        );
+	        // Error TMPL
 	      } else {
 	        return _react2.default.createElement(
 	          'div',
 	          { className: 'error-container' },
 	          _react2.default.createElement(
-	            'h1',
-	            null,
-	            'THERE IS AN ERROR!'
+	            'div',
+	            { className: 'container' },
+	            _react2.default.createElement('div', { className: 'sad-teemo pull-left' }),
+	            _react2.default.createElement(
+	              'h1',
+	              null,
+	              'Sorry'
+	            ),
+	            _react2.default.createElement(
+	              'h3',
+	              null,
+	              'there was an error'
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'description' },
+	              'Either the summoner you entered doesn\'t exist, or they are ',
+	              _react2.default.createElement(
+	                'b',
+	                null,
+	                'not currently in a game.'
+	              ),
+	              ' It is also possible we are having problems with our server.'
+	            )
 	          )
 	        );
 	      }
@@ -64560,6 +64531,8 @@
 	// https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/unclerodgers?api_key=a85d0753-6824-4725-a76f-23be84110e08
 	// https://na.api.pvp.net/api/lol/na/v2.4/team/by-summoner/42733402,21066307,67169698,59667857,70520692,65529523,52609925,52315500,49639860,64099838?api_key=a85d0753-6824-4725-a76f-23be84110e08
 	// https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/47682701?api_key=a85d0753-6824-4725-a76f-23be84110e08
+	// https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/unclerodgers?api_key=a85d0753-6824-4725-a76f-23be84110e08
+	// https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/39774795?api_key=a85d0753-6824-4725-a76f-23be84110e08
 
 	exports.default = Match;
 
