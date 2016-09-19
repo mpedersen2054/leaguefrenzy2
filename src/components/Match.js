@@ -63,12 +63,14 @@ class Match extends Component {
           })
       })
       .catch((err) => {
+        console.log('error getting summonerId', err)
         this.setState({ isError: true, isLoading: false })
       })
   }
 
   getSummonerRuneInfo(runez) {
     console.log('hello from getSummonerRuneInfo in Match::::', runez)
+    console.log('asdasdada')
   }
 
   renderTmpl() {

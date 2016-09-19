@@ -49,11 +49,13 @@ class SearchPage extends Component {
               <h3>get ranked stats, runes, and masteries for players of a game-in-progress</h3>
               <form
                 id="search-summoner"
+                autoComplete="off"
                 onSubmit={this.handleSubmit} >
                 <FormGroup bsSize="large">
                   <FormControl
                     type="text"
                     name="summonerName"
+                    autoComplete="off"
                     onChange={this.handleInputChange}
                     value={this.state.summonerNameValue}
                     placeholder="Enter summoner name..." />
@@ -65,7 +67,7 @@ class SearchPage extends Component {
           <Row>
             <Col md={6} mdOffset={3} className="second-col well well-sm">
               <div className="pull-left">
-                <Button onClick={this.useStaticData} bsStyle="default">Use static</Button>
+                <Button onClick={this.useStaticData} bsStyle="warning">Use static</Button>
               </div>
               <p>if you don't have an account or aren't current playing, click me</p>
             </Col>
