@@ -27497,22 +27497,6 @@
 
 	var _ = _interopRequireWildcard(_lodash);
 
-	var _champions = __webpack_require__(494);
-
-	var _champions2 = _interopRequireDefault(_champions);
-
-	var _summonerSpells = __webpack_require__(495);
-
-	var _summonerSpells2 = _interopRequireDefault(_summonerSpells);
-
-	var _masteries = __webpack_require__(496);
-
-	var _masteries2 = _interopRequireDefault(_masteries);
-
-	var _runes = __webpack_require__(497);
-
-	var _runes2 = _interopRequireDefault(_runes);
-
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -27533,40 +27517,18 @@
 	  }
 
 	  _createClass(App, [{
-	    key: 'sendToRootWithMessage',
-	    value: function sendToRootWithMessage(msg) {
-	      console.log('hello there...', msg);
-	    }
-
-	    // getChampionImage(championId) {
-	    //   const champion = _.find($champions, (champ) => {
-	    //     if (champ.key == championId) {
-	    //       return champ
-	    //     }
-	    //   })
-	    //   return `http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/${champion.name.replace(' ', '')}.png`
-	    // }
-
-	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.cloneElement(this.props.children, {
-	          sendToRootWithMessage: this.sendToRootWithMessage
-	        })
+	        _react2.default.cloneElement(this.props.children, {})
 	      );
 	    }
 	  }]);
 
 	  return App;
 	}(_react.Component);
-
-	// https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/47682701/ranked?api_key=a85d0753-6824-4725-a76f-23be84110e08
-	// https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/unclerodgers?api_key=a85d0753-6824-4725-a76f-23be84110e08
-	// https://na.api.pvp.net/api/lol/na/v2.4/team/by-summoner/42733402,21066307,67169698,59667857,70520692,65529523,52609925,52315500,49639860,64099838?api_key=a85d0753-6824-4725-a76f-23be84110e08
-	// https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/47682701?api_key=a85d0753-6824-4725-a76f-23be84110e08
 
 	exports.default = App;
 
@@ -64378,10 +64340,9 @@
 	    var _this = _possibleConstructorReturn(this, (Match.__proto__ || Object.getPrototypeOf(Match)).call(this, props));
 
 	    _this.state = {
-	      summonerName: _this.props.location.query.summonerName,
-	      useStatic: _this.props.location.query.useStatic,
+	      summonerName: _this.props.location.query.summonerName, // ?summonerName=XXX
+	      useStatic: _this.props.location.query.useStatic, // &useStatic=T/F
 	      players: [],
-	      staticDataCheckboxVal: 'off',
 	      isError: true,
 	      isLoading: false
 	    };
@@ -64396,6 +64357,10 @@
 
 	      this.getMatchData(summonerName, useStatic);
 	    }
+
+	    // requests summonerId using submitted summonerName,
+	    // then requests current-match data using summonerId
+
 	  }, {
 	    key: 'getMatchData',
 	    value: function getMatchData(summonerName, isStatic) {
@@ -64428,12 +64393,62 @@
 	        _this2.setState({ isError: true, isLoading: false });
 	      });
 	    }
+
+	    // to be called in Player
+	    // get info on summoner & summonerSpells
+
 	  }, {
-	    key: 'getSummonerRuneInfo',
-	    value: function getSummonerRuneInfo(runez) {
-	      console.log('hello from getSummonerRuneInfo in Match::::', runez);
-	      console.log('asdasdada');
+	    key: 'getSummonerGeneral',
+	    value: function getSummonerGeneral(summonerInfo) {
+	      var info = summonerInfo;
+	      var jsonData = _runes2.default;
+
+	      // get champion
+	      var champion = _.find(_champions2.default, function (champ) {
+	        if (champ.key == info.championId) {
+	          return champ;
+	        }
+	      });
+	      // champions thumbnail image url
+	      var championImage = 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/' + champion.name.replace(' ', '') + '.png';
+
+	      // get summonerSpell 1
+	      var spell1 = _.find(_summonerSpells2.default, function (spell) {
+	        if (spell.key == info.spell1Id) return spell;
+	      });
+	      // get summonerSpell 2
+	      var spell2 = _.find(_summonerSpells2.default, function (spell) {
+	        if (spell.key == info.spell2Id) return spell;
+	      });
+
+	      // summonerSpell's image urls
+	      var sumSpellImg1 = 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/' + spell1.id + '.png';
+	      var sumSpellImg2 = 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/' + spell2.id + '.png';
+
+	      // return object that will be set to the state in PlayerTab
+	      return {
+	        championImage: championImage,
+	        summonerSpell1Url: sumSpellImg1,
+	        summonerSpell2Url: sumSpellImg2
+	      };
 	    }
+
+	    // to be called in RunesTab
+	    // only give rune# and count, need to use the json file to get more rune data
+
+	  }, {
+	    key: 'getRuneInfo',
+	    value: function getRuneInfo(runez) {
+	      var newArr = [];
+	      for (var i in runez) {
+	        var rune = runez[i];
+	        newArr.push({ runeInfo: _runes2.default[rune.runeId], count: rune.count });
+	      }
+	      return newArr;
+	    }
+
+	    // renders either a loading tmpl, error tmpl, or the match tmpl
+
 	  }, {
 	    key: 'renderTmpl',
 	    value: function renderTmpl() {
@@ -64452,8 +64467,20 @@
 	        return _react2.default.createElement(
 	          'div',
 	          { className: 'teams-container' },
-	          _react2.default.createElement(_Team2.default, { members: teamA, teamNum: 100, jsonData: jsonData, useStaticData: this.useStaticData }),
-	          _react2.default.createElement(_Team2.default, { members: teamB, teamNum: 200, jsonData: jsonData, useStaticData: this.useStaticData })
+	          _react2.default.createElement(_Team2.default, {
+	            members: teamA,
+	            teamNum: 100,
+	            jsonData: jsonData,
+	            getSummonerGeneral: this.getSummonerGeneral,
+	            getRuneInfo: this.getRuneInfo,
+	            useStaticData: this.useStaticData }),
+	          _react2.default.createElement(_Team2.default, {
+	            members: teamB,
+	            teamNum: 200,
+	            jsonData: jsonData,
+	            getSummonerGeneral: this.getSummonerGeneral,
+	            getRuneInfo: this.getRuneInfo,
+	            useStaticData: this.useStaticData })
 	        );
 	      } else if (this.state.isLoading) {
 	        // Loading TMPL
@@ -64528,13 +64555,6 @@
 
 	  return Match;
 	}(_react.Component);
-
-	// https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/47682701/ranked?api_key=a85d0753-6824-4725-a76f-23be84110e08
-	// https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/unclerodgers?api_key=a85d0753-6824-4725-a76f-23be84110e08
-	// https://na.api.pvp.net/api/lol/na/v2.4/team/by-summoner/42733402,21066307,67169698,59667857,70520692,65529523,52609925,52315500,49639860,64099838?api_key=a85d0753-6824-4725-a76f-23be84110e08
-	// https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/47682701?api_key=a85d0753-6824-4725-a76f-23be84110e08
-	// https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/unclerodgers?api_key=a85d0753-6824-4725-a76f-23be84110e08
-	// https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/39774795?api_key=a85d0753-6824-4725-a76f-23be84110e08
 
 	exports.default = Match;
 
@@ -65933,7 +65953,8 @@
 	          return _react2.default.createElement(_Player2.default, {
 	            key: member.summonerId,
 	            info: member,
-	            jsonData: _this2.props.jsonData });
+	            getSummonerGeneral: _this2.props.getSummonerGeneral,
+	            getRuneInfo: _this2.props.getRuneInfo });
 	        })
 	      );
 	    }
@@ -66006,41 +66027,9 @@
 	  _createClass(Team, [{
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      var info = this.state.info;
-	      var jsonData = this.props.jsonData;
-	      // http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/Aatrox.png
-
-	      /*
-	      GET CHAMPION ICON URL
-	       */
-	      var champion = _.find(jsonData.champions, function (champ) {
-	        if (champ.key == info.championId) {
-	          return champ;
-	        }
-	      });
-	      var championImage = 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/' + champion.name.replace(' ', '') + '.png';
-
-	      /*
-	      GET BOTH SUMMONER SPELL ICONS
-	       */
-	      var spell1 = _.find(jsonData.summonerSpells, function (spell) {
-	        if (spell.key == info.spell1Id) return spell;
-	      });
-
-	      var spell2 = _.find(jsonData.summonerSpells, function (spell) {
-	        if (spell.key == info.spell2Id) return spell;
-	      });
-
-	      var sumSpellImg1 = 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/' + spell1.id + '.png';
-	      var sumSpellImg2 = 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/' + spell2.id + '.png';
-
-	      // console.log(sumSpellImg1, sumSpellImg2)
-
-	      this.setState({
-	        championImage: championImage,
-	        summonerSpell1Url: sumSpellImg1,
-	        summonerSpell2Url: sumSpellImg2
-	      });
+	      // from Match, where all the json files are loaded
+	      var gsg = this.props.getSummonerGeneral(this.state.info);
+	      this.setState(gsg);
 	    }
 	  }, {
 	    key: 'getMasteryKeystone',
@@ -66088,7 +66077,7 @@
 	              _reactBootstrap.Panel,
 	              { header: general.summonerName, eventKey: '1' },
 	              _react2.default.createElement(_GeneralTab2.default, {
-	                fromObserver: general,
+	                generalData: general,
 	                championImage: this.state.championImage,
 	                spell1: this.state.summonerSpell1Url,
 	                spell2: this.state.summonerSpell2Url,
@@ -66099,7 +66088,7 @@
 	              { header: 'Runes', eventKey: '2' },
 	              _react2.default.createElement(_RunesTab2.default, {
 	                runes: runes,
-	                runesJson: this.props.jsonData.runes })
+	                getRuneInfo: this.props.getRuneInfo })
 	            ),
 	            _react2.default.createElement(
 	              _reactBootstrap.Panel,
@@ -66167,7 +66156,7 @@
 	    var _this = _possibleConstructorReturn(this, (GeneralTab.__proto__ || Object.getPrototypeOf(GeneralTab)).call(this, props));
 
 	    _this.state = {
-	      data: _this.props.fromObserver,
+	      data: _this.props.generalData,
 	      stats: {}
 	    };
 	    return _this;
@@ -66523,6 +66512,10 @@
 	      if (tree === 63) return 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/63' + mid + '.png';
 	      if (tree === 62) return 'http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/62' + mid + '.png';
 	    }
+
+	    // if the mastery is used, return the rank (0-5, 0-1)
+	    // if the mastery isnt used, return 0
+
 	  }, {
 	    key: 'hasMasteryIfSoRank',
 	    value: function hasMasteryIfSoRank(talentId, tal) {
@@ -66757,6 +66750,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -66781,22 +66776,15 @@
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
 	      var runes = this.props.runes;
-	      var runesJson = this.props.runesJson;
-	      var newArr = [];
-	      for (var i in runes) {
-	        var rune = runes[i];
-	        newArr.push({ runeInfo: runesJson[rune.runeId], count: rune.count });
-	      }
-	      this.setState({ runes: [].concat(newArr) });
+	      var runeInfo = this.props.getRuneInfo(runes);
+	      this.setState({ runes: [].concat(_toConsumableArray(runeInfo)) });
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var runes = this.state.runes;
 
-	      // for each type of rune, filter the summoners runes
-	      // array and extract each rune by its type
-
+	      // get indv arr's for each type of rune
 	      var marks = _.filter(runes, function (rune) {
 	        if (rune.runeInfo.rune.type === 'red') return rune;
 	      });

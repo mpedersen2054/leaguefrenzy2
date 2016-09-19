@@ -19,41 +19,9 @@ class Team extends Component {
   }
 
   componentWillMount() {
-    const info = this.state.info
-    const jsonData = this.props.jsonData
-    // http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/Aatrox.png
-
-    /*
-    GET CHAMPION ICON URL
-     */
-    const champion = _.find(jsonData.champions, (champ) => {
-      if (champ.key == info.championId) {
-        return champ
-      }
-    })
-    const championImage = `http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/${champion.name.replace(' ', '')}.png`
-
-    /*
-    GET BOTH SUMMONER SPELL ICONS
-     */
-    const spell1 = _.find(jsonData.summonerSpells, (spell) => {
-      if (spell.key == info.spell1Id) return spell
-    })
-
-    const spell2 = _.find(jsonData.summonerSpells, (spell) => {
-      if (spell.key == info.spell2Id) return spell
-    })
-
-    const sumSpellImg1 = `http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/${spell1.id}.png`
-    const sumSpellImg2 = `http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/${spell2.id}.png`
-
-    // console.log(sumSpellImg1, sumSpellImg2)
-
-    this.setState({
-      championImage: championImage,
-      summonerSpell1Url: sumSpellImg1,
-      summonerSpell2Url: sumSpellImg2
-    })
+    // from Match, where all the json files are loaded
+    var gsg = this.props.getSummonerGeneral(this.state.info)
+    this.setState(gsg)
   }
 
   getMasteryKeystone() {
@@ -91,7 +59,7 @@ class Team extends Component {
           <PanelGroup activeKey={this.state.activeKey} onSelect={this.handleSelect.bind(this)} accordion>
             <Panel header={general.summonerName} eventKey="1">
               <GeneralTab
-                fromObserver={general}
+                generalData={general}
                 championImage={this.state.championImage}
                 spell1={this.state.summonerSpell1Url}
                 spell2={this.state.summonerSpell2Url}
@@ -101,7 +69,7 @@ class Team extends Component {
             <Panel header="Runes" eventKey="2">
               <RunesTab
                 runes={runes}
-                runesJson={this.props.jsonData.runes} />
+                getRuneInfo={this.props.getRuneInfo} />
             </Panel>
 
             <Panel header="Masteries" eventKey="3">

@@ -19,10 +19,9 @@ class Match extends Component {
     super(props)
 
     this.state = {
-      summonerName: this.props.location.query.summonerName,
-      useStatic: this.props.location.query.useStatic,
+      summonerName: this.props.location.query.summonerName, // ?summonerName=XXX
+      useStatic: this.props.location.query.useStatic, // &useStatic=T/F
       players: [],
-      staticDataCheckboxVal: 'off',
       isError: true,
       isLoading: false
     }
@@ -35,6 +34,8 @@ class Match extends Component {
     this.getMatchData(summonerName, useStatic)
   }
 
+  // requests summonerId using submitted summonerName,
+  // then requests current-match data using summonerId
   getMatchData(summonerName, isStatic) {
     this.setState({ isLoading: true })
     // request the summonerObject which requests a string (the name)
@@ -68,11 +69,54 @@ class Match extends Component {
       })
   }
 
-  getSummonerRuneInfo(runez) {
-    console.log('hello from getSummonerRuneInfo in Match::::', runez)
-    console.log('asdasdada')
+  // to be called in Player
+  // get info on summoner & summonerSpells
+  getSummonerGeneral(summonerInfo) {
+    const info = summonerInfo
+    const jsonData = runes
+
+    // get champion
+    const champion = _.find(champions, (champ) => {
+      if (champ.key == info.championId) {
+        return champ
+      }
+    })
+    // champions thumbnail image url
+    const championImage = `http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/${champion.name.replace(' ', '')}.png`
+
+    // get summonerSpell 1
+    const spell1 = _.find(summonerSpells, (spell) => {
+      if (spell.key == info.spell1Id) return spell
+    })
+    // get summonerSpell 2
+    const spell2 = _.find(summonerSpells, (spell) => {
+      if (spell.key == info.spell2Id) return spell
+    })
+
+    // summonerSpell's image urls
+    const sumSpellImg1 = `http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/${spell1.id}.png`
+    const sumSpellImg2 = `http://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/${spell2.id}.png`
+
+    // return object that will be set to the state in PlayerTab
+    return {
+      championImage:     championImage,
+      summonerSpell1Url: sumSpellImg1,
+      summonerSpell2Url: sumSpellImg2
+    }
   }
 
+  // to be called in RunesTab
+  // only give rune# and count, need to use the json file to get more rune data
+  getRuneInfo(runez) {
+    const newArr = []
+    for (var i in runez) {
+      var rune = runez[i]
+      newArr.push({ runeInfo: runes[rune.runeId], count: rune.count})
+    }
+    return newArr
+  }
+
+  // renders either a loading tmpl, error tmpl, or the match tmpl
   renderTmpl() {
     const players = this.state.players
     const teamA = players.slice(0, 5)
@@ -88,8 +132,21 @@ class Match extends Component {
       // Teams TMPL
       return (
         <div className="teams-container">
-          <Team members={teamA} teamNum={100} jsonData={jsonData} useStaticData={this.useStaticData} />
-          <Team members={teamB} teamNum={200} jsonData={jsonData} useStaticData={this.useStaticData} />
+          <Team
+            members={teamA}
+            teamNum={100}
+            jsonData={jsonData}
+            getSummonerGeneral={this.getSummonerGeneral}
+            getRuneInfo={this.getRuneInfo}
+            useStaticData={this.useStaticData} />
+
+          <Team
+            members={teamB}
+            teamNum={200}
+            jsonData={jsonData}
+            getSummonerGeneral={this.getSummonerGeneral}
+            getRuneInfo={this.getRuneInfo}
+            useStaticData={this.useStaticData} />
         </div>
       )
     } else if (this.state.isLoading) {
@@ -130,12 +187,5 @@ class Match extends Component {
     )
   }
 }
-
-// https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/47682701/ranked?api_key=a85d0753-6824-4725-a76f-23be84110e08
-// https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/unclerodgers?api_key=a85d0753-6824-4725-a76f-23be84110e08
-// https://na.api.pvp.net/api/lol/na/v2.4/team/by-summoner/42733402,21066307,67169698,59667857,70520692,65529523,52609925,52315500,49639860,64099838?api_key=a85d0753-6824-4725-a76f-23be84110e08
-// https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/47682701?api_key=a85d0753-6824-4725-a76f-23be84110e08
-// https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/unclerodgers?api_key=a85d0753-6824-4725-a76f-23be84110e08
-// https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/39774795?api_key=a85d0753-6824-4725-a76f-23be84110e08
 
 export default Match

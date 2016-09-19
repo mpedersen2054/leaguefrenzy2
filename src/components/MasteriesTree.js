@@ -10,6 +10,8 @@ class MasteriesTree extends Component {
     if (tree === 62) return `http://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/62${mid}.png`
   }
 
+  // if the mastery is used, return the rank (0-5, 0-1)
+  // if the mastery isnt used, return 0
   hasMasteryIfSoRank(talentId, tal) {
     const masteries = this.props.masteries
     const talent = talentId.toString() + tal.toString()

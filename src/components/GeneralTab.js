@@ -9,13 +9,13 @@ class GeneralTab extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      data: this.props.fromObserver,
+      data: this.props.generalData,
       stats: {}
     }
   }
 
   componentWillMount() {
-    const summonerId = this.state.data.summonerId
+    const summonerId  = this.state.data.summonerId
     var getRankedData = this.getRankedData(summonerId)
   }
 

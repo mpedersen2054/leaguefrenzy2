@@ -14,21 +14,14 @@ class RunesTab extends Component {
 
   componentWillMount() {
     const runes = this.props.runes
-    const runesJson = this.props.runesJson
-    const newArr = []
-    for (var i in runes) {
-      var rune = runes[i]
-      newArr.push({ runeInfo: runesJson[rune.runeId], count: rune.count})
-    }
-    this.setState({ runes: [...newArr] })
+    const runeInfo = this.props.getRuneInfo(runes)
+    this.setState({ runes: [...runeInfo] })
   }
 
   render() {
     const runes = this.state.runes
 
-    // for each type of rune, filter the summoners runes
-    // array and extract each rune by its type
-
+    // get indv arr's for each type of rune
     const marks = _.filter(runes, (rune) => {
       if (rune.runeInfo.rune.type === 'red') return rune
     })

@@ -13,7 +13,8 @@ class Team extends Component {
             <Player
               key={member.summonerId}
               info={member}
-              jsonData={this.props.jsonData} />
+              getSummonerGeneral={this.props.getSummonerGeneral}
+              getRuneInfo={this.props.getRuneInfo} />
           )
         })}
       </div>
