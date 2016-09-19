@@ -24,11 +24,11 @@ class SearchPage extends Component {
 
     console.log('heyy', status)
 
-    // if (summonerName.length <= 0) {
-    //   console.log('throw error!')
-    // } else {
-    //   browserHistory.push(`/match?summonerName=${summonerName}`)
-    // }
+    if (summonerName.length <= 0) {
+      console.log('throw error!')
+    } else {
+      browserHistory.push(`/match?summonerName=${summonerName}&useStatic=false`)
+    }
   }
 
   handleInputChange(e) {
@@ -36,7 +36,7 @@ class SearchPage extends Component {
   }
 
   useStaticData() {
-    console.log('hey useStaticData')
+    browserHistory.push(`/match?summonerName=yolomcbrolo&useStatic=true`)
   }
 
   render() {

@@ -64379,8 +64379,11 @@
 
 	    _this.state = {
 	      summonerName: _this.props.location.query.summonerName,
+	      useStatic: _this.props.location.query.useStatic,
 	      players: [],
-	      staticDataCheckboxVal: 'off'
+	      staticDataCheckboxVal: 'off',
+	      isError: true,
+	      isLoading: false
 	    };
 	    return _this;
 	  }
@@ -64389,7 +64392,16 @@
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
 	      var summonerName = this.state.summonerName;
-	      var serverRequest = this.getMatchData(summonerName);
+	      var useStatic = this.state.useStatic;
+	      var useStaticToF = useStatic == 'true';
+	      // var serverRequest = this.getMatchData(summonerName)
+	      if (useStaticToF) {
+	        console.log('using static!');
+	        var serverRequest = this.useStaticData(summonerName);
+	      } else {
+	        console.log('not using static!');
+	        var serverRequest = this.getMatchData(summonerName);
+	      }
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
@@ -64403,6 +64415,7 @@
 	    value: function getMatchData(summonerName) {
 	      var _this2 = this;
 
+	      console.log('hello get match data');
 	      // request the summonerObject which requests a string (the name)
 	      _axios2.default.get('https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/' + summonerName + '?api_key=' + apiKey).then(function (response) {
 	        // response.data = { yolomcbrolo: { ... } } so had to get the first prop
@@ -64411,19 +64424,22 @@
 	        console.log('summonerName: ' + summonerObj.name + ' // summonerId: ' + summonerObj.id);
 	        // since if you search a playerName and they are not in a current game it
 	        // will throw 404, use a static.json file for the time being
-	        var staticFile = './jsonData/spectatorInformation.json';
-	        // const searchFile = `https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/${summonerObj.id}?api_key=${apiKey}`
 	        var searchFile = '/getInfo/' + summonerObj.id;
 	        _axios2.default.get(searchFile).then(function (response) {
 	          var matchData = response.data;
+	          console.log(response, 'hello rezponze');
 	          _this2.setState({
-	            players: [].concat(_toConsumableArray(matchData.participants))
+	            players: [].concat(_toConsumableArray(matchData.participants)),
+	            isError: false
 	          });
 	        }).catch(function (err) {
+	          // throw error here
 	          console.log('error getting spectator info', err);
+	          _this2.setState({ isError: true });
 	        });
 	      }).catch(function (err) {
-	        console.log('error!', err);
+	        console.log('error!', err, _this2.state.isError);
+	        _this2.setState({ isError: true });
 	      });
 	    }
 	  }, {
@@ -64434,11 +64450,37 @@
 	  }, {
 	    key: 'useStaticData',
 	    value: function useStaticData(e) {
-	      console.log('hey usestaticdata match!!!', e.target);
+	      var _this3 = this;
+
+	      var staticFile = '../jsonData/spectatorInformation.json';
+	      this.setState({ isLoading: true });
+
+	      // request the summonerObject which requests a string (the name)
+	      _axios2.default.get('https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/yolomcbrolo?api_key=' + apiKey).then(function (response) {
+	        // response.data = { yolomcbrolo: { ... } } so had to get the first prop
+	        var summonerKey = Object.keys(response.data)[0];
+	        var summonerObj = response.data[summonerKey];
+	        // since if you search a playerName and they are not in a current game it
+	        // will throw 404, use a static.json file for the time being
+	        _axios2.default.get(staticFile).then(function (response) {
+	          var matchData = response.data;
+	          console.log(response, 'hello rezponze');
+	          _this3.setState({
+	            players: [].concat(_toConsumableArray(matchData.participants)),
+	            isError: false
+	          });
+	        }).catch(function (err) {
+	          console.log('error getting static spectator info', err);
+	          _this3.setState({ isError: true });
+	        });
+	      }).catch(function (err) {
+	        console.log('error from useStaticData!', err);
+	        _this3.setState({ isError: true });
+	      });
 	    }
 	  }, {
-	    key: 'render',
-	    value: function render() {
+	    key: 'renderTmpl',
+	    value: function renderTmpl() {
 	      var players = this.state.players;
 	      var teamA = players.slice(0, 5);
 	      var teamB = players.slice(5, 10);
@@ -64449,6 +64491,41 @@
 	        summonerSpells: _summonerSpells2.default
 	      };
 
+	      console.log('in renderTmpl: ', this.state.isError);
+
+	      // if isError = false
+	      if (!this.state.isError) {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'teams-container' },
+	          _react2.default.createElement(_Team2.default, { members: teamA, teamNum: 100, jsonData: jsonData, useStaticData: this.useStaticData }),
+	          _react2.default.createElement(_Team2.default, { members: teamB, teamNum: 200, jsonData: jsonData, useStaticData: this.useStaticData })
+	        );
+	      } else if (this.state.isLoading) {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'loading-container' },
+	          _react2.default.createElement(
+	            'h1',
+	            null,
+	            'LOADING>>>>>>>>>............'
+	          )
+	        );
+	      } else {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'error-container' },
+	          _react2.default.createElement(
+	            'h1',
+	            null,
+	            'THERE IS AN ERROR!'
+	          )
+	        );
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'container-fluid' },
@@ -64471,8 +64548,7 @@
 	            )
 	          )
 	        ),
-	        _react2.default.createElement(_Team2.default, { members: teamA, teamNum: 100, jsonData: jsonData, useStaticData: this.useStaticData }),
-	        _react2.default.createElement(_Team2.default, { members: teamB, teamNum: 200, jsonData: jsonData, useStaticData: this.useStaticData })
+	        this.renderTmpl()
 	      );
 	    }
 	  }]);
@@ -66006,6 +66082,7 @@
 	        if (mid == '6261') return mastery; // grasp of undying
 	        if (mid == '6262') return mastery; // strength of ages
 	        if (mid == '6263') return mastery; // bond of stone
+	        // need to handle no keystone case
 	      });
 
 	      return whichKeystone;
@@ -66183,6 +66260,9 @@
 	    key: 'render',
 	    value: function render() {
 	      var data = this.state.data;
+	      // if fiddle / kha need to change how the image is displayed
+	      // http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/Khazix.png
+	      // http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/FiddleSticks.png
 	      var championImage = this.props.championImage;
 	      var summSpell1url = this.props.spell1;
 	      var summSpell2url = this.props.spell2;
@@ -66926,11 +67006,11 @@
 
 	      console.log('heyy', status);
 
-	      // if (summonerName.length <= 0) {
-	      //   console.log('throw error!')
-	      // } else {
-	      //   browserHistory.push(`/match?summonerName=${summonerName}`)
-	      // }
+	      if (summonerName.length <= 0) {
+	        console.log('throw error!');
+	      } else {
+	        _reactRouter.browserHistory.push('/match?summonerName=' + summonerName + '&useStatic=false');
+	      }
 	    }
 	  }, {
 	    key: 'handleInputChange',
@@ -66940,7 +67020,7 @@
 	  }, {
 	    key: 'useStaticData',
 	    value: function useStaticData() {
-	      console.log('hey useStaticData');
+	      _reactRouter.browserHistory.push('/match?summonerName=yolomcbrolo&useStatic=true');
 	    }
 	  }, {
 	    key: 'render',

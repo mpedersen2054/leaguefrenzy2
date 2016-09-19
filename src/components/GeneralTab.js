@@ -68,6 +68,9 @@ class GeneralTab extends Component {
 
   render() {
     const data = this.state.data
+    // if fiddle / kha need to change how the image is displayed
+    // http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/Khazix.png
+    // http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/FiddleSticks.png
     const championImage = this.props.championImage
     const summSpell1url = this.props.spell1
     const summSpell2url = this.props.spell2

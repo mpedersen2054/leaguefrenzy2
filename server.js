@@ -30,8 +30,8 @@ app.get('/getInfo/:summonerId', (req, res) => {
       res.json(response.data)
     })
     .catch((error) => {
-      console.log('error from server!!!', error)
-      res.json({ error: error, data: null })
+      console.log('error from server!!!')
+      res.status(404).send('error from server~*~**~')
     })
 })
 

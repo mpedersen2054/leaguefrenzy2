@@ -69,6 +69,7 @@ class Team extends Component {
       if (mid == '6261') return mastery // grasp of undying
       if (mid == '6262') return mastery // strength of ages
       if (mid == '6263') return mastery // bond of stone
+      // need to handle no keystone case
     })
 
     return whichKeystone
