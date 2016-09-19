@@ -11,6 +11,7 @@
   "author": "matt pedersen <matthewnpedersen@gmail.com> (http://patmedersen.com/)",
   "license": "MIT",
   "dependencies": {
+    "axios": "0.14.0",
     "body-parser": "1.15.2",
     "express": "4.14.0",
     "lodash": "4.15.0",

@@ -20,7 +20,8 @@ class Match extends Component {
 
     this.state = {
       summonerName: this.props.location.query.summonerName,
-      players: []
+      players: [],
+      staticDataCheckboxVal: 'off'
     }
   }
 
@@ -44,8 +45,10 @@ class Match extends Component {
         console.log(`summonerName: ${summonerObj.name} // summonerId: ${summonerObj.id}`)
         // since if you search a playerName and they are not in a current game it
         // will throw 404, use a static.json file for the time being
-        // axios.get(`https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/${summonerObj.id}?api_key=${apiKey}`)
-        axios.get('./jsonData/spectatorInformation.json')
+        const staticFile = './jsonData/spectatorInformation.json'
+        // const searchFile = `https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/${summonerObj.id}?api_key=${apiKey}`
+        const searchFile = `/getInfo/${summonerObj.id}`
+        axios.get(searchFile)
           .then((response) => {
             const matchData = response.data
             this.setState({
@@ -63,6 +66,10 @@ class Match extends Component {
 
   getSummonerRuneInfo(runez) {
     console.log('hello from getSummonerRuneInfo in Match::::', runez)
+  }
+
+  useStaticData(e) {
+    console.log('hey usestaticdata match!!!', e.target)
   }
 
   render() {
@@ -85,8 +92,8 @@ class Match extends Component {
           </div>
         </div>
 
-        <Team members={teamA} teamNum={100} jsonData={jsonData} />
-        <Team members={teamB} teamNum={200} jsonData={jsonData} />
+        <Team members={teamA} teamNum={100} jsonData={jsonData} useStaticData={this.useStaticData} />
+        <Team members={teamB} teamNum={200} jsonData={jsonData} useStaticData={this.useStaticData} />
 
       </div>
     )
