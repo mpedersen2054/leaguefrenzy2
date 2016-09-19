@@ -63135,8 +63135,8 @@
 	      });
 
 	      // summonerSpell's image urls
-	      var sumSpellImg1 = '//ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/' + spell1.id + '.png';
-	      var sumSpellImg2 = '//ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/' + spell2.id + '.png';
+	      var sumSpellImg1 = 'https://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/' + spell1.id + '.png';
+	      var sumSpellImg2 = 'https://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/' + spell2.id + '.png';
 
 	      // return object that will be set to the state in PlayerTab
 	      return {
@@ -64761,7 +64761,6 @@
 	        if (mid == '6263') return mastery; // bond of stone
 	        // need to handle no keystone case
 	      });
-
 	      return whichKeystone;
 	    }
 	  }, {
@@ -65221,9 +65220,9 @@
 	  _createClass(MasteriesTree, [{
 	    key: 'getDdragonUrl',
 	    value: function getDdragonUrl(tree, mid) {
-	      if (tree === 61) return '//ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/61' + mid + '.png';
-	      if (tree === 63) return '//ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/63' + mid + '.png';
-	      if (tree === 62) return '//ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/62' + mid + '.png';
+	      if (tree === 61) return 'https://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/61' + mid + '.png';
+	      if (tree === 63) return 'https://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/63' + mid + '.png';
+	      if (tree === 62) return 'https://ddragon.leagueoflegends.com/cdn/6.18.1/img/mastery/62' + mid + '.png';
 	    }
 
 	    // if the mastery is used, return the rank (0-5, 0-1)

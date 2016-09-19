@@ -39,7 +39,6 @@ class Team extends Component {
       if (mid == '6263') return mastery // bond of stone
       // need to handle no keystone case
     })
-
     return whichKeystone
   }
 

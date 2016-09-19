@@ -5,7 +5,6 @@ import { Row, Col } from 'react-bootstrap'
 import MasteriesTree from './MasteriesTree'
 
 class MasteriesTab extends Component {
-
   render() {
     const masteries = this.props.masteries
     const ferocity = [ 11, 14, 21, 22, 23, 31, 34, 41, 42, 51, 54, 61, 62, 64 ]

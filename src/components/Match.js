@@ -94,8 +94,8 @@ class Match extends Component {
     })
 
     // summonerSpell's image urls
-    const sumSpellImg1 = `//ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/${spell1.id}.png`
-    const sumSpellImg2 = `//ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/${spell2.id}.png`
+    const sumSpellImg1 = `https://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/${spell1.id}.png`
+    const sumSpellImg2 = `https://ddragon.leagueoflegends.com/cdn/6.18.1/img/spell/${spell2.id}.png`
 
     // return object that will be set to the state in PlayerTab
     return {
