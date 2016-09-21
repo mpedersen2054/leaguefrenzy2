@@ -29,7 +29,7 @@ class Match extends Component {
 
   componentWillMount() {
     const summonerName  = this.state.summonerName
-    const useStatic     = this.state.useStatic == 'true'
+    const useStatic = this.state.useStatic == 'true'
 
     this.getMatchData(summonerName, useStatic)
   }

@@ -23,7 +23,12 @@ class GeneralTab extends Component {
     const apiKey = '20439faa-7bb2-480d-80de-8f9db165f083'
     const champId = this.state.data.championId
 
-    const dummyStats = { maxChampionsKilled: 0, maxNumDeaths: 0, mostChampionKillsPerSession: 0, mostSpellsCast: 0, totalAssists: 0, totalChampionKills: 0, totalDamageDealt: 0, totalDamageTaken: 0, totalDeathsPerSession: 0, totalDoubleKills: 0, totalFirstBlood: 0, totalGoldEarned: 0, totalMagicDamageDealt: 0, totalMinionKills: 0, totalPentaKills: 0, totalPhysicalDamageDealt: 0, totalQuadraKills: 0, totalSessionsLost: 0, totalSessionsPlayed: 0, totalSessionsWon: 0, totalTripleKills: 0, totalTurretsKilled: 0, totalUnrealKills: 0 }
+    const dummyStats = { maxChampionsKilled: 0, maxNumDeaths: 0, mostChampionKillsPerSession: 0,
+      mostSpellsCast: 0, totalAssists: 0, totalChampionKills: 0, totalDamageDealt: 0, totalDamageTaken: 0,
+      totalDeathsPerSession: 0, totalDoubleKills: 0, totalFirstBlood: 0, totalGoldEarned: 0,
+      totalMagicDamageDealt: 0, totalMinionKills: 0, totalPentaKills: 0, totalPhysicalDamageDealt: 0,
+      totalQuadraKills: 0, totalSessionsLost: 0, totalSessionsPlayed: 0, totalSessionsWon: 0,
+      totalTripleKills: 0, totalTurretsKilled: 0, totalUnrealKills: 0 }
 
     axios.get(`https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/${summonerId}/ranked?api_key=${apiKey}`)
       .then((response) => {
@@ -56,7 +61,7 @@ class GeneralTab extends Component {
 
   getPerGameAverage(stat) {
     const stats = this.state.stats
-    const wins = stats.totalSessionsWon
+    const wins  = stats.totalSessionsWon
     const loses = stats.totalSessionsLost
     const totalGames = wins + loses
     if (!!totalGames) { // if wins/loses === NaN
@@ -66,11 +71,29 @@ class GeneralTab extends Component {
     }
   }
 
+  getKda(stats) {
+    console.log('hello kda!!', stats)
+    const played  = stats.totalSessionsPlayed
+    const kills   = stats.totalChampionKills / played
+    const deaths  = stats.totalDeathsPerSession / played
+    const assists = stats.totalAssists / played
+
+    // (kills + assists / deaths) / games played
+    const kda = (kills + assists) / deaths
+
+    if (!!kda) {
+      return Math.ceil(kda * 100) / 100 // round
+    } else {
+      return 0
+    }
+  }
+
   render() {
     const data = this.state.data
-    // if fiddle / kha need to change how the image is displayed
+    // champs whose image links are broken as is currently rendered, their working image urls:
     // http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/Khazix.png
     // http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/FiddleSticks.png
+    // http://ddragon.leagueoflegends.com/cdn/6.18.1/img/champion/Velkoz.png
     const championImage = this.props.championImage
     const summSpell1url = this.props.spell1
     const summSpell2url = this.props.spell2
@@ -89,6 +112,7 @@ class GeneralTab extends Component {
         <div className="info-data">
           <Row>
             <Col xs={6} md={4}>
+              <div className="small-mb">KDA</div>
               <div>W/L</div>
               <div>kills</div>
               <div>deaths</div>
@@ -96,6 +120,9 @@ class GeneralTab extends Component {
               <div>cs</div>
             </Col>
             <Col xs={6} md={8}>
+              <div className="kda small-mb">
+                {this.getKda(stats)}
+              </div>
               <div className="wins-loses">
                 <span className="orig-num">
                   <span className="wins">
