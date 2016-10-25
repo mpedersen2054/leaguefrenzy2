@@ -17,5 +17,4 @@ var routes = (
   </Router>
 )
 
-
 ReactDOM.render(routes, document.getElementById('root'))
