@@ -63067,6 +63067,7 @@
 	    value: function componentWillMount() {
 	      var summonerName = this.state.summonerName;
 	      var useStatic = this.state.useStatic == 'true';
+	      console.log('IS USING STATIC!', useStatic);
 
 	      this.getMatchData(summonerName, useStatic);
 	    }
@@ -63080,9 +63081,13 @@
 	      var _this2 = this;
 
 	      this.setState({ isLoading: true });
+
+	      console.log('before request!');
 	      // request the summonerObject which requests a string (the name)
-	      this.serverRequest = _axios2.default.get('https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/' + summonerName + '?api_key=' + apiKey).then(function (response) {
+	      // this was originally the riot api req here, had to move that to the server to avoid XSRF error
+	      this.serverRequest = _axios2.default.get('/getSummonerInfo/' + summonerName).then(function (response) {
 	        // response.data = { yolomcbrolo: { ... } } so had to get the first prop
+	        console.log('GOT EHRE!');
 	        var summonerKey = Object.keys(response.data)[0];
 	        var summonerObj = response.data[summonerKey];
 	        console.log('summonerName: ' + summonerObj.name + ' // summonerId: ' + summonerObj.id);
@@ -64895,7 +64900,8 @@
 	        totalQuadraKills: 0, totalSessionsLost: 0, totalSessionsPlayed: 0, totalSessionsWon: 0,
 	        totalTripleKills: 0, totalTurretsKilled: 0, totalUnrealKills: 0 };
 
-	      _axios2.default.get('https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/' + summonerId + '/ranked?api_key=' + apiKey).then(function (response) {
+	      // axios.get(`https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/${summonerId}/ranked?api_key=${apiKey}`)
+	      _axios2.default.get('/getSummonerRankedInfo/' + summonerId).then(function (response) {
 	        var champions = response.data.champions;
 	        var hasPlayedChamp = _.find(champions, function (champ) {
 	          if (champ.id == champId) return champ;

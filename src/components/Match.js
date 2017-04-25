@@ -30,6 +30,7 @@ class Match extends Component {
   componentWillMount() {
     const summonerName  = this.state.summonerName
     const useStatic = this.state.useStatic == 'true'
+    console.log('IS USING STATIC!', useStatic)
 
     this.getMatchData(summonerName, useStatic)
   }
@@ -38,10 +39,14 @@ class Match extends Component {
   // then requests current-match data using summonerId
   getMatchData(summonerName, isStatic) {
     this.setState({ isLoading: true })
+
+    console.log('before request!')
     // request the summonerObject which requests a string (the name)
-    this.serverRequest = axios.get(`https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/${summonerName}?api_key=${apiKey}`)
+    // this was originally the riot api req here, had to move that to the server to avoid XSRF error
+    this.serverRequest = axios.get(`/getSummonerInfo/${summonerName}`)
       .then((response) => {
         // response.data = { yolomcbrolo: { ... } } so had to get the first prop
+        console.log('GOT EHRE!')
         const summonerKey = Object.keys(response.data)[0]
         const summonerObj = response.data[summonerKey]
         console.log(`summonerName: ${summonerObj.name} // summonerId: ${summonerObj.id}`)

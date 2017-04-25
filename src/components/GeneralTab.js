@@ -30,7 +30,8 @@ class GeneralTab extends Component {
       totalQuadraKills: 0, totalSessionsLost: 0, totalSessionsPlayed: 0, totalSessionsWon: 0,
       totalTripleKills: 0, totalTurretsKilled: 0, totalUnrealKills: 0 }
 
-    axios.get(`https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/${summonerId}/ranked?api_key=${apiKey}`)
+    // axios.get(`https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/${summonerId}/ranked?api_key=${apiKey}`)
+    axios.get(`/getSummonerRankedInfo/${summonerId}`)
       .then((response) => {
         const champions = response.data.champions
         const hasPlayedChamp = _.find(champions, (champ) => {
